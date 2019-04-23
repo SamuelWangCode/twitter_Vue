@@ -1,6 +1,40 @@
+
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <section>
+    <nav class="navBar">
+    <Row style="padding-top:10px;">
+      <Col :span="2" :order="0" :offset="1" class="HomeBar">
+      <Icon type="ios-home" :size="30" color="rgb(29,161,242)">
+      </Icon><span class="BarName">Home</span>
+      </Col>
+      <Col :span="2">
+      <Icon type="ios-notifications" :size="30" color="rgb(120, 133, 142)">
+      </Icon><span class="BarName">Notifications</span>
+      </Col>
+      <Col :span="2">
+      <Icon type="ios-mail" :size="30" color="rgb(120, 133, 142)">
+      </Icon><span class="BarName">Message</span>
+      </Col>
+      <Col :span="7"> &nbsp;
+      <Icon type="logo-twitter" :size="30" color="rgb(29,161,242)">
+      </Icon>
+      </Col>
+      <Col :span="6">
+        <Select v-model="model11" filterable placeholder="search..." not-found-text="No matching search." clearable prefix="ios-search">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </Col>
+      <Col :span="1">;
+      <img src=".\assets\timg (1).jpg" alt="headIcon" style="border-radius:50%; width:32px; height:32px; border:solid 1px #66757f;">
+      </Col>
+      <Col :span="1"> 
+        <Button><b>Tweets</b>
+        </Button>
+      </Col>
+    </Row>
+    </nav>
+  </section>
     <router-view/>
   </div>
 </template>
@@ -18,6 +52,22 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  background-color: rgb(230, 236, 240);
 }
+</style>
+
+<style scoped>
+  .BarName {
+    color: rgb(120, 133, 142);
+
+  }
+  .navBar{
+    background-color: white;
+    box-shadow:1px 1px 1px #333;
+    height: 46px;
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+  }
 </style>
