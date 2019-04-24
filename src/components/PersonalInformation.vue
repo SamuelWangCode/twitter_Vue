@@ -2,7 +2,7 @@
     
 </style>
 <template>
- <div style="margin-top:500px;">Home</div>
+   <div style="margin-top:500px;">Personal</div>
 
 </template>
 <script>
