@@ -4,25 +4,39 @@
     <section>
     <nav class="navBar">
      <Menu mode="horizontal" :theme="theme1" active-name="home" style="padding-left:15%;" @on-select="onSelect">
-        <MenuItem name="home" v-link="{path: '/'}" key="Home">
+        <MenuItem name="home" key="Home">
             <Icon type="ios-home" size="24"></Icon>
+            <router-link to="/home">
             Home
+            </router-link>
         </MenuItem>
-        <MenuItem name="notifications" v-link="{path: '/Notifications'}" key="Notifications">
+        <MenuItem name="notifications" key="Notifications">
             <Icon type="ios-notifications" size="24"></Icon>
+            <router-link to="/notifications">
             Notifications
+            </router-link>
         </MenuItem>
-        <MenuItem name="message" v-link="{path: '/Message'}" key="Message">
+        <MenuItem name="message" key="Message">
             <Icon type="ios-mail" size="24"></Icon>
+            <router-link to="/message">
             Message
+            </router-link>
         </MenuItem>
         <Select
             v-model="model13" filterable remote:remote-method="remoteMethod1" :loading="loading1" placeholder="Search in twitter"  not-found-text="no matching result" prefix="ios-search" style="width:400px;">
             <Option v-for="(option, index) in options1" :value="option.value" :key="index">{{option.label}}</Option>
         </Select>
-        <MenuItem name="personal" v-link="{path: '/Personal'}" key="Personal">
+        <MenuItem name="personal" key="Personal">
+          <router-link to="/personal">
             <Icon type="ios-person" size="24"></Icon>
             Personal
+            </router-link>
+        </MenuItem>
+        <MenuItem name="explore" key="Explore">
+          <router-link to="/explore">
+            <Icon type="ios-person" size="24"></Icon>
+            #
+          </router-link>
         </MenuItem>
     </Menu>
     
