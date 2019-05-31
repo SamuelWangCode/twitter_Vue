@@ -1,8 +1,7 @@
-
 <template>
-  <div id="app">
+  <div id="app" >
     <section>
-    <nav class="navBar">
+    <nav class="navBar" style="z-index: 100000">
      <Menu mode="horizontal" :theme="theme1" active-name="home" style="padding-left:15%;" @on-select="onSelect">
         <MenuItem name="home" v-link="{path: '/'}" key="Home">
             <Icon type="ios-home" size="24"></Icon>
@@ -25,7 +24,7 @@
             Personal
         </MenuItem>
     </Menu>
-    
+
     </nav>
   </section>
     <router-view/>
@@ -35,7 +34,7 @@
 <script>
 export default {
   name: 'App',
-  
+
   data(){
     return{
       theme1:"light",
