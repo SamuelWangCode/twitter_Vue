@@ -12,12 +12,7 @@ import 'iview/dist/styles/iview.css'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
-Vue.use(iView, {
-  transfer: true,
-  select: {
-      arrowSize: 0
-  }
-});
+Vue.use(iView)
 Vue.use(ElementUI)
 /* eslint-disable no-new */
 
