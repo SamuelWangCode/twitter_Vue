@@ -24,6 +24,10 @@
             <Icon type="ios-person" size="24"></Icon>
             Personal
         </MenuItem>
+        <MenuItem name="explore" v-link="{path: '/Explore'}" key="Explore">
+            <Icon type="ios-person" size="24"></Icon>
+            Explore
+        </MenuItem>
     </Menu>
     
     </nav>
