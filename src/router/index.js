@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Notifications from '@/components/Notifications'
 import Message from '@/components/Message'
 import Personal from '@/components/PersonalInformation'
+import Explore from '@/components/Explore'
 
 Vue.use(router)
 
@@ -30,6 +31,11 @@ export default new router({
       path: '/personal',
       name: 'Personal',
       component: Personal
+    },
+    {
+      path: '/explore',
+      name: 'explore',
+      component: Explore
     }
   ]
 })
