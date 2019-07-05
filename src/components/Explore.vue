@@ -60,7 +60,6 @@ export default {
     width:44%;
     float: left;
      margin:1% 2% 1% 2%;
-     height:500px;
     background-color: rgb(175, 175, 175);
 }
 #recommendusers{
