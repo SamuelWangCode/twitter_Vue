@@ -24,11 +24,11 @@ export default {
             this.datas= "{\"str\":\"user1\"}\n{\"str\":\"user2\"}";
             
             let jsonArr=this.datas.split('\n');
-            console.log(jsonArr);
+            //console.log(jsonArr);
             for (let i=0;i<jsonArr.length;i++){
                 this.items.push(JSON.parse(jsonArr[i]));
             }
-            console.log(this.items);
+            //console.log(this.items);
         }
     },
     created(){

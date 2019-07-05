@@ -1,7 +1,9 @@
 <template>
     <div id="tweets">
             <li class='tweetitems' v-for="item in items">
-                <p>{{item.str}}</p>
+                <img v-bind:src="item.useravt">
+                <p>{{item.username}}</p>
+                
             </li>
     </div>
 </template>
@@ -21,14 +23,12 @@ export default {
     },
     methods:{
         generateData(){
-            this.datas= "{\"str\":\"1\"}\n{\"str\":\"2\"}";
-            
-            let jsonArr=this.datas.split('\n');
-            console.log(jsonArr);
-            for (let i=0;i<jsonArr.length;i++){
-                this.items.push(JSON.parse(jsonArr[i]));
+            this.datas= ['{"userid":1223,"username":"hi","useravt":"/src/assets/a.jpg","text":"啊","imgs":["/src/assets/1.jpg"]}',
+                        '{"userid":1223,"username":"hey","useravt":"/src/assets/a.jpg","text":"哦","imgs":["/src/assets/2.jpg","/assets/3.jpg"]}'];
+            for (let i=0;i<this.datas.length;i++){
+                this.items.push(JSON.parse(this.datas[i]));
+                console.log("asdads",this.items[i]);
             }
-            console.log(this.items);
         }
     },
     created(){
