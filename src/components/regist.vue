@@ -61,7 +61,6 @@ export default {
   methods: {
     async registEventHandler() {
       this.loading=true;
-      setTimeout(function(){},1000)
       //console.log(!(this.password === this.password2));
       if (!(this.password === this.password2)) {
         this.loading=false;

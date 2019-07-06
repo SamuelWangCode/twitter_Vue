@@ -1,6 +1,7 @@
 <template lang="html">
   <div id="LoginPage">
     <div class="LoginFormContainer">
+      <loadingAnimation v-if="loading"/>
       <div class="Wrapper">
         <div class="LoginText">
           <span>Log in</span>
@@ -34,6 +35,7 @@
 
 <script>
 import axios from 'axios'
+import loadingAnimation from "./animate/loading"
 axios.defaults.withCredentials = true;
 export default {
   name: 'Login',
@@ -41,11 +43,16 @@ export default {
     return {
       email: null,
       password: null,
-      errHint: ''
+      errHint: '',
+      loading:false
     }
+  },
+  components:{
+    loadingAnimation
   },
   methods: {
     async loginEventHandeler () {
+      this.loading=true;
       try {
         console.log("start")
         let data = {
@@ -61,6 +68,7 @@ export default {
           {
             //成功
             //this.errHint="Success!";
+            this.loading=false
             this.$Notice.success({
               title: 'Login Success!',
               desc:''
@@ -70,6 +78,7 @@ export default {
           else if(Response.data.code==200 && Response.data.message=="E-mail or Password Wrong")
           {
             //失败
+            this.loading=false
             this.$Notice.error({
               title: 'E-mail or Password Wrong.',
               desc:''
@@ -77,6 +86,7 @@ export default {
             this.errHint="E-mail or Password is Wrong!"
           }
           else{
+            this.loading=false
             this.$Notice.error({
               title: "Can't connect with server.",
               desc:''
@@ -85,6 +95,7 @@ export default {
           }
         });
       } catch (e) {
+        this.loading=false
         return {
           result: false,
           errMsg: "Can't connect with server"

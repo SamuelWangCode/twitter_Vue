@@ -1,7 +1,7 @@
 <template>
   <div id="app" >
     <section v-if="$route.meta.keepAlive">
-    <nav class="navBar" style="z-index: 100000">
+    <nav class="navBar" style="z-index: 1">
      <Menu mode="horizontal" :theme="theme1" active-name="home" style="padding-left:15%;" @on-select="onSelect">
         <MenuItem name="home" v-link="{path: '/'}" key="Home">
             <Icon type="ios-home" size="24"></Icon>
