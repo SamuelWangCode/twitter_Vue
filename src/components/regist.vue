@@ -1,5 +1,6 @@
 <template lang="html">
   <div id="RegistPage">
+    <loadingAnimation v-if="loading"/>
     <div class="RegistFormContainer">
       <div class="Wrapper">
         <div class="RegistText">
@@ -40,6 +41,7 @@
 
 <script>
 import axios from 'axios'
+import loadingAnimation from './animate/loading'
 axios.defaults.withCredentials = true;
 export default {
   name: "Register",
@@ -49,18 +51,26 @@ export default {
       email: null,
       password: null,
       password2: null,
-      errHint: ""
+      errHint: "",
+      loading: false
     };
+  },
+  components: {
+    loadingAnimation
   },
   methods: {
     async registEventHandler() {
+      this.loading=true;
+      setTimeout(function(){},1000)
       //console.log(!(this.password === this.password2));
       if (!(this.password === this.password2)) {
+        this.loading=false;
         this.errHint = "The two passwords did not match!";
         this.$Notice.error({
               title: 'Please input your password again.',
               desc:''
             })
+        //this.loading=false;   
         return;
       }
       
@@ -76,6 +86,7 @@ export default {
           data
         ).then(Response=>{
           console.log(Response);
+          
           if(Response.data.code==200 && Response.data.message=="success")
           {
             //成功
@@ -84,11 +95,13 @@ export default {
               title: 'Register Success!',
               desc:''
             })
+            this.loading=false 
             this.$router.push("/login");
           }
           else if(Response.data.code==200 && Response.data.message=="The email is used")
           {
             //邮箱已被使用
+            this.loading=false
             this.$Notice.error({
               title: 'This email is used.',
               desc:''
@@ -96,6 +109,7 @@ export default {
             this.errHint="The email is used!"
           }
           else{
+            this.loading=false
             this.$Notice.error({
               title: "Can't connect with server.",
               desc:''
@@ -104,6 +118,7 @@ export default {
           }
         });
       } catch (e) {
+        this.loading=false;   
         return {
           result: false,
           errMsg: "Can't connect with server"
