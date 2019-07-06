@@ -61,15 +61,46 @@ export default {
   methods: {
     async registEventHandler() {
       this.loading=true;
-      //console.log(!(this.password === this.password2));
-      if (!(this.password === this.password2)) {
+      var regAccount=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+      var regPassword=/^[0-9a-zA-Z_#@!\?\-\\]{6,20}$/
+      if(!regAccount.test(this.email))
+      {
+        this.loading=false;
+        this.errHint = "Your account should be a valid e-mail.";
+        this.$Notice.error({
+              title: 'Please input your e-mail again.',
+              desc:''
+            })
+        return;
+      }
+      else if(!this.name)
+      {
+        this.loading=false;
+        this.errHint = "You should have a nickname.";
+        this.$Notice.error({
+              title: 'Please input your name again.',
+              desc:''
+            }) 
+        return;
+      }
+      else if(!regPassword.test(this.password))
+      {
+        this.loading=false;
+        this.errHint = "Your password should be more than 6 characters, and don't use special character.";
+        this.$Notice.error({
+              title: 'Please input your password again.',
+              desc:''
+            }) 
+        return;
+      }
+      else if(this.password!=this.password2)
+      {
         this.loading=false;
         this.errHint = "The two passwords did not match!";
         this.$Notice.error({
               title: 'Please input your password again.',
               desc:''
-            })
-        //this.loading=false;   
+            }) 
         return;
       }
       
@@ -84,7 +115,7 @@ export default {
           `http://localhost:12293/api/User/signUp`,
           data
         ).then(Response=>{
-          console.log(Response);
+          console.log(Response.data);
           
           if(Response.data.code==200 && Response.data.message=="success")
           {
