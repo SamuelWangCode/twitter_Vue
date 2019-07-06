@@ -10,7 +10,7 @@
         </div>
         <div class="LoginInput">
           <div class="account">
-            <input type="text" v-model="account" placeholder="account">
+            <input type="text" v-model="email" placeholder="email">
           </div>
           <div class="password">
             <input type="password" v-model="password" placeholder="password">
@@ -33,32 +33,67 @@
 </template>
 
 <script>
+import axios from 'axios'
+axios.defaults.withCredentials = true;
 export default {
   name: 'Login',
   data () {
     return {
-      account: null,
+      email: null,
       password: null,
-      errHint: null
+      errHint: ''
     }
   },
   methods: {
     async loginEventHandeler () {
-      let res = await this.$store.dispatch('login', {
-        account: this.account,
-        password: this.password,
-      })
-
-      if (!res.result) {
-        console.log(res)
-        this.errHint = res.errMsg
-        return
+      try {
+        console.log("start")
+        let data = {
+          email: this.email,
+          password: this.password
+        }
+        axios.post(
+          `http://localhost:12293/api/User/signIn`,
+          data
+        ).then(Response=>{
+          console.log(Response);
+          if(Response.data.code==200 && Response.data.message=="Sign in success")
+          {
+            //成功
+            //this.errHint="Success!";
+            this.$Notice.success({
+              title: 'Login Success!',
+              desc:''
+            })
+            this.$router.push("/home");
+          }
+          else if(Response.data.code==200 && Response.data.message=="E-mail or Password Wrong")
+          {
+            //失败
+            this.$Notice.error({
+              title: 'E-mail or Password Wrong.',
+              desc:''
+            })
+            this.errHint="E-mail or Password is Wrong!"
+          }
+          else{
+            this.$Notice.error({
+              title: "Can't connect with server.",
+              desc:''
+            })
+            this.errHint="Can't connect with server."
+          }
+        });
+      } catch (e) {
+        return {
+          result: false,
+          errMsg: "Can't connect with server"
+        };
       }
-
-      this.$router.push('/')
     }
   }
 }
+
 </script>
 
 <style lang="css" scoped>

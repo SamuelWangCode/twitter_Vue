@@ -13,7 +13,7 @@
             <input type="text" v-model="name" placeholder="user name">
           </div>
           <div class="account">
-            <input type="text" v-model="account" placeholder="account">
+            <input type="text" v-model="email" placeholder="email">
           </div>
           <div class="password">
             <input type="password" v-model="password" placeholder="password">
@@ -39,39 +39,86 @@
 </template>
 
 <script>
+import axios from 'axios'
+axios.defaults.withCredentials = true;
 export default {
-  name: 'Register',
-  data () {
+  name: "Register",
+  data() {
     return {
       name: null,
-      account: null,
+      email: null,
       password: null,
       password2: null,
-      errHint: ''
-    }
+      errHint: ""
+    };
   },
   methods: {
-    async registEventHandler () {
-      let res = await this.$store.dispatch('regist', {
-        name: this.name,
-        account: this.account,
-        password: this.password,
-        password2: this.password2
-      })
-
-      if (!res.result) {
-        console.log(res)
-        this.errHint = res.errMsg
-        return
+    async registEventHandler() {
+      //console.log(!(this.password === this.password2));
+      if (!(this.password === this.password2)) {
+        this.errHint = "The two passwords did not match!";
+        this.$Notice.error({
+              title: 'Please input your password again.',
+              desc:''
+            })
+        return;
       }
-
-      this.$router.push('/')
+      
+      try {
+        console.log("start")
+        let data = {
+          nickname: this.name,
+          email: this.email,
+          password: this.password
+        }
+        axios.post(
+          `http://localhost:12293/api/User/signUp`,
+          data
+        ).then(Response=>{
+          console.log(Response);
+          if(Response.data.code==200 && Response.data.message=="success")
+          {
+            //成功
+            //this.errHint="Success!";
+            this.$Notice.success({
+              title: 'Register Success!',
+              desc:''
+            })
+            this.$router.push("/login");
+          }
+          else if(Response.data.code==200 && Response.data.message=="The email is used")
+          {
+            //邮箱已被使用
+            this.$Notice.error({
+              title: 'This email is used.',
+              desc:''
+            })
+            this.errHint="The email is used!"
+          }
+          else{
+            this.$Notice.error({
+              title: "Can't connect with server.",
+              desc:''
+            })
+            this.errHint="Can't connect with server."
+          }
+        });
+      } catch (e) {
+        return {
+          result: false,
+          errMsg: "Can't connect with server"
+        };
+      }
     }
   }
-}
+};
 </script>
 
 <style lang="css" scoped>
+.ErrHint{
+  color:red;
+  font-size: 16px;
+}
 #RegistPage {
   height: calc(100vh - 46px);
   padding-top: 10px;
@@ -114,7 +161,7 @@ export default {
 .RegistInput input:focus {
   outline: 0;
   color: #14171a;
-  border-color: rgba(0,132,180,0.5);
+  border-color: rgba(0, 132, 180, 0.5);
 }
 
 .RegistInput .username,

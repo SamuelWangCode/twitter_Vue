@@ -8,6 +8,7 @@ import Personal from '@/components/PersonalInformation'
 import index from '@/components/index'
 import login from '@/components/login'
 import register from '@/components/regist'
+import test from '@/components/test'
 
 Vue.use(router)
 
@@ -69,7 +70,17 @@ export default new router({
       meta: {
         keepAlive: false
       }
+    },
+
+    {
+      path: '/test',
+      name: 'test',
+      component: test,
+      meta: {
+        keepAlive: false
+      }
     }
+
   ]
 })
 
