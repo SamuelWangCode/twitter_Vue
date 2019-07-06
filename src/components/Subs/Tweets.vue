@@ -49,6 +49,19 @@
     width:80%;
     margin: 4px;
 }
+.follow-button:hover{
+    float: right;
+    width:80%;
+    margin: 4px;
+}
+.follow-button-alt{
+    float: right;
+    width:80%;
+    margin: 4px;
+    opacity: 0.3;
+
+    box-shadow: #c7c7c7 0px 0px 8px;
+}
 .item-menu{
     line-height:40px;
     list-style-type:none;
@@ -63,10 +76,11 @@
 .item-menu ul{
     line-height:40px;
     position:absolute;
-    right:-500px;
+    display: none;
     padding:0px;
 }
 .item-menu:hover ul{
+    display:block;
     right:auto;
 }
 .item-menu li{
@@ -75,7 +89,7 @@
     list-style-type: none;
 }
 .item-menu li:hover{
-    background-color: rgb(119, 119, 55);
+    background-color: rgb(83, 83, 83);
 }
 
 .twi-text{
@@ -183,6 +197,7 @@
 .button-div:hover{
     cursor: pointer;
 }
+
 .comment-div{
     float: left;
     width:120px;
@@ -212,32 +227,44 @@
 
 .show-comment-div{
     float:left;
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-bottom: 20px;
+    width: 100%;
+    margin:0px;
     padding-top: 20px;
     background-color: aqua;
 }
 .send-comm-div{
     width:100%;
     margin-bottom: 20px;
+    background-color: aquamarine;
 }
-.send-comm{
+.send-comm-input{
     width:80%;
+    background-color: aquamarine;
 }
 .send-comm-button{
-    width:18%
+    width:18%;
+    background-color: aquamarine;
 }
 .comm-avt-div{
     float: left;
-    width: 8%;
+    width: 12%;
+    margin-top:15px;
+    background-color: aquamarine;
+    overflow: hidden;
+}
+.comm-useravt{
 }
 .comm-content-div{
     float: left;
-    width:90%;
-    margin-top: 10px;
+    width:86%;
+    margin-top:15px;
+    background-color:rgb(99, 80, 53);
 }
+.comm-name-div{
+
+}
+.comm-text-div
+.comm-time-div
 
 .item-divider{
     text-align: center;
@@ -300,16 +327,18 @@
                         <div class="item-menu">
                             <Icon type="ios-arrow-down" size='24' class="item-menu-icon"></Icon>
                             <ul v-if="ifBeMyTwi(item)">
-                                <li>我的推特</li>
+                                <li @click="delTwi(item)">我的推特</li>
                                 <li>可以删除</li>
                             </ul>
                             <ul v-if="ifBeMyTwi(item)==false">
-                                <li>不是我的推特</li>
-                                <li>这个用户可以拉黑</li>
+                                <li @click="blockUser(item)">拉黑用户</li>
+                                <li>不再看到这条微博</li>
                             </ul>
                         </div>
+
                         <div class="follow-button-div" @click="follow(item)">
-                            <button class="follow-button">关注</button>
+                            <Button type="primary" size="20" class="follow-button" v-if="item.followbyuser==false">关注</Button>
+                            <Button type="primary" size="20" class="follow-button-alt" v-if="item.followbyuser">已关注</Button>
                         </div>
                         
                     </div>
@@ -371,7 +400,8 @@
                             <span>{{item.sharenum}}</span>
                         </div>
                         <div class="likes-div" @click="like(item)">
-                            <Icon type="ios-heart-outline" size="24"></Icon>
+                            <Icon type="ios-heart-outline" size="24" v-if="item.likebyuser==false"></Icon>
+                            <Icon type="ios-heart" size="24" v-if="item.likebyuser"></Icon>
                             <span>{{item.likesnum}}</span>
                         </div>
                         <div class="message-div" @click="sendMessage(item)">
@@ -384,16 +414,16 @@
                 <div class="show-comment-div" v-show="item.ifShowComment">
                     <div class="send-comm-div">
                         <form action="localhost:8080" method="get">
-                            <input class="send-comm" type="text">
+                            <input class="send-comm-input" type="text">
                             <input class="send-comm-button" type="submit" value="发表你的评论">
                         </form>
                     </div>
                     <div v-for="comm in item.comments">
                         <div class="comm-avt-div">
-                            <Avatar v-bind:src="comm.useravt"></Avatar>
+                            <Avatar v-bind:src="comm.useravt" class="comm-useravt"></Avatar>
                         </div>
                         <div class="comm-content-div">
-                            <div class="comm-name">
+                            <div class="comm-name-div">
                                 {{comm.username}}
                             </div>
                             <div class="comm-text-div">
@@ -412,10 +442,12 @@
 
 
 <script>
+import axios from 'axios'
 export default {
     name:'twitter-items',
     props:{
-        url:String,
+        type:"",
+        topic_id:""
     },
     data(){
         return {
@@ -430,31 +462,70 @@ export default {
             
             showBigImage:false,
             BigImageSource:"",
+
+
+            burl:"http://localhost:12293/",
         }
     },
     methods:{
         generateData(){
-            this.datas= ['{"twiid":1,"userid":230,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","imgs":["http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
-                        '{"twiid":2,"userid":233,"username":"hey","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"哦噢噢噢噢哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
-                        '{"twiid":3,"userid":666,"username":"heyy","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"哦","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
-                        '{"twiid":4,"userid":213,"username":"hello","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"我要发4张图片","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
-                        ];
-            for (let i=0;i<this.datas.length;i++){
-                let temp=JSON.parse(this.datas[i]);
-                temp.ifShowComment=false;
-                temp.comments=[];
-                //伪造评论
-                let commStr=['{"commid":1,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊哦","time":"2019-4-3 19:40"}',
-                '{"commid":2,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}',
-                '{"commid":3,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}',
-                '{"commid":4,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}'];
-                for (let j=0;j<commStr.length;j++){
-                    temp.comments.push(JSON.parse(commStr[j]));
+            //取数据
+            if(this.type=="explore"){
+                let getData = {
+                    startFrom: 0,
+                    limitation: 10,
                 }
-                this.items.push(temp);
+                axios.get(
+                    'http://localhost:12293/api/Topic/queryTopicsBaseOnHeat',getData
+                    ).then(Response=>{
+                    console.log(Response);
+                    });
+                //先用数据测试
+                this.datas= ['{"twiid":1,"userid":230,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","followbyuser":false,"text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","imgs":["http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
+                            '{"twiid":2,"userid":233,"username":"hey","useravt":"http://106.14.3.200:8090/bgimg.jpeg","followbyuser":true,"text":"哦噢噢噢噢哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":true}',
+                            '{"twiid":3,"userid":666,"username":"heyy","useravt":"http://106.14.3.200:8090/bgimg.jpeg","followbyuser":true,"text":"哦","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
+                            '{"twiid":4,"userid":213,"username":"hello","useravt":"http://106.14.3.200:8090/bgimg.jpeg","followbyuser":false,"text":"我要发4张图片","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
+                            ];
+                for (let i=0;i<this.datas.length;i++){
+                    let temp=JSON.parse(this.datas[i]);
+                    temp.ifShowComment=false;
+                    temp.comments=[];
+                    //伪造评论
+                    let commStr=['{"commid":1,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊哦","time":"2019-4-3 19:40"}',
+                    '{"commid":2,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}',
+                    '{"commid":3,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}',
+                    '{"commid":4,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}'];
+                    for (let j=0;j<commStr.length;j++){
+                        temp.comments.push(JSON.parse(commStr[j]));
+                    }
+                    this.items.push(temp);
+                }
+            }
+            else if(this.type=="topic"){
+                let getData = {
+                    startFrom: 0,
+                    limitation: 10,
+                }
+                axios.get(
+                    'http://localhost:12293/api/Topic/queryMessageIdsContains/'+this.topic_id,getData
+                    ).then(Response=>{
+                    console.log(Response);
+                    });
+            }
+            else if(this.type=="home"){
+                let postData = {
+                    startFrom: 0,
+                    limitation: 10,
+                }
+                axios.post(
+                    'http://localhost:12293/api/Message/queryForIndex',postData
+                ).then(Response=>{
+                    console.log(Response);
+                });
             }
             //console.log("asdads",this.items[0]);
         },
+        //辅助函数，判断是不是这个浏览器cookies里用户的推特
         ifBeMyTwi(item){
             let myId=document.cookie;
             if(item.userid==233){
@@ -464,9 +535,11 @@ export default {
                 return false;
             }
         },
+        //关注谁谁
         follow(item){
 
         },
+        //显示或关闭评论
         showComment(item){
             if (item.ifShowComment==false){
                 item.ifShowComment=true;
@@ -475,6 +548,7 @@ export default {
                 item.ifShowComment=false;
             }
         },
+        //展示转发的覆盖页
         share(item){
             this.showSharePage=true;
             this.itemToShare=item;
@@ -483,16 +557,64 @@ export default {
             this.sharePageHeight=h.toString()+"px";
             this.sharePageWidth=(2*w).toString()+"px";
         },
+        //关掉转发的覆盖页
         closeSharePage(){
             this.showSharePage=false;
         },
+        //点赞
         like(item){
-            console.log("like",twiId);
+            if (item.likebyuser==true){
+                axios.get(
+                    'http://localhost:12293/api/Like/cancel'+item.twiid
+                ).then(Response=>{
+                    console.log(Response);
+                    //直接修改心为黑
+                    item.likebyuser=false;
+                    //成功发送了点赞
+                    if (Response.data.code==200){
+                        //播放动画？
+                    }
+                    //失败了要改回红的心
+                    else{
+                        window.alert("发送失败");
+                        item.likebyuser=true;
+                        //改回空的心
+                    }
+                });
+            }
+            else{
+                axios.get(
+                    'http://localhost:12293/api/Like/'+item.twiid
+                ).then(Response=>{
+                    console.log(Response);
+                    //直接修改心为红
+                    item.likebyuser=true;
+                    //成功发送了点赞
+                    if (Response.data.code==200){
+                        //播放动画？
+                    }
+                    //失败了要改回空的心
+                    else{
+                        window.alert("发送失败");
+                        item.likebyuser=false;
+                        //改回空的心
+                    }
+                });
+            }
         },
+        //发私信
         sendMessage(item){
-            console.log()
+            console.log("私信");
+
         },
-        
+        //删除自己的推特
+        delTwi(item){
+            console.log("删除",item.text);
+        },
+        //拉黑用户
+        blockUser(item){
+            console.log("拉黑",item.userid);
+        }
     },
     created(){
         this.generateData();

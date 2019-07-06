@@ -5,7 +5,7 @@
             <hottopics></hottopics>
         </div>
         <div id="tweetitems">
-            <tweets></tweets>
+            <tweets type="explore"></tweets>
         </div>
         <div id="recommendusers">
             <p>推荐关注</p>
@@ -53,7 +53,7 @@ export default {
     float: left;
     margin:1% 1% 1% 3%;
     height:500px;
-    background-color: rgb(158, 158, 158);
+    background-color: rgb(212, 212, 212);
     border-radius: 4px;
     font-size: 25px;
 }
@@ -61,7 +61,7 @@ export default {
     width:48%;
     float: left;
      margin:1% 2% 1% 2%;
-    background-color: rgb(175, 175, 175);
+    background-color: rgb(216, 216, 216);
     border-radius: 4px;
     overflow: hidden;
 }
@@ -70,7 +70,7 @@ export default {
     float: left;
      margin:1% 3% 1% 1%;
      height:500px;
-    background-color: #9c9c9c;
+    background-color: #cfcfcf;
     font-size: 25px;
     border-radius: 4px;
 }
