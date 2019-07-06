@@ -36,6 +36,7 @@
 <script>
 import axios from 'axios'
 import loadingAnimation from "./animate/loading"
+import User from "./store/user"
 axios.defaults.withCredentials = true;
 export default {
   name: 'Login',
@@ -73,6 +74,8 @@ export default {
               title: 'Login Success!',
               desc:''
             })
+            var i = Response.data.data.user_id
+            User.user_id = i;
             this.$router.push("/home");
           }
           else if(Response.data.code==200 && Response.data.message=="E-mail or Password Wrong")

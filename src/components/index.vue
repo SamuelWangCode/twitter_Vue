@@ -129,6 +129,7 @@ export default {
 .RegisterTitle {
   font-size: 18px;
   margin-top: 16px;
+  margin-bottom: 20px;
 }
 
 .OperactionBtns {
@@ -137,16 +138,18 @@ export default {
 
 .OperactionBtns .btn {
   width: 100%;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
   border-radius: 100px;
   border: 1px solid #1da1f2;
+  margin-top: 20px;
+  padding: 10px 12px;
 }
 
 .OperactionBtns .btn.regist {
   background-color: #1da1f2;
   color: white;
-  margin: 16px 5px;
+  margin-right: 10px;
 }
 
 .OperactionBtns .btn.regist:hover {
