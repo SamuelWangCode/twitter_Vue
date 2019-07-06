@@ -1,44 +1,14 @@
 <style scoped>
 .tweet-items{
-    background-color: rgb(31, 153, 37);
     text-align: left;
     margin-top: 10px;
-    overflow: visible;
 }
 .twi-left{
     float: left;
     width: 12%;
     margin-left: 1%;
+    margin-top: 10px;
     height: 80px;
-}
-.twi-right{
-    float: left;
-    width: 84%;
-    margin-left: 1%;
-}
-.twi-right-top-div{
-    width: 100%;
-    background-color: blanchedalmond;
-}
-.user-name{
-    font-weight:bold;
-    font-size: 20px;
-    height:40px;
-    width:80%;
-    float: left;
-}
-.follow-button-div{
-    float: right;
-    right:2%;
-    width:20%;
-    line-height: 20px;
-    height:40px;
-}
-.follow-button{
-    position: relative;
-    right: 20%;
-    width:80%;
-    margin: 4px;
 }
 .user-avatar-div{
     width: 60px;
@@ -49,8 +19,68 @@
 .user-avatar{
     width: 60px;
 }
+
+
+.twi-right{
+    float: left;
+    width: 84%;
+    margin-left: 1%;
+    margin-top: 10px;
+}
+.twi-right-top-div{
+    width: 100%;
+    background-color: blanchedalmond;
+}
+.user-name{
+    font-weight:bold;
+    font-size: 20px;
+    height:40px;
+    width:70%;
+    float: left;
+}
+.follow-button-div{
+    float: right;
+    width:20%;
+    line-height: 20px;
+    height:40px;
+}
+.follow-button{
+    float: right;
+    width:80%;
+    margin: 4px;
+}
+.item-menu{
+    line-height:40px;
+    list-style-type:none;
+    padding:0px;
+    width:10%;
+    overflow: hidden;
+    float: right;
+}
+.item-menu-icon{
+    float: right;
+}
+.item-menu ul{
+    line-height:40px;
+    position:absolute;
+    right:-500px;
+    padding:0px;
+}
+.item-menu:hover ul{
+    right:auto;
+}
+.item-menu li{
+    background-color: beige;
+    width: 80px;
+    list-style-type: none;
+}
+.item-menu li:hover{
+    background-color: rgb(119, 119, 55);
+}
+
 .twi-text{
     margin-bottom: 10px;
+    width: 100%;
 }
 
 
@@ -181,15 +211,23 @@
 
 
 .show-comment-div{
-    width: 100%;
-    margin:20px;
-    background-color: blueviolet;
+    float:left;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    background-color: aqua;
+}
+.send-comm-div{
+    width:100%;
+    margin-bottom: 20px;
 }
 .send-comm{
-    width:70%;
+    width:80%;
 }
 .send-comm-button{
-    width:20%
+    width:18%
 }
 .comm-avt-div{
     float: left;
@@ -198,12 +236,58 @@
 .comm-content-div{
     float: left;
     width:90%;
+    margin-top: 10px;
+}
+
+.item-divider{
+    text-align: center;
+    color: beige;
 }
 </style>
 
 
+
+
+<style scoped>
+#share-page{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    opacity: 0.3;
+    background-color: rgb(180, 220, 220);
+}
+#share-dialog{
+    position:absolute;
+    z-index:9999;
+    background-color: aquamarine;
+}
+</style>
+
+
+
+
 <template>
     <div id="tweets">
+        <div v-show="showSharePage" id="share-page" v-bind:style='{"height":sharePageHeight,"width":sharePageWidth}'>
+            
+        </div>
+        <div v-show="showSharePage" id="share-dialog" ref="sharedialog">
+                <div>转发微博</div>
+                <div>
+                    <form action="localhost:8080" method="get">
+                        <input class="share-text-inputer" type="text">
+                        <input class="share-button" type="submit" value="发表你的评论">
+                    </form>
+                </div>
+            </div>
+
+        <div v-if="showBigImage"></div>
+
+
+
+
+
             <div class='tweet-items' v-for="(item,index) in items">
                 <div class="twi-left">
                     <div class="user-avatar-div">
@@ -211,8 +295,27 @@
                     </div>
                 </div>
                 <div class="twi-right">
-                    <div class="twi-right-top-div"><div class="user-name">{{item.username}}</div><div class="follow-button-div" @click="follow(item)"><button class="follow-button">关注</button></div></div>
-                    <div class="twi-text"><p>{{item.text}}</p></div>
+                    <div class="twi-right-top-div">
+                        <div class="user-name">{{item.username}}</div>
+                        <div class="item-menu">
+                            <Icon type="ios-arrow-down" size='24' class="item-menu-icon"></Icon>
+                            <ul v-if="ifBeMyTwi(item)">
+                                <li>我的推特</li>
+                                <li>可以删除</li>
+                            </ul>
+                            <ul v-if="ifBeMyTwi(item)==false">
+                                <li>不是我的推特</li>
+                                <li>这个用户可以拉黑</li>
+                            </ul>
+                        </div>
+                        <div class="follow-button-div" @click="follow(item)">
+                            <button class="follow-button">关注</button>
+                        </div>
+                        
+                    </div>
+                    <div class="twi-text">
+                        {{item.text}}
+                    </div>
                     <div class="twi-img" v-if="item.imgs.length==1">
                         <div class="img1-1-div">
                             <img class="img1-1" v-bind:src="item.imgs[0]" alt="1-1">
@@ -275,13 +378,16 @@
                             <Icon type="ios-mail-outline" size="24"></Icon>
                         </div>
                     </div>
+                    
                 </div>
                 
                 <div class="show-comment-div" v-show="item.ifShowComment">
-                    <form action="localhost:8080" method="get">
-                        <input class="send-comm" type="text">
-                        <input class="send-comm-button" type="submit" value="发表你的评论">
-                    </form>
+                    <div class="send-comm-div">
+                        <form action="localhost:8080" method="get">
+                            <input class="send-comm" type="text">
+                            <input class="send-comm-button" type="submit" value="发表你的评论">
+                        </form>
+                    </div>
                     <div v-for="comm in item.comments">
                         <div class="comm-avt-div">
                             <Avatar v-bind:src="comm.useravt"></Avatar>
@@ -299,6 +405,7 @@
                         </div>
                     </div>
                 </div>
+                <p class="item-divider">——————————————————————————————————————————————————</p>
             </div>
     </div>
 </template>
@@ -314,14 +421,23 @@ export default {
         return {
             items:[],
             datas:"",
+            showSharePage:false,
+            itemToShare:Object,
+            sharePageHeight:"900px",
+            sharePageWidth:"1000px",
+            shareDialogLeft:"200px",
+            shareDialogTop:"200px",
+            
+            showBigImage:false,
+            BigImageSource:"",
         }
     },
     methods:{
         generateData(){
-            this.datas= ['{"twiid":1,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","imgs":["http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
-                        '{"twiid":2,"username":"hey","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"哦噢噢噢噢哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
-                        '{"twiid":3,"username":"heyy","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"哦","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
-                        '{"twiid":4,"username":"hello","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"我要发4张图片","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
+            this.datas= ['{"twiid":1,"userid":230,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","imgs":["http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
+                        '{"twiid":2,"userid":233,"username":"hey","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"哦噢噢噢噢哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
+                        '{"twiid":3,"userid":666,"username":"heyy","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"哦","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
+                        '{"twiid":4,"userid":213,"username":"hello","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"我要发4张图片","imgs":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"commentnum":4,"sharenum":34,"likesnum":60,"collectbyuser":true,"likebyuser":false}',
                         ];
             for (let i=0;i<this.datas.length;i++){
                 let temp=JSON.parse(this.datas[i]);
@@ -337,7 +453,16 @@ export default {
                 }
                 this.items.push(temp);
             }
-            console.log("asdads",this.items[0]);
+            //console.log("asdads",this.items[0]);
+        },
+        ifBeMyTwi(item){
+            let myId=document.cookie;
+            if(item.userid==233){
+                return true;
+            }
+            else{
+                return false;
+            }
         },
         follow(item){
 
@@ -351,14 +476,23 @@ export default {
             }
         },
         share(item){
-            console.log("share",twiId);
+            this.showSharePage=true;
+            this.itemToShare=item;
+            let h=document.documentElement.offsetHeight;
+            let w=document.documentElement.offsetWidth;
+            this.sharePageHeight=h.toString()+"px";
+            this.sharePageWidth=(2*w).toString()+"px";
+        },
+        closeSharePage(){
+            this.showSharePage=false;
         },
         like(item){
             console.log("like",twiId);
         },
         sendMessage(item){
             console.log()
-        }
+        },
+        
     },
     created(){
         this.generateData();

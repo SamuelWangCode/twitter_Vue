@@ -63,6 +63,7 @@ export default {
      margin:1% 2% 1% 2%;
     background-color: rgb(175, 175, 175);
     border-radius: 4px;
+    overflow: hidden;
 }
 #recommendusers{
     width:20%;
