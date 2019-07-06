@@ -49,26 +49,29 @@ export default {
     margin-top: 80px;
 }
 #hottopic{
-    width:22%;
+    width:20%;
     float: left;
     margin:1% 1% 1% 3%;
     height:500px;
     background-color: rgb(158, 158, 158);
+    border-radius: 4px;
     font-size: 25px;
 }
 #tweetitems{
-    width:44%;
+    width:48%;
     float: left;
      margin:1% 2% 1% 2%;
     background-color: rgb(175, 175, 175);
+    border-radius: 4px;
 }
 #recommendusers{
-    width:22%;
+    width:20%;
     float: left;
      margin:1% 3% 1% 1%;
      height:500px;
     background-color: #9c9c9c;
     font-size: 25px;
+    border-radius: 4px;
 }
 </style>
 
