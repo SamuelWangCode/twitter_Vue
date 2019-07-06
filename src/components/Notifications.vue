@@ -2,14 +2,12 @@
 ul li{
   list-style-type: none;
 }
-
   #root-div{
     position: fixed;
     height: 100%;
     width: 100%;
     background-color: rgb(230, 236, 240)
   }
-
   #left-container{
     float:left;
     width: 20%;
@@ -17,7 +15,6 @@ ul li{
     margin-left: 150px;
     margin-top: 70px;
   }
-
   #middle-container{
     float:left;
     width: 40%;
@@ -25,7 +22,6 @@ ul li{
     margin-left: 10px;
     margin-top: 70px
   }
-
   #right-container{
     float: left;
     width: 20%;
@@ -33,27 +29,22 @@ ul li{
     margin-left: 10px;
     margin-top: 70px
   }
-
   #trends-container{
     line-height: 17px;
     margin-bottom: 10px;
     text-align: left;
-
   }
-
   #trends-name{
     font-weight: bold;
     color: #1DA1F2;
     font-size: 17px;
     padding-left: 15px;
   }
-
   #tweets-times{
     color: #657786;
     font-size: 13px;
     padding-left: 15px;
   }
-
   .header-left-align{
     font-weight: bold;
     font-size: 24px;
@@ -65,18 +56,11 @@ ul li{
     text-align: left;
     line-height: 17px;
   }
-
   .infor-avatar{
     margin-top: 10px;
     margin-left: 15px;
     margin-bottom: 5px
   }
-
-
-
-
-
-
 </style>
 
 <template>
@@ -98,7 +82,7 @@ ul li{
        <div class="el-header" style="border-bottom: 1px solid #e6ecf0;width: 100%">
          <Tabs active-key="key1" style="float: left;width: 100%" >
            <Tab-pane label="All" key="key1" >
-             <ElContainer v-for="infor in informationList">
+             <ElContainer v-for = "infor in informationList">
               <a>
                 <Avatar :src="infor.avatarUrl" style="margin-top: 10px;margin-left: 15px;margin-bottom: 5px"></Avatar>
                 {{infor.name}}: {{infor.content}}
@@ -114,7 +98,7 @@ ul li{
 
       <ElContainer id="right-container" >
         <el-header class="header-left-align">Who to follow</el-header>
-        <div class='to-follow-list'v-for="toFollow in toFollowList" >
+        <div class='to-follow-list'v-for= "toFollow in toFollowList" >
           <a>
           <Avatar class='infor-avatar':src='toFollow.avatarUrl' ></Avatar>
           {{toFollow.name}}
@@ -156,8 +140,6 @@ ul li{
           {name:'果然翁',content:'反弹',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'}
         ]
       }
-
     }
-
   }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div id="app" >
-    <section>
+    <section v-if="$route.meta.keepAlive">
     <nav class="navBar" style="z-index: 100000">
      <Menu mode="horizontal" :theme="theme1" active-name="home" style="padding-left:15%;" @on-select="onSelect">
         <MenuItem name="home" v-link="{path: '/'}" key="Home">
