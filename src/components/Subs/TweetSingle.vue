@@ -74,34 +74,23 @@
 .item-menu-icon{
     float: right;
 }
-.item-menu ul{
-    line-height:40px;
-    position:absolute;
-    display: none;
-    padding:0px;
-}
-.item-menu:hover ul{
-    display:block;
-    right:auto;
-}
 .item-menu li{
     background-color: beige;
     width: 80px;
     list-style-type: none;
 }
 .item-menu li:hover{
-    background-color: rgb(83, 83, 83);
+    background-color: rgb(255, 182, 182);
 }
-.message-div{
-    height:auto;
-    background-color: beige;
-}
+
 
 .twi-text{
     margin-bottom: 10px;
     width: 100%;
 }
-
+.img-handler{
+    margin-bottom: 20px;
+}
 
 
 
@@ -128,8 +117,7 @@
 
 <template>
 <div class="twi-single-div">
-    <div v-if="showBigImage"></div>
-
+    
     <div class="twi-left">
         <div class="user-avatar-div">
             <img class="user-avatar" :src="item.userInfo.avatar_url" alt="no">
@@ -140,18 +128,21 @@
         <div class="twi-right-top-div">
             <div class="user-name">{{item.userInfo.nickname}}</div>
             <div class="item-menu">
-                <Icon type="ios-arrow-down" size='24' class="item-menu-icon"></Icon>
-                <ul v-if="ifBeMyTwi(item)">
-                    <li @click="delTwi(item)">我的推特</li>
-                    <li>可以删除</li>
-                </ul>
-                <ul v-if="ifBeMyTwi(item)==false">
-                    <li @click="blockUser(item)">拉黑用户</li>
-                    <li class="message-div" @click="sendMessage(item)">
-                        <Icon type="ios-mail-outline" size="24"></Icon>发送私信
-                    </li>
-                </ul>
-                
+                <Icon type="ios-arrow-down" size='24' class="item-menu-icon" @click="doShowMenu()"></Icon>
+                <div class="menu" v-show="showMenu">
+                    <ul v-if="ifBeMyTwi(item)">
+                        <li @click="delTwi(item)">我的推特</li>
+                        <li>可以删除</li>
+                    </ul>
+                    <ul v-if="ifBeMyTwi(item)==false">
+                        <li>
+                            <blockuser v-bind:userId="item.message_sender_user_id"></blockuser>
+                        </li>
+                        <li>
+                            <usermessage v-bind:userId="item.message_sender_user_id"></usermessage>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <div class="follow-button-div" @click="follow()">
@@ -165,7 +156,7 @@
         </div>
         
         
-            <imagehandler :imgData="item.message_image_urls" :twiId="item.message_id" class="img-component"></imagehandler>
+            <imagehandler class="img-handler" :imgData="item.message_image_urls" :twiId="item.message_id"></imagehandler>
 
         </div>
                 
@@ -189,6 +180,8 @@ import ShareButton from "./ShareButton"
 import ImageHandler from "./ImageHandler"
 import CollectionButton from "./CollectionButton"
 import CommentBlock from "./CommentBlock"
+import UserMessage from './UserMessage'
+import BlockUser from './BlockUser'
 export default {
     name:'twitter-items',
     props:{
@@ -196,9 +189,8 @@ export default {
     },
     data(){
         return {
+            showMenu:false,
             ifShowComment:false,
-            showBigImage:false,
-            BigImageSource:"",
             comments:[],
         }
     },
@@ -212,6 +204,9 @@ export default {
             else{
                 return false;
             }
+        },
+        doShowMenu(){
+            this.showMenu=!this.showMenu;
         },
         //展示评论或者取消展示评论
         showComment(){
@@ -305,6 +300,8 @@ export default {
         "imagehandler":ImageHandler,
         "collectionbutton":CollectionButton,
         "commentblock":CommentBlock,
+        "usermessage":UserMessage,
+        "blockuser":BlockUser,
     }
 }
 </script>

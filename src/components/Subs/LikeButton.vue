@@ -2,7 +2,6 @@
 .likes-div{
     width:100%;
     height:auto;
-    background-color: violet;
     text-align: center;
 }
 .likes-div{

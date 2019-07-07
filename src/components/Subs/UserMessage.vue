@@ -1,15 +1,15 @@
 <style scoped>
 
-.share-div{
+.message-div{
     width:100%;
     height:auto;
     text-align: center;
 }
-.share-div:hover{
+.message-div:hover{
     cursor: pointer;
 }
 
-#share-page{
+#message-page{
     position: absolute;
     left: 0;
     top: 0;
@@ -17,7 +17,7 @@
     opacity: 0.3;
     background-color: rgb(210, 220, 220);
 }
-#share-dialog{
+#message-dialog{
     width:33%;
     height: 300px;
     background-color: #fff;
@@ -32,7 +32,7 @@
 
 }
 
-.share-block-title{
+.message-block-title{
     float: left;
     width: 100%;
     text-align: center;
@@ -43,72 +43,69 @@
     float: right;
     background-color: aquamarine;
 }
-.share-text-inputer{
+.message-text-inputer{
     width: 90%;
     margin:5%;
 }
-.send-share-button{
+.send-message-button{
     width: 20%;
     float: left;
     margin-left: 20%;
 }
-.cancel-share-button{
+.cancel-message-button{
     width: 20%;
     float: right;
     margin-right: 20%;
 }
 </style>
 
-
 <template>
 <div>
-
-    <div v-show="showSharePage" id="share-page" v-bind:style='{"height":sharePageHeight,"width":sharePageWidth}'>
+    <div v-show="showPage" id="message-page" v-bind:style='{"height":pageHeight,"width":pageWidth}'>
     </div>
-    
-    <div v-show="showSharePage" id="share-dialog" ref="sharedialog">
-        <div class="share-block-title">转发微博
-            <Icon class="close-icon" type="ios-close" size="30" @click="closeSharePage()"></Icon>
+
+    <div v-show="showPage" id="message-dialog">
+        <div class="message-block-title">发送私信
+            <Icon class="close-icon" type="ios-close" size="30" @click="closePage()"></Icon>
         </div>
         <div>
-            <input class="share-text-inputer" type="text" v-model="shareText">
-            <Button class="send-share-button" type="primary" @click="share()">发送</Button>
-            <Button class="cancel-share-button" type="primary" @click="closeSharePage()">取消</Button>
+            <input class="message-text-inputer" type="text" v-model="text">
+            <Button class="send-message-button" type="primary" @click="message()">发送</Button>
+            <Button class="cancel-message-button" type="primary" @click="closePage()">取消</Button>
         </div>
     </div>
 
 
-    <div class="share-div" @click="doShowSharePage()">
-        <Icon type="ios-share-alt-outline" size="24"></Icon>
-        <span>{{shareNum}}</span>
+    <div class="message-div" @click="doShowPage()">
+        <Icon type="ios-mail-outline" size="24"></Icon>发送私信
     </div>
-
 </div>
 </template>
+
 
 
 <script>
 export default {
      props:{
-        shareNum:Number,
-        twiId:Number,
+        userId:Number,
     },
     data(){
         return {
-            showSharePage:false,
-            sharePageHeight:"",
-            sharePageWidth:"",
-            shareText:"",
+            showPage:false,
+            pageHeight:"",
+            pageWidth:"",
+            text:"",
         }
     },
     methods:{
         //转发
-        share(){ 
+        message(){ 
             let data={
-                message:this.shareText,
+                user_id:this.userId,
+                letterInfo:this.text,
             }
             this.$http.post(
-                'http://localhost:12293/api/Message/transpond',data
+                'http://localhost:12293/api/PrivateLetter/send/'+this.userId,data
             ).then(Response=>{
             //成功发送了
                 if (Response.data.code==200){
@@ -120,27 +117,23 @@ export default {
             });
         },
         //展示转发的覆盖页
-        doShowSharePage(){
+        doShowPage(){
             let h=document.documentElement.offsetHeight;
             let w=document.documentElement.offsetWidth;
-            this.sharePageHeight=h.toString()+"px";
-            this.sharePageWidth=w.toString()+"px";
-            
-            this.showSharePage=true;
+            this.pageHeight=h.toString()+"px";
+            this.pageWidth=w.toString()+"px";
+
+            this.showPage=true;
         },
         //关掉转发的覆盖页
-        closeSharePage(){
-            this.showSharePage=false;
+        closePage(){
+            this.showPage=false;
         },
         
     },
     created(){
-            
-    },
-    mounted(){
-        
+           
     }
     
-}
+}   
 </script>
-

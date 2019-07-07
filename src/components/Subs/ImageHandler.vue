@@ -90,19 +90,30 @@
     height:100%;
     width:100%;
 }
+.cover{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9995;
+    background-color: rgb(210, 220, 220);
+}
 
-.button-div{
-    float: left;
-    width:480px;
-    height:auto;
-    margin-top:5px;
-    margin-bottom: 20px;
-    text-align: center;
+.big-img{
+    position: fixed;
+    z-index: 9999;
+    align-self: center;
 }
 </style>
 
 <template>
 <div class="img-handler-div">
+    <div v-show="showBigImage" class="cover" v-bind:style='{"height":coverHeight,"width":coverWidth}'>
+    </div>
+    <div v-show="showBigImage">
+        <img @click="doShowBigImg()" class="big-img" v-bind:src="bigImgSource" :style='{"height":bigImgHeight,"width":bigImgWidth}'>
+    </div>
+
+
     <div class="twi-img" v-if="imgData.length==1">
         <div class="img1-1-div">
             <img class="img1-1" v-bind:src="imgData[0]" alt="1-1">
@@ -168,10 +179,58 @@ export default {
     },
     data(){
         return {
-
+            showBigImage:false,
+            bigImgSource:"",
+            coverHeight:"",
+            coverWidth:"",
+            //要展示的大图的长和宽
+            bigImgHeight:"",
+            bigImgWidth:"",
+            //开始时就计算出小图的长和宽
+            smallSize:[],
+            //开始时就计算出大图的长和宽
+            bigSize:[],
         }
     },
     methods:{
+        doShowBigImg(obj){
+            let h=document.documentElement.offsetHeight;
+            let w=document.documentElement.offsetWidth;
+            this.coverHeight=h.toString()+"px";
+            this.coverWidth=w.toString()+"px";
+            this.bigImgHeight="100px";
+            this.bigImgWidth="200px";
+            
+            this.showBigImage=!this.showBigImage;
+            this.bigImgSource=obj.src;
+            console.log("展示",this.bigImgSource);
+        },
+        //下一张图片
+        next(){
+
+        },
+        //上一张图片
+        pre(){
+
+        }
+    },
+    created(){
+        if (this.imgData.lenth==1){
+
+        }
+        else if(this.imgData.lenth==2){
+
+        }
+        else if(this.imgData.lenth==3){
+
+        }
+        else if(this.imgData.lenth==4){
+
+        }
+        
+    },
+    mounted(){
+        
     }
 }
 </script>

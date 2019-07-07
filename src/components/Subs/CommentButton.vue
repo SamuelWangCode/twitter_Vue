@@ -2,7 +2,6 @@
 .comment-div{
     width:100%;
     height:auto;
-    background-color: rgb(184, 124, 47);
     text-align: center;
 }
 

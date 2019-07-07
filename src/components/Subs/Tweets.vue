@@ -94,7 +94,6 @@ export default {
                 this.items.push(itemTemp);
                 //获取以上的数据，这里由于可能是第二次拿数据，因此i+twiCount才是当前要处理的推的索引
                 this.items[i+twiCount].userInfo={user_id: 16, nickname: "qwe", avatar_url: "http://106.14.3.200:8090/bgimg.jpeg"};
-                console.log("这里应该有用户信息",this.items[i]);
                 
                 //求证是否点赞
                 let tempData={
@@ -112,8 +111,8 @@ export default {
                 //求证是否收藏
                 tempData={
                     //这是登录用户的id不是发推用户的
-                    user_id:0,
-                    message_id:0,
+                    user_id:1,
+                    message_id:1,
                 }
                 this.$http.post(
                     "http://localhost:12293/api/Collection/checkUserLikesMessage",tempData
