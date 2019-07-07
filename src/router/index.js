@@ -4,7 +4,7 @@ import router from 'vue-router'
 import Home from '@/components/Home'
 import Notifications from '@/components/Notifications'
 import Message from '@/components/Message'
-import Personal from '@/components/PersonalInformation'
+import Personal from '@/components/Personal'
 
 Vue.use(router)
 
@@ -30,7 +30,7 @@ export default new router({
       path: '/personal',
       name: 'Personal',
       component: Personal
-    }
+    },
   ]
 })
 
