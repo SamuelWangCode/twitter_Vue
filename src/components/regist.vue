@@ -111,10 +111,8 @@ export default {
           email: this.email,
           password: this.password
         }
-        axios.post(
-          `http://localhost:12293/api/User/signUp`,
-          data
-        ).then(Response=>{
+
+        this.register(data).then(Response=>{
           console.log(Response.data);
           
           if(Response.data.code==200 && Response.data.message=="success")
