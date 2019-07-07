@@ -79,7 +79,8 @@ ul li{
     position: fixed;
     height: 100%;
     width: 100%;
-    background-color: rgb(230, 236, 240)
+    background-color: rgb(230, 236, 240);
+    overflow: auto;
   }
    #left-container{
      float:left;
@@ -207,8 +208,6 @@ ul li{
           </a>
         </div>
       </ElContainer>
-
-
   </div>
 </template>
 <script>
@@ -256,14 +255,8 @@ ul li{
     components:{
       loadingAnimate
     },
-    created(){
-      
-      //测试by 杨紫超
-      //this.getUserPublicInfo(1).then(res=>{console.log("测试：", res)});
-      this.signIn("ccc@qq.com", "123456", "ccc").then(res=>{console.log("测试：", res)});
 
-      //
-
+    mounted(){
       this.loading=true;
         var userID = this.getCookies("userID")
         console.log(userID)
@@ -296,6 +289,7 @@ ul li{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
             {
+              this.loading=false;
               this.userName = Response.data.data.nickname
               console.log(this.userName)
             }
@@ -314,7 +308,6 @@ ul li{
           errMsg: "Can't connect with server"
         };
         }
-        this.loading=false;
     },
     methods:{
       editerFocusEventHandler (e) {

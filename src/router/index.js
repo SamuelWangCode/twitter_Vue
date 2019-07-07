@@ -7,6 +7,7 @@ import Personal from '@/components/Personal'
 import index from '@/components/index'
 import login from '@/components/login'
 import register from '@/components/regist'
+import Explore from '@/components/Explore'
 
 Vue.use(router)
 
@@ -69,6 +70,14 @@ export default new router({
         keepAlive: false
       }
     },
+    {
+      path: '/explore',
+      name: 'explore',
+      component: Explore,
+      meta:{
+        keepAlive:true
+      }
+    }
   ]
 })
 

@@ -6,7 +6,8 @@ ul li{
     position: fixed;
     height: 100%;
     width: 100%;
-    background-color: rgb(230, 236, 240)
+    background-color: rgb(230, 236, 240);
+    overflow: auto;
   }
   #left-container{
     float:left;

@@ -3,7 +3,8 @@
     position: fixed;
     height: 100%;
     width: 100%;
-    background-color: rgb(230, 236, 240)
+    background-color: rgb(230, 236, 240);
+    overflow: auto;
   }
   #middle-container {
     float:left;
@@ -30,7 +31,7 @@
         <Tabs active-key="key1" style="float: left;width: 100%">
           <Tab-pane label="Account Information" key="key1" >
             <ElContainer>
-            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" style="float: left" >
+            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" >
               <br>
               <br>
               <!--头像更改-->
@@ -113,9 +114,25 @@
             </ElContainer>
           </Tab-pane>
           <Tab-pane label="Safety Information" key="key2">
-            <!--缺乏密码验证部分-->
 
-
+            <!--密码验证部分-->
+            <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="80" style="float: left">
+              <!--旧密码-->
+              <FormItem label="Used Password" prop="passwd">
+                <Input type="password" v-model="formCustom.passwd"placeholder="Enter your Used password" style="width: 400px" ></Input>
+              </FormItem>
+              <!--新密码-->
+              <FormItem label="New Password" prop="passwd">
+                <Input type="password" v-model="formCustom.passwd"placeholder="Enter your New password"style="width: 400px"></Input>
+              </FormItem>
+              <FormItem label="Confirm New Password" prop="passwdCheck">
+                <Input type="password" v-model="formCustom.passwdCheck"placeholder="Enter your New password again"style="width: 400px"></Input>
+              </FormItem>
+              <FormItem>
+                <Button type="primary" @click="handleSubmit('formCustom')">Submit</Button>
+                <Button @click="handleReset('formCustom')" style="margin-left: 8px">Reset</Button>
+              </FormItem>
+            </Form>
           </Tab-pane>
         </Tabs>
         </div>
@@ -127,15 +144,48 @@
      export default {
        name: 'Personal',
        data() {
+         const validatePass = (rule, value, callback) => {
+           if (value === '') {
+             callback(new Error('Please enter your new password'));
+           } else {
+             if (this.formCustom.passwdCheck !== '') {
+               // 对第二个密码框单独验证
+               this.$refs.formCustom.validateField('passwdCheck');
+             }
+             callback();
+           }
+         };
+         const validatePassCheck = (rule, value, callback) => {
+           if (value === '') {
+             callback(new Error('Please enter your password again'));
+           } else if (value !== this.formCustom.passwd) {
+             callback(new Error('The two input passwords do not match!'));
+           } else {
+             callback();
+           }
+         };
+         const validateAge = (rule, value, callback) => {
+           if (!value) {
+             return callback(new Error('Age cannot be empty'));
+           }
+           // 模拟异步验证效果
+           setTimeout(() => {
+             if (!Number.isInteger(value)) {
+               callback(new Error('Please enter a numeric value'));
+             } else {
+               if (value < 18) {
+                 callback(new Error('Must be over 18 years of age'));
+               } else {
+                 callback();
+               }
+             }
+           }, 1000);
+         };
          return {
            defaultList: [
              {
                'name': 'a42bdcc1178e62b4694c830f028db5c0',
                'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-             },
-             {
-               'name': 'bc7521e033abdd1e92222d733590f104',
-               'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
              }
            ],
            imgName: '',
@@ -181,6 +231,22 @@
                {type: 'string', min: 20, message: 'Introduction no less than 20 words', trigger: 'blur'}
              ]
            },
+           formCustom: {
+             passwd: '',
+             passwdCheck: '',
+             age: ''
+           },
+           ruleCustom: {
+             passwd: [
+               { validator: validatePass, trigger: 'blur' }
+             ],
+             passwdCheck: [
+               { validator: validatePassCheck, trigger: 'blur' }
+             ],
+             age: [
+               { validator: validateAge, trigger: 'blur' }
+             ]
+           }
          }
        },
        methods:
@@ -225,10 +291,10 @@
              });
            },
            handleBeforeUpload () {
-             const check = this.uploadList.length < 5;
+             const check = this.uploadList.length < 1;
              if (!check) {
                this.$Notice.warning({
-                 title: 'Up to five pictures can be uploaded.'
+                 title: 'Up to one pictures can be uploaded.'
                });
              }
              return check;
