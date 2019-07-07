@@ -75,7 +75,8 @@ export default {
               desc:''
             })
             var i = Response.data.data.user_id
-            User.user_id = i;
+            User.userID = i;
+            console.log(User.userID)
             this.$router.push("/home");
           }
           else if(Response.data.code==200 && Response.data.message=="E-mail or Password Wrong")

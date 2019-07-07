@@ -7,7 +7,7 @@
   display: flex;
 }
 
-.UserImg {
+/* .UserImg {
   border-radius: 50%;
   overflow: hidden;
   width: 32px;
@@ -15,7 +15,7 @@
   left: 16px;
   position: relative;
   flex-shrink: 0;
-}
+} */
 
 .EditerContainer {
   position: relative;
@@ -151,11 +151,12 @@ ul li{
 
 <template>
   <div id='root-div'>
+        <loadingAnimate v-if="loading" style="margin-left:auto;margin-right:auto;margin-top:48px;"/>
     <div id=left-container>
     <ElContainer id = 'left-container1' style="background-color:#1DA1F2;">
        <Avatar :src=address shape="circle" on-error="" size="large" style="height:60px; width:60px; border-radius:50%;margin-left:10%;margin-top:20%;"/>
        <span style="margin-top:80px;margin-left:10px;font-weight:bold;font-size:20px;">
-         UserName
+         {{userName}}
        </span>
        <br><br><br><br><br><br><br><br>
      </ElContainer>
@@ -215,12 +216,15 @@ ul li{
   import Caspanel from "iview/src/components/cascader/caspanel";
   import axios from "axios"
   import user from "./store/user"
+  import loadingAnimate from "./animate/loading"
   axios.defaults.withCredentials = true;
   export default {
     name:'Notifications',
     components: {Caspanel, ElUploadList},
     data(){
       return{
+        loading:false,
+        userName: "username",
         sites: [
           { name: 'Runoob' },
           { name: 'Google' },
@@ -246,14 +250,19 @@ ul li{
         isEditerFocused: false,
         contentEl: null,
         inputContent: '',
-        address: "http://localhost:12293/avatars/0"
+        address: "http://localhost:12293/avatars/0.jpg"
       }
     },
+    components:{
+      loadingAnimate
+    },
     mounted:function setUserHeadIcon() {
-        try{
-          let userID=user.userID
+      this.loading=true;
+      let userID=user.userID
+      console.log(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`)
+        try{ 
           let front="http://localhost:12293"
-          axios.get("http://localhost:12293/api/User/getAvatarImageSrc/{userID}").then(Response=>{
+          axios.get(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`).then(Response=>{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
             {
@@ -261,16 +270,40 @@ ul li{
               console.log(this.address)
             }
             else{
-              this.address="http://localhost:12293/avatars/0"
+              this.address="http://localhost:12293/avatars/0.jpg"
             }
           })
         }
         catch(e){
+            this.loading=false;
             return {
           result: false,
           errMsg: "Can't connect with server"
         };
         }
+        try{
+          axios.get(`http://localhost:12293/api/User/query/${userID}`).then(Response=>{
+            console.log(Response)
+          if(Response.data.code==200 && Response.data.message=="success")
+            {
+              this.userName = Response.data.data.nickname
+              console.log(this.userName)
+            }
+            else{
+              console.log("fail")
+              this.userName="userName"
+            }
+            this.loading=false;
+          })
+        }
+        catch(e){
+            this.loading=false;
+            return {
+          result: false,
+          errMsg: "Can't connect with server"
+        };
+        }
+        this.loading=false;
     },
     methods:{
       editerFocusEventHandler (e) {
