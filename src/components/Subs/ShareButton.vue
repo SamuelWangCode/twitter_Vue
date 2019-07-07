@@ -1,11 +1,13 @@
 <style scoped>
 
 .share-div{
-    float: left;
-    width:120px;
+    width:100%;
     height:auto;
     background-color: yellowgreen;
     text-align: center;
+}
+.share-div:hover{
+    cursor: pointer;
 }
 
 #share-page{

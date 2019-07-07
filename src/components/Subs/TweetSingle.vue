@@ -92,27 +92,35 @@
 .item-menu li:hover{
     background-color: rgb(83, 83, 83);
 }
+.message-div{
+    height:auto;
+    background-color: beige;
+}
 
 .twi-text{
     margin-bottom: 10px;
     width: 100%;
 }
 
-.button-div{
-    margin-top:10px;
-}
-.button-div:hover{
-    cursor: pointer;
-}
 
-.message-div{
+
+
+.collection-button{
     float: left;
-    width:120px;
-    height:auto;
-    background-color: beige;
+    width: 25%;
 }
-
-
+.comment-button{
+    float: left;
+    width:25%;
+}
+.share-button{
+    float: left;
+    width:25%;
+}
+.like-button{
+    float: left;
+    width:25%;
+}
 
 </style>
 
@@ -139,13 +147,16 @@
                 </ul>
                 <ul v-if="ifBeMyTwi(item)==false">
                     <li @click="blockUser(item)">拉黑用户</li>
-                    <li>不再看到这条微博</li>
+                    <li class="message-div" @click="sendMessage(item)">
+                        <Icon type="ios-mail-outline" size="24"></Icon>发送私信
+                    </li>
                 </ul>
+                
             </div>
 
-            <div class="follow-button-div" @click="follow(item)">
-                <Button type="primary" class="follow-button" v-if="item.followbyuser==false">关注</Button>
-                <Button type="primary" class="follow-button-alt" v-if="item.followbyuser">已关注</Button>
+            <div class="follow-button-div" @click="follow()">
+                <Button type="primary" class="follow-button" v-if="item.followByUser==false">关注</Button>
+                <Button type="primary" class="follow-button-alt" v-else>已关注</Button>
             </div>
                         
         </div>
@@ -156,25 +167,17 @@
         
             <imagehandler :imgData="item.message_image_urls" :twiId="item.message_id" class="img-component"></imagehandler>
 
-            <div class="button-div">
-                <commentbutton v-bind:commentsNum="item.message_comment_num" :twiId="item.message_id"></commentbutton>
-                <sharebutton v-bind:shareNum="item.message_transpond_num" :twiId="item.message_id"></sharebutton>
-                <likebutton v-bind:likeByUser="item.likebyuser" v-bind:likesNum="item.message_agree_num" :twiId="item.message_id"></likebutton>
-                <div class="message-div" @click="sendMessage(item)">
-                    <Icon type="ios-mail-outline" size="24"></Icon>
-                </div>
-            </div>
         </div>
                 
-        <div class="show-comment-div" v-show="item.ifShowComment">
-            <div class="send-comm-div">
-                        <form action="localhost:8080" method="get">
-                            <input class="send-comm-input" type="text">
-                            <input class="send-comm-button" type="submit" value="发表你的评论">
-                        </form>
-            </div>
-            
-        </div>
+                <collectionbutton class="collection-button" @collectTwi="collect()" v-bind:twiId="item.message_id" :collectByUser="item.collectByUser"></collectionbutton>
+                <commentbutton class="comment-button" @showComment="showComment()" v-bind:commentsNum="item.message_comment_num" :twiId="item.message_id"></commentbutton>
+                <sharebutton class="share-button" v-bind:shareNum="item.message_transpond_num" :twiId="item.message_id"></sharebutton>
+                <likebutton class="like-button" @likeTwi="like()" v-bind:likeByUser="item.likeByUser" v-bind:likesNum="item.message_agree_num" :twiId="item.message_id"></likebutton>
+
+        <commentblock class="comment-block" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
+
+
+        
     </div>
 </template>
 
@@ -184,6 +187,8 @@ import LikeButton from './LikeButton'
 import CommentButton from "./CommentButton"
 import ShareButton from "./ShareButton"
 import ImageHandler from "./ImageHandler"
+import CollectionButton from "./CollectionButton"
+import CommentBlock from "./CommentBlock"
 export default {
     name:'twitter-items',
     props:{
@@ -191,11 +196,10 @@ export default {
     },
     data(){
         return {
-            
-            
+            ifShowComment:false,
             showBigImage:false,
             BigImageSource:"",
-
+            comments:[],
         }
     },
     methods:{
@@ -209,12 +213,50 @@ export default {
                 return false;
             }
         },
-        //关注谁谁
-        follow(item){
-
+        //展示评论或者取消展示评论
+        showComment(){
+            if (this.comments.length==0){
+                this.getComment();
+            }
+            this.ifShowComment=!this.ifShowComment;
+            console.log(this.comments);
         },
-        
-        
+        //关注谁谁
+        follow(){
+            if (this.item.followByUser==false){
+                this.$http.get(
+                        'http://localhost:12293/api/Relation/follow/'+this.item.message_sender_user_id,
+                    ).then(Response=>{
+                        if (Response.data.code==200){
+                            //播放动画？
+                            this.$emit("follow");
+                        }
+                        else{
+                            window.alert("关注失败");
+                        }
+                    });
+            }
+            else{
+                this.$http.get(
+                        'http://localhost:12293/api/Relation/cancelFollowingTo/'+this.item.message_sender_user_id,
+                    ).then(Response=>{
+                        if (Response.data.code==200){
+                            //播放动画？
+                            this.$emit("follow");
+                        }
+                        else{
+                            window.alert("取消关注失败");
+                        }
+                    });
+            }
+        },
+        like(){
+            this.$emit('likeTwi');
+            console.log(22);
+        },
+        collect(){
+            this.$emit('collectTwi');
+        },
         //发私信
         sendMessage(item){
             console.log("私信");
@@ -227,6 +269,28 @@ export default {
         //拉黑用户
         blockUser(item){
             console.log("拉黑",item.message_sender_user_id);
+        },
+        getComment(){
+            let commStr=['{"commid":1,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊哦","time":"2019-4-3 19:40"}',
+                    '{"commid":2,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}',
+                    '{"commid":3,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}',
+                    '{"commid":4,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}'];
+            for (let j=0;j<commStr.length;j++){
+                this.comments.push(JSON.parse(commStr[j]));
+            }
+            let data={
+                startFrom: this.comments.length,
+                limitation: 10,
+            }
+            this.$http.post(
+                    'http://localhost:12293/api/Comment/queryComments/'+this.item.message_id,data
+                ).then(Response=>{
+                    if (Response.data.code==200){
+                        //播放动画？
+                    }
+                    else{
+                    }
+                });
         }
     },
     created(){
@@ -239,6 +303,8 @@ export default {
         "commentbutton":CommentButton,
         "sharebutton":ShareButton,
         "imagehandler":ImageHandler,
+        "collectionbutton":CollectionButton,
+        "commentblock":CommentBlock,
     }
 }
 </script>
