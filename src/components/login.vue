@@ -36,7 +36,7 @@
 <script>
 import axios from 'axios'
 import loadingAnimation from "./animate/loading"
-import User from "./store/user"
+//import User from "./store/user"
 axios.defaults.withCredentials = true;
 export default {
   name: 'Login',
@@ -75,8 +75,11 @@ export default {
               desc:''
             })
             var i = Response.data.data.user_id
-            User.userID = i;
-            console.log(User.userID)
+            //User.userID = i;
+            //console.log(User.userID)
+            //加入coockie
+            this.setCookie("userID", i)
+            console.log(document.cookie)
             this.$router.push("/home");
           }
           else if(Response.data.code==200 && Response.data.message=="E-mail or Password Wrong")

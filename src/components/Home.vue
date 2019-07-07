@@ -215,7 +215,7 @@ ul li{
   import ElUploadList from "element-ui/packages/upload/src/upload-list";
   import Caspanel from "iview/src/components/cascader/caspanel";
   import axios from "axios"
-  import user from "./store/user"
+  //import user from "./store/user"
   import loadingAnimate from "./animate/loading"
   axios.defaults.withCredentials = true;
   export default {
@@ -250,15 +250,18 @@ ul li{
         isEditerFocused: false,
         contentEl: null,
         inputContent: '',
-        address: "http://localhost:12293/avatars/0.jpg"
+        address: "http://localhost:12293/avatars/0.jpg",
       }
     },
     components:{
       loadingAnimate
     },
-    mounted:function setUserHeadIcon() {
+    created(){
       this.loading=true;
-      let userID=user.userID
+        var userID = this.getCookies("userID")
+        console.log(userID)
+      //let userID=user.userID
+      //使用cookie
       console.log(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`)
         try{ 
           let front="http://localhost:12293"
@@ -290,10 +293,11 @@ ul li{
               console.log(this.userName)
             }
             else{
+              this.loading=false;
               console.log("fail")
               this.userName="userName"
             }
-            this.loading=false;
+            
           })
         }
         catch(e){
@@ -324,6 +328,9 @@ ul li{
     editerInputEventHandler (e) {
       this.inputContent = e.target.innerText.trim()
     },
+    getCookies(a){
+      return this.getCookie(a)
+    }
     //TODO
     //async sendPostBtnClickEventHandler (e) {}
 
