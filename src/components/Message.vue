@@ -29,20 +29,22 @@
   }
  chat-name
  {
-   color: gray;
+   color: #333333;
    margin-left: 2px;
    font-size: 20px;
  }
   chat-content
   {
+    color: #657786;
     margin-left:30px;;
     margin-top: 18px;
-    font-size: 12px;
+    font-size: 15px;
   }
 </style>
 
 <template>
   <div id='root-div'>
+    <scroll height="3000">
     <ElContainer id="middle-container">
       <el-header class='header-left-align'>Message</el-header>
       <Divider/>
@@ -60,6 +62,9 @@
               </a>
           <chat-content>{{contact.content}}</chat-content>
             </div>
+            <div style="position: absolute;left: 1000px;">
+              <Button @click="handleReply">Reply</Button>
+            </div>
             <!--私信文字排版还有问题-->
           </el-container>
           <Divider style="margin-top: 55px; margin-bottom: 2px;width: 100%; "></Divider>
@@ -67,10 +72,8 @@
         </ElContainer>
       </ul>
     </ElContainer>
+    </scroll>
   </div>
-
-
-
 </template>
 <script>
      export default {
@@ -104,8 +107,45 @@
              {
                name:'cc',content:'hibdqoheoiqhioabdajnd,msdawhoi',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'
              }
-           ]
+           ],
+           value:''
          }
-       }
+
+       },
+       methods:
+         {
+           handleReply()
+           {
+             this.$Modal.confirm({
+               render: (h) => {
+                 return h('Input', {
+                   props: {
+                     width:30,
+                     value: this.value,
+                     autofocus: true,
+                     placeholder: 'Reply...',
+                   },
+                   on: {
+                     input: (val) => {
+                       if(val==='')
+                         this.closable();
+                       else
+                       this.value = val;
+                     }
+                   }
+                 })
+               }
+             })
+           },
+     closable () {
+       this.$Message.info({
+         content: 'Please enter your reply',
+         duration: 10,
+         closable: true
+       });
+     }
+         }
+
+
   }
 </script>

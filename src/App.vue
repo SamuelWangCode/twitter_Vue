@@ -28,7 +28,8 @@
 
     </nav>
   </section>
-    <router-view/>
+    <div class="routerView">
+    <router-view/></div>
   </div>
 </template>
 
