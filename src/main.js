@@ -69,13 +69,15 @@ Vue.prototype.getUserPublicInfo = function (user_id)
   if(!checkNumber(user_id)){
     return null;
   }
-  return get("api/User/query/" + user_id);
+  return get("api/User/getUserPublicInfo/" + user_id);
 }
 //register(data : {email, password, nickname})
 Vue.prototype.register = function (data){
-  if(!checkString(data.email, email.password, data.nickname)){
+  console.log("register run")
+  if(!checkString(data.email, data.password, data.nickname)){
     return null;
   }
+  console.log("post ok")
   return post("api/User/signUp", data);
 }
 //signIn(data : {email, password})
