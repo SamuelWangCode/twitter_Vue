@@ -1,4 +1,77 @@
 <style scoped>
+.PostSenderContainer {
+  width:100%;
+  border: 1px solid #e6ecf0;
+  background-color: #E8F5FD;
+  padding: 10px 12px;
+  display: flex;
+}
+
+.UserImg {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 32px;
+  height: 32px;
+  left: 16px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.EditerContainer {
+  position: relative;
+  left: 26px;
+  width: 100%;
+  line-height: 20px;
+}
+
+.Editer {
+  position: relative;
+  width: 90%;
+  color: #1DA1F2;
+  background: #fff;
+  border: 1px solid #C6E7FB;
+  border-radius: 8px;
+  padding: 8px;
+  word-wrap: normal;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  cursor: text;
+}
+
+.Editer:focus {
+  outline: none;
+  height: 100px;
+  max-height: none;
+  word-wrap: break-word;
+  overflow-y: scroll;
+  white-space: normal;
+}
+
+.Editer:empty:focus:before {
+  content: attr(default-txt);
+  display: block;
+  color: #aab8c2;
+  position: relative;
+}
+
+.PostBtn {
+  margin: 5px 200px;
+  border: 1px solid #1da1f2;
+  color: #fff;
+  background-color: #4AB3F4;
+  padding: 2px 12px;
+  font-size: 14px;
+  border-radius: 100px;
+  display: block;
+}
+
+.PostBtn.hide {
+  display: none
+}
+
 ul li{
   list-style-type: none;
 }
@@ -80,8 +153,8 @@ ul li{
   <div id='root-div'>
     <div id=left-container>
     <ElContainer id = 'left-container1' style="background-color:#1DA1F2;">
-       <img src="../assets/timg.jpg" alt="Icon" style="width:100px;height:100px;border-radius:100px; border-width:0.2px;border-style:solid;margin-top:10%;margin-left:10%;">
-       <span style="margin-top:80px;margin-left:20px;font-weight:bold;font-size:20px;">
+       <Avatar :src=address shape="circle" on-error="" size="large" style="height:60px; width:60px; border-radius:50%;margin-left:10%;margin-top:20%;"/>
+       <span style="margin-top:80px;margin-left:10px;font-weight:bold;font-size:20px;">
          UserName
        </span>
        <br><br><br><br><br><br><br><br>
@@ -101,11 +174,15 @@ ul li{
     </div>
     <div id="middle-container">
      <ElContainer  id="middle-container1" >
-       <div style="border-bottom: 1px solid #e6ecf0;width: 100%; background-color:rgb(232,245,253);">
-         <div><img src="../assets/timg.jpg" alt="Icon" style="margin-left:5px;width:30px;height:30px;border-radius:100px; border-width:0.2px;border-style:solid;margin-top:10px;">
-         <Input v-model="value1" placeholder="What's happening?" style="width:80%;margin-top:-15px;margin-left:15px;"/>
-         </div>
-       </div>
+       <div class="PostSenderContainer">
+    <Avatar :src=address shape="circle" on-error="" size="large" />
+    <div class="EditerContainer">
+      <div class="Editer" default-txt="What happens?" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
+        What happens?
+      </div>
+      <button type="button" class="btn PostBtn" :disabled="!inputContent.length" v-if="isEditerFocused" @mousedown="sendPostBtnClickEventHandler">Tweet</button>
+    </div>
+  </div>
      </ElContainer>
      <ElContainer  id="middle-container2" >
        <div style="padding-top:10%;
@@ -136,6 +213,9 @@ ul li{
 <script>
   import ElUploadList from "element-ui/packages/upload/src/upload-list";
   import Caspanel from "iview/src/components/cascader/caspanel";
+  import axios from "axios"
+  import user from "./store/user"
+  axios.defaults.withCredentials = true;
   export default {
     name:'Notifications',
     components: {Caspanel, ElUploadList},
@@ -162,8 +242,58 @@ ul li{
           {name:'百变怪',content:'变身',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
           {name:'小锯鳄',content:'撞击',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
           {name:'果然翁',content:'反弹',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'}
-        ]
+        ],
+        isEditerFocused: false,
+        contentEl: null,
+        inputContent: '',
+        address: "http://localhost:12293/avatars/0"
       }
+    },
+    mounted:function setUserHeadIcon() {
+        try{
+          let userID=user.userID
+          let front="http://localhost:12293"
+          axios.get("http://localhost:12293/api/User/getAvatarImageSrc/{userID}").then(Response=>{
+            console.log(Response)
+          if(Response.data.code==200 && Response.data.message=="success")
+            {
+              this.address = front + Response.data.data
+              console.log(this.address)
+            }
+            else{
+              this.address="http://localhost:12293/avatars/0"
+            }
+          })
+        }
+        catch(e){
+            return {
+          result: false,
+          errMsg: "Can't connect with server"
+        };
+        }
+    },
+    methods:{
+      editerFocusEventHandler (e) {
+      this.isEditerFocused = true
+      this.contentEl = e.target
+
+      if (e.target.innerText.trim() === e.target.getAttribute('default-txt')) {
+        e.target.innerText = ''
+      }
+    },
+    editerBlurEventHandler (e) {
+      this.isEditerFocused = false
+
+      if (!e.target.innerText.trim()) {
+        e.target.innerText = e.target.getAttribute('default-txt')
+      }
+    },
+    editerInputEventHandler (e) {
+      this.inputContent = e.target.innerText.trim()
+    },
+    //TODO
+    //async sendPostBtnClickEventHandler (e) {}
+
     }
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div id="app" >
-    <section>
-    <nav class="navBar" style="z-index: 100000">
+    <section v-if="$route.meta.keepAlive">
+    <nav class="navBar" style="z-index: 1">
      <Menu mode="horizontal" :theme="theme1" active-name="home" style="padding-left:15%;" @on-select="onSelect">
         <MenuItem name="home" v-link="{path: '/'}" key="Home">
             <Icon type="ios-home" size="24"></Icon>
@@ -15,14 +15,15 @@
             <Icon type="ios-mail" size="24"></Icon>
             Message
         </MenuItem>
-        <Select
-            v-model="model13" filterable remote:remote-method="remoteMethod1" :loading="loading1" placeholder="Search in twitter"  not-found-text="no matching result" prefix="ios-search" style="width:400px;">
-            <Option v-for="(option, index) in options1" :value="option.value" :key="index">{{option.label}}</Option>
-        </Select>
         <MenuItem name="personal" v-link="{path: '/Personal'}" key="Personal">
             <Icon type="ios-person" size="24"></Icon>
             Personal
         </MenuItem>
+        <Select
+            v-model="model13" filterable remote:remote-method="remoteMethod1" :loading="loading1" placeholder="Search in twitter"  not-found-text="no matching result" prefix="ios-search" style="width:300px;">
+            <Option v-for="(option, index) in options1" :value="option.value" :key="index">{{option.label}}</Option>
+        </Select>
+        <Button shape="circle" type="error" style="margin-left:20px;" @click="signOut">log out</Button>
     </Menu>
 
     </nav>
@@ -32,6 +33,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+axios.defaults.withCredentials = true;
 export default {
   name: 'App',
 
@@ -50,6 +53,37 @@ export default {
   methods:{
     onSelect (d){
       this.$router.push({path:"/"+ d})
+    },
+    async signOut(){
+      try {
+        console.log("start")
+        axios.get(
+          `http://localhost:12293/api/User/logOut`
+        ).then(Response=>{
+          console.log(Response);
+          if(Response.data.code==200 && Response.data.message=="success")
+          {
+            //成功
+            //this.errHint="Success!";
+            this.$Notice.success({
+              title: 'Log out Success!',
+              desc:''
+            })
+            this.$router.push("/index");
+          }
+          else{
+            this.$Notice.error({
+              title: "Can't connect with server.",
+              desc:''
+            })
+          }
+        });
+      } catch (e) { 
+        return {
+          result: false,
+          errMsg: "Can't connect with server"
+        };
+      }
     }
   },
 }
