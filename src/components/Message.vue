@@ -6,7 +6,8 @@
     position: fixed;
     height: 100%;
     width: 100%;
-    background-color: rgb(230, 236, 240)
+    background-color: rgb(230, 236, 240);
+    overflow: auto;
   }
   #middle-container {
     float:left;
@@ -44,7 +45,7 @@
 
 <template>
   <div id='root-div'>
-    <scroll height="3000">
+    <scroll height="1000">
     <ElContainer id="middle-container">
       <el-header class='header-left-align'>Message</el-header>
       <Divider/>
