@@ -153,8 +153,8 @@ ul li{
   <div id='root-div'>
     <div id=left-container>
     <ElContainer id = 'left-container1' style="background-color:#1DA1F2;">
-       <img src="../assets/timg.jpg" alt="Icon" style="width:100px;height:100px;border-radius:100px; border-width:0.2px;border-style:solid;margin-top:10%;margin-left:10%;">
-       <span style="margin-top:80px;margin-left:20px;font-weight:bold;font-size:20px;">
+       <Avatar :src=address shape="circle" on-error="" size="large" style="height:60px; width:60px; border-radius:50%;margin-left:10%;margin-top:20%;"/>
+       <span style="margin-top:80px;margin-left:10px;font-weight:bold;font-size:20px;">
          UserName
        </span>
        <br><br><br><br><br><br><br><br>
@@ -175,7 +175,7 @@ ul li{
     <div id="middle-container">
      <ElContainer  id="middle-container1" >
        <div class="PostSenderContainer">
-    <img src = "../assets/timg.jpg" class="UserImg">
+    <Avatar :src=address shape="circle" on-error="" size="large" />
     <div class="EditerContainer">
       <div class="Editer" default-txt="What happens?" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
         What happens?
@@ -213,6 +213,9 @@ ul li{
 <script>
   import ElUploadList from "element-ui/packages/upload/src/upload-list";
   import Caspanel from "iview/src/components/cascader/caspanel";
+  import axios from "axios"
+  import user from "./store/user"
+  axios.defaults.withCredentials = true;
   export default {
     name:'Notifications',
     components: {Caspanel, ElUploadList},
@@ -242,8 +245,32 @@ ul li{
         ],
         isEditerFocused: false,
         contentEl: null,
-        inputContent: ''
+        inputContent: '',
+        address: "http://localhost:12293/avatars/0"
       }
+    },
+    mounted:function setUserHeadIcon() {
+        try{
+          let userID=user.userID
+          let front="http://localhost:12293"
+          axios.get("http://localhost:12293/api/User/getAvatarImageSrc/{userID}").then(Response=>{
+            console.log(Response)
+          if(Response.data.code==200 && Response.data.message=="success")
+            {
+              this.address = front + Response.data.data
+              console.log(this.address)
+            }
+            else{
+              this.address="http://localhost:12293/avatars/0"
+            }
+          })
+        }
+        catch(e){
+            return {
+          result: false,
+          errMsg: "Can't connect with server"
+        };
+        }
     },
     methods:{
       editerFocusEventHandler (e) {
