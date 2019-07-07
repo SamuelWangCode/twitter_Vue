@@ -16,6 +16,7 @@ export default {
     this.axios.post("http://api.komavideo.com/news/list").then(body => {
       this.content = body.data
     })
+    
   }
 }
 </script>

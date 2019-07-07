@@ -257,6 +257,13 @@ ul li{
       loadingAnimate
     },
     created(){
+      
+      //测试by 杨紫超
+      //this.getUserPublicInfo(1).then(res=>{console.log("测试：", res)});
+      this.signIn("ccc@qq.com", "123456", "ccc").then(res=>{console.log("测试：", res)});
+
+      //
+
       this.loading=true;
         var userID = this.getCookies("userID")
         console.log(userID)
