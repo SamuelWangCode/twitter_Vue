@@ -1,7 +1,7 @@
 <style scoped>
 .twi-single-div{
     width:100%;
-    background-color: #fff;
+  background-color: #2c3e50;
 }
 
 .twi-left{

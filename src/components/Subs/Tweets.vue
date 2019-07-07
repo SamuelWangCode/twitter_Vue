@@ -12,7 +12,7 @@
     <div class="tweet-items">
         <div v-for="item in items">
             <twiitem v-bind:item="item" class="tweet-items" @likeTwi="like(item)" @collectTwi="collect(item)" @follow="follow(item)"></Twiitem>
-            <p>————————————————————————————————————————————————————————</p>
+            <divider/>
         </div>
     </div>
 </template>
