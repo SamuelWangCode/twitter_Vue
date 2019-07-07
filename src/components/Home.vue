@@ -256,7 +256,7 @@ ul li{
     components:{
       loadingAnimate
     },
-    created(){
+    mounted(){
       this.loading=true;
         var userID = this.getCookies("userID")
         console.log(userID)
@@ -289,6 +289,7 @@ ul li{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
             {
+              this.loading=false;
               this.userName = Response.data.data.nickname
               console.log(this.userName)
             }
@@ -307,7 +308,6 @@ ul li{
           errMsg: "Can't connect with server"
         };
         }
-        this.loading=false;
     },
     methods:{
       editerFocusEventHandler (e) {
