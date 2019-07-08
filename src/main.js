@@ -28,6 +28,7 @@ else return null;
 //删除cookies
 Vue.prototype.delCookie = function (name)
 {
+  console.log('fff')
 var exp = new Date();
 exp.setTime(exp.getTime() - 1);
 var cval=this.getCookie(name);
@@ -64,6 +65,9 @@ function get(url){
 }
 ///////////////////////////////////////////
 //USER
+Vue.prototype.checkLogin = function (){
+  return get("api/User/check_login")
+}
 //getUserPublicInfo
 Vue.prototype.getUserPublicInfo = function (user_id)
 {
@@ -71,6 +75,12 @@ Vue.prototype.getUserPublicInfo = function (user_id)
     return null;
   }
   return get("api/User/getUserPublicInfo/" + user_id);
+}
+//getUserAllInfo
+Vue.prototype.getUserAllInfo = function (){
+  return get(
+    "api/User/getAllUserInfo"
+  );
 }
 //register(data : {email, password, nickname})
 Vue.prototype.register = function (data){
@@ -115,8 +125,13 @@ Vue.prototype.logOut = function (){
 }
 //uploadAvatar(formData)
 // formData : {'file': file}
-Vue.prototype.uploadAvatar = function (formData){
-  return post("api/User/uploadAvatar", formData);
+Vue.prototype.uploadAvatar = function (params,config){
+  return axios
+  .post(
+    "/api/User/uploadAvatar",
+    params,
+    config
+  )
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //RECOMMEND
@@ -219,6 +234,7 @@ Vue.prototype.if_following_by_me = function (be_followed_id){
   if(!checkNumber(be_followed_id)){
     return null;
   }
+  console.log(RELATION + "if_following_by_me/" + be_followed_id)
   return get(RELATION + "if_following_by_me/" + be_followed_id);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -300,8 +316,6 @@ Vue.prototype.queryMessagesOf = function(user_id, startFrom, limitation){
   if(!checkNumber(user_id, startFrom, limitation)){
     return null;
   }
-  startFrom = startFrom || 0;
-  limitation = limitation || 10;
   var data = {
     startFrom : startFrom,
     limitation : limitation

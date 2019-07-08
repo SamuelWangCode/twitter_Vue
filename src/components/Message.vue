@@ -28,17 +28,18 @@ ul li {
   margin-bottom: 10px;
   text-align: left;
 }
-chat-name {
+#chat-name
+{
   color: #333333;
-  margin-left: 2px;
+  margin-left: 10px;
   font-size: 20px;
 }
-chat-content {
-  color: #657786;
+#chat-content {
   margin-left: 30px;
+  color: #657786;
   margin-top: 18px;
   font-size: 15px;
-  width:1000px;
+  width:400px;
 }
 </style>
 
@@ -48,26 +49,30 @@ chat-content {
     <ElContainer id="middle-container">
       <el-header class="header-left-align">Message</el-header>
       <Divider />
-      <ul> 
-        <Scroll :on-reach-bottom="handleReachBottom">
+      <ul>
         <ElContainer id="chat-container"  v-for="contact in contactList"  :key="contact.private_letter_id">
           <el-container>
-            <div>
+            <div style="margin-left: 10px">
               <a>
                 <Avatar
-                  :src="contact.sender_info.avatar_url"
-                  style="margin-top: 10px;margin-left: 15px;margin-bottom: 5px"
+                  :src="contact.avatar_url"
+                  style="margin-top: 10px;margin-left: 15px;margin-bottom: 1px;"
+                  size="large"
                 ></Avatar>
               </a>
             </div>
             <div>
-              <a>
-                <chat-name>{{contact.sender_info.nickname}}</chat-name>
-              </a>
-              <chat-content>{{contact.private_letter_content}}</chat-content>
+              <div id="chat-content">
+              <p style="font-size: 20px;">
+              <a style="color: black">{{contact.nickname}}</a>
+              </p>
+                <p style=" margin-top:2px;font-size: 15px">
+              {{contact.private_letter_content}}
+                </p>
+              </div>
             </div>
-            <div style="left: 1000px">
-              <Button @click="reply=true">Reply</Button>
+            <div style="position: fixed;left: 1100px;margin-top: 10px">
+              <Button style="height: 50%; ;" @click="reply=true">Reply</Button>
             </div>
             <!--私信文字排版还有问题-->
             <!--<Button type="primary" @click="reply=true">reply</Button>-->
@@ -75,9 +80,8 @@ chat-content {
               <input v-model="replycontent" placeholder="Enter yout reply" />
             </Modal>
           </el-container>
-          <Divider style="margin-top: 55px; margin-bottom: 2px;width: 100%; "></Divider>
+          <Divider style="margin-top: 70px; margin-bottom: 15px;width: 100%; "></Divider>
         </ElContainer>
-        </Scroll>
       </ul>
     </ElContainer>
   </div>

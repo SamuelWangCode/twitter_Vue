@@ -191,17 +191,20 @@ ul li{
     /* ----------------------------------------------------------------- */
 </style>
 
-<template>
+<template @click="clickOuter">
   <div id='root-div'>
         <loadingAnimate v-if="loading" style="margin-left:auto;margin-right:auto;margin-top:48px;"/>
+
     <div id=left-container>
-    <ElContainer id = 'left-container1' style="background-color:#1DA1F2;">
+     <ElContainer id = 'left-container1' style="background-color:#1DA1F2;">
        <Avatar v-bind:src=address shape="circle" on-error="" size="large" style="height:60px; width:60px; border-radius:50%;margin-left:10%;margin-top:20%;"/>
        <span style="margin-top:80px;margin-left:10px;font-weight:bold;font-size:20px;">
          {{userName}}
        </span>
        <br><br><br><br><br><br><br><br>
      </ElContainer>
+
+
 
      <ElContainer id = 'left-container2' >
        <el-header class='header-left-align'>Trends for you</el-header>
@@ -217,54 +220,70 @@ ul li{
          </li>
        </ul>
      </ElContainer>
+
+
     </div>
+
     <div id="middle-container">
      <ElContainer  id="middle-container1" >
-       <div class="PostSenderContainer">
-    <Avatar :src=address shape="circle" on-error="" size="large" style="width:32px;height:32px;border-radius:50%"/>
-    <div class="EditerContainer" style="margin-left: 3%">
-      <div class="Editer" default-txt="What happens?" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
-        What happens?
-      </div>
-      <!-----TODO:AddPicture--- ----------------------------------------------->
-      <div style="float:left;" >
-     <div class="demo-upload-list" v-for="item in uploadList">
-        <template>
-            <img :src="item.url">
-            <div class="demo-upload-list-cover">
-                <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
-                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+        
+
+        <div class="PostSenderContainer">
+         <Avatar :src=address shape="circle" on-error="" size="large" style="width:32px;height:32px;border-radius:50%"/>
+          
+          <div class="EditerContainer" style="margin-left: 3%">
+            <!--
+              <div class="Editer" default-txt="What happens?" contenteditable @click.prevent="clickEditor" v-bind:focus="isEditerFocused" @input="editerInputEventHandler">
+                What happens?
+              </div>-->
+            <Input :ref="'editor'" :rows="editor_content.length > 0 ? 6 : 1" v-model="editor_content" type="textarea" placeholder="Enter something..." 
+            @v-bind:focus="isEditerFocused" on-focus="editerFocusEventHandler"  @blur="editerBlurEventHandler" />
+            <!-----TODO:AddPicture--- ----------------------------------------------->
+            
+            <div v-show="editor_content.length > 0" style="float:left;" >
+              <div class="demo-upload-list" v-for="item in uploadList">
+                <template>
+                  <img :src="item.url">
+
+                    <div class="demo-upload-list-cover">
+                      <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
+                      <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                    </div>
+                </template>
+              </div>
+              <Upload 
+                ref="upload"
+                :show-upload-list="false"
+                :on-success="handleSuccess"
+                :format="['jpg','jpeg','png']"
+                :max-size="2048"
+                :on-format-error="handleFormatError"
+                :on-exceeded-size="handleMaxSize"
+                :before-upload="handleBeforeUpload"
+                multiple
+                type="drag"
+                action=""
+                style="display: inline-block;width:58px;">
+                  <div style="width: 58px;height:58px;line-height: 58px;">
+                    <Icon type="ios-camera" size="20"></Icon>
+                  </div>
+              </Upload>
+              <Modal title="View Image" v-model="visible">
+                <img :src="img_preview" v-if="visible" style="width: 100%">
+              </Modal>
             </div>
-        </template>
-    </div>
-    <Upload
-        ref="upload"
-        v-show="isEditerFocused"
-        :show-upload-list="false"
-        :on-success="handleSuccess"
-        :format="['jpg','jpeg','png']"
-        :max-size="2048"
-        :on-format-error="handleFormatError"
-        :on-exceeded-size="handleMaxSize"
-        :before-upload="handleBeforeUpload"
-        multiple
-        type="drag"
-        action=""
-        style="display: inline-block;width:58px;">
-        <div style="width: 58px;height:58px;line-height: 58px;">
-            <Icon type="ios-camera" size="20"></Icon>
+    
+            <!-- sdadasdasdasdsad ---------------------------------------------------------------------------->
+            <Button type="primary" size="large" shape="circle" :disabled="!editor_content.length" v-show="editor_content.length > 0" @click="sendPostBtnClickEventHandler" @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" style="float:left;margin-top:10px;margin-left:200px;">Tweet</button>
+          </div>
+
         </div>
-    </Upload>
-    </div>
-    <Modal title="View Image" v-model="visible">
-        <img :src="img_preview" v-if="visible" style="width: 100%">
-    </Modal>
-    <!-- sdadasdasdasdsad ---------------------------------------------------------------------------->
-      <Button type="primary" size="large" shape="circle" :disabled="!inputContent.length" v-show="isEditerFocused" @click="sendPostBtnClickEventHandler" style="float:left;margin-top:10px;margin-left:200px;">Tweet</button>
-    </div>
-  </div>
+
+
      </ElContainer>
+     
      <ElContainer  id="middle-container2" >
+       <!--
        <div style="padding-top:10%;
        padding-left:20%;
        padding-bottom:10%;
@@ -273,13 +292,18 @@ ul li{
          <span style= "font-size:16px;font-color:#657180;">This empty timeline won’t be around for long. Start following people and you’ll see Tweets show up here.</span>
          <br><br><br>
        </div>
+       -->
+
+      <tweets type="home">
+      </tweets>
+
      </ElContainer>
     </div>
 
       <ElContainer id="right-container" >
         <el-header class="header-left-align">Who to follow</el-header>
         <div class='to-follow-list' v-for="toFollow in toFollowList">
-          <User v-bind:user_id="toFollow"></User>
+          <User v-bind:p_follow_info="toFollow"></User>
         </div>
       </ElContainer>
   </div>
@@ -288,15 +312,20 @@ ul li{
   import ElUploadList from "element-ui/packages/upload/src/upload-list";
   import Caspanel from "iview/src/components/cascader/caspanel";
   import axios from "axios"
+  axios.defaults.withCredentials = true;
   import User from "./Subs/User"
+  import Tweets from "./Subs/Tweets"
   //import user from "./store/user"
   import loadingAnimate from "./animate/loading"
   axios.defaults.withCredentials = true;
   export default {
     name:'Notifications',
-    components: {Caspanel, ElUploadList},
+    components: {
+      "tweets": Tweets
+    },
     data(){
       return{
+        editor_content:"",
         visible:false,
         img_preview:"",
         uploadList: [],
@@ -314,10 +343,6 @@ ul li{
           
         ],
         informationList:[
-          {name:'妙蛙种子',content:'阳光烈焰',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'百变怪',content:'变身',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'小锯鳄',content:'撞击',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'果然翁',content:'反弹',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'}
         ],
         isEditerFocused: false,
         contentEl: null,
@@ -329,6 +354,7 @@ ul li{
       loadingAnimate,User
     },
     mounted(){
+      this.isEditerFocused = true;
       this.loading=true;
       var userID = this.getCookies("userID")
       console.log("登录：", userID)
@@ -336,28 +362,7 @@ ul li{
       //使用cookie
       this.uploadList = this.$refs.upload.fileList;
       
-      console.log(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`)
-        try{ 
-          let front="http://localhost:12293"
-          this.getAvatarImageSrc(userID).then(Response=>{
-            console.log(Response)
-          if(Response.data.code==200 && Response.data.message=="success")
-            {
-              this.address =Response.data.data // /avatars/0.jpg
-              console.log(this.address)
-            }
-            else{
-              this.address="http://localhost:12293/avatars/0.jpg"
-            }
-          })
-        }
-        catch(e){
-            this.loading=false;
-            return {
-          result: false,
-          errMsg: "Can't connect with server"
-        };
-        }
+        
         //nickname
         try{
           console.log(userID)
@@ -393,44 +398,45 @@ ul li{
         this.getRecommendUsers().then(response => {
           console.log("测试getRecommendUsers", response);
           console.log(response.data.data);
-          for(var i=0;i<response.data.data.length;++i){
-            console.log(i);
-            this.toFollowList.push(Number(response.data.data[i].user_id));
-          }
+          this.toFollowList=response.data.data;
           console.log(this.toFollowList)
         });
-    
+        
         
     
     },
     methods:{
+      uploadTapped(){
+        console.log("调用uploadTapped");
+        this.isEditerFocused = true;
+      },
       handleView (url) {
                 this.img_preview = url;
                 this.visible = true;
-            },
-            handleRemove (file) {
+      },
+      handleRemove (file) {
                 const fileList = this.$refs.upload.fileList;
                 this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-            },
-            handleSuccess (res, file) {
+      },
+      handleSuccess (res, file) {
                 file.url = '';
                 file.name = '';
-            },
-            handleFormatError (file) {
+      },
+      handleFormatError (file) {
                 this.$Notice.warning({
                     title: 'The file format is incorrect',
                     desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
                 });
-            },
-            handleMaxSize (file) {
+      },
+      handleMaxSize (file) {
                 this.$Notice.warning({
                     title: 'Exceeding file size limit',
                     desc: 'File  ' + file.name + ' is too large, no more than 2M.'
                 });
-            },
-            handleBeforeUpload (file) {
+      },
+      handleBeforeUpload (file) {
               
-                const check =  this.uploadList.length < 4;
+                const check =  this.$refs.upload.fileList.length < 4;
                 if (!check) {
                     this.$Notice.warning({
                         title: 'Up to four pictures can be uploaded.'
@@ -441,23 +447,24 @@ ul li{
                   reader.readAsDataURL(file) // 这里是最关键的一步，转换就在这里
                   reader.onloadend = function () {
                     file.url = this.result
-                    _this.upload.fileList.push(file);
+                    _this.$refs.upload.fileList.push(file);
                   }
                   
                 }
+                console.log("handleBeforeUpload");
                 return check;
-            },
+      },
       editerFocusEventHandler (e) {
-      this.isEditerFocused = true
-      this.contentEl = e.target
-
-      if (e.target.innerText.trim() === e.target.getAttribute('default-txt')) {
-        e.target.innerText = ''
-      }
-    },
-    editerBlurEventHandler (e) {
+        this.isEditerFocused = true
+        this.contentEl = e.target
+        console.log("Focus");
+        if (e.target.innerText.trim() === e.target.getAttribute('default-txt')) {
+          e.target.innerText = ''
+        }
+      },
+      editerBlurEventHandler (e) {
       this.isEditerFocused = false
-
+      console.log("Blur");
       if (!e.target.innerText.trim()) {
         e.target.innerText = e.target.getAttribute('default-txt')
       }
@@ -482,6 +489,24 @@ ul li{
     async sendPostBtnClickEventHandler (e) {
 
     },
+    sendPostBtnClickEventHandler(){
+      console.log("点击发送推特", this.editor_content, this.uploadList);
+      var formData = new FormData();
+      formData.append("message_content", this.editor_content);
+      formData.append("message_has_image", this.uploadList.length > 0 ? 1 : 0);
+      formData.append("message_image_count", this.uploadList.length);
+      for(let i = 0; i < this.uploadList.length; i++){
+        formData.append("file"+i, this.uploadList[i]);
+      }
+      this.sendMessage(formData).then(response=>{
+        console.log(response);
+        if(response.data.message == "success"){
+          this.editor_content = "";
+          this.uploadList = [];
+        }
+      })
+    }
+    
     }
   }
 </script>
