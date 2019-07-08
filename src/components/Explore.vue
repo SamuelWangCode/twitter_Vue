@@ -60,7 +60,8 @@ export default {
     width:20%;
     float: left;
     height:500px;
-  background-color: white;
+  background-color:  #4AB3F4;
+  color: white;
     border-radius: 4px;
     font-size: 25px;
 }
@@ -80,7 +81,8 @@ export default {
     width:20%;
     float: left;
      height:500px;
-  background-color: white;
+  background-color: #4AB3F4;
+  color: white;
     font-size: 25px;
     border-radius: 4px;
 }
