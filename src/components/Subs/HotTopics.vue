@@ -40,7 +40,7 @@ export default {
 </script>
 <style scoped>
 .topicitems{
-    background-color: rgb(255, 255, 255);
+    background-color: #C6E7FB;
     margin:5px;
 }
 </style>

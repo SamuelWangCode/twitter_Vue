@@ -9,8 +9,9 @@
     text-align: center;
     margin-bottom: 20px;
     border-radius: 10px;
-    background-color: #E0E0E0;
+    background-color: white;
 }
+
 .load-more:hover{
     cursor: pointer;
 }

@@ -303,7 +303,7 @@ ul li{
       <ElContainer id="right-container" >
         <el-header class="header-left-align">Who to follow</el-header>
         <div class='to-follow-list' v-for="toFollow in toFollowList">
-          <User v-bind:user_id="toFollow"></User>
+          <User v-bind:p_follow_info="toFollow"></User>
         </div>
       </ElContainer>
   </div>
@@ -317,7 +317,6 @@ ul li{
   import Tweets from "./Subs/Tweets"
   //import user from "./store/user"
   import loadingAnimate from "./animate/loading"
-
   axios.defaults.withCredentials = true;
   export default {
     name:'Notifications',
@@ -344,10 +343,6 @@ ul li{
           
         ],
         informationList:[
-          {name:'妙蛙种子',content:'阳光烈焰',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'百变怪',content:'变身',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'小锯鳄',content:'撞击',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'果然翁',content:'反弹',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'}
         ],
         isEditerFocused: false,
         contentEl: null,
@@ -367,28 +362,7 @@ ul li{
       //使用cookie
       this.uploadList = this.$refs.upload.fileList;
       
-      console.log(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`)
-        try{ 
-          let front="http://localhost:12293"
-          this.getAvatarImageSrc(userID).then(Response=>{
-            console.log(Response)
-          if(Response.data.code==200 && Response.data.message=="success")
-            {
-              this.address =Response.data.data // /avatars/0.jpg
-              console.log(this.address)
-            }
-            else{
-              this.address="http://localhost:12293/avatars/0.jpg"
-            }
-          })
-        }
-        catch(e){
-            this.loading=false;
-            return {
-          result: false,
-          errMsg: "Can't connect with server"
-        };
-        }
+        
         //nickname
         try{
           console.log(userID)
@@ -424,10 +398,7 @@ ul li{
         this.getRecommendUsers().then(response => {
           console.log("测试getRecommendUsers", response);
           console.log(response.data.data);
-          for(var i=0;i<response.data.data.length;++i){
-            console.log(i);
-            this.toFollowList.push(Number(response.data.data[i].user_id));
-          }
+          this.toFollowList=response.data.data;
           console.log(this.toFollowList)
         });
         

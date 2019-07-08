@@ -1,14 +1,16 @@
 <template>
     <div id="explore">
         <div id="hottopic" >
-            <p>热门话题</p>
+            <p style="margin-top: 15px">热门话题</p>
+          <divider/>
             <hottopics></hottopics>
         </div>
         <div id="tweetitems" >
             <tweets type="home"></tweets>
         </div>
         <div id="recommendusers">
-            <p>推荐关注</p>
+            <p style=" margin-top: 15px">推荐关注</p>
+          <divider/>
             <recommendusers></recommendusers>
         </div>
     </div>
@@ -58,7 +60,8 @@ export default {
     width:20%;
     float: left;
     height:500px;
-  background-color: white;
+  background-color:  #4AB3F4;
+  color: white;
     border-radius: 4px;
     font-size: 25px;
 }
@@ -78,7 +81,8 @@ export default {
     width:20%;
     float: left;
      height:500px;
-  background-color: white;
+  background-color: #4AB3F4;
+  color: white;
     font-size: 25px;
     border-radius: 4px;
 }

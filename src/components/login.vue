@@ -71,6 +71,9 @@ lett.loginEventHandeler();
           console.log(Response);
           if(Response.data.code==200 && Response.data.message=="Sign in success")
           {
+            this.checkLogin().then(Response=>{
+              console.log('aa',Response)
+            })
             //成功
             //this.errHint="Success!";
             this.loading=false
