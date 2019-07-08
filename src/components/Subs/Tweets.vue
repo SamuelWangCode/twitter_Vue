@@ -117,7 +117,7 @@ export default {
             }
             else if(this.type=="search"){
                 this.search(this.info).then(Response=>{
-                    this.twiDatas=Response.data.twitters;
+                    this.twiDatas=Response.data.data.twitters;
                     this.generateData();
                 });
             }
