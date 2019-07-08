@@ -7,7 +7,7 @@ import Personal from '@/components/Personal'
 import index from '@/components/index'
 import login from '@/components/login'
 import register from '@/components/regist'
-import Explore from '@/components/Explore'
+import zoom from '@/components/Zoom'
 
 Vue.use(router)
 
@@ -31,7 +31,7 @@ export default new router({
       }
     },
     {
-      path: '/message', 
+      path: '/message',
       name: 'Message',
       component: Message,
       meta: {
@@ -71,9 +71,9 @@ export default new router({
       }
     },
     {
-      path: '/explore',
-      name: 'explore',
-      component: Explore,
+      path:'/zoom',
+      name:'Zoom',
+      component:zoom,
       meta:{
         keepAlive:true
       }
