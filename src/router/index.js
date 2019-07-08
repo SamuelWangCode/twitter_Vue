@@ -8,6 +8,7 @@ import index from '@/components/index'
 import login from '@/components/login'
 import register from '@/components/regist'
 import zoom from '@/components/Zoom'
+import Explore from '@/components/Explore'
 
 Vue.use(router)
 
@@ -77,7 +78,15 @@ export default new router({
       meta:{
         keepAlive:true
       }
-    }
+    },
+    {
+      path:'/explore',
+      name:'Explore',
+      component:Explore,
+      meta:{
+        keepAlive:true
+      }
+    },
   ]
 })
 
