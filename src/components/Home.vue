@@ -261,8 +261,8 @@ ul li{
     },
     mounted(){
       this.loading=true;
-        var userID = this.getCookies("userID")
-        console.log("登录：", userID)
+      var userID = this.getCookies("userID")
+      console.log("登录：", userID)
       //let userID=user.userID
       //使用cookie
       

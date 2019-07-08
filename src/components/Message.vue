@@ -43,12 +43,18 @@ chat-content {
 
 <template>
   <div id="root-div">
-    <scroll height="1000">
       <ElContainer id="middle-container">
         <el-header class="header-left-align">Message</el-header>
         <Divider />
         <ul>
-
+          <Button type="primary" @click="reply=true">reply</Button>
+          <Modal
+            v-model="reply"
+            title="Reply:"
+            @on-ok="ok"
+            @on-cancel="cancel">
+            <input v-model="replycontent"  placeholder="Enter yout reply">
+          </Modal>
 
           <ElContainer id="chat-container" v-for="contact in contactList">
             <el-container>
@@ -77,7 +83,6 @@ chat-content {
 
         </ul>
       </ElContainer>
-    </scroll>
   </div>
 </template>
 <script>
@@ -85,21 +90,12 @@ export default {
   name: "Message",
   data() {
     return {
-      contactList: [
-        
-      ],
-      value: ""
+      reply:false,
+      replycontent:''
     };
   },
-  mounted(){
-    this.queryForMe(0, 10).then(response=>{
-      console.log("测试获取私信列表", response);
-      this.contactList = response.data.data;
-      
-    });
-  },
-
   methods: {
+<<<<<<< HEAD
     handleReply() {
       this.$Modal.confirm({
         render: h => {
@@ -115,9 +111,6 @@ export default {
                 if (val === "") this.closable();
                 else this.value = val;
               },
-              ok: val=>{
-                console.log(val);
-              }
             }
           });
         },
@@ -127,6 +120,12 @@ export default {
 
     },
     closable() {
+=======
+    ok()
+    {
+      this.$Message.info('hello');
+},  closable() {
+>>>>>>> b5782db4c0df5d487d0134d1cb325c82350820e3
       this.$Message.info({
         content: "Please enter your reply",
         duration: 10,
@@ -134,5 +133,5 @@ export default {
       });
     }
   }
-};
+}
 </script>
