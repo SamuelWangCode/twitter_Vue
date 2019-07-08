@@ -247,7 +247,7 @@ ul li{
         isEditerFocused: false,
         contentEl: null,
         inputContent: '',
-        address: "http://localhost:12293/avatars/0.jpg",
+        address: "/avatars/0.jpg",
       }
     },
     components:{
@@ -261,28 +261,8 @@ ul li{
       //使用cookie
       
       
-      console.log(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`)
-        try{ 
-          let front="http://localhost:12293"
-          this.getAvatarImageSrc(userID).then(Response=>{
-            console.log(Response)
-          if(Response.data.code==200 && Response.data.message=="success")
-            {
-              this.address = front + Response.data.data // /avatars/0.jpg
-              console.log(this.address)
-            }
-            else{
-              this.address="http://localhost:12293/avatars/0.jpg"
-            }
-          })
-        }
-        catch(e){
-            this.loading=false;
-            return {
-          result: false,
-          errMsg: "Can't connect with server"
-        };
-        }
+      console.log(`/api/User/getAvatarImageSrc/${userID}`)
+        
         //nickname
         try{
           console.log(userID)
@@ -291,7 +271,8 @@ ul li{
           if(Response.data.code==200 && Response.data.message=="success")
             {
               this.loading=false;
-              this.userName = Response.data.data.nickname
+              this.userName = Response.data.data.nickname;
+              this.address=Response.data.data.avatar_url;
               console.log(this.userName)
             }
             else{
