@@ -152,7 +152,7 @@
                         
         </div>
         <div class="twi-text">
-            {{item.message_content}}
+            <twitextblock></twitextblock>
         </div>
         
         <imagehandler class="img-handler" :imgData="item.message_image_urls" :twiId="item.message_id"></imagehandler>
@@ -178,6 +178,8 @@ import CollectionButton from "./CollectionButton"
 import CommentBlock from "./CommentBlock"
 import UserMessage from './UserMessage'
 import BlockUser from './BlockUser'
+import TwiTextBlock from './TwiTextBlock'
+
 export default {
     name:'twitter-items',
     props:{
@@ -286,6 +288,7 @@ export default {
         "commentblock":CommentBlock,
         "usermessage":UserMessage,
         "blockuser":BlockUser,
-    }
+        "twitextblock":TwiTextBlock,
+    },
 }
 </script>
