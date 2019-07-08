@@ -314,15 +314,13 @@ ul li{
   import axios from "axios"
   axios.defaults.withCredentials = true;
   import User from "./Subs/User"
-  import Tweets from "./Subs/Tweets"
   //import user from "./store/user"
   import loadingAnimate from "./animate/loading"
+  import Tweets from "./Subs/Tweets"
   axios.defaults.withCredentials = true;
   export default {
-    name:'Notifications',
-    components: {
-      "tweets": Tweets
-    },
+    name:'Home',
+    
     data(){
       return{
         editor_content:"",
@@ -351,7 +349,8 @@ ul li{
       }
     },
     components:{
-      loadingAnimate,User
+      loadingAnimate,User,
+      "tweets":Tweets,
     },
     mounted(){
       this.isEditerFocused = true;
