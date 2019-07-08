@@ -138,7 +138,7 @@ export default {
   },
   mounted(){
     console.log("搜索码为,", this.searchKey)
-    this.search(this.searchKey).then(response=>{
+    this.search(this.$route.query.searchKey).then(response=>{
           console.log("测试topics", response);
           this.topics = response.data.data.topics;
           this.users = response.data.data.users;

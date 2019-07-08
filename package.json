@@ -15,7 +15,8 @@
     "iview": "3.4.0-rc.1",
     "vue": "^2.5.2",
     "vue-axios": "2.1.4",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-star": "^0.0.4"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
