@@ -115,9 +115,6 @@ export default {
                 if (val === "") this.closable();
                 else this.value = val;
               },
-              ok: val=>{
-                console.log(val);
-              }
             }
           });
         },
