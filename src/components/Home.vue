@@ -163,7 +163,7 @@ ul li{
         overflow: hidden;
         background: #fff;
         position: relative;
-        box-shadow: 0 1px 1px rgba(0,0,0,.2);
+        box-shadow: 0 1px 1px rgba(0,0,0,0.2);
         margin-right: 4px;
     }
     .demo-upload-list img{
@@ -222,11 +222,12 @@ ul li{
      <ElContainer  id="middle-container1" >
        <div class="PostSenderContainer">
     <Avatar :src=address shape="circle" on-error="" size="large" style="width:32px;height:32px;border-radius:50%"/>
-    <div class="EditerContainer">
+    <div class="EditerContainer" style="margin-left: 3%">
       <div class="Editer" default-txt="What happens?" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
         What happens?
       </div>
       <!-----TODO:AddPicture--- ----------------------------------------------->
+      <div style="float:left;" >
      <div class="demo-upload-list" v-for="item in uploadList">
         <template>
             <img :src="item.url">
@@ -238,6 +239,7 @@ ul li{
     </div>
     <Upload
         ref="upload"
+        v-show="isEditerFocused"
         :show-upload-list="false"
         :on-success="handleSuccess"
         :format="['jpg','jpeg','png']"
@@ -253,11 +255,12 @@ ul li{
             <Icon type="ios-camera" size="20"></Icon>
         </div>
     </Upload>
+    </div>
     <Modal title="View Image" v-model="visible">
         <img :src="img_preview" v-if="visible" style="width: 100%">
     </Modal>
     <!-- sdadasdasdasdsad ---------------------------------------------------------------------------->
-      <Button type="primary" shape="circle" :disabled="!inputContent.length" v-if="isEditerFocused" @click="sendPostBtnClickEventHandler" style="float:left;margin-top:10px;margin-left:300px;">Tweet</button>
+      <Button type="primary" size="large" shape="circle" :disabled="!inputContent.length" v-show="isEditerFocused" @click="sendPostBtnClickEventHandler" style="float:left;margin-top:10px;margin-left:200px;">Tweet</button>
     </div>
   </div>
      </ElContainer>
@@ -269,7 +272,6 @@ ul li{
          <span style= "font-weight:bold;font-size:26px;">What? No Tweets yet?</span><br>
          <span style= "font-size:16px;font-color:#657180;">This empty timeline won’t be around for long. Start following people and you’ll see Tweets show up here.</span>
          <br><br><br>
-         <Button type="primary" shape="circle"><span style="font-weight:bold;">Find people to follow</span></Button>
        </div>
      </ElContainer>
     </div>
@@ -277,7 +279,7 @@ ul li{
       <ElContainer id="right-container" >
         <el-header class="header-left-align">Who to follow</el-header>
         <div class='to-follow-list' v-for="toFollow in toFollowList">
-          <User v-bind:p_follow_info="toFollow"></User>
+          <User v-bind:user_id="toFollow"></User>
         </div>
       </ElContainer>
   </div>
@@ -320,7 +322,7 @@ ul li{
         isEditerFocused: false,
         contentEl: null,
         inputContent: '',
-        address: "/avatars/0.jpg",
+        address: "http://localhost:12293/avatars/0.jpg",
       }
     },
     components:{
@@ -334,8 +336,28 @@ ul li{
       //使用cookie
       this.uploadList = this.$refs.upload.fileList;
       
-      console.log(`/api/User/getAvatarImageSrc/${userID}`)
-        
+      console.log(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`)
+        try{ 
+          let front="http://localhost:12293"
+          this.getAvatarImageSrc(userID).then(Response=>{
+            console.log(Response)
+          if(Response.data.code==200 && Response.data.message=="success")
+            {
+              this.address =Response.data.data // /avatars/0.jpg
+              console.log(this.address)
+            }
+            else{
+              this.address="http://localhost:12293/avatars/0.jpg"
+            }
+          })
+        }
+        catch(e){
+            this.loading=false;
+            return {
+          result: false,
+          errMsg: "Can't connect with server"
+        };
+        }
         //nickname
         try{
           console.log(userID)
@@ -344,8 +366,7 @@ ul li{
           if(Response.data.code==200 && Response.data.message=="success")
             {
               this.loading=false;
-              this.userName = Response.data.data.nickname;
-              this.address=Response.data.data.avatar_url;
+              this.userName = Response.data.data.nickname
               console.log(this.userName)
             }
             else{
@@ -372,7 +393,10 @@ ul li{
         this.getRecommendUsers().then(response => {
           console.log("测试getRecommendUsers", response);
           console.log(response.data.data);
-          this.toFollowList=response.data.data;
+          for(var i=0;i<response.data.data.length;++i){
+            console.log(i);
+            this.toFollowList.push(Number(response.data.data[i].user_id));
+          }
           console.log(this.toFollowList)
         });
     
@@ -417,7 +441,7 @@ ul li{
                   reader.readAsDataURL(file) // 这里是最关键的一步，转换就在这里
                   reader.onloadend = function () {
                     file.url = this.result
-                    _this.uploadList.push(file);
+                    _this.upload.fileList.push(file);
                   }
                   
                 }
@@ -449,7 +473,12 @@ ul li{
       console.log("测试点击 topic_id:", topic.topic_id);
       //TODO 点击热点之后跳转
     },
-    
+    tapRecommendUser(visitor_id){
+      console.log("测试点击推荐用户 visitor_id", visitor_id);
+      //TODO 跳转
+      this.$router.push({ path: '/Zoom', query: { visitor_id: visitor_id }});
+
+    },
     async sendPostBtnClickEventHandler (e) {
 
     },
