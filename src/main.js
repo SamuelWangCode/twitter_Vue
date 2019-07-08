@@ -54,12 +54,13 @@ function checkString(){
 function post(url, data){
   return axios({
     method: "POST",
-    url: "http://localhost:12293/" + url,
+    //url: "http://localhost:12293/" + url,
+    url: url,
     data: data,
   })
 }
 function get(url){
-  return axios.get("http://localhost:12293/" + url);
+  return axios.get(url);
 }
 ///////////////////////////////////////////
 //USER

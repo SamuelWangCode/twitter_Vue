@@ -155,7 +155,7 @@ ul li{
         <loadingAnimate v-if="loading" style="margin-left:auto;margin-right:auto;margin-top:48px;"/>
     <div id=left-container>
     <ElContainer id = 'left-container1' style="background-color:#1DA1F2;">
-       <Avatar :src=address shape="circle" on-error="" size="large" style="height:60px; width:60px; border-radius:50%;margin-left:10%;margin-top:20%;"/>
+       <Avatar v-bind:src=address shape="circle" on-error="" size="large" style="height:60px; width:60px; border-radius:50%;margin-left:10%;margin-top:20%;"/>
        <span style="margin-top:80px;margin-left:10px;font-weight:bold;font-size:20px;">
          {{userName}}
        </span>
@@ -258,7 +258,7 @@ ul li{
     mounted(){
       this.loading=true;
         var userID = this.getCookies("userID")
-        console.log(userID)
+        console.log("登录：", userID)
       //let userID=user.userID
       //使用cookie
       
@@ -270,7 +270,7 @@ ul li{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
             {
-              this.address = front + Response.data.data
+              this.address = Response.data.data // /avatars/0.jpg
               console.log(this.address)
             }
             else{
@@ -361,7 +361,7 @@ ul li{
     tapRecommendUser(visitor_id){
       console.log("测试点击推荐用户 visitor_id", visitor_id);
       //TODO 跳转
-      this.$router.push({ path: '/news', query: { userId: 123 }});
+      this.$router.push({ path: '/Zoom', query: { visitor_id: visitor_id }});
     }
 
     }
