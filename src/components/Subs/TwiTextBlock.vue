@@ -61,13 +61,18 @@ export default {
             console.log("去的话题id是",topicId);
         },
         solveText(){
-            
             //保存找到的topic和at的字符串的索引位置
             let index=[];
             //查找fullText的topic子字符串
             if (this.topics!=null){
+                //设置辅助数组判断这个起始位置是否被使用，如果使用则在这个位置+1开始找下一个
+                let startArr=[];
                 for (let i=0;i<this.topics.length;i++){
                     let start = this.fullText.indexOf(this.topics[i].topicName);//获得字符串的开始位置
+                    while(startArr.indexOf(start)>=0){
+                        start= this.fullText.indexOf(this.topics[i].topicName,start+1);
+                    }
+                    startArr.push(start);
                     //index中加入对象，type保存是topic话题还是at还是normal普通内容，s是开始位置，l长度，id是at的或topic的id
                     index.push({type:"topic",id:this.topics[i].topicId,s:start,l:this.topics[i].topicName.length});
                 }
@@ -75,9 +80,14 @@ export default {
 
             if (this.ats!=null){
             //查找at子字符串
+                let startArr=[];
                 for (let i=0;i<this.ats.length;i++){
                     let start = this.fullText.indexOf(this.ats[i].atName);//获得字符串的开始位置
-                    index.push({type:"at",id:this.ats[i].atId,s:start,l:this.ats[i].atName.length});
+                    while(startArr.indexOf(start)>=0){
+                        start= this.fullText.indexOf(this.ats[i].atName,start+1);
+                    }
+                    startArr.push(start);
+                    index.push({type:"at",id:this.ats[i].atIds,s:start,l:this.ats[i].atName.length});
                 }
             }
 
@@ -91,7 +101,7 @@ export default {
                     }
                 }
             }
-            //console.log("排序后的推文",index);
+            console.log("排序后的推文",index);
 
             //把所有内容加入textArr
             //如果有at或者topic，即index不为空
@@ -133,7 +143,7 @@ export default {
                         this.textArr.push({type:"topic",id:index[i].id,content:tempNormalStr});
                     }
                 }
-                //console.log("最后的数组",this.textArr);
+                console.log("最后的数组",this.textArr);
 
             }
             //如果没有那就一个普通文字
