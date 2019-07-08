@@ -155,21 +155,17 @@
             {{item.message_content}}
         </div>
         
-        
-            <imagehandler class="img-handler" :imgData="item.message_image_urls" :twiId="item.message_id"></imagehandler>
+        <imagehandler class="img-handler" :imgData="item.message_image_urls" :twiId="item.message_id"></imagehandler>
 
-        </div>
-                
-                <collectionbutton class="collection-button" @collectTwi="collect()" v-bind:twiId="item.message_id" :collectByUser="item.collectByUser"></collectionbutton>
-                <commentbutton class="comment-button" @showComment="showComment()" v-bind:commentsNum="item.message_comment_num" :twiId="item.message_id"></commentbutton>
-                <sharebutton class="share-button" v-bind:shareNum="item.message_transpond_num" :twiId="item.message_id"></sharebutton>
-                <likebutton class="like-button" @likeTwi="like()" v-bind:likeByUser="item.likeByUser" v-bind:likesNum="item.message_agree_num" :twiId="item.message_id"></likebutton>
-
-        <commentblock class="comment-block" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
-
-
-        
     </div>
+    <collectionbutton class="collection-button" @collectTwi="collect()" v-bind:twiId="item.message_id" :collectByUser="item.collectByUser"></collectionbutton>
+    <commentbutton class="comment-button" @showComment="showComment()" v-bind:commentsNum="item.message_comment_num" :twiId="item.message_id"></commentbutton>
+    <sharebutton class="share-button" v-bind:shareNum="item.message_transpond_num" :twiId="item.message_id"></sharebutton>
+    <likebutton class="like-button" @likeTwi="like()" v-bind:likeByUser="item.likeByUser" v-bind:likesNum="item.message_agree_num" :twiId="item.message_id"></likebutton>
+
+    <commentblock class="comment-block" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
+
+</div>
 </template>
 
 <script>
@@ -214,7 +210,6 @@ export default {
                 this.getComment();
             }
             this.ifShowComment=!this.ifShowComment;
-            console.log(this.comments);
         },
         //关注谁谁
         follow(){
@@ -247,23 +242,13 @@ export default {
         },
         like(){
             this.$emit('likeTwi');
-            console.log(22);
         },
         collect(){
             this.$emit('collectTwi');
         },
-        //发私信
-        sendMessage(item){
-            console.log("私信");
-
-        },
         //删除自己的推特
         delTwi(item){
             console.log("删除",item.message_content);
-        },
-        //拉黑用户
-        blockUser(item){
-            console.log("拉黑",item.message_sender_user_id);
         },
         getComment(){
             let commStr=['{"commid":1,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊哦","time":"2019-4-3 19:40"}',
@@ -289,7 +274,6 @@ export default {
         }
     },
     created(){
-        console.log("this.item",this.item);
     },
     beforeMount() {
     },

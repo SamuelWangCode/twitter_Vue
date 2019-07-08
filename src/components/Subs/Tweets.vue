@@ -131,22 +131,16 @@ export default {
                         //this.item[i].userInfo=JSON.parse(Response.data);
                     }
                 });
+                //如果是被转发的推特就取原推特
+                if (this.item[i+twiCount].meesage_is_transpond){
+
+                }
+                //并且取被转发推特的
             }
             //完成加入后清空twiDatas，必须有，否则验证出错
             this.twiDatas="";
             //console.log("asdads",this.items[0]);
         },
-
-        like(item){
-            item.likeByUser=!item.likeByUser;
-            console.log("ok");
-        },
-        collect(item){
-            item.collectByUser=!item.collectByUser;
-        },
-        follow(item){
-            item.followByUser=!item.followByUser;
-        }
     },
     created(){
         this.twiDatas=['{"message_transpond_message_id":4,"message_is_transpond":1,"message_sender_user_id":2,"message_id":1,"message_create_time":"2019-10-3","message_content":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg"],"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}',
