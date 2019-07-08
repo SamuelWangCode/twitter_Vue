@@ -43,46 +43,39 @@ chat-content {
 
 <template>
   <div id="root-div">
-      <ElContainer id="middle-container">
-        <el-header class="header-left-align">Message</el-header>
-        <Divider />
-        <ul>
-          <Button type="primary" @click="reply=true">reply</Button>
-          <Modal
-            v-model="reply"
-            title="Reply:"
-            @on-ok="ok"
-            @on-cancel="cancel">
-            <input v-model="replycontent"  placeholder="Enter yout reply">
-          </Modal>
-
-          <ElContainer id="chat-container" v-for="contact in contactList">
-            <el-container>
-              <div>
-                <a>
-                  <Avatar
-                    :src="contact.sender_info.avatar_url"
-                    style="margin-top: 10px;margin-left: 15px;margin-bottom: 5px"
-                  ></Avatar>
-                </a>
-              </div>
-              <div>
-                <a>
-                  <chat-name>{{contact.sender_info.nickname}}</chat-name>
-                </a>
-                <chat-content>{{contact.private_letter_content}}</chat-content>
-              </div>
-              <div style="position: absolute;left: 1000px;">
-                <Button @click="handleReply">Reply</Button>
-              </div>
-              <!--私信文字排版还有问题-->
-            </el-container>
-            <Divider style="margin-top: 55px; margin-bottom: 2px;width: 100%; "></Divider>
-          </ElContainer>
-
-
-        </ul>
-      </ElContainer>
+    <ElContainer id="middle-container">
+      <el-header class="header-left-align">Message</el-header>
+      <Divider />
+      <ul>
+        <ElContainer id="chat-container"  v-for="contact in contactList"  :key="contact.private_letter_id">
+          <el-container>
+            <div>
+              <a>
+                <Avatar
+                  :src="contact.sender_info.avatar_url"
+                  style="margin-top: 10px;margin-left: 15px;margin-bottom: 5px"
+                ></Avatar>
+              </a>
+            </div>
+            <div>
+              <a>
+                <chat-name>{{contact.sender_info.nickname}}</chat-name>
+              </a>
+              <chat-content>{{contact.private_letter_content}}</chat-content>
+            </div>
+            <div style="position: absolute;left: 1000px;">
+              <Button @click="handleReply">Reply</Button>
+            </div>
+            <!--私信文字排版还有问题-->
+            <Button type="primary" @click="reply=true">reply</Button>
+            <Modal  v-model="reply" title="Reply:" @on-ok="ok(contact.private_letter_id)" @on-cancel="cancel">
+              <input v-model="replycontent" placeholder="Enter yout reply" />
+            </Modal>
+          </el-container>
+          <Divider style="margin-top: 55px; margin-bottom: 2px;width: 100%; "></Divider>
+        </ElContainer>
+      </ul>
+    </ElContainer>
   </div>
 </template>
 <script>
@@ -90,42 +83,25 @@ export default {
   name: "Message",
   data() {
     return {
-      reply:false,
-      replycontent:''
+      reply: false,
+      replycontent: "",
+      contactList: []
     };
   },
+  mounted(){
+    this.queryForMe(0, 10).then(response=>{
+      this.contactList = response.data.data;
+    })
+  },
   methods: {
-<<<<<<< HEAD
-    handleReply() {
-      this.$Modal.confirm({
-        render: h => {
-          return h("Input", {
-            props: {
-              width: 30,
-              value: this.value,
-              autofocus: true,
-              placeholder: "Reply..."
-            },
-            on: {
-              input: val => {
-                if (val === "") this.closable();
-                else this.value = val;
-              },
-            }
-          });
-        },
-      });
-
-
+    ok(private_letter_id) {
+      this.$Message.info("hello");
+      console.log(this.replycontent, private_letter_id);
+    },
+    cancel(){
 
     },
     closable() {
-=======
-    ok()
-    {
-      this.$Message.info('hello');
-},  closable() {
->>>>>>> b5782db4c0df5d487d0134d1cb325c82350820e3
       this.$Message.info({
         content: "Please enter your reply",
         duration: 10,
@@ -133,5 +109,5 @@ export default {
       });
     }
   }
-}
+};
 </script>
