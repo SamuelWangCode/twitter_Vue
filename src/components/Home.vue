@@ -184,7 +184,9 @@ ul li{
       <div class="Editer" default-txt="What happens?" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
         What happens?
       </div>
-      <button type="button" class="btn PostBtn" :disabled="!inputContent.length" v-if="isEditerFocused" @mousedown="sendPostBtnClickEventHandler">Tweet</button>
+      <!-----TODO:AddPicture--- -->
+
+      <Button type="primary" shape="circle" :disabled="!inputContent.length" v-if="isEditerFocused" @click="sendPostBtnClickEventHandler" style="margin-top:10px;">Tweet</button>
     </div>
   </div>
      </ElContainer>
@@ -193,7 +195,7 @@ ul li{
        padding-left:20%;
        padding-bottom:10%;
        padding-right:20%;">
-         <span style= "font-weight:bold;font-size:32px;">What? No Tweets yet?</span>
+         <span style= "font-weight:bold;font-size:26px;">What? No Tweets yet?</span><br>
          <span style= "font-size:16px;font-color:#657180;">This empty timeline won’t be around for long. Start following people and you’ll see Tweets show up here.</span>
          <br><br><br>
          <Button type="primary" shape="circle"><span style="font-weight:bold;">Find people to follow</span></Button>
@@ -288,7 +290,6 @@ ul li{
         //nickname
         try{
           console.log(userID)
-          console.log(`http://localhost:12293/api/User/query/${userID}`)
           this.getUserPublicInfo(userID).then(Response=>{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
@@ -352,8 +353,7 @@ ul li{
     getCookies(a){
       return this.getCookie(a)
     },
-    //TODO
-    //async sendPostBtnClickEventHandler (e) {}
+
     tapTopic(topic){
       console.log("测试点击 topic_id:", topic.topic_id);
       //TODO 点击热点之后跳转
@@ -362,8 +362,11 @@ ul li{
       console.log("测试点击推荐用户 visitor_id", visitor_id);
       //TODO 跳转
       this.$router.push({ path: '/Zoom', query: { visitor_id: visitor_id }});
-    }
 
+    },
+    async sendPostBtnClickEventHandler (e) {
+
+    },
     }
   }
 </script>

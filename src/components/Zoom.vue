@@ -78,8 +78,6 @@
     height:60px;
     font-size:30px;
     font-weight: bold;
-    font-family: "Times New Roman";
-    font-color:black;
   }
 
   #selfIntroduction-container{
