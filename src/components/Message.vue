@@ -38,15 +38,18 @@ chat-content {
   margin-left: 30px;
   margin-top: 18px;
   font-size: 15px;
+  width:1000px;
 }
 </style>
 
 <template>
+
   <div id="root-div">
     <ElContainer id="middle-container">
       <el-header class="header-left-align">Message</el-header>
       <Divider />
-      <ul>
+      <ul> 
+        <Scroll :on-reach-bottom="handleReachBottom">
         <ElContainer id="chat-container"  v-for="contact in contactList"  :key="contact.private_letter_id">
           <el-container>
             <div>
@@ -63,40 +66,46 @@ chat-content {
               </a>
               <chat-content>{{contact.private_letter_content}}</chat-content>
             </div>
-            <div style="position: absolute;left: 1000px;">
-              <Button @click="handleReply">Reply</Button>
+            <div style="left: 1000px">
+              <Button @click="reply=true">Reply</Button>
             </div>
             <!--私信文字排版还有问题-->
-            <Button type="primary" @click="reply=true">reply</Button>
-            <Modal  v-model="reply" title="Reply:" @on-ok="ok(contact.private_letter_id)" @on-cancel="cancel">
+            <!--<Button type="primary" @click="reply=true">reply</Button>-->
+            <Modal  v-model="reply" title="Reply:" @on-ok="ok(contact.private_letter_id, contact.private_letter_sender_id)" @on-cancel="cancel">
               <input v-model="replycontent" placeholder="Enter yout reply" />
             </Modal>
           </el-container>
           <Divider style="margin-top: 55px; margin-bottom: 2px;width: 100%; "></Divider>
         </ElContainer>
+        </Scroll>
       </ul>
     </ElContainer>
   </div>
+
 </template>
 <script>
 export default {
   name: "Message",
   data() {
     return {
+      pageNum: 1,
       reply: false,
       replycontent: "",
       contactList: []
     };
   },
   mounted(){
-    this.queryForMe(0, 10).then(response=>{
+    this.queryForMe(1, 10).then(response=>{
       this.contactList = response.data.data;
-    })
+    });
   },
   methods: {
-    ok(private_letter_id) {
+    ok(private_letter_sender_id) {
       this.$Message.info("hello");
-      console.log(this.replycontent, private_letter_id);
+      console.log(this.replycontent, private_letter_sender_id);
+      this.sendPrivateLetter(private_letter_sender_id, this.replycontent).then(response=>{
+        console.log("发送", response);
+      });
     },
     cancel(){
 
@@ -107,6 +116,17 @@ export default {
         duration: 10,
         closable: true
       });
+    },
+    handleReachBottom(){
+      console.log("加载到底部")
+      if(this.contactList.length < this.pageNum * 10){
+        return null;
+      }else{
+        return this.queryForMe(this.pageNum*10 + 1, (this.pageNum+1)*10).then(response=>{
+          this.contactList = this.contactList.concat(response.data.data);
+          this.pageNum += 1;
+        })
+      } 
     }
   }
 };

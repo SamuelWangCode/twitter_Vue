@@ -142,10 +142,14 @@ Vue.prototype.getRecommendUsers = function(){
 //SEARCH
 //search(searchKey)
 Vue.prototype.search = function(searchKey){
+  var data = {
+    startFrom: 1,
+    limitation: 10
+  }
   if(!checkString(searchKey)){
     return null;
   }
-  return get("api/Search/" + searchKey);
+  return post("api/Search/" + searchKey, data);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
