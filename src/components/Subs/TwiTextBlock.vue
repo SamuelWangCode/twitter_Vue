@@ -101,7 +101,7 @@ export default {
                     }
                 }
             }
-            console.log("排序后的推文",index);
+            //console.log("排序后的推文",index);
 
             //把所有内容加入textArr
             //如果有at或者topic，即index不为空
@@ -143,7 +143,7 @@ export default {
                         this.textArr.push({type:"topic",id:index[i].id,content:tempNormalStr});
                     }
                 }
-                console.log("最后的数组",this.textArr);
+                //console.log("最后的数组",this.textArr);
 
             }
             //如果没有那就一个普通文字
@@ -154,8 +154,8 @@ export default {
         }
     },
     created(){
-        console.log("fulltext",this.fullText);
-        console.log("this.ats",this.ats);
+        //console.log("fulltext",this.fullText);
+        //console.log("this.ats",this.ats);
         this.solveText();
         
     },

@@ -76,6 +76,12 @@ Vue.prototype.getUserPublicInfo = function (user_id)
   }
   return get("api/User/getUserPublicInfo/" + user_id);
 }
+//getUserAllInfo
+Vue.prototype.getUserAllInfo = function (){
+  return get(
+    "api/User/getAllUserInfo"
+  );
+}
 //register(data : {email, password, nickname})
 Vue.prototype.register = function (data){
   console.log("register run")

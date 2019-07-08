@@ -24,6 +24,45 @@
   size: 20px;
   border-radius: 100px;
 }
+
+/* -------------------------------------------------------------------------------- */
+.demo-upload-list {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+  position: relative;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  margin-right: 4px;
+}
+.demo-upload-list img {
+  width: 100%;
+  height: 100%;
+}
+.demo-upload-list-cover {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+.demo-upload-list:hover .demo-upload-list-cover {
+  display: block;
+}
+.demo-upload-list-cover i {
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 0 2px;
+}
+/* ----------------------------------------------------------------- */
 </style>
 
 <template>
@@ -44,6 +83,7 @@
                 <br />
                 <!--头像更改-->
 
+                <!--
                 <FormItem label="Avatar: ">
                   <div class="uploadBox">
                     <div class="img_preview">
@@ -52,7 +92,38 @@
                     <input type="file" ref="file" @change="getFile" id="avatar" />
                     <Icon type="ios-plus-empty" class="uploadIcon"></Icon>
                   </div>
-                </FormItem>
+                </FormItem>-->
+
+                <div class="demo-upload-list" v-for="item in uploadList">
+                  <template>
+                    <img :src="item.url" />
+                    <div class="demo-upload-list-cover">
+                      <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
+                      <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                    </div>
+                  </template>
+                </div>
+                <Upload
+                  ref="upload"
+                  :show-upload-list="false"
+                  :on-success="handleSuccess"
+                  :format="['jpg','jpeg','png']"
+                  :max-size="2048"
+                  :on-format-error="handleFormatError"
+                  :on-exceeded-size="handleMaxSize"
+                  :before-upload="handleBeforeUpload"
+                  multiple
+                  type="drag"
+                  action
+                  style="display: inline-block;width:58px;"
+                >
+                  <div style="width: 58px;height:58px;line-height: 58px;">
+                    <Icon type="ios-camera" size="20"></Icon>
+                  </div>
+                </Upload>
+                <Modal title="View Image" v-model="visible">
+                  <img :src="img_preview" v-if="visible" style="width: 100%" />
+                </Modal>
 
                 <!--账号名称更改-->
                 <FormItem label="Alias" prop="alias">
@@ -180,6 +251,9 @@ export default {
       }, 1000);
     };
     return {
+      uploadList: [],
+      visible: false,
+      img_preview: "",
       img_src: "http://localhost:12293/avatars/0.jpg",
       defaultList: [
         {
@@ -256,7 +330,7 @@ export default {
         alias: "",
         name: "",
         gender: "",
-        des: ""
+        desc: ""
       },
       ruleValidate: {
         alias: [
@@ -284,14 +358,6 @@ export default {
         gender: [
           { required: true, message: "Please select gender", trigger: "change" }
         ],
-        birthday: [
-          {
-            required: true,
-            type: "date",
-            message: "Please select the date",
-            trigger: "change"
-          }
-        ],
         desc: [
           {
             required: true,
@@ -300,8 +366,8 @@ export default {
           },
           {
             type: "string",
-            min: 20,
-            message: "Introduction no less than 20 words",
+            min: 15,
+            message: "Introduction no less than 15 words",
             trigger: "blur"
           }
         ]
@@ -322,8 +388,19 @@ export default {
     var user_id = this.getCookies("userID");
     console.log(user_id);
     this.user_id = user_id;
-
+    this.uploadList = this.$refs.upload.fileList;
     console.log(this.formValidate);
+    this.getUserPublicInfo(this.user_id).then(response => {
+      console.log(response);
+    });
+    this.getUserAllInfo().then(response => {
+      console.log("获取用户全部信息", response);
+      var user_info = response.data.data;
+      this.formValidate.alias = user_info.userPublicInfo.nickname;
+      this.formValidate.name = user_info.user_Private_Info.user_realname;
+      this.formValidate.gender = user_info.user_Private_Info.user_gender;
+      this.formValidate.desc = user_info.userPublicInfo.self_introction;
+    });
   },
   methods: {
     getFile(e) {
@@ -347,81 +424,78 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           this.$Message.success("Success!");
+          if (name === "formValidate") {
+            var formData = {
+              nickname: this.formValidate.alias,
+              password: "",
+              realname: this.formValidate.name,
+              gender: this.formValidate.gender,
+              self_introduction: this.formValidate.desc
+            };
+            console.log(formData);
+            this.editInfo(formData).then(response => {
+              console.log("修改信息", response);
+            });
+
+            //let x = document.getElementById("avatar").files[0];
+            let x = this.uploadList[0];
+            console.log(x);
+            if (x) {
+              console.log("有图片");
+
+              let params = new FormData(); //创建一个form对象
+
+              params.append("file", x, x.name); //append 向form表单添加数据
+              params.append("user_id", this.user_id);
+
+              //添加请求头 通过form添加的图片和文件的格式必须是multipart/form-data
+
+              let config = {
+                headers: { "Content-Type": "multipart/form-data" }
+              };
+
+              axios
+                .post(
+                  "http://localhost:12293/api/User/uploadAvatar",
+                  params,
+                  config
+                )
+                .then(response => {
+                  console.log("头像", response);
+                });
+            }
+          } else {
+            console.log(this.formCustom);
+            var formData = {
+              nickname: "",
+              password: this.formCustom.passwd,
+              realname: "",
+              gender: "",
+              self_introduction: ""
+            };
+            console.log(formData);
+            this.editInfo(formData).then(response => {
+              console.log("修改信息", response);
+            });
+          }
         } else {
           this.$Message.error("Fail!");
         }
       });
       console.log("name", name);
-      if (name === "formValidate") {
-        var formData = {
-          nickname: this.formValidate.alias,
-          password: "",
-          realname: this.formValidate.name,
-          gender: this.formValidate.gender,
-          self_introduction: this.formValidate.desc
-        };
-        console.log(formData);
-        this.editInfo(formData).then(response => {
-          console.log("修改信息", response);
-        });
-
-        let x = document.getElementById("avatar").files[0];
-        console.log(x);
-        if (x) {
-          console.log("有图片");
-
-          let params = new FormData(); //创建一个form对象
-
-          params.append("file", x, x.name); //append 向form表单添加数据
-          params.append("user_id", this.user_id);
-
-          //添加请求头 通过form添加的图片和文件的格式必须是multipart/form-data
-
-          let config = {
-            headers: { "Content-Type": "multipart/form-data" }
-          };
-
-          axios
-            .post(
-              "http://localhost:12293/api/User/uploadAvatar",
-              params,
-              config
-            )
-            .then(response => {
-              console.log("头像", response);
-            });
-        }
-      } else {
-        console.log(this.formCustom);
-        var formData = {
-          nickname: "",
-          password: this.formCustom.passwd,
-          realname: "",
-          gender: "",
-          self_introduction: ""
-        };
-        console.log(formData);
-        this.editInfo(formData).then(response => {
-          console.log("修改信息", response);
-        });
-      }
     },
     handleReset(name) {
       this.$refs[name].resetFields();
     },
-    handleView(name) {
-      this.imgName = name;
+    handleView(url) {
+      this.img_preview = url;
       this.visible = true;
     },
     handleRemove(file) {
       const fileList = this.$refs.upload.fileList;
       this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
     },
-    handleSuccess(res, file) {
-      file.url =
-        "https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar";
-      file.name = "7eb99afb9d5f317c912f08b5212fd69a";
-    },
+    handleSuccess(res, file) {},
     handleFormatError(file) {
       this.$Notice.warning({
         title: "The file format is incorrect",
@@ -437,12 +511,20 @@ export default {
         desc: "File  " + file.name + " is too large, no more than 2M."
       });
     },
-    handleBeforeUpload() {
+    handleBeforeUpload(file) {
       const check = this.uploadList.length < 1;
       if (!check) {
         this.$Notice.warning({
-          title: "Up to one pictures can be uploaded."
+          title: "Up to 1 pictures can be uploaded."
         });
+      } else {
+        let _this = this;
+        let reader = new FileReader();
+        reader.readAsDataURL(file); // 这里是最关键的一步，转换就在这里
+        reader.onloadend = function() {
+          file.url = this.result;
+          _this.uploadList.push(file);
+        };
       }
       return check;
     }

@@ -37,16 +37,20 @@
     width: 100%;
     text-align: center;
     font-size: 20px;
-    background-color: antiquewhite;
+    background-color: #2c3e50;
+  color: white;
 }
 .close-icon{
     float: right;
-    background-color: aquamarine;
+  background-color: #2c3e50;
 }
+/*
 .share-text-inputer{
-    width: 90%;
+  width: 90%;
     margin:5%;
+  font-size:20px;
 }
+*/
 .send-share-button{
     width: 20%;
     float: left;
@@ -71,7 +75,7 @@
             <Icon class="close-icon" type="ios-close" size="30" @click="closeSharePage()"></Icon>
         </div>
         <div>
-            <input class="share-text-inputer" type="text" v-model="shareText">
+            <input type="textarea":rows="4" style="height: 100px;width: 90%;margin:5%;  font-size:20px;" v-model="shareText">
             <Button class="send-share-button" type="primary" @click="share()">发送</Button>
             <Button class="cancel-share-button" type="primary" @click="closeSharePage()">取消</Button>
         </div>
@@ -80,7 +84,7 @@
 
     <div class="share-div" @click="doShowSharePage()">
         <Icon type="ios-share-alt-outline" size="24"></Icon>
-        <span>{{shareNum}}</span>
+        <span>{{item.message_transpond_num}}</span>
     </div>
 
 </div>
@@ -90,8 +94,7 @@
 <script>
 export default {
      props:{
-        shareNum:Number,
-        twiId:Number,
+        item:Object,
     },
     data(){
         return {
@@ -104,20 +107,12 @@ export default {
     methods:{
         //转发
         share(){ 
-            let data={
-                message:this.shareText,
+            let formData={
+                message_content:this.shareText,
+                message_source_is_transpond:this.item.message_is_transpond,
+                message_transpond_message_id:this.item.message_id,
             }
-            this.$http.post(
-                'http://localhost:12293/api/Message/transpond',data
-            ).then(Response=>{
-            //成功发送了
-                if (Response.data.code==200){
-                    //播放动画？
-                }
-                else{
-                    window.alert("发送失败");
-                }
-            });
+            this.transpond(formData);
         },
         //展示转发的覆盖页
         doShowSharePage(){
