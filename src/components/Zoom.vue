@@ -224,43 +224,67 @@
               <!--<div class="Count">{{postsCount}}</div>-->
             <!--</div>-->
           <!--</router-link>-->
-          <router-link :to="{name: 'PersonPosts', params: {PersonAccount: personAccount}}" class="TabItem" exact-active-class="active">
-            <div class="TabTxt">
+          <Button class="TabItem" exact-active-class="active" @click="tweetsClicked">
+            <div class="TabTxt" >
               <div class="TabTitle">Tweets</div>
               <div class="Count">{{postsCount}}</div>
             </div>
-          </router-link>
-          <router-link :to="{name: 'PersonFollowing', params: {PersonAccount: personAccount}}" class="TabItem" exact-active-class="active">
+          </Button>
+          <Button class = "TabItem" exact-active-class="active" @click="followingClicked">
             <div class="TabTxt">
               <div class="TabTitle">Following</div>
               <div class="Count">{{followingCount}}</div>
             </div>
-          </router-link>
-          <router-link :to="{name: 'PersonFollower', params: {PersonAccount: personAccount}}" class="TabItem" exact-active-class="active">
+          </Button>
+          <Button class="TabItem" exact-active-class="active" @click="followersClicked">
             <div class="TabTxt">
               <div class="TabTitle">Followers</div>
               <div class="Count">{{followerCount}}</div>
             </div>
-          </router-link>
-          <router-link :to="{name: 'likes', params: {PersonAccount: personAccount}}" class="TabItem" exact-active-class="active">
+          </Button>
+          <Button class="TabItem" exact-active-class="active" @click="collectionsClicked">
             <div class="TabTxt">
               <div class="TabTitle">Collections</div>
               <div class="Count">{{collectCount}}</div>
             </div>
-          </router-link>
+          </Button>
         </div>
         <div id="display-container">
           <hr>
           <div>sfasfsdfas</div>
           <div>sdagasgas</div>
-          <div id="content-container">
-            <div class='to-follow-list' v-for="toFollow in toFollowList" >
+          <!--display tweets-->
+          <div v-if ="navStatus.tweetsShow" id="tweets-container">
+            <div class='to-follow-list' v-for= "toFollow in toFollowList" >
+
               <a id="ad">
                 <Avatar class='infor-avatar' v-bind:src='toFollow.avatarUrl' ></Avatar>
                 {{toFollow.name}}
               </a>
             </div>
           </div>
+
+          <!--display following-->
+          <div v-show="navStatus.followingShow" id = "following-container">
+            <div>
+              following
+            </div>
+          </div>
+
+          <!--display followers-->
+          <div v-show="navStatus.followersShow" id ="followers-container">
+            <div>
+              followers
+            </div>
+          </div>
+
+          <!--display collections-->
+          <div v-show="navStatus.collectionsShow" id ="collections">
+            <div>
+              collections
+            </div>
+          </div>
+
         </div>
       </div>
       <div id="middle-right-container">
@@ -271,6 +295,9 @@
             </Button>
             <Button v-else-if="isFollowing===false" class ="follow-button"type="primary" shape="circle" style="background-color: maroon;border:darkred; height: 45px;margin-top: 15px">
               <span style="font-weight:bold;font-size: 16px">Unfollowed</span>
+            </Button>
+            <Button v-if="visitID===userID" class ="follow-button"type="primary" shape="circle" style="height: 45px;margin-top: 15px;opacity: 0">
+              <span style="font-weight:bold;font-size: 16px;">Following</span>
             </Button>
           </div>
         </div>
@@ -298,10 +325,20 @@
             followerCount:0,
             followingCount:0,
             collectCount:0,
+            visitID:0,
             isFollowing:false,
             personAccount:null,
             joinTime:null,
+            showName:"tweetsShow",
+            status: ['tweetsShow', 'followingShow', 'followersShow', 'collectionsShow'],
+            navStatus: {
+              tweetsShow:true,
+              followingShow:false,
+              followersShow:false,
+              collectionsShow:false
+        },
             selfIntroduction:"The man is lazy,leaving nothing.",
+
             toFollowList:[
               {name:'皮卡丘', avatarUrl:'/static/logo',introduction:"How are you"},
               {name:'杰尼龟', avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg',introdutcion:"Let us make the world a better place"},
@@ -319,7 +356,7 @@
           this.loading=true;
 
           var selfID = this.getCookies("userID")
-          var visitID = this.getCookie("userID")
+          var visitID = this.getCookies("userID")
           console.log(selfID)
           try{
             // let selfID=userID
@@ -359,43 +396,51 @@
           }
       },
       methods:{
+        setFalseStatus(){
+          this.navStatus.followersShow = false;
+          this.navStatus.collectionsShow = false;
+          this.navStatus.followingShow = false;
+          this.navStatus.tweetsShow = false;
+        },
         getCookies(a){
           return this.getCookie(a)
+        },
+
+        tweetsClicked(){
+          console.log("tweetsClicked")
+          this.setFalseStatus()
+          this.navStatus.tweetsShow = true;
+          this.showName="tweetsShow"
+          console.log(this.navStatus)
+        },
+
+        followingClicked(){
+          console.log("followingClicked");
+          this.setFalseStatus();
+          this.navStatus.followingShow = true;
+          this.showName="followingShow"
+
+          console.log(this.navStatus)
+        },
+
+        followersClicked(){
+          console.log("followersClicked")
+          this.setFalseStatus();
+          this.showName="followersShow"
+          this.navStatus[this.showName]=true
+          console.log(this.navStatus.followersShow)
+        },
+
+        collectionsClicked(){
+          console.log("collectionsClicked")
+          this.setFalseStatus();
+          this.showName="collectionsShow"
+          this.navStatus[this.showName]=true
+          console.log(this.navStatus.collectionsShow)
         }
+
+
       },
-      // computed: {
-      //   isLoginedUser: function () {
-      //     return this.personAccount === this.$store.getters.userAccount
-      //   },
-      //   postsCount: function () {
-      //     return this.person ? this.person.posts.length : 0
-      //   },
-      //   followingCount: function () {
-      //     return this.person ? this.person.following.length : 0
-      //   },
-      //   followerCount: function () {
-      //     return this.person ? this.person.follower.length : 0
-      //   },
-      //   likesCount: function(){
-      //     return this.person ? this.person.likesNum.length: 0
-      //   },
-      //   personName: function () {
-      //     return this.person ? this.person.name : ''
-      //   },
-      //   personID: function () {
-      //     return this.person ? this.person._id : null
-      //   },
-      //   personImg: function () {
-      //     return this.person ? this.person.profileImg : ''
-      //   },
-      //   personBkgImg: function () {
-      //     return this.person ? this.person.bkgWallImg : ''
-      //   }
-      // },
-      // created () {
-      //   this.initUserID()
-      //   window.addEventListener('scroll', this.windowScrollEventHandler)
-      // },
       watch: {
         '$route.params.PersonAccount': 'initUserID'
       }

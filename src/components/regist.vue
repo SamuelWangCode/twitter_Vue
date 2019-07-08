@@ -55,6 +55,13 @@ export default {
       loading: false
     };
   },
+created() {
+var lett = this;
+document.onkeydown = function(e) {
+var key = window.event.keyCode;
+if (key == 13) {
+lett.registEventHandler();
+}}},
   components: {
     loadingAnimation
   },

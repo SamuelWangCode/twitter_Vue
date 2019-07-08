@@ -268,7 +268,7 @@ ul li{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
             {
-              this.address = Response.data.data // /avatars/0.jpg
+              this.address = front + Response.data.data // /avatars/0.jpg
               console.log(this.address)
             }
             else{

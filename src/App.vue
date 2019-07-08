@@ -23,10 +23,10 @@
             <Icon type="ios-eye" size="24"></Icon>
             Explore
           </MenuItem>
-          <Select
+          <select
             v-model="model13" filterable remote:remote-method="remoteMethod1" :loading="loading1" placeholder="Search in twitter"  not-found-text="no matching result" prefix="ios-search" style="width:300px;">
             <Option v-for="(option, index) in options1" :value="option.value" :key="index">{{option.label}}</Option>
-          </Select>
+          </select>
           <Button shape="circle" type="error" style="margin-left:20px;" @click="signOut">log out</Button>
 
         </Menu>

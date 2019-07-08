@@ -22,7 +22,7 @@
 <template>
     <div class="tweet-items">
         <div v-for="item in items">
-            <twiitem v-bind:item="item" class="tweet-items" @likeTwi="like(item)" @collectTwi="collect(item)" @follow="follow(item)"></Twiitem>
+            <twiitem v-bind:item="item" class="tweet-items" @likeTwi="doLike(item)" @collectTwi="doCollect(item)" @follow="doFollow(item)"></Twiitem>
             <divider/>
         </div>
         <div class="load-more" @click="loadMore()">加载更多</div>
@@ -43,7 +43,7 @@ export default {
     data(){
         return {
             items:[],
-            twiDatas:"",   
+            twiDatas:[],   
             userDatas:"",
             showBigImage:false,
             BigImageSource:"",
@@ -53,6 +53,22 @@ export default {
         }
     },
     methods:{
+        doLike(item){
+            item.likeByUser==!item.likeByUser;
+            console.log(item.likeByUser);
+        },
+        doCollect(item){
+            item.collectByUser=!item.collectByUser;
+            console.log(item.collectByUser);
+        },
+        doFollow(item){
+            item.followByUser=!item.followByUser;
+            console.log(item.followByUser);
+        },
+        getCookies(name){
+            return this.getCookie(name);
+        },
+
         loadMore(){
             //测试时把整个函数替换成/**/里的内容
             /*
@@ -68,32 +84,40 @@ export default {
         //下载数据
         downloadData(){
             if(this.type=="explore"){
-                this.queryTopicsBaseOnHeat(this.items.length + 1, 10).then(Response=>{
+                this.queryMessagesOf(this.getCookies("userID"),this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data;
+                    console.log(this.twiDatas);
                     this.generateData();
                 });
             }
             else if(this.type=="topic"){
                 this.queryMessagesContains(this.info, this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data;
+                    console.log(this.twiDatas);
                     this.generateData();
                 });
             }
             else if(this.type=="home"){
                 this.queryMessagesOf(this.getCookies("userID"),this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data;
                     this.generateData();
                 });
             }
             else if(this.type=="collection"){
                 this.queryCollections(this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data;
                     this.generateData();
                 });
             }
             else if(this.type=="userhome"){
                 this.queryMessagesOf(this.info, this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data;
                     this.generateData();
                 });
             }
             else if(this.type=="search"){
                 this.search(this.info).then(Response=>{
+                    this.twiDatas=Response.data.data.twitters;
                     this.generateData();
                 });
             }
@@ -103,66 +127,67 @@ export default {
             //取得当前保存的推特总数
             let twiCount=this.items.length;
             for (let i=0;i<this.twiDatas.length;i++){
-                let itemTemp=JSON.parse(this.twiDatas[i]);
                 //还有一些属性需要自己去获取，包括是否被....以及用户的....
+                let itemTemp=this.twiDatas[i];
                 itemTemp.ifShowComment=false;
                 itemTemp.comments=[];
-                itemTemp.userInfo={};
+                itemTemp.userName="用户";
+                itemTemp.userAvt="";
                 itemTemp.collectByUser=false;
                 itemTemp.likeByUser=false;
                 itemTemp.followByUser=false;
                 itemTemp.comments=[];
-                //先解析已有内容
-                this.items.push(itemTemp);
-                //获取以上的数据，这里由于可能是第二次拿数据，因此i+twiCount才是当前要处理的推的索引
-                this.items[i+twiCount].userInfo={user_id: 16, nickname: "qwe", avatar_url: "http://106.14.3.200:8090/bgimg.jpeg"};
-                
-                //求证是否点赞
-                let tempData={
-                    //这是登录用户的id不是发推用户的
-                    user_id:0,
-                    message_id:0,
+                console.log(this.items[i+twiCount]);
+                if(itemTemp.message_ats==null){
+                    itemTemp.message_ats=[];
                 }
-                this.$http.post(
-                    "http://localhost:12293/api/Like/checkUserLikesMessage",tempData
-                ).then(Response=>{
-                    if('message'=='success'){
-                        this.item[i+twiCount].likeByUser=Response.data.message;
-                    }
-                });
-                //求证是否收藏
-                tempData={
-                    //这是登录用户的id不是发推用户的
-                    user_id:1,
-                    message_id:1,
+                if(itemTemp.message_topics==null){
+                    itemTemp.message_topics=[];
                 }
-                this.$http.post(
-                    "http://localhost:12293/api/Collection/checkUserLikesMessage",tempData
-                ).then(Response=>{
-                    if('message'=='success'){
-                        this.item[i+twiCount].collectByUser=Response.data.message;
-                    }
-                });
-                //求证是否关注了用户
+                if (itemTemp.message_image_urls==null){
+                    itemTemp.message_image_urls=[];
+                }
+                //可以先解析已有内容
 
-                //求用户信息
-                this.$http.get(
-                    "http://localhost:12293/api/User/query/",this.items[i].message_sender_user_id
-                ).then(Response=>{
-                    if('message'=='success'){
-                        //this.item[i].userInfo=JSON.parse(Response.data);
+                //取用户数据
+                //获取以上的数据，这里由于可能是第二次拿数据，因此i+twiCount才是当前要处理的推的索引
+                this.getUserPublicInfo(itemTemp.message_sender_user_id).then(Response=>{
+                    itemTemp.userName=Response.data.data.nickname;
+                    itemTemp.userAvt=Response.data.data.avatar_url;
+                    this.items.push(itemTemp);
+
+                    //有了推文和用户基本信息后
+
+
+                    //求收藏和喜欢的信息，求是否关注用户
+                    //求证是否点赞
+                    this.checkUserLikesMessage(this.getCookies("userID"),this.items[i+twiCount].message_id).then(Response=>{
+                        this.items[i+twiCount].likeByUser=Response.data.data.like;
+                    });
+                    //求证是否收藏
+                    this.checkUserCollectMessage(this.getCookies("userID"),this.items[i+twiCount].message_id).then(Response=>{
+                        this.items[i+twiCount].collectByUser=Response.data.data.favor;
+                    });
+                    this.if_following_by_me(this.items[i+twiCount].message_sender_user_id).then(Response=>{
+                        this.items[i+twiCount].followByUser=Response.data.data.if_following;
+                    });
+                    //求证是否关注
+
+                    
+                    //如果是被转发的推特就取原推特
+                    if (this.items[i+twiCount].meesage_is_transpond==1){
+                        let str='{"message_transpond_message_id":-1,"message_is_transpond":0,"message_sender_user_id":2,"message_id":1,"message_create_time":"2019-10-3","message_content":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg"],"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}';
+                        items[i+twiCount].rawMessage=JSON.parse(str);
+                        //并且取被转发推特的用户
+                        
                     }
                 });
-                //如果是被转发的推特就取原推特
-                if (this.items[i+twiCount].meesage_is_transpond==1){
-                    let str='{"message_transpond_message_id":-1,"message_is_transpond":0,"message_sender_user_id":2,"message_id":1,"message_create_time":"2019-10-3","message_content":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg"],"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}';
-                    items[i+twiCount].rawMessage=JSON.parse(str);
-                    //并且取被转发推特的用户
-                    
-                }
+                
+
+                
             }
             //完成加入后清空twiDatas，必须有，否则验证出错
-            this.twiDatas="";
+            this.twiDatas=[];
             //console.log("asdads",this.items[0]);
         },
     },
