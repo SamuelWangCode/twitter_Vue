@@ -390,6 +390,7 @@
       methods:{
           unfollowClick(){
             this.isFollowing=false;
+            this.followerCount--;
             console.log(this.isFollowing);
             this.cancelFollowingTo(this.visitor).then(response=>{
               console.log("取消关注")
@@ -400,6 +401,7 @@
           ,
           followClick(){
             this.isFollowing = true;
+            this.followerCount++;
             this.followSb(this.visitor).then(response=>{
               console.log("follow结果", response);
             })

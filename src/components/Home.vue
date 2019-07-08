@@ -334,7 +334,6 @@ ul li{
       //使用cookie
       this.uploadList = this.$refs.upload.fileList;
       
-      console.log(`/api/User/getAvatarImageSrc/${userID}`)
         
         //nickname
         try{
