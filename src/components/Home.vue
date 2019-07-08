@@ -165,6 +165,7 @@ ul li{
      <ElContainer id = 'left-container2' >
        <el-header class='header-left-align'>Trends for you</el-header>
        <ul>
+         <User></User>
          <li id="trends-container" v-for="trends in tweets">
            <a >
              <span id='trends-name' >Trends Name</span>
@@ -216,6 +217,7 @@ ul li{
   import ElUploadList from "element-ui/packages/upload/src/upload-list";
   import Caspanel from "iview/src/components/cascader/caspanel";
   import axios from "axios"
+  import User from "./Subs/User"
   //import user from "./store/user"
   import loadingAnimate from "./animate/loading"
   axios.defaults.withCredentials = true;
@@ -255,7 +257,7 @@ ul li{
       }
     },
     components:{
-      loadingAnimate
+      loadingAnimate,User
     },
     mounted(){
       this.loading=true;
