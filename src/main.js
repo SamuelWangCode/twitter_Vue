@@ -11,19 +11,31 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'iview/dist/styles/iview.css'
 //写cookies
-Vue.prototype.setCookie = function (name,value)
+Vue.prototype.setCookie = function (cname, cvalue, exdays)
 {
-var Days = 30;
-var exp = new Date();
-exp.setTime(exp.getTime() + Days*24*60*60*1000);
-document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires
+  console.log("set Cookie OK")
+  console.log(document.cookie)
 }
 //读取cookies
-Vue.prototype.getCookie = function (name)
+Vue.prototype.getCookie = function (cname)
 {
-var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-if(arr=document.cookie.match(reg)) return unescape(arr[2]);
-else return null;
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+       }
+       if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+       }
+   }
+  return "";
 }
 //删除cookies
 Vue.prototype.delCookie = function (name)
@@ -32,6 +44,8 @@ var exp = new Date();
 exp.setTime(exp.getTime() - 1);
 var cval=getCookie(name);
 if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+console.log("delete Cookie OK")
+console.log(document.cookie)
 }
 
 //developed by 杨紫超
