@@ -37,7 +37,8 @@ export default {
     name:'twitter-items',
     props:{
         type:"",
-        topic_id:""
+        //如果是topic就传入topic_id，search就search key，自己主页用户id，别人主页也是用户id
+        info:""
     },
     data(){
         return {
@@ -53,46 +54,46 @@ export default {
     },
     methods:{
         loadMore(){
+            //测试时把整个函数替换成/**/里的内容
+            /*
             this.twiDatas=['{"message_transpond_message_id":4,"message_is_transpond":1,"message_sender_user_id":2,"message_id":1,"message_create_time":"2019-10-3","message_content":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg"],"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}',
                             '{"message_transpond_message_id":4,"message_is_transpond":0,"message_sender_user_id":3,"message_id":2,"message_create_time":"2019-3-2","message_content":"哦噢噢噢噢哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg"],"collectnum":5,"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}',
                             '{"message_transpond_message_id":4,"message_is_transpond":1,"message_sender_user_id":3,"message_id":3,"message_create_time":"2019-3-2","message_content":"哦","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}',
                             '{"message_transpond_message_id":4,"message_is_transpond":0,"message_sender_user_id":3,"message_id":4,"message_create_time":"2019-3-2","message_content":"我要发4张图片","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}',
                             ];
             this.generateData();
+            */
             this.downloadData();
         },
         //下载数据
         downloadData(){
             if(this.type=="explore"){
-                let getData = {
-                    startFrom: this.items.length,
-                    limitation: 10,
-                }
-                axios.get(
-                    'http://localhost:12293/api/Topic/queryTopicsBaseOnHeat',getData
-                ).then(Response=>{
+                this.queryTopicsBaseOnHeat(this.items.length + 1, 10).then(Response=>{
                     this.generateData();
                 });
             }
             else if(this.type=="topic"){
-                let getData = {
-                    startFrom: this.items.length,
-                    limitation: 10,
-                }
-                axios.get(
-                    'http://localhost:12293/api/Topic/queryMessageIdsContains/'+this.topic_id,getData
-                ).then(Response=>{
+                this.queryMessagesContains(this.info, this.items.length + 1, 10).then(Response=>{
                     this.generateData();
                 });
             }
             else if(this.type=="home"){
-                let postData = {
-                    startFrom: this.items.length,
-                    limitation: 10,
-                }
-                axios.post(
-                    'http://localhost:12293/api/Message/queryForIndex',postData
-                ).then(Response=>{
+                this.queryMessagesOf(this.getCookies("userID"),this.items.length + 1, 10).then(Response=>{
+                    this.generateData();
+                });
+            }
+            else if(this.type=="collection"){
+                this.queryCollections(this.items.length + 1, 10).then(Response=>{
+                    this.generateData();
+                });
+            }
+            else if(this.type=="userhome"){
+                this.queryMessagesOf(this.info, this.items.length + 1, 10).then(Response=>{
+                    this.generateData();
+                });
+            }
+            else if(this.type=="search"){
+                this.search(this.info).then(Response=>{
                     this.generateData();
                 });
             }
@@ -166,12 +167,16 @@ export default {
         },
     },
     created(){
+        //测试时把整个函数替换成/**/里的内容
+        /*
         this.twiDatas=['{"message_transpond_message_id":4,"message_is_transpond":1,"message_sender_user_id":2,"message_id":1,"message_create_time":"2019-10-3","message_content":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg"],"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}',
                             '{"message_transpond_message_id":4,"message_is_transpond":0,"message_sender_user_id":3,"message_id":2,"message_create_time":"2019-3-2","message_content":"哦噢噢噢噢哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg"],"collectnum":5,"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}',
                             '{"message_transpond_message_id":4,"message_is_transpond":1,"message_sender_user_id":3,"message_id":3,"message_create_time":"2019-3-2","message_content":"哦","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8086/userimg/1.jpg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}',
                             '{"message_transpond_message_id":4,"message_is_transpond":0,"message_sender_user_id":3,"message_id":4,"message_create_time":"2019-3-2","message_content":"我要发4张图片","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg","http://106.14.3.200:8090/bgimg.jpeg"],"collectnum":5,"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}',
                             ];
         this.generateData();
+        */
+        this.downloadData();
     },
     components:{
         "twiitem":TwiItem,
