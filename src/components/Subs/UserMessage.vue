@@ -101,8 +101,7 @@ export default {
         //转发
         message(){ 
             let data={
-                user_id:this.userId,
-                letterInfo:this.text,
+                private_letter_content:this.text,
             }
             this.$http.post(
                 'http://localhost:12293/api/PrivateLetter/send/'+this.userId,data

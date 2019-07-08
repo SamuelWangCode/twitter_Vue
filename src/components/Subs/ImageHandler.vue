@@ -229,7 +229,7 @@ export default {
 
         }
         */
-       console.log(this.imgData);
+       //console.log(this.imgData);
     },
     mounted(){
         
