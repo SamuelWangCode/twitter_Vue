@@ -28,6 +28,7 @@ else return null;
 //删除cookies
 Vue.prototype.delCookie = function (name)
 {
+  console.log('fff')
 var exp = new Date();
 exp.setTime(exp.getTime() - 1);
 var cval=this.getCookie(name);
@@ -64,6 +65,9 @@ function get(url){
 }
 ///////////////////////////////////////////
 //USER
+Vue.prototype.checkLogin = function (){
+  return get("api/User/check_login")
+}
 //getUserPublicInfo
 Vue.prototype.getUserPublicInfo = function (user_id)
 {
@@ -225,6 +229,7 @@ Vue.prototype.if_following_by_me = function (be_followed_id){
   if(!checkNumber(be_followed_id)){
     return null;
   }
+  console.log(RELATION + "if_following_by_me/" + be_followed_id)
   return get(RELATION + "if_following_by_me/" + be_followed_id);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

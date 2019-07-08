@@ -336,28 +336,7 @@ ul li{
       //使用cookie
       this.uploadList = this.$refs.upload.fileList;
       
-      console.log(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`)
-        try{ 
-          let front="http://localhost:12293"
-          this.getAvatarImageSrc(userID).then(Response=>{
-            console.log(Response)
-          if(Response.data.code==200 && Response.data.message=="success")
-            {
-              this.address =Response.data.data // /avatars/0.jpg
-              console.log(this.address)
-            }
-            else{
-              this.address="http://localhost:12293/avatars/0.jpg"
-            }
-          })
-        }
-        catch(e){
-            this.loading=false;
-            return {
-          result: false,
-          errMsg: "Can't connect with server"
-        };
-        }
+        
         //nickname
         try{
           console.log(userID)
@@ -407,28 +386,28 @@ ul li{
       handleView (url) {
                 this.img_preview = url;
                 this.visible = true;
-            },
-            handleRemove (file) {
+      },
+      handleRemove (file) {
                 const fileList = this.$refs.upload.fileList;
                 this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-            },
-            handleSuccess (res, file) {
+      },
+      handleSuccess (res, file) {
                 file.url = '';
                 file.name = '';
-            },
-            handleFormatError (file) {
+      },
+      handleFormatError (file) {
                 this.$Notice.warning({
                     title: 'The file format is incorrect',
                     desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
                 });
-            },
-            handleMaxSize (file) {
+      },
+      handleMaxSize (file) {
                 this.$Notice.warning({
                     title: 'Exceeding file size limit',
                     desc: 'File  ' + file.name + ' is too large, no more than 2M.'
                 });
-            },
-            handleBeforeUpload (file) {
+      },
+      handleBeforeUpload (file) {
               
                 const check =  this.uploadList.length < 4;
                 if (!check) {
@@ -446,16 +425,16 @@ ul li{
                   
                 }
                 return check;
-            },
+      },
       editerFocusEventHandler (e) {
-      this.isEditerFocused = true
-      this.contentEl = e.target
+        this.isEditerFocused = true
+        this.contentEl = e.target
 
-      if (e.target.innerText.trim() === e.target.getAttribute('default-txt')) {
-        e.target.innerText = ''
-      }
-    },
-    editerBlurEventHandler (e) {
+        if (e.target.innerText.trim() === e.target.getAttribute('default-txt')) {
+          e.target.innerText = ''
+        }
+      },
+      editerBlurEventHandler (e) {
       this.isEditerFocused = false
 
       if (!e.target.innerText.trim()) {
@@ -482,6 +461,10 @@ ul li{
     async sendPostBtnClickEventHandler (e) {
 
     },
+    sendPostBtnClickEventHandler(){
+      
+    }
+    
     }
   }
 </script>

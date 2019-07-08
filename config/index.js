@@ -22,7 +22,7 @@ module.exports = {
     proxyTable: {
       '/api' :{
         target : 'http://localhost:12293',
-        changeOrigin: true,
+        changeOrigin: false,
         pathRewrite:{
           '^/api' : '/api'
         }
