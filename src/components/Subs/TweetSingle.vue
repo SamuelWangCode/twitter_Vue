@@ -169,7 +169,7 @@
         <sharebutton class="share-button" v-bind:shareNum="item.message_transpond_num" :twiId="item.message_id"></sharebutton>
         <likebutton class="like-button" @likeTwi="doLike()" v-bind:likeByUser="item.likeByUser" v-bind:likesNum="item.message_agree_num" :twiId="item.message_id"></likebutton>
     </div>
-    <commentblock class="comment-block" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
+    <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
 
 </div>
 </template>
@@ -247,13 +247,6 @@ export default {
             console.log("删除",item.message_content);
         },
         getComment(){
-            let commStr=['{"commid":1,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊哦","time":"2019-4-3 19:40"}',
-                    '{"commid":2,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}',
-                    '{"commid":3,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}',
-                    '{"commid":4,"username":"hi","useravt":"http://106.14.3.200:8090/bgimg.jpeg","text":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","time":"2019-4-3 19:40"}'];
-            for (let j=0;j<commStr.length;j++){
-                this.comments.push(JSON.parse(commStr[j]));
-            }
             let data={
                 startFrom: this.comments.length,
                 limitation: 10,
@@ -261,11 +254,16 @@ export default {
             this.$http.post(
                     'http://localhost:12293/api/Comment/queryComments/'+this.item.message_id,data
                 ).then(Response=>{
-                    if (Response.data.code==200){
-                        //播放动画？
-                    }
-                    else{
-                    }
+                    this.comments=Response.data.data;
+                });
+        },
+        doSendComment(content){
+            let data={
+                comment_content:content,
+            }
+            this.$http.post(
+                    'http://localhost:12293/api/Comment/add/'+this.item.message_id,data
+                ).then(Response=>{
                 });
         }
     },
