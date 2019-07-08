@@ -5,7 +5,7 @@
             <hottopics></hottopics>
         </div>
         <div id="tweetitems" >
-            <tweets type="explore"></tweets>
+            <tweets type="search" info="a"></tweets>
         </div>
         <div id="recommendusers">
             <p>推荐关注</p>
