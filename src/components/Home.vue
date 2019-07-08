@@ -165,10 +165,12 @@ ul li{
      <ElContainer id = 'left-container2' >
        <el-header class='header-left-align'>Trends for you</el-header>
        <ul>
-         <li id="trends-container" v-for="trends in tweets">
-           <a >
-             <span id='trends-name' >Trends Name</span>
-             <div id='tweets-times'>{{trends}} Tweets</div>
+         <li id="trends-container" v-for="topic in topics">
+           <a>
+             <div v-on:click="tapTopic(topic)" >
+             <span id='trends-name' >{{topic.topic_content}}</span>
+             <div id='tweets-times'>{{ topic.topic_heat }} heat</div>
+             </div>
            </a>
          </li>
        </ul>
@@ -201,11 +203,14 @@ ul li{
 
       <ElContainer id="right-container" >
         <el-header class="header-left-align">Who to follow</el-header>
-        <div class='to-follow-list'v-for= "toFollow in toFollowList" >
+        <div class='to-follow-list' v-for="toFollow in toFollowList">
           <a>
-          <Avatar class='infor-avatar':src='toFollow.avatarUrl' ></Avatar>
-          {{toFollow.name}}
+          <div v-on:click="tapRecommendUser(toFollow.user_id)">
+            <Avatar class='infor-avatar' v-bind:src='toFollow.avatar_url' ></Avatar>
+          {{toFollow.user_nickname}}
+          </div>
           </a>
+          
         </div>
       </ElContainer>
   </div>
@@ -229,16 +234,11 @@ ul li{
           { name: 'Google' },
           { name: 'Taobao' }
         ],
-        tweets:[
-          24564564,356,89084,98785,65567234,82342,92342,2324234
+        topics:[
+          
         ],
         toFollowList:[
-          {name:'皮卡丘', avatarUrl:'/static/logo'},
-          {name:'杰尼龟', avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'喷火龙', avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'超梦', avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'伊布',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'梦幻',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'}
+          
         ],
         informationList:[
           {name:'妙蛙种子',content:'阳光烈焰',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
@@ -262,6 +262,8 @@ ul li{
         console.log(userID)
       //let userID=user.userID
       //使用cookie
+      
+      
       console.log(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`)
         try{ 
           let front="http://localhost:12293"
@@ -308,6 +310,23 @@ ul li{
           errMsg: "Can't connect with server"
         };
         }
+    
+    
+    
+    
+    
+        this.queryTopicsBaseOnHeat(0, 5).then(response=>{
+          console.log("测试topics", response);
+          this.topics = response.data.data;
+        });
+        this.getRecommendUsers().then(response => {
+          console.log("测试getRecommendUsers", response);
+          this.toFollowList = response.data.data;
+        });
+    
+        
+    
+    
     },
     methods:{
       editerFocusEventHandler (e) {
@@ -330,9 +349,18 @@ ul li{
     },
     getCookies(a){
       return this.getCookie(a)
-    }
+    },
     //TODO
     //async sendPostBtnClickEventHandler (e) {}
+    tapTopic(topic){
+      console.log("测试点击 topic_id:", topic.topic_id);
+      //TODO 点击热点之后跳转
+    },
+    tapRecommendUser(visitor_id){
+      console.log("测试点击推荐用户 visitor_id", visitor_id);
+      //TODO 跳转
+      this.$router.push({ path: '/news', query: { userId: 123 }});
+    }
 
     }
   }
