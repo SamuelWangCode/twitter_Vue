@@ -222,7 +222,7 @@ export default {
         //关注谁谁
         doFollow(){
             if(this.item.followByUser==false){
-                this.follow(this.item.message_sender_user_id).then(Response=>{
+                this.followSb(this.item.message_sender_user_id).then(Response=>{
                     this.$emit("follow");
                     console.log("关注1/2");
                 });
