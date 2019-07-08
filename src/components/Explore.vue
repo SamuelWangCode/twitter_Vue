@@ -1,10 +1,10 @@
 <template>
     <div id="explore">
-        <div id="hottopic">
+        <div id="hottopic" >
             <p>热门话题</p>
             <hottopics></hottopics>
         </div>
-        <div id="tweetitems">
+        <div id="tweetitems" >
             <tweets type="explore"></tweets>
         </div>
         <div id="recommendusers">
@@ -46,31 +46,39 @@ export default {
 
 <style scope>
 #explore{
-    margin-top: 80px;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(230, 236, 240);
+  overflow: auto;
 }
 #hottopic{
+  margin-top: 70px;
+  margin-left: 7%;
     width:20%;
     float: left;
-    margin:1% 1% 1% 3%;
     height:500px;
-    background-color: rgb(212, 212, 212);
+  background-color: white;
     border-radius: 4px;
     font-size: 25px;
 }
 #tweetitems{
+  margin-top: 70px;
     width:48%;
+  margin-left: 5px;
     float: left;
-     margin:1% 2% 1% 2%;
-    background-color: rgb(216, 216, 216);
+  background-color: white;
     border-radius: 4px;
     overflow: hidden;
 }
 #recommendusers{
+
+    margin-top: 70px;
+  margin-left: 5px;
     width:20%;
     float: left;
-     margin:1% 3% 1% 1%;
      height:500px;
-    background-color: #cfcfcf;
+  background-color: white;
     font-size: 25px;
     border-radius: 4px;
 }

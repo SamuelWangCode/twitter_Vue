@@ -15,8 +15,8 @@
 <template>
 <div>
     <div class="collection-div" @click="collect()">
-        <Icon type="ios-star" size="24"  v-if="collectByUser"></Icon>
-        <Icon type="ios-star-outline" size="24" v-else></Icon>
+        <Icon type="ios-star" size="24"  v-if="collectByUser" style="margin-bottom: 3px"></Icon>
+        <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
     </div>
 </div>
 </template>

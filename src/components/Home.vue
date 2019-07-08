@@ -255,7 +255,6 @@ ul li{
     components:{
       loadingAnimate
     },
-
     mounted(){
       this.loading=true;
         var userID = this.getCookies("userID")
@@ -267,7 +266,7 @@ ul li{
       console.log(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`)
         try{ 
           let front="http://localhost:12293"
-          axios.get(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`).then(Response=>{
+          this.getAvatarImageSrc(userID).then(Response=>{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
             {
@@ -286,8 +285,11 @@ ul li{
           errMsg: "Can't connect with server"
         };
         }
+        //nickname
         try{
-          axios.get(`http://localhost:12293/api/User/query/${userID}`).then(Response=>{
+          console.log(userID)
+          console.log(`http://localhost:12293/api/User/query/${userID}`)
+          this.getUserPublicInfo(userID).then(Response=>{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
             {

@@ -60,10 +60,7 @@ export default {
           email: this.email,
           password: this.password
         }
-        axios.post(
-          `http://localhost:12293/api/User/signIn`,
-          data
-        ).then(Response=>{
+        this.signIn(data).then(Response=>{
           console.log(Response);
           if(Response.data.code==200 && Response.data.message=="Sign in success")
           {
