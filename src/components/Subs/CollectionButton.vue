@@ -15,10 +15,16 @@
 <template>
 <div>
     <div class="collection-div" @click="doCollect()">
-      <vue-star animate="animated rubberBand" color="#F05654">
-        <icon slot="icon" type="ios-star" size="24"  v-if="collectByUser" style="margin-bottom: 3px"></icon>
-        <icon slot="icon" type="ios-star-outline" size="24"  v-else style="margin-bottom: 3px"></icon>
-      </vue-star>
+        <div v-if="collectByUser">
+            <vue-star animate="animated rubberBand" color="#F05654">
+                <icon slot="icon" type="ios-star-outline" size="24"   style="margin-bottom: 3px"></icon>
+            </vue-star>
+        </div>
+        <div v-else>
+            <vue-star animate="animated rubberBand" color="#F05654">
+                <icon slot="icon" type="ios-star-outline" size="24"   style="margin-bottom: 3px"></icon>
+            </vue-star>
+        </div>
     </div>
 </div>
 </template>
