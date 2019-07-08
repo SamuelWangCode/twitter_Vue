@@ -125,8 +125,13 @@ Vue.prototype.logOut = function (){
 }
 //uploadAvatar(formData)
 // formData : {'file': file}
-Vue.prototype.uploadAvatar = function (formData){
-  return post("api/User/uploadAvatar", formData);
+Vue.prototype.uploadAvatar = function (params,config){
+  return axios
+  .post(
+    "/api/User/uploadAvatar",
+    params,
+    config
+  )
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //RECOMMEND

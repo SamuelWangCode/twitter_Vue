@@ -279,7 +279,7 @@ ul li{
       <ElContainer id="right-container" >
         <el-header class="header-left-align">Who to follow</el-header>
         <div class='to-follow-list' v-for="toFollow in toFollowList">
-          <User v-bind:user_id="toFollow"></User>
+          <User v-bind:p_follow_info="toFollow"></User>
         </div>
       </ElContainer>
   </div>
@@ -314,10 +314,6 @@ ul li{
           
         ],
         informationList:[
-          {name:'妙蛙种子',content:'阳光烈焰',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'百变怪',content:'变身',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'小锯鳄',content:'撞击',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'果然翁',content:'反弹',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'}
         ],
         isEditerFocused: false,
         contentEl: null,
@@ -372,10 +368,7 @@ ul li{
         this.getRecommendUsers().then(response => {
           console.log("测试getRecommendUsers", response);
           console.log(response.data.data);
-          for(var i=0;i<response.data.data.length;++i){
-            console.log(i);
-            this.toFollowList.push(Number(response.data.data[i].user_id));
-          }
+          this.toFollowList=response.data.data;
           console.log(this.toFollowList)
         });
     

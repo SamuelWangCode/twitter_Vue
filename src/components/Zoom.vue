@@ -285,11 +285,11 @@
       <div id="middle-right-container">
         <div id = "middle-right-top-container">
           <div v-if="visitor!=user" id="follow-button-container">
-            <Button v-if="isFollowing==false" class ="follow-button"type="primary" shape="circle" @click="followClick" style="height: 45px;margin-top: 15px">
+            <Button v-if="isFollowing==false" class ="follow-button"type="primary" shape="circle" @click="followClick" style="height: 45px;margin-top: 15px;width:100px">
               <span style="font-weight:bold;font-size: 16px">Follow</span>
             </Button>
-            <Button v-else class ="follow-button"type="primary" shape="circle" @click="unfollowClick" style="background-color: maroon;border:darkred; height: 45px;margin-top: 15px">
-              <span style="font-weight:bold;font-size: 16px">Cancel Follow</span>
+            <Button v-else class ="follow-button"type="primary" shape="circle" @click="unfollowClick" style="width:100px;background-color: maroon;border:darkred; height: 45px;margin-top: 15px">
+              <span style="font-weight:bold;font-size: 16px">Unfollow</span>
             </Button>
             
           </div>

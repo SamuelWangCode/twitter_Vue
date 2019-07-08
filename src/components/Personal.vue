@@ -254,7 +254,7 @@ export default {
       uploadList: [],
       visible: false,
       img_preview: "",
-      img_src: "http://localhost:12293/avatars/0.jpg",
+      img_src: "/avatars/0.jpg",
       defaultList: [
         {
           name: "a42bdcc1178e62b4694c830f028db5c0",
@@ -454,12 +454,7 @@ export default {
                 headers: { "Content-Type": "multipart/form-data" }
               };
 
-              axios
-                .post(
-                  "http://localhost:12293/api/User/uploadAvatar",
-                  params,
-                  config
-                )
+              this.uploadAvatar(params,config)
                 .then(response => {
                   console.log("头像", response);
                 });
