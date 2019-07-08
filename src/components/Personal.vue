@@ -20,6 +20,10 @@
   padding-top: 15px;
   padding-left: 15px;
 }
+.img_preview {
+  size: 20px;
+  border-radius: 100px;
+}
 </style>
 
 <template>
@@ -39,13 +43,15 @@
                 <br />
                 <br />
                 <!--头像更改-->
-        
+
                 <FormItem label="Avatar: ">
                   <div class="uploadBox">
-                    <input type="file" id="avatar" />
+                    <div class="img_preview">
+                      <img :src="img_src" />
+                    </div>
+                    <input type="file" ref="file" @change="getFile" id="avatar" />
                     <Icon type="ios-plus-empty" class="uploadIcon"></Icon>
                   </div>
-                  
                 </FormItem>
 
                 <!--账号名称更改-->
@@ -131,7 +137,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 axios.defaults.withCredentials = true;
 export default {
   name: "Personal",
@@ -174,6 +180,7 @@ export default {
       }, 1000);
     };
     return {
+      img_src: "http://localhost:12293/avatars/0.jpg",
       defaultList: [
         {
           name: "a42bdcc1178e62b4694c830f028db5c0",
@@ -319,6 +326,17 @@ export default {
     console.log(this.formValidate);
   },
   methods: {
+    getFile(e) {
+      let _this = this;
+      console.log("有图片");
+      var files = e.target.files[0];
+      if (!e || !window.FileReader) return; // 看支持不支持FileReader
+      let reader = new FileReader();
+      reader.readAsDataURL(files); // 这里是最关键的一步，转换就在这里
+      reader.onloadend = function() {
+        _this.img_src = this.result;
+      };
+    },
     getCookies(userId) {
       return this.getCookie(userId);
     },
@@ -355,7 +373,7 @@ export default {
           let params = new FormData(); //创建一个form对象
 
           params.append("file", x, x.name); //append 向form表单添加数据
-          params.append("user_id", this.user_id)
+          params.append("user_id", this.user_id);
 
           //添加请求头 通过form添加的图片和文件的格式必须是multipart/form-data
 
@@ -363,9 +381,15 @@ export default {
             headers: { "Content-Type": "multipart/form-data" }
           };
 
-          axios.post("http://localhost:12293/api/User/uploadAvatar", params, config).then(response=>{
-            console.log("头像", response);
-          });
+          axios
+            .post(
+              "http://localhost:12293/api/User/uploadAvatar",
+              params,
+              config
+            )
+            .then(response => {
+              console.log("头像", response);
+            });
         }
       } else {
         console.log(this.formCustom);
