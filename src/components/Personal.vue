@@ -90,7 +90,7 @@
 
               <!--真实姓名更改-->
               <FormItem label="Name" prop="name">
-                <Input v-model="formValidate.name" placeholder="Enter your name"style="width: 400px"></Input>
+                <Input v-model="formValidate.name"  placeholder="Enter your name"style="width: 400px"></Input>
               </FormItem>
 
               <!--性别-->
@@ -188,6 +188,7 @@
                'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
              }
            ],
+           user_info: {},
            imgName: '',
            visible: false,
            uploadList: [],
@@ -201,10 +202,10 @@
            options2: [],
            list: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New hampshire', 'New jersey', 'New mexico', 'New york', 'North carolina', 'North dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode island', 'South carolina', 'South dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West virginia', 'Wisconsin', 'Wyoming'],
            formValidate: {
-             alias: '',
+            alias: '',
              name: '',
              mail: '',
-             city: '',
+             city: '', 
              gender: '',
              birthday: '',
              des: ''
@@ -248,6 +249,11 @@
              ]
            }
          }
+       },
+       mounted(){
+        var userID = this.getCookies("userID");
+        
+
        },
        methods:
          {

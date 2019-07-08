@@ -68,9 +68,7 @@ export default {
                     startFrom: this.items.length,
                     limitation: 10,
                 }
-                axios.get(
-                    'http://localhost:12293/api/Topic/queryTopicsBaseOnHeat',getData
-                ).then(Response=>{
+                this.queryTopicsBaseOnHeat(getData.startFrom, getData.limitation).then(Response=>{
                     this.generateData();
                 });
             }
