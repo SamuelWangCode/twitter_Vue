@@ -207,13 +207,7 @@ ul li{
       <ElContainer id="right-container" >
         <el-header class="header-left-align">Who to follow</el-header>
         <div class='to-follow-list' v-for="toFollow in toFollowList">
-          <a>
-          <div v-on:click="tapRecommendUser(toFollow.user_id)">
-            <Avatar class='infor-avatar' v-bind:src='toFollow.avatar_url' ></Avatar>
-          {{toFollow.user_nickname}}
-          </div>
-          </a>
-          
+          <User v-bind:user_id="toFollow"></User>
         </div>
       </ElContainer>
   </div>
@@ -326,7 +320,12 @@ ul li{
         });
         this.getRecommendUsers().then(response => {
           console.log("测试getRecommendUsers", response);
-          this.toFollowList = response.data.data;
+          console.log(response.data.data);
+          for(var i=0;i<response.data.data.length;++i){
+            console.log(i);
+            this.toFollowList.push(Number(response.data.data[i].user_id));
+          }
+          console.log(this.toFollowList)
         });
     
         
