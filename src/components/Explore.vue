@@ -1,14 +1,16 @@
 <template>
     <div id="explore">
         <div id="hottopic" >
-            <p>热门话题</p>
+            <p style="margin-top: 15px">热门话题</p>
+          <divider/>
             <hottopics></hottopics>
         </div>
         <div id="tweetitems" >
             <tweets type="home"></tweets>
         </div>
         <div id="recommendusers">
-            <p>推荐关注</p>
+            <p style=" margin-top: 15px">推荐关注</p>
+          <divider/>
             <recommendusers></recommendusers>
         </div>
     </div>
