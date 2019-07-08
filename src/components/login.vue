@@ -75,7 +75,7 @@ export default {
             //User.userID = i;
             //console.log(User.userID)
             //加入coockie
-            this.setCookie("userID", i)
+            this.setCookie("userID", i, 30)
             console.log(document.cookie)
             this.$router.push("/home");
           }
