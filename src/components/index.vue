@@ -39,13 +39,13 @@
         </div>
         <div class="OperactionBtns">
           <div class="RegisterTitle">
-            Join today.
+            Join today...
           </div>
           <router-link class="btn regist" to="/regist" href="/regist">
             Register
           </router-link >
           <router-link class="btn login" to="/login" href="/login">
-            Login
+            &nbsp&nbspLogin&nbsp&nbsp&nbsp
           </router-link>
         </div>
       </div>
@@ -66,7 +66,7 @@ export default {
 }
 
 .HomePageInfo {
-  width: 50%;
+  width: 40%;
   background: #1da1f2;
   overflow: hidden;
   position: relative;
@@ -85,12 +85,13 @@ export default {
   display: inline-block;
   left: 40%;
   top: 50%;
+  font-family: "Times New Roman";
   transform: translate(-50%, -50%);
 }
 
 .InfoContent {
   color: white;
-  font-size: 18px;
+  font-size: 25px;
   letter-spacing: 0.08em;
   line-height: 24px;
 }
@@ -111,9 +112,11 @@ export default {
 .OperactionContainer {
   display: inline-block;
   position: relative;
-  left: 40%;
+  left: 60%;
   top: 50%;
+  width: 900px;
   transform: translate(-50%, -50%);
+
 }
 
 .BirdImg img {
@@ -121,8 +124,9 @@ export default {
 }
 
 .Title {
-  font-size: 32px;
+  font-size: 45px;
   font-weight: 600;
+
 }
 
 .RegisterTitle {
@@ -143,12 +147,14 @@ export default {
   border: 1px solid #1da1f2;
   margin-top: 20px;
   padding: 10px 12px;
+
 }
 
 .OperactionBtns .btn.regist {
   background-color: #1da1f2;
   color: white;
-  margin-right: 10px;
+  margin-right: 20px;
+
 }
 
 .OperactionBtns .btn.regist:hover {

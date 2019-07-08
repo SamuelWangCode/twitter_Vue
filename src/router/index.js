@@ -10,6 +10,7 @@ import register from '@/components/regist'
 import zoom from '@/components/Zoom'
 import Explore from '@/components/Explore'
 import SearchResult from '@/components/SearchResult'
+import Topic from '@/components/Topic'
 Vue.use(router)
 
 export default new router({
@@ -73,7 +74,7 @@ export default new router({
     },
     {
       path:'/zoom',
-      name:'Zoom',
+      name:'zoom',
       component:zoom,
       meta:{
         keepAlive:true
@@ -91,6 +92,14 @@ export default new router({
       path:'/searchResult',
       name:'SearchResult',
       component:SearchResult,
+      meta:{
+        keepAlive:true
+      }
+    },
+    {
+      path:'/topic',
+      name:'Topic',
+      component:Topic,
       meta:{
         keepAlive:true
       }

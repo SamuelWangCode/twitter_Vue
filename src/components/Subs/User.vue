@@ -1,27 +1,38 @@
 <template>
-  <div>
-    <router-link :to="{ path: '/Zoom', query: { visitor_id: user_info.user_id }}">
-      <Avatar v-bind:src="user_info.avatar_url"  />
+  <div class="toFollow-container">
+    <router-link class="user-container" :to="{ path: '/Zoom', query: { visitor_id: user_info.user_id }}">
+
+      <div class="av-container">
+        <Avatar  size=large class="av" v-bind:src="user_info.avatar_url"></Avatar>
+      </div>
+      <div class="name-container">
+        <div style="font-size: 20px;font-weight: bold; color: black; ">{{user_info.nickname}}</div>
+        <div style="font-size: 10px;color: grey;margin-top: 6px">@ {{user_info.nickname}}</div>
+      </div>
+      <img class="confirm-container" style="width: 20px;height: 20px" v-bind:src="confirm_url"/>
     </router-link>
-    <span>{{user_info.nickname}}</span>
+
   </div>
 </template>
 <script>
+import ImageHandler from "./ImageHandler";
 export default {
   name: "User-Item",
+  components: {ImageHandler},
   data() {
     return {
       user_info: {
         user_id: -1,
         nickname: "",
         register_time: "",
-        self_introction: "",
+        self_introduction: "",
         followers_num: 0,
         follows_num: 0,
         avatar_url: "/avatars/0.jpg",
         messages_num: 0,
-        collection_num: 0
-      }
+        collection_num: 0,
+      },
+      confirm_url:"/static/confirmed.png"
     };
   },
   props: {
@@ -73,8 +84,34 @@ export default {
       this.load_follow_info(nval);
     }
   }
-  
-    
-  
+
+
+
 };
 </script>
+<style>
+
+  .user-container:hover:after{
+    text-decoration:underline;
+  }
+  .toFollow-container{
+    margin-top: 30px;
+    margin-left: 10px;
+
+  }
+  .av-container{
+    width: 18%;
+
+    float: left;
+  }
+  .name-container{
+    float: left;
+
+  }
+  .confirm-container{
+    margin-left: 10px;
+  }
+
+
+
+</style>
