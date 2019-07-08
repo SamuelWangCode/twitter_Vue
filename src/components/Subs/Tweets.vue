@@ -116,7 +116,7 @@ export default {
                 });
             }
             else if(this.type=="search"){
-                this.search(this.info).then(Response=>{
+                this.search(this.info, this.items.length + 1, 10).then(Response=>{
                     this.twiDatas=Response.data.data.twitters;
                     this.generateData();
                 });

@@ -133,7 +133,7 @@ export default {
                         this.textArr.push({type:"topic",id:index[i].id,content:tempNormalStr});
                     }
                 }
-                //console.log("最后的数组",this.textArr);
+                console.log("最后的数组",this.textArr);
 
             }
             //如果没有那就一个普通文字
@@ -144,7 +144,10 @@ export default {
         }
     },
     created(){
+        console.log("fulltext",this.fullText);
+        console.log("this.ats",this.ats);
         this.solveText();
+        
     },
 }
         

@@ -127,10 +127,10 @@ Vue.prototype.getRecommendUsers = function(){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //SEARCH
 //search(searchKey)
-Vue.prototype.search = function(searchKey){
+Vue.prototype.search = function(searchKey, startFrom, limitation){
   var data = {
-    startFrom: 1,
-    limitation: 10
+    startFrom: startFrom,
+    limitation: limitation
   }
   if(!checkString(searchKey)){
     return null;
@@ -204,7 +204,7 @@ Vue.prototype.cancelFollowingTo = function(user_id){
   if(!checkNumber(user_id)){
     return null;
   }
-  return get(RELATION + "cancelFollowingTo" + user_id);
+  return get(RELATION + "cancelFollowingTo/" + user_id);
 }
 //if_following(follower_id, be_followed_id)
 Vue.prototype.if_following = function(follower_id, be_followed_id){
