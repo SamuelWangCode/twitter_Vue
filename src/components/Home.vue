@@ -148,6 +148,47 @@ ul li{
     margin-left: 15px;
     margin-bottom: 5px
   }
+
+
+
+  /* -------------------------------------------------------------------------------- */
+  .demo-upload-list{
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        line-height: 60px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        position: relative;
+        box-shadow: 0 1px 1px rgba(0,0,0,.2);
+        margin-right: 4px;
+    }
+    .demo-upload-list img{
+        width: 100%;
+        height: 100%;
+    }
+    .demo-upload-list-cover{
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,.6);
+    }
+    .demo-upload-list:hover .demo-upload-list-cover{
+        display: block;
+    }
+    .demo-upload-list-cover i{
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 0 2px;
+    }
+    /* ----------------------------------------------------------------- */
 </style>
 
 <template>
@@ -185,9 +226,38 @@ ul li{
       <div class="Editer" default-txt="What happens?" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
         What happens?
       </div>
-      <!-----TODO:AddPicture--- -->
-
-      <Button type="primary" shape="circle" :disabled="!inputContent.length" v-if="isEditerFocused" @click="sendPostBtnClickEventHandler" style="margin-top:10px;">Tweet</button>
+      <!-----TODO:AddPicture--- ----------------------------------------------->
+     <div class="demo-upload-list" v-for="item in uploadList">
+        <template>
+            <img :src="item.url">
+            <div class="demo-upload-list-cover">
+                <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
+                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+            </div>
+        </template>
+    </div>
+    <Upload
+        ref="upload"
+        :show-upload-list="false"
+        :on-success="handleSuccess"
+        :format="['jpg','jpeg','png']"
+        :max-size="2048"
+        :on-format-error="handleFormatError"
+        :on-exceeded-size="handleMaxSize"
+        :before-upload="handleBeforeUpload"
+        multiple
+        type="drag"
+        action=""
+        style="display: inline-block;width:58px;">
+        <div style="width: 58px;height:58px;line-height: 58px;">
+            <Icon type="ios-camera" size="20"></Icon>
+        </div>
+    </Upload>
+    <Modal title="View Image" v-model="visible">
+        <img :src="img_preview" v-if="visible" style="width: 100%">
+    </Modal>
+    <!-- sdadasdasdasdsad ---------------------------------------------------------------------------->
+      <Button type="primary" shape="circle" :disabled="!inputContent.length" v-if="isEditerFocused" @click="sendPostBtnClickEventHandler" style="float:left;margin-top:10px;margin-left:300px;">Tweet</button>
     </div>
   </div>
      </ElContainer>
@@ -207,7 +277,7 @@ ul li{
       <ElContainer id="right-container" >
         <el-header class="header-left-align">Who to follow</el-header>
         <div class='to-follow-list' v-for="toFollow in toFollowList">
-          <User v-bind:user_id="toFollow"></User>
+          <User v-bind:p_follow_info="toFollow"></User>
         </div>
       </ElContainer>
   </div>
@@ -225,6 +295,9 @@ ul li{
     components: {Caspanel, ElUploadList},
     data(){
       return{
+        visible:false,
+        img_preview:"",
+        uploadList: [],
         loading:false,
         userName: "username",
         sites: [
@@ -259,7 +332,7 @@ ul li{
       console.log("登录：", userID)
       //let userID=user.userID
       //使用cookie
-      
+      this.uploadList = this.$refs.upload.fileList;
       
       console.log(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`)
         try{ 
@@ -309,10 +382,7 @@ ul li{
           errMsg: "Can't connect with server"
         };
         }
-    
-    
-    
-    
+   
     
         this.queryTopicsBaseOnHeat(0, 5).then(response=>{
           console.log("测试topics", response);
@@ -321,10 +391,7 @@ ul li{
         this.getRecommendUsers().then(response => {
           console.log("测试getRecommendUsers", response);
           console.log(response.data.data);
-          for(var i=0;i<response.data.data.length;++i){
-            console.log(i);
-            this.toFollowList.push(Number(response.data.data[i].user_id));
-          }
+          this.toFollowList=response.data.data;
           console.log(this.toFollowList)
         });
     
@@ -332,6 +399,49 @@ ul li{
     
     },
     methods:{
+      handleView (url) {
+                this.img_preview = url;
+                this.visible = true;
+            },
+            handleRemove (file) {
+                const fileList = this.$refs.upload.fileList;
+                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+            },
+            handleSuccess (res, file) {
+                file.url = '';
+                file.name = '';
+            },
+            handleFormatError (file) {
+                this.$Notice.warning({
+                    title: 'The file format is incorrect',
+                    desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+                });
+            },
+            handleMaxSize (file) {
+                this.$Notice.warning({
+                    title: 'Exceeding file size limit',
+                    desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+                });
+            },
+            handleBeforeUpload (file) {
+              
+                const check =  this.uploadList.length < 4;
+                if (!check) {
+                    this.$Notice.warning({
+                        title: 'Up to four pictures can be uploaded.'
+                    });
+                }else{
+                  let _this = this
+                  let reader = new FileReader()
+                  reader.readAsDataURL(file) // 这里是最关键的一步，转换就在这里
+                  reader.onloadend = function () {
+                    file.url = this.result
+                    _this.uploadList.push(file);
+                  }
+                  
+                }
+                return check;
+            },
       editerFocusEventHandler (e) {
       this.isEditerFocused = true
       this.contentEl = e.target
@@ -358,12 +468,7 @@ ul li{
       console.log("测试点击 topic_id:", topic.topic_id);
       //TODO 点击热点之后跳转
     },
-    tapRecommendUser(visitor_id){
-      console.log("测试点击推荐用户 visitor_id", visitor_id);
-      //TODO 跳转
-      this.$router.push({ path: '/Zoom', query: { visitor_id: visitor_id }});
-
-    },
+    
     async sendPostBtnClickEventHandler (e) {
 
     },

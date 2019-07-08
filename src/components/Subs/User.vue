@@ -25,10 +25,13 @@ export default {
     };
   },
   props: {
-    user_id:Number
+    p_user_id:{type:Number,default:null},
+    p_user_info:{type:Object,default:null},
+    p_follow_info:{type:Object,default:null}
   },
   methods: {
     get_info: function(user_id) {
+      console.log(user_id)
       this.getUserPublicInfo(user_id).then(Response => {
         if (Response.data.message == "success") {
           this.load_info(Response.data.data);
@@ -38,12 +41,38 @@ export default {
       });
     },
     load_info: function(info) {
+      console.log(info)
       this.user_info = info;
+    },
+    load_follow_info(info){
+      console.log(info)
+      this.user_info.user_id=info.user_id;
+      this.user_info.nickname=info.user_nickname;
+      this.user_info.avatar_url=info.avatar_url;
     }
   },
   mounted(){
-    this.get_info(this.user_id);
+    if(this.p_user_id){
+      this.get_info(this.p_user_id);
+    };
+    if(this.p_user_info){
+      this.load_info(this.p_user_info);
+    };
+    if(this.p_follow_info){
+      this.load_follow_info(this.p_follow_info);
+    }
   },
+  watch:{
+    p_user_info(nval,oval){
+      this.load_info(nval);
+    },
+    p_user_id(nval,oval){
+      this.get_info(nval);
+    },
+    p_follow_info(nval,oval){
+      this.load_follow_info(nval);
+    }
+  }
   
     
   

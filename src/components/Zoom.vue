@@ -218,12 +218,7 @@
       <div id="middle-middle-container">
 
         <div class="TabContainer">
-          <!--<router-link :to="{name: 'PersonPosts', params: {PersonAccount: personAccount}}" class="TabItem" exact-active-class="active">-->
-            <!--<div class="TabTxt">-->
-              <!--<div class="TabTitle">Tweets</div>-->
-              <!--<div class="Count">{{postsCount}}</div>-->
-            <!--</div>-->
-          <!--</router-link>-->
+
           <Button class="TabItem" exact-active-class="active" @click="tweetsClicked">
             <div class="TabTxt" >
               <div class="TabTitle">Tweets</div>
@@ -249,6 +244,7 @@
             </div>
           </Button>
         </div>
+
         <div id="display-container">
           <hr>
 
@@ -289,13 +285,13 @@
       <div id="middle-right-container">
         <div id = "middle-right-top-container">
           <div id="follow-button-container">
-            <Button v-if="isFollowing===true" class ="follow-button"type="primary" shape="circle" style="height: 45px;margin-top: 15px">
+            <Button v-if="isFollowing===true" class ="follow-button"type="primary" shape="circle" @click="followClick" style="height: 45px;margin-top: 15px">
               <span style="font-weight:bold;font-size: 16px">Following</span>
             </Button>
-            <Button v-else-if="isFollowing===false" class ="follow-button"type="primary" shape="circle" style="background-color: maroon;border:darkred; height: 45px;margin-top: 15px">
+            <Button v-else-if="isFollowing===false" class ="follow-button"type="primary" shape="circle" @click="unfollowClick" style="background-color: maroon;border:darkred; height: 45px;margin-top: 15px">
               <span style="font-weight:bold;font-size: 16px">Unfollowed</span>
             </Button>
-            <Button v-if="visitID===userID" class ="follow-button"type="primary" shape="circle" style="height: 45px;margin-top: 15px;opacity: 0">
+            <Button v-if="visit===userID" class ="follow-button"type="primary" shape="circle" style="height: 45px;margin-top: 15px;opacity: 0">
               <span style="font-weight:bold;font-size: 16px;">Following</span>
             </Button>
           </div>
@@ -310,6 +306,7 @@
 
   import axios from "axios"
   import loadingAnimate from "./animate/loading"
+  import Tweets from "./Subs/Tweets.vue"
   axios.defaults.withCredentials = true;
     export default {
         name: "Zoom",
@@ -317,6 +314,8 @@
         data(){
           return{
             num:0,
+            visitor:0,
+            user:0,
             avatar:null,
             nickname:"NickName",
             personBkgImg:"/static/logo",
@@ -324,7 +323,6 @@
             followerCount:0,
             followingCount:0,
             collectCount:0,
-            visitID:0,
             isFollowing:false,
             personAccount:null,
             joinTime:null,
@@ -349,13 +347,14 @@
           }
         },
       components:{
-          loadingAnimate
+          loadingAnimate,Tweets
       },
       mounted: function getUser(){
           this.loading=true;
-
           var visitID = this.$route.query.visitor_id
+          this.visitor = visitID
           var selfID = this.getCookies("userID")
+          this.User = visitID
           console.log(selfID)
           try{
             let front="http://localhost:12293"
@@ -393,6 +392,22 @@
           }
       },
       methods:{
+          unfollowClick(){
+            this.cancelFollowingTo(this.visitor).then(response=>{
+              console.log("取消关注")
+            })
+            this.isFollowing=false;
+            console.log("unfollowClicked")
+          }
+          ,
+          followClick(){
+            this.isFollowing = true;
+            this.followSb(this.visitor).then(response=>{
+              console.log("follow结果", response);
+            })
+            console.log("followClicked")
+          }
+        ,
         setFalseStatus(){
           this.navStatus.followersShow = false;
           this.navStatus.collectionsShow = false;
@@ -416,7 +431,6 @@
           this.setFalseStatus();
           this.navStatus.followingShow = true;
           this.showName="followingShow"
-
           console.log(this.navStatus)
         },
 

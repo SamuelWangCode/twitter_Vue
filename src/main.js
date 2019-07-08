@@ -166,9 +166,10 @@ Vue.prototype.queryTopicsBaseOnHeat = function(startFrom, limitation){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //RELATION
 var RELATION = "api/Relation/";
-//follow(user_id)
-Vue.prototype.follow = function(user_id){
+//followSb(user_id)
+Vue.prototype.followSb = function(user_id){
   if(!checkNumber(user_id)){
+    console.log("followSb")
     return null;
   }
   return get(RELATION + "follow/" + user_id);
