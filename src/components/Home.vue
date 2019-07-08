@@ -222,7 +222,7 @@ ul li{
      <ElContainer  id="middle-container1" >
        <div class="PostSenderContainer">
     <Avatar :src=address shape="circle" on-error="" size="large" style="width:32px;height:32px;border-radius:50%"/>
-    <div class="EditerContainer">
+    <div class="EditerContainer" style="margin-left: 3%">
       <div class="Editer" default-txt="What happens?" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
         What happens?
       </div>

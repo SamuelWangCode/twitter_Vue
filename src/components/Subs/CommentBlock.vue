@@ -5,35 +5,35 @@
     width: 100%;
     margin:0px;
     padding-top: 20px;
-    background-color: aqua;
+    background-color: white;
 }
 .send-comm-div{
+  height: 40px;
     width:100%;
     margin-bottom: 20px;
-    background-color: rgb(229, 252, 244);
+  background-color: #2c3e50;
 }
 .send-comm-input{
+  margin-left: 55px;
     width:80%;
-    background-color: rgb(227, 241, 237);
-}
-.send-comm-button{
-    width:18%;
-    background-color: rgb(223, 243, 236);
+    background-color: white;
 }
 .comm-avt-div{
     float: left;
-    width: 12%;
+  margin-left: 40px;
     margin-top:15px;
-    background-color: rgb(225, 243, 237);
+    background-color: white;
     overflow: hidden;
 }
 .comm-useravt{
 }
 .comm-content-div{
     float: left;
-    width:86%;
-    margin-top:15px;
-    background-color:rgb(188, 213, 229);
+    width:70%;
+    margin-top:10px;
+  margin-bottom: 10px;
+  margin-left: 40px;
+    background-color:white;
 }
 .comm-name-div{
 
@@ -51,8 +51,8 @@
 <div>
     <div class="show-comment-div" v-show="ifShowComment">
         <div class="send-comm-div">
-            <input class="send-comm-input" type="text" v-model="commTextToSend">
-            <Button type="primary" @click="sendComment()">发送</Button>
+            <input type="text" style="width: 60%;margin-left: 125px;margin-top:10px;" v-model="commTextToSend">
+            <Button type="primary" @click="sendComment()" style="background-color: white ;color: #14171a;margin-left: 10px;">发送</Button>
         </div>
         <div v-for="comm in comments">
             <div class="comm-avt-div">
@@ -69,14 +69,17 @@
                     {{comm.comment.comment_create_time}}
                 </div>
             </div>
+          <divider/>
         </div>
     </div>
 </div>
 </template>
 
 <script>
+import Divider from "iview/src/components/divider/divider";
 export default {
-    props:{
+  components: {Divider},
+  props:{
         ifShowComment:false,
         comments:Array,
     },
