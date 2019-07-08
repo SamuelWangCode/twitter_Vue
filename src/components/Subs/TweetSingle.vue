@@ -83,7 +83,10 @@
     background-color: rgb(255, 182, 182);
 }
 
-
+.twi-text-block{
+    margin-bottom: 10px;
+    width: 100%;
+}
 .twi-text{
     margin-bottom: 10px;
     width: 100%;
@@ -93,7 +96,9 @@
 }
 
 
-
+.buttom-buttons{
+    width:100%;
+}
 .collection-button{
     float: left;
     width: 25%;
@@ -120,13 +125,13 @@
     
     <div class="twi-left">
         <div class="user-avatar-div">
-            <img class="user-avatar" :src="item.userInfo.avatar_url" alt="no">
+            <img class="user-avatar" :src="item.userAvt" alt="no">
         </div>
     </div>
     
     <div class="twi-right">
         <div class="twi-right-top-div">
-            <div class="user-name">{{item.userInfo.nickname}}</div>
+            <div class="user-name">{{item.userName}}</div>
             <div class="item-menu">
                 <Icon type="ios-arrow-down" size='24' class="item-menu-icon" @click="doShowMenu()"></Icon>
                 <div class="menu" v-show="showMenu">
@@ -151,18 +156,19 @@
             </div>
                         
         </div>
-        <div class="twi-text">
-            <twitextblock></twitextblock>
+        <div class="twi-text-block">
+            <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
         </div>
         
         <imagehandler class="img-handler" :imgData="item.message_image_urls" :twiId="item.message_id"></imagehandler>
 
     </div>
-    <collectionbutton class="collection-button" @collectTwi="collect()" v-bind:twiId="item.message_id" :collectByUser="item.collectByUser"></collectionbutton>
-    <commentbutton class="comment-button" @showComment="showComment()" v-bind:commentsNum="item.message_comment_num" :twiId="item.message_id"></commentbutton>
-    <sharebutton class="share-button" v-bind:shareNum="item.message_transpond_num" :twiId="item.message_id"></sharebutton>
-    <likebutton class="like-button" @likeTwi="like()" v-bind:likeByUser="item.likeByUser" v-bind:likesNum="item.message_agree_num" :twiId="item.message_id"></likebutton>
-
+    <div class="buttom-buttons">
+        <collectionbutton class="collection-button" @collectTwi="collect()" v-bind:twiId="item.message_id" :collectByUser="item.collectByUser"></collectionbutton>
+        <commentbutton class="comment-button" @showComment="showComment()" v-bind:commentsNum="item.message_comment_num" :twiId="item.message_id"></commentbutton>
+        <sharebutton class="share-button" v-bind:shareNum="item.message_transpond_num" :twiId="item.message_id"></sharebutton>
+        <likebutton class="like-button" @likeTwi="like()" v-bind:likeByUser="item.likeByUser" v-bind:likesNum="item.message_agree_num" :twiId="item.message_id"></likebutton>
+    </div>
     <commentblock class="comment-block" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
 
 </div>
@@ -276,6 +282,7 @@ export default {
         }
     },
     created(){
+        
     },
     beforeMount() {
     },
