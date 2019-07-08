@@ -251,8 +251,7 @@
         </div>
         <div id="display-container">
           <hr>
-          <div>sfasfsdfas</div>
-          <div>sdagasgas</div>
+
           <!--display tweets-->
           <div v-if ="navStatus.tweetsShow" id="tweets-container">
             <div class='to-follow-list' v-for= "toFollow in toFollowList" >
@@ -355,12 +354,10 @@
       mounted: function getUser(){
           this.loading=true;
 
+          var visitID = this.$route.query.visitor_id
           var selfID = this.getCookies("userID")
-          var visitID = this.getCookies("userID")
           console.log(selfID)
           try{
-            // let selfID=userID
-            // let visitID=userID
             let front="http://localhost:12293"
             axios.get(`http://localhost:12293/api/User/getUserPublicInfo/${visitID}`).then(response=>{
               console.log(visitID)
@@ -438,29 +435,11 @@
           this.navStatus[this.showName]=true
           console.log(this.navStatus.collectionsShow)
         }
-
-
       },
       watch: {
         '$route.params.PersonAccount': 'initUserID'
       }
-      // methods: {
-      //   async initUserID () {
-      //     this.personAccount = this.$route.params.PersonAccount
-      //     let res = await personInfo.GetPersonBasicInfo(this.personAccount)
-      //     if (!res.result) {
-      //       this.errorMessage = res.errMsg
-      //       document.title = 'Twitter Clone'
-      //       return
-      //     }
-      //     this.person = res.person
-      //     this.isFollowing = res.isFollowing
-      //     document.title = `${this.person.name} (@${this.person.account})`
-      //   },
-      //   windowScrollEventHandler (e) {
-      //     this.needPersonalWallFix = $(window).scrollTop() > 300
-      //   }
-      // }
+
 
     }
 </script>
