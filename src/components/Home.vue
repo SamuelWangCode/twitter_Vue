@@ -277,7 +277,7 @@ ul li{
       <ElContainer id="right-container" >
         <el-header class="header-left-align">Who to follow</el-header>
         <div class='to-follow-list' v-for="toFollow in toFollowList">
-          <User v-bind:user_id="toFollow"></User>
+          <User v-bind:p_follow_info="toFollow"></User>
         </div>
       </ElContainer>
   </div>
@@ -391,10 +391,7 @@ ul li{
         this.getRecommendUsers().then(response => {
           console.log("测试getRecommendUsers", response);
           console.log(response.data.data);
-          for(var i=0;i<response.data.data.length;++i){
-            console.log(i);
-            this.toFollowList.push(Number(response.data.data[i].user_id));
-          }
+          this.toFollowList=response.data.data;
           console.log(this.toFollowList)
         });
     
@@ -471,12 +468,7 @@ ul li{
       console.log("测试点击 topic_id:", topic.topic_id);
       //TODO 点击热点之后跳转
     },
-    tapRecommendUser(visitor_id){
-      console.log("测试点击推荐用户 visitor_id", visitor_id);
-      //TODO 跳转
-      this.$router.push({ path: '/Zoom', query: { visitor_id: visitor_id }});
-
-    },
+    
     async sendPostBtnClickEventHandler (e) {
 
     },
