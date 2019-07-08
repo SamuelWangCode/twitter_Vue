@@ -330,6 +330,7 @@
             personAccount:null,
             joinTime:null,
             showName:"tweetsShow",
+            status: ['tweetsShow', 'followingShow', 'followersShow', 'collectionsShow'],
             navStatus: {
               tweetsShow:true,
               followingShow:false,
@@ -395,37 +396,36 @@
           }
       },
       methods:{
+        setFalseStatus(){
+          this.navStatus.followersShow = false;
+          this.navStatus.collectionsShow = false;
+          this.navStatus.followingShow = false;
+          this.navStatus.tweetsShow = false;
+        },
         getCookies(a){
           return this.getCookie(a)
         },
 
         tweetsClicked(){
           console.log("tweetsClicked")
-
-          for(let navName in this.navStatus){
-            navName=false
-          }
+          this.setFalseStatus()
+          this.navStatus.tweetsShow = true;
           this.showName="tweetsShow"
-          this.navStatus[this.showName]=true;
-          console.log(this.navStatus.tweetsShow)
+          console.log(this.navStatus)
         },
 
         followingClicked(){
-          console.log("followingClicked")
-          for(let navName in this.navStatus){
-            navName=false
-          }
+          console.log("followingClicked");
+          this.setFalseStatus();
+          this.navStatus.followingShow = true;
           this.showName="followingShow"
-          this.navStatus[this.showName]=true
-          console.log(this.navStatus.followingShow)
-          console.log(this.showName)
+
+          console.log(this.navStatus)
         },
 
         followersClicked(){
           console.log("followersClicked")
-          for(let navName in this.navStatus){
-            navName=false
-          }
+          this.setFalseStatus();
           this.showName="followersShow"
           this.navStatus[this.showName]=true
           console.log(this.navStatus.followersShow)
@@ -433,9 +433,7 @@
 
         collectionsClicked(){
           console.log("collectionsClicked")
-          for(let navName in this.navStatus){
-            navName=false
-          }
+          this.setFalseStatus();
           this.showName="collectionsShow"
           this.navStatus[this.showName]=true
           console.log(this.navStatus.collectionsShow)
