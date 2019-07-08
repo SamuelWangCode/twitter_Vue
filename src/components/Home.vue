@@ -19,8 +19,8 @@
 
 .EditerContainer {
   position: relative;
-  left: 26px;
-  width: 100%;
+  left: 32px;
+  width: 80%;
   line-height: 20px;
 }
 
@@ -155,7 +155,7 @@ ul li{
         <loadingAnimate v-if="loading" style="margin-left:auto;margin-right:auto;margin-top:48px;"/>
     <div id=left-container>
     <ElContainer id = 'left-container1' style="background-color:#1DA1F2;">
-       <Avatar :src=address shape="circle" on-error="" size="large" style="height:60px; width:60px; border-radius:50%;margin-left:10%;margin-top:20%;"/>
+       <Avatar v-bind:src=address shape="circle" on-error="" size="large" style="height:60px; width:60px; border-radius:50%;margin-left:10%;margin-top:20%;"/>
        <span style="margin-top:80px;margin-left:10px;font-weight:bold;font-size:20px;">
          {{userName}}
        </span>
@@ -165,10 +165,13 @@ ul li{
      <ElContainer id = 'left-container2' >
        <el-header class='header-left-align'>Trends for you</el-header>
        <ul>
-         <li id="trends-container" v-for="trends in tweets">
-           <a >
-             <span id='trends-name' >Trends Name</span>
-             <div id='tweets-times'>{{trends}} Tweets</div>
+         
+         <li id="trends-container" v-for="topic in topics">
+           <a>
+             <div v-on:click="tapTopic(topic)" >
+             <span id='trends-name' >{{topic.topic_content}}</span>
+             <div id='tweets-times'>{{ topic.topic_heat }} heat</div>
+             </div>
            </a>
          </li>
        </ul>
@@ -177,12 +180,14 @@ ul li{
     <div id="middle-container">
      <ElContainer  id="middle-container1" >
        <div class="PostSenderContainer">
-    <Avatar :src=address shape="circle" on-error="" size="large" />
+    <Avatar :src=address shape="circle" on-error="" size="large" style="width:32px;height:32px;border-radius:50%"/>
     <div class="EditerContainer">
       <div class="Editer" default-txt="What happens?" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
         What happens?
       </div>
-      <button type="button" class="btn PostBtn" :disabled="!inputContent.length" v-if="isEditerFocused" @mousedown="sendPostBtnClickEventHandler">Tweet</button>
+      <!-----TODO:AddPicture--- -->
+
+      <Button type="primary" shape="circle" :disabled="!inputContent.length" v-if="isEditerFocused" @click="sendPostBtnClickEventHandler" style="margin-top:10px;">Tweet</button>
     </div>
   </div>
      </ElContainer>
@@ -191,7 +196,7 @@ ul li{
        padding-left:20%;
        padding-bottom:10%;
        padding-right:20%;">
-         <span style= "font-weight:bold;font-size:32px;">What? No Tweets yet?</span>
+         <span style= "font-weight:bold;font-size:26px;">What? No Tweets yet?</span><br>
          <span style= "font-size:16px;font-color:#657180;">This empty timeline won’t be around for long. Start following people and you’ll see Tweets show up here.</span>
          <br><br><br>
          <Button type="primary" shape="circle"><span style="font-weight:bold;">Find people to follow</span></Button>
@@ -201,11 +206,14 @@ ul li{
 
       <ElContainer id="right-container" >
         <el-header class="header-left-align">Who to follow</el-header>
-        <div class='to-follow-list'v-for= "toFollow in toFollowList" >
+        <div class='to-follow-list' v-for="toFollow in toFollowList">
           <a>
-          <Avatar class='infor-avatar':src='toFollow.avatarUrl' ></Avatar>
-          {{toFollow.name}}
+          <div v-on:click="tapRecommendUser(toFollow.user_id)">
+            <Avatar class='infor-avatar' v-bind:src='toFollow.avatar_url' ></Avatar>
+          {{toFollow.user_nickname}}
+          </div>
           </a>
+          
         </div>
       </ElContainer>
   </div>
@@ -214,6 +222,7 @@ ul li{
   import ElUploadList from "element-ui/packages/upload/src/upload-list";
   import Caspanel from "iview/src/components/cascader/caspanel";
   import axios from "axios"
+  import User from "./Subs/User"
   //import user from "./store/user"
   import loadingAnimate from "./animate/loading"
   axios.defaults.withCredentials = true;
@@ -229,16 +238,11 @@ ul li{
           { name: 'Google' },
           { name: 'Taobao' }
         ],
-        tweets:[
-          24564564,356,89084,98785,65567234,82342,92342,2324234
+        topics:[
+          
         ],
         toFollowList:[
-          {name:'皮卡丘', avatarUrl:'/static/logo'},
-          {name:'杰尼龟', avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'喷火龙', avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'超梦', avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'伊布',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
-          {name:'梦幻',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'}
+          
         ],
         informationList:[
           {name:'妙蛙种子',content:'阳光烈焰',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg'},
@@ -253,14 +257,16 @@ ul li{
       }
     },
     components:{
-      loadingAnimate
+      loadingAnimate,User
     },
     mounted(){
       this.loading=true;
-        var userID = this.getCookies("userID")
-        console.log(userID)
+      var userID = this.getCookies("userID")
+      console.log("登录：", userID)
       //let userID=user.userID
       //使用cookie
+      
+      
       console.log(`http://localhost:12293/api/User/getAvatarImageSrc/${userID}`)
         try{ 
           let front="http://localhost:12293"
@@ -268,7 +274,7 @@ ul li{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
             {
-              this.address = front + Response.data.data
+              this.address = Response.data.data // /avatars/0.jpg
               console.log(this.address)
             }
             else{
@@ -286,7 +292,6 @@ ul li{
         //nickname
         try{
           console.log(userID)
-          console.log(`http://localhost:12293/api/User/query/${userID}`)
           this.getUserPublicInfo(userID).then(Response=>{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
@@ -310,6 +315,22 @@ ul li{
           errMsg: "Can't connect with server"
         };
         }
+    
+    
+    
+    
+    
+        this.queryTopicsBaseOnHeat(0, 5).then(response=>{
+          console.log("测试topics", response);
+          this.topics = response.data.data;
+        });
+        this.getRecommendUsers().then(response => {
+          console.log("测试getRecommendUsers", response);
+          this.toFollowList = response.data.data;
+        });
+    
+        
+    
     },
     methods:{
       editerFocusEventHandler (e) {
@@ -332,10 +353,21 @@ ul li{
     },
     getCookies(a){
       return this.getCookie(a)
-    }
-    //TODO
-    //async sendPostBtnClickEventHandler (e) {}
+    },
 
+    tapTopic(topic){
+      console.log("测试点击 topic_id:", topic.topic_id);
+      //TODO 点击热点之后跳转
+    },
+    tapRecommendUser(visitor_id){
+      console.log("测试点击推荐用户 visitor_id", visitor_id);
+      //TODO 跳转
+      this.$router.push({ path: '/Zoom', query: { visitor_id: visitor_id }});
+
+    },
+    async sendPostBtnClickEventHandler (e) {
+
+    },
     }
   }
 </script>

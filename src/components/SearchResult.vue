@@ -67,7 +67,7 @@ ul li {
 <template>
   <div id="root-div">
     <ElContainer id="left-container">
-      <el-header class="header-left-align">Trends for you</el-header>
+      <el-header class="header-left-align">Trends</el-header>
       <ul>
         <li id="trends-container" v-for="topic in topics">
           <a>
@@ -100,12 +100,12 @@ ul li {
     </ElContainer>
 
     <ElContainer id="right-container">
-      <el-header class="header-left-align">Who to follow</el-header>
-      <div class="to-follow-list" v-for="toFollow in toFollowList">
+      <el-header class="header-left-align">Users</el-header>
+      <div class="to-follow-list" v-for="user in users">
         <a>
-          <div v-on:click="tapRecommendUser(toFollow.user_id)">
-            <Avatar class="infor-avatar" v-bind:src="toFollow.avatar_url"></Avatar>
-            {{toFollow.user_nickname}}
+          <div v-on:click="tapRecommendUser(user.user_id)">
+            <Avatar class="infor-avatar" v-bind:src="user.avatar_url"></Avatar>
+            {{user.nickname}}
           </div>
         </a>
       </div>
@@ -120,9 +120,10 @@ export default {
   components: { Caspanel, ElUploadList },
   data() {
     return {
+      searchKey : this.$route.query.searchKey,
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
       topics: [],
-      toFollowList: [],
+      users: [],
       informationList: [
         {
           name: "妙蛙种子",
@@ -148,14 +149,12 @@ export default {
     };
   },
   mounted(){
-    this.queryTopicsBaseOnHeat(0, 5).then(response=>{
+    console.log("搜索码为,", this.searchKey)
+    this.search(this.searchKey).then(response=>{
           console.log("测试topics", response);
-          this.topics = response.data.data;
-        });
-        this.getRecommendUsers().then(response => {
-          console.log("测试getRecommendUsers", response);
-          this.toFollowList = response.data.data;
-        });
+          this.topics = response.data.data.topics;
+          this.users = response.data.data.users;
+    });
   },
   methods: {
     tapTopic(topic) {

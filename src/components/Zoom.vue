@@ -78,8 +78,6 @@
     height:60px;
     font-size:30px;
     font-weight: bold;
-    font-family: "Times New Roman";
-    font-color:black;
   }
 
   #selfIntroduction-container{
@@ -258,8 +256,9 @@
           <!--display tweets-->
           <div v-if ="navStatus.tweetsShow" id="tweets-container">
             <div class='to-follow-list' v-for= "toFollow in toFollowList" >
+
               <a id="ad">
-                <Avatar class='infor-avatar':src='toFollow.avatarUrl' ></Avatar>
+                <Avatar class='infor-avatar' v-bind:src='toFollow.avatarUrl' ></Avatar>
                 {{toFollow.name}}
               </a>
             </div>
@@ -362,14 +361,14 @@
             // let selfID=userID
             // let visitID=userID
             let front="http://localhost:12293"
-            axios.get(`http://localhost:12293/api/User/query/${visitID}`).then(response=>{
+            axios.get(`http://localhost:12293/api/User/getUserPublicInfo/${visitID}`).then(response=>{
               console.log(visitID)
               console.log(response.data.data)
               if(response.data.code===200 && response.data.message==="success")
               {
                 this.nickname=response.data.data.nickname
                 console.log(this.nickname)
-                this.avatar = front + response.data.data.avatar_url
+                this.avatar = response.data.data.avatar_url
                 this.postsCount = response.data.data.messages_num
                 this.followerCount=response.data.data.followers_num
                 this.followingCount=response.data.data.follows_num

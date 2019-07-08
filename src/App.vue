@@ -3,24 +3,24 @@
     <section v-if="$route.meta.keepAlive">
       <nav class="navBar" style="z-index: 1">
         <Menu mode="horizontal" :theme="theme1" active-name="home" style="padding-left:15%;" @on-select="onSelect">
-          <MenuItem name="home" v-link="{path: '/'}" key="Home">
+          <MenuItem name="home" router-link="{path: '/'}" key="Home">
             <Icon type="ios-home" size="24"></Icon>
             Home
           </MenuItem>
-          <MenuItem name="notifications" v-link="{path: '/Notifications'}" key="Notifications">
+          <MenuItem name="notifications" router-link="{path: '/Notifications'}" key="Notifications">
             <Icon type="ios-notifications" size="24"></Icon>
             Notifications
           </MenuItem>
-          <MenuItem name="message" v-link="{path: '/Message'}" key="Message">
+          <MenuItem name="message" router-link="{path: '/Message'}" key="Message">
             <Icon type="ios-mail" size="24"></Icon>
             Message
           </MenuItem>
-          <MenuItem name="personal" v-link="{path: '/Personal'}" key="Personal">
+          <MenuItem name="personal" router-link="{path: '/Personal'}" key="Personal">
             <Icon type="ios-person" size="24"></Icon>
             Personal
           </MenuItem>
-          <MenuItem name="explore" v-link="{path: '/Explore'}" key="Explore">
-            <Icon type="ios-person" size="24"></Icon>
+          <MenuItem name="explore" router-link="{path: '/Explore'}" key="Explore">
+            <Icon type="ios-eye" size="24"></Icon>
             Explore
           </MenuItem>
           <Select
@@ -60,7 +60,7 @@
       },
       async signOut(){
         try {
-          console.log("start")
+          console.log("startLogOut")
           this.logOut().then(Response=>{
             console.log(Response);
             if(Response.data.code==200 && Response.data.message=="success")
@@ -72,6 +72,8 @@
                 desc:''
               })
               this.$router.push("/index");
+              this.delCookie(userID)
+              return
             }
             else{
               this.$Notice.error({
