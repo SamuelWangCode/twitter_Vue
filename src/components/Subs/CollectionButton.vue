@@ -15,15 +15,21 @@
 <template>
 <div>
     <div class="collection-div" @click="doCollect()">
-        <Icon type="ios-star" size="24"  v-if="collectByUser" style="margin-bottom: 3px"></Icon>
-        <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
+      <vue-star animate="animated rubberBand" color="#F05654">
+        <icon slot="icon" type="ios-star" size="24"  v-if="collectByUser" style="margin-bottom: 3px"></icon>
+        <icon slot="icon" type="ios-star-outline" size="24"  v-else style="margin-bottom: 3px"></icon>
+      </vue-star>
     </div>
 </div>
 </template>
 
 
 <script>
+  import VueStar from 'vue-star'
 export default {
+  components:{
+    VueStar
+  },
     props:{
         collectByUser:false,
         twiId:Number,

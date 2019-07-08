@@ -23,14 +23,9 @@
             <Icon type="ios-eye" size="24"></Icon>
             Explore
           </MenuItem>
-          <select
-            v-model="model13" filterable remote:remote-method="remoteMethod1" :loading="loading1" placeholder="Search in twitter"  not-found-text="no matching result" prefix="ios-search" style="width:300px;">
-            <Option v-for="(option, index) in options1" :value="option.value" :key="index">{{option.label}}</Option>
-          </select>
-          <Button shape="circle" type="error" style="margin-left:20px;" @click="signOut">log out</Button>
-
+          <Input v-model = "model13" icon="ios-search" @keyup.enter.native="handleSearch" placeholder="search in twitter" style="width: 300px"/>
+          <Button shape="circle" type="error" style="margin-left:20px;" @click = "signOut">log out</Button>
         </Menu>
-
       </nav>
     </section>
     <router-view/>
@@ -47,14 +42,20 @@
         theme1:"light",
         model13: '',
         loading1: false,
-        options1: [],
-        model14: [],
-        loading2: false,
-        options2: [],
         list: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New hampshire', 'New jersey', 'New mexico', 'New york', 'North carolina', 'North dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode island', 'South carolina', 'South dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West virginia', 'Wisconsin', 'Wyoming']
       }
     },
     methods:{
+      handleSearch()
+      {
+        this.$router.push({
+          path:'/searchResult',
+          query:{
+            searchKey:this.model13
+          }
+        })
+      },
+
       onSelect (d){
         this.$router.push({path:"/"+ d})
       },
