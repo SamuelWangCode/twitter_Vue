@@ -137,7 +137,6 @@ export default {
                 itemTemp.likeByUser=false;
                 itemTemp.followByUser=false;
                 itemTemp.comments=[];
-                console.log(this.items[i+twiCount]);
                 if(itemTemp.message_ats==null){
                     itemTemp.message_ats=[];
                 }
@@ -173,13 +172,13 @@ export default {
                     });
                     //求证是否关注
 
-                    
                     //如果是被转发的推特就取原推特
                     if (this.items[i+twiCount].meesage_is_transpond==1){
-                        let str='{"message_transpond_message_id":-1,"message_is_transpond":0,"message_sender_user_id":2,"message_id":1,"message_create_time":"2019-10-3","message_content":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg"],"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}';
-                        items[i+twiCount].rawMessage=JSON.parse(str);
+                        this.queryMessage(items[i+twiCount].message_transpond_message_id).then(Response=>{
+                            items[i+twiCount].rawItem=response.data.data;
+                            alert(items[i+twiCount].rawItem);
+                        });
                         //并且取被转发推特的用户
-                        
                     }
                 });
                 

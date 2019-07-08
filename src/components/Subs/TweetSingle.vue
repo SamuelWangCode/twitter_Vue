@@ -166,7 +166,7 @@
     <div class="buttom-buttons">
         <collectionbutton class="collection-button" @collectTwi="doCollect()" v-bind:twiId="item.message_id" :collectByUser="item.collectByUser"></collectionbutton>
         <commentbutton class="comment-button" @showComment="showComment()" v-bind:commentsNum="item.message_comment_num" :twiId="item.message_id"></commentbutton>
-        <sharebutton class="share-button" v-bind:shareNum="item.message_transpond_num" :twiId="item.message_id"></sharebutton>
+        <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
         <likebutton class="like-button" @likeTwi="doLike()" v-bind:likeByUser="item.likeByUser" v-bind:likesNum="item.message_agree_num" :twiId="item.message_id"></likebutton>
     </div>
     <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>

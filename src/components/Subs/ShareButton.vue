@@ -80,7 +80,7 @@
 
     <div class="share-div" @click="doShowSharePage()">
         <Icon type="ios-share-alt-outline" size="24"></Icon>
-        <span>{{shareNum}}</span>
+        <span>{{item.message_transpond_num}}</span>
     </div>
 
 </div>
@@ -90,8 +90,7 @@
 <script>
 export default {
      props:{
-        shareNum:Number,
-        twiId:Number,
+        item:Object,
     },
     data(){
         return {
@@ -104,20 +103,12 @@ export default {
     methods:{
         //转发
         share(){ 
-            let data={
-                message:this.shareText,
+            let formData={
+                message_content:this.shareText,
+                message_source_is_transpond:this.item.message_is_transpond,
+                message_transpond_message_id:this.item.message_id,
             }
-            this.$http.post(
-                'http://localhost:12293/api/Message/transpond',data
-            ).then(Response=>{
-            //成功发送了
-                if (Response.data.code==200){
-                    //播放动画？
-                }
-                else{
-                    window.alert("发送失败");
-                }
-            });
+            this.transpond(formData);
         },
         //展示转发的覆盖页
         doShowSharePage(){
