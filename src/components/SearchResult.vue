@@ -112,33 +112,11 @@ export default {
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
       topics: [],
       users: [],
-      informationList: [
-        {
-          name: "妙蛙种子",
-          content: "阳光烈焰",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "百变怪",
-          content: "变身",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "小锯鳄",
-          content: "撞击",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "果然翁",
-          content: "反弹",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        }
-      ]
     };
   },
   mounted(){
     console.log("搜索码为,", this.searchKey)
-    this.search(this.$route.query.searchKey).then(response=>{
+    this.search(this.searchKey, 0, 10).then(response=>{
           console.log("测试topics", response);
           this.topics = response.data.data.topics;
           this.users = response.data.data.users;
