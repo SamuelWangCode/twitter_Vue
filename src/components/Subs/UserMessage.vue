@@ -37,11 +37,11 @@
     width: 100%;
     text-align: center;
     font-size: 20px;
-    background-color: antiquewhite;
+    background-color: #2c3e50;
+    color:white;
 }
 .close-icon{
     float: right;
-    background-color: aquamarine;
 }
 .message-text-inputer{
     width: 90%;
@@ -77,7 +77,7 @@
 
 
     <div class="message-div" @click="doShowPage()">
-        <Icon type="ios-mail-outline" size="24"></Icon>发送私信
+        <Icon type="ios-mail-outline" size="24"></Icon>私信
     </div>
 </div>
 </template>

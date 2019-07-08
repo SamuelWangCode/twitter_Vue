@@ -54,16 +54,13 @@ export default {
     },
     methods:{
         doLike(item){
-            item.likeByUser==!item.likeByUser;
-            console.log(item.likeByUser);
+            item.likeByUser=!item.likeByUser;
         },
         doCollect(item){
             item.collectByUser=!item.collectByUser;
-            console.log(item.collectByUser);
         },
         doFollow(item){
             item.followByUser=!item.followByUser;
-            console.log(item.followByUser);
         },
         getCookies(name){
             return this.getCookie(name);
@@ -153,33 +150,10 @@ export default {
                 this.getUserPublicInfo(itemTemp.message_sender_user_id).then(Response=>{
                     itemTemp.userName=Response.data.data.nickname;
                     itemTemp.userAvt=Response.data.data.avatar_url;
+
+                    //有了推文和用户基本信息后加入数组，其他信息tweetsingle自行判断
                     this.items.push(itemTemp);
 
-                    //有了推文和用户基本信息后
-
-
-                    //求收藏和喜欢的信息，求是否关注用户
-                    //求证是否点赞
-                    this.checkUserLikesMessage(this.getCookies("userID"),this.items[i+twiCount].message_id).then(Response=>{
-                        this.items[i+twiCount].likeByUser=Response.data.data.like;
-                    });
-                    //求证是否收藏
-                    this.checkUserCollectMessage(this.getCookies("userID"),this.items[i+twiCount].message_id).then(Response=>{
-                        this.items[i+twiCount].collectByUser=Response.data.data.favor;
-                    });
-                    this.if_following_by_me(this.items[i+twiCount].message_sender_user_id).then(Response=>{
-                        this.items[i+twiCount].followByUser=Response.data.data.if_following;
-                    });
-                    //求证是否关注
-
-                    //如果是被转发的推特就取原推特
-                    if (this.items[i+twiCount].meesage_is_transpond==1){
-                        this.queryMessage(items[i+twiCount].message_transpond_message_id).then(Response=>{
-                            items[i+twiCount].rawItem=response.data.data;
-                            alert(items[i+twiCount].rawItem);
-                        });
-                        //并且取被转发推特的用户
-                    }
                 });
                 
 

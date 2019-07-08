@@ -3,7 +3,8 @@
 
 .img-handler-div{
     width:100%;
-    height:100%,
+    height:100%;
+    box-shadow: #8287b4 0px 0px 8px;
 }
 
 .img1-1-div{
