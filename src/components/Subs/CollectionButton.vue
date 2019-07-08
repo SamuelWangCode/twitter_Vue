@@ -14,16 +14,22 @@
 
 <template>
 <div>
-    <div class="collection-div" @click="collect()">
-        <Icon type="ios-star" size="24"  v-if="collectByUser" style="margin-bottom: 3px"></Icon>
-        <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
+    <div class="collection-div" @click="doCollect()">
+      <vue-star animate="animated rubberBand" color="#F05654">
+        <icon slot="icon" type="ios-star" size="24"  v-if="collectByUser" style="margin-bottom: 3px"></icon>
+        <icon slot="icon" type="ios-star-outline" size="24"  v-else style="margin-bottom: 3px"></icon>
+      </vue-star>
     </div>
 </div>
 </template>
 
 
 <script>
+  import VueStar from 'vue-star'
 export default {
+  components:{
+    VueStar
+  },
     props:{
         collectByUser:false,
         twiId:Number,
@@ -34,41 +40,18 @@ export default {
     },
     methods:{
         //收藏与取消收藏
-        collect(){
-            let data={
-                message_id:this.twiId,
-            }
-            if (this.collectByUser==false){
-                
-                this.$http.post(
-                    'http://localhost:12293/api/Collection/add',data
-                ).then(Response=>{
-                    //成功发送了
-                    if (Response.data.code==200){
-                        //播放动画？
-                        console.log("collect了",Response);
-                        this.$emit("collectTwi");
-                    }
-                    else{
-                        window.alert("收藏失败");
-                    }
+        doCollect(){
+            if(this.collectByUser==false){
+                this.addCollection(this.twiId).then(Response=>{
+                    this.$emit('collectTwi');
                 });
             }
-            else{
-                this.$http.post(
-                    'http://localhost:12293/api/Collection/delete',data
-                ).then(Response=>{
-                    if (Response.data.code==200){
-                        //播放动画？
-                        this.$emit("collectTwi");
-                        console.log("cancelcollect",Response);
-                    }
-                    else{
-                        window.alert("取消收藏失败");
-                    }
+            if(this.collectByUser==true){
+                this.deleteCollection(this.twiId).then(Response=>{
+                    this.$emit('collectTwi');
                 });
             }
-        },
+        }
     },
     created(){
     },

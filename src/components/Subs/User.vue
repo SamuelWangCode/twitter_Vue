@@ -1,9 +1,9 @@
 <template>
   <div>
     <router-link :to="{ path: '/Zoom', query: { visitor_id: user_info.user_id }}">
-    <Avatar v-bind:src="user_info.avatar_url" v-on:click="jump"/>
+      <Avatar v-bind:src="user_info.avatar_url"  />
     </router-link>
-    <span >{{user_info.nickname}}</span>
+    <span>{{user_info.nickname}}</span>
   </div>
 </template>
 <script>
@@ -24,22 +24,28 @@ export default {
       }
     };
   },
+  props: {
+    user_id:Number
+  },
   methods: {
     get_info: function(user_id) {
       this.getUserPublicInfo(user_id).then(Response => {
         if (Response.data.message == "success") {
           this.load_info(Response.data.data);
-          console.log("fafsdf")
+          console.log("user_id:"+user_id);
           console.log(Response.data);
         }
       });
     },
-    load_info: function(info){
-        this.user_info=info;
-    },
-    jump: function(){
-        //this.$router.push({ path: '/Zoom', query: { visitor_id: user_info.user_id }})
+    load_info: function(info) {
+      this.user_info = info;
     }
-  }
+  },
+  mounted(){
+    this.get_info(this.user_id);
+  },
+  
+    
+  
 };
 </script>

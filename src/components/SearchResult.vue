@@ -80,24 +80,9 @@ ul li {
       </ul>
     </ElContainer>
 
-    <ElContainer id="middle-container">
-      <div class="el-header" style="border-bottom: 1px solid #e6ecf0;width: 100%">
-        <Tabs active-key="key1" style="float: left;width: 100%">
-          <Tab-pane label="All" key="key1">
-            <ElContainer v-for="infor in informationList">
-              <a>
-                <Avatar
-                  :src="infor.avatarUrl"
-                  style="margin-top: 10px;margin-left: 15px;margin-bottom: 5px"
-                ></Avatar>
-                {{infor.name}}: {{infor.content}}
-              </a>
-            </ElContainer>
-          </Tab-pane>
-          <Tab-pane label="Mention" key="key2">标签二的内容</Tab-pane>
-        </Tabs>
-      </div>
-    </ElContainer>
+    <div id="middle-container">
+      <tweets type="search" v-bind:info="searchKey"></tweets>
+    </div>
 
     <ElContainer id="right-container">
       <el-header class="header-left-align">Users</el-header>
@@ -115,9 +100,12 @@ ul li {
 <script>
 import ElUploadList from "element-ui/packages/upload/src/upload-list";
 import Caspanel from "iview/src/components/cascader/caspanel";
+import Tweets from "./Subs/Tweets"
 export default {
-  name: "Notifications",
-  components: { Caspanel, ElUploadList },
+  name: "SearchResult",
+  components:{
+    "tweets": Tweets,
+  },
   data() {
     return {
       searchKey : this.$route.query.searchKey,
@@ -150,7 +138,7 @@ export default {
   },
   mounted(){
     console.log("搜索码为,", this.searchKey)
-    this.search(this.searchKey).then(response=>{
+    this.search(this.$route.query.searchKey).then(response=>{
           console.log("测试topics", response);
           this.topics = response.data.data.topics;
           this.users = response.data.data.users;
