@@ -364,7 +364,6 @@ Vue.prototype.checkUserCollectMessage = function(user_id, message_id){
                          + user_id
                          + "&message_id="
                          + message_id);
-                        
 }
 //getCollectionNum(user_id)
 //获取收藏数量
@@ -424,7 +423,7 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
-  
+
 
 
 
