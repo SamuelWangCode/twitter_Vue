@@ -284,16 +284,14 @@
       </div>
       <div id="middle-right-container">
         <div id = "middle-right-top-container">
-          <div id="follow-button-container">
-            <Button v-if="isFollowing===true" class ="follow-button"type="primary" shape="circle" @click="followClick" style="height: 45px;margin-top: 15px">
-              <span style="font-weight:bold;font-size: 16px">Following</span>
+          <div v-if="visitor!=user" id="follow-button-container">
+            <Button v-if="isFollowing==false" class ="follow-button"type="primary" shape="circle" @click="followClick" style="height: 45px;margin-top: 15px">
+              <span style="font-weight:bold;font-size: 16px">Follow</span>
             </Button>
-            <Button v-else-if="isFollowing===false" class ="follow-button"type="primary" shape="circle" @click="unfollowClick" style="background-color: maroon;border:darkred; height: 45px;margin-top: 15px">
-              <span style="font-weight:bold;font-size: 16px">Unfollowed</span>
+            <Button v-else class ="follow-button"type="primary" shape="circle" @click="unfollowClick" style="background-color: maroon;border:darkred; height: 45px;margin-top: 15px">
+              <span style="font-weight:bold;font-size: 16px">Cancel Follow</span>
             </Button>
-            <Button v-if="visit===userID" class ="follow-button"type="primary" shape="circle" style="height: 45px;margin-top: 15px;opacity: 0">
-              <span style="font-weight:bold;font-size: 16px;">Following</span>
-            </Button>
+            
           </div>
         </div>
       </div>
@@ -351,15 +349,12 @@
       },
       mounted: function getUser(){
           this.loading=true;
-          var visitID = this.$route.query.visitor_id
-          this.visitor = visitID
-          var selfID = this.getCookies("userID")
-          this.User = visitID
-          console.log(selfID)
+          this.visitor = this.$route.query.visitor_id
+          this.user = this.getCookies("userID")
+          console.log('user',this.user)
           try{
-            let front="http://localhost:12293"
-            axios.get(`http://localhost:12293/api/User/getUserPublicInfo/${visitID}`).then(response=>{
-              console.log(visitID)
+            this.getUserPublicInfo(this.visitor).then(response=>{
+              console.log(this.visitor)
               console.log(response.data.data)
               if(response.data.code===200 && response.data.message==="success")
               {
@@ -375,13 +370,14 @@
                 console.log(this.nickname)
               }
             })
-
-            axios.get(`http://localhost:12293/api/Relation/if_following?follower_id=${selfID}&be_followed_id=${visitID}`).then(response=>{
+            this.if_following_by_me(this.visitor).then(response=>{
+              console.log(response)
               if(response.data.code==200&&response.data.message=="success"){
                 this.isFollowing=response.data.data.if_following
                 console.log(this.isFollowing)
               }
             })
+            
           }
 
           catch (e) {
@@ -393,10 +389,12 @@
       },
       methods:{
           unfollowClick(){
+            this.isFollowing=false;
+            console.log(this.isFollowing);
             this.cancelFollowingTo(this.visitor).then(response=>{
               console.log("取消关注")
             })
-            this.isFollowing=false;
+            
             console.log("unfollowClicked")
           }
           ,
