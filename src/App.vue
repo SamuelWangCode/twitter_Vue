@@ -62,9 +62,7 @@ export default {
     async signOut(){
       try {
         console.log("start")
-        axios.get(
-          `http://localhost:12293/api/User/logOut`
-        ).then(Response=>{
+        this.logOut().then(Response=>{
           console.log(Response);
           if(Response.data.code==200 && Response.data.message=="success")
           {
