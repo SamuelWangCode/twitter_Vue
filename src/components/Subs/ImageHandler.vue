@@ -215,19 +215,21 @@ export default {
         }
     },
     created(){
-        if (this.imgData.lenth==1){
+        /*
+        if (this.imgData.length==1){
 
         }
-        else if(this.imgData.lenth==2){
+        else if(this.imgData.length==2){
 
         }
-        else if(this.imgData.lenth==3){
+        else if(this.imgData.length==3){
 
         }
-        else if(this.imgData.lenth==4){
+        else if(this.imgData.length==4){
 
         }
-        
+        */
+       console.log(this.imgData);
     },
     mounted(){
         

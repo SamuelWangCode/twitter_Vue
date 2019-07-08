@@ -43,7 +43,7 @@ export default {
     data(){
         return {
             items:[],
-            twiDatas:"",   
+            twiDatas:[],   
             userDatas:"",
             showBigImage:false,
             BigImageSource:"",
@@ -53,6 +53,10 @@ export default {
         }
     },
     methods:{
+        getCookies(name){
+            return this.getCookie(name);
+        },
+
         loadMore(){
             //测试时把整个函数替换成/**/里的内容
             /*
@@ -68,32 +72,40 @@ export default {
         //下载数据
         downloadData(){
             if(this.type=="explore"){
-                this.queryTopicsBaseOnHeat(this.items.length + 1, 10).then(Response=>{
+                this.queryMessagesOf(this.getCookies("userID"),this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data;
+                    console.log(this.twiDatas);
                     this.generateData();
                 });
             }
             else if(this.type=="topic"){
                 this.queryMessagesContains(this.info, this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data;
+                    console.log(this.twiDatas);
                     this.generateData();
                 });
             }
             else if(this.type=="home"){
                 this.queryMessagesOf(this.getCookies("userID"),this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data;
                     this.generateData();
                 });
             }
             else if(this.type=="collection"){
                 this.queryCollections(this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data;
                     this.generateData();
                 });
             }
             else if(this.type=="userhome"){
                 this.queryMessagesOf(this.info, this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data;
                     this.generateData();
                 });
             }
             else if(this.type=="search"){
                 this.search(this.info).then(Response=>{
+                    this.twiDatas=Response.data.twitters;
                     this.generateData();
                 });
             }
@@ -103,19 +115,35 @@ export default {
             //取得当前保存的推特总数
             let twiCount=this.items.length;
             for (let i=0;i<this.twiDatas.length;i++){
-                let itemTemp=JSON.parse(this.twiDatas[i]);
                 //还有一些属性需要自己去获取，包括是否被....以及用户的....
+                let itemTemp=this.twiDatas[i];
                 itemTemp.ifShowComment=false;
                 itemTemp.comments=[];
-                itemTemp.userInfo={};
+                itemTemp.userName="用户";
+                itemTemp.userAvt="";
                 itemTemp.collectByUser=false;
                 itemTemp.likeByUser=false;
                 itemTemp.followByUser=false;
                 itemTemp.comments=[];
+                console.log(this.items[i+twiCount]);
+                if(itemTemp.message_ats==null){
+                    itemTemp.message_ats=[];
+                }
+                if(itemTemp.message_topics==null){
+                    itemTemp.message_topics=[];
+                }
+                if (itemTemp.message_image_urls==null){
+                    itemTemp.message_image_urls=[];
+                }
                 //先解析已有内容
-                this.items.push(itemTemp);
+
+                //取用户数据
                 //获取以上的数据，这里由于可能是第二次拿数据，因此i+twiCount才是当前要处理的推的索引
-                this.items[i+twiCount].userInfo={user_id: 16, nickname: "qwe", avatar_url: "http://106.14.3.200:8090/bgimg.jpeg"};
+                this.getUserPublicInfo(itemTemp.message_sender_user_id).then(Response=>{
+                    itemTemp.userName=Response.data.data.nickname;
+                    itemTemp.userAvt=Response.data.data.avatar_url;
+                    this.items.push(itemTemp);
+                });
                 
                 //求证是否点赞
                 let tempData={
