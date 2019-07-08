@@ -20,7 +20,7 @@
             Personal
           </MenuItem>
           <MenuItem name="explore" v-link="{path: '/Explore'}" key="Explore">
-            <Icon type="ios-person" size="24"></Icon>
+            <Icon type="ios-eye" size="24"></Icon>
             Explore
           </MenuItem>
           <Select

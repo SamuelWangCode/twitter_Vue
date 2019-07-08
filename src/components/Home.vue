@@ -19,8 +19,8 @@
 
 .EditerContainer {
   position: relative;
-  left: 26px;
-  width: 100%;
+  left: 32px;
+  width: 80%;
   line-height: 20px;
 }
 
@@ -179,7 +179,7 @@ ul li{
     <div id="middle-container">
      <ElContainer  id="middle-container1" >
        <div class="PostSenderContainer">
-    <Avatar :src=address shape="circle" on-error="" size="large" />
+    <Avatar :src=address shape="circle" on-error="" size="large" style="width:32px;height:32px;border-radius:50%"/>
     <div class="EditerContainer">
       <div class="Editer" default-txt="What happens?" contenteditable @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" @input="editerInputEventHandler">
         What happens?
