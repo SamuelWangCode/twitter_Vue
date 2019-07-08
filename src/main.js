@@ -68,12 +68,13 @@ function checkString(){
 function post(url, data){
   return axios({
     method: "POST",
-    url: "http://localhost:12293/" + url,
+    //url: "http://localhost:12293/" + url,
+    url: url,
     data: data,
   })
 }
 function get(url){
-  return axios.get("http://localhost:12293/" + url);
+  return axios.get(url);
 }
 ///////////////////////////////////////////
 //USER
@@ -267,13 +268,11 @@ Vue.prototype.checkUserLikesMessage = function (user_id, message_id){
 var PRIVATE_LETTER = "api/PrivateLetter/";
 //queryForMe(startFrom, limitation)
 Vue.prototype.queryForMe = function (startFrom, limitation){
-  startFrom = startFrom || 0;
-  limitation = limitation || 10;
   var data = {
     startFrom : startFrom,
     limitation: limitation
   }
-  return post(PRIVATE_LETTER + "queryForMe", data);
+  return post(PRIVATE_LETTER + "queryForMe?startFrom=" + startFrom + "&limitation="+ limitation);
 }
 //sendPrivateLetter(user_id, letter)
 //发送私信

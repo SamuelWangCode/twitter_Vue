@@ -19,7 +19,23 @@ module.exports = {
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-
+    proxyTable: {
+      '/api' :{
+        target : 'http://localhost:12293',
+        changeOrigin: true,
+        pathRewrite:{
+          '^/api' : '/api'
+        }
+      },
+      '/avatars' :{
+        target : 'http://localhost:12293',
+        changeOrigin: true,
+        pathRewrite:{
+          '^/avatars' : '/avatars'
+        }
+      }
+    },
+    
     
     /**
      * Source Maps
