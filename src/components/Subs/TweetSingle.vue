@@ -161,7 +161,7 @@
                     <twitextblock class="twi-text" v-bind:fullText="item.rawItem.message_content" :ats="item.rawItem.message_ats" :topics="item.rawItem.message_topics"></twitextblock>
                 </div>
                 
-                <imagehandler class="img-handler" :imgUrls="item.rawItem.message_image_urls" :twiId="item.rawItem.message_id"></imagehandler>
+                <imagehandler class="img-handler" v-bind:imgData="item.rawItem.message_image_urls" :twiId="item.rawItem.message_id"></imagehandler>
 
             </div>
             <div class="buttom-buttons">
@@ -337,7 +337,7 @@ export default {
                 this.followSb(this.item.message_sender_user_id).then(Response=>{
                     if (Response.data.message=="success"){
                         this.$emit("follow");
-                        console.log("取消关注1/2");
+                        //console.log("取消关注1/2");
                     }
                     else{
                         this.followByUser=false;
@@ -350,7 +350,7 @@ export default {
                 this.cancelFollowingTo(this.item.message_sender_user_id).then(Response=>{
                     if (Response.data.message=="success"){
                         this.$emit("follow");
-                        console.log("取消关注1/2");
+                        //console.log("取消关注1/2");
                     }
                     else{
                         this.followByUser=true;
@@ -360,7 +360,7 @@ export default {
             }
         },
         doLike(){
-            console.log("like_message_id:", this.item.message_id);
+            //console.log("like_message_id:", this.item.message_id);
             if(this.likeByUser==false){
                 this.likeByUser=true;
                 this.item.message_like_num++;
@@ -396,7 +396,7 @@ export default {
                 this.collectByUser=true;
                 this.addCollection(this.item.message_id).then(Response=>{
                     if (Response.data.message=="success"){
-                        console.log("收藏");
+                        //console.log("收藏");
                         this.$emit("collectTwi");
                     }
                     //失败了就返回来
@@ -411,7 +411,7 @@ export default {
                 this.collectByUser=false;
                 this.deleteCollection(this.item.message_id).then(Response=>{
                     if (Response.data.message=="success"){
-                        console.log("取消收藏");
+                        //console.log("取消收藏");
                         this.$emit("collectTwi");
                     }
                     //失败了就返回来
@@ -498,7 +498,7 @@ export default {
                         
                         this.rawItemUserName=Response.data.data.nickname;
                         this.rawItemUserAvt=Response.data.data.avatar_url;
-                        console.log("转发的推特",this.item.rawItem);
+                        //console.log("转发的推特",this.item.rawItem);
                     });
                 }
                 else{

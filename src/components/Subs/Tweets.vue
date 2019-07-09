@@ -107,17 +107,17 @@ export default {
           10
         ).then(Response => {
           this.twiDatas = Response.data.data;
-          console.log(this.twiDatas);
+          //console.log(this.twiDatas);
           this.generateData();
           this.spinShow=false;
         });
       } else if (this.type == "topic") {
-        console.log("id", this.info);
+        //console.log("id", this.info);
         if (this.info) {
           this.queryMessagesContains(this.info, this.items.length + 1, 10).then(
             Response => {
               this.twiDatas = Response.data.data;
-              console.log(this.twiDatas);
+              //console.log(this.twiDatas);
               this.generateData();
               this.spinShow=false;
             }
