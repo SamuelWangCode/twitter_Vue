@@ -2,7 +2,6 @@
     <div id="explore">
         <div id="hottopic" >
             <p style="margin-top: 15px">热门话题</p>
-          <divider/>
             <hottopics></hottopics>
         </div>
         <div id="tweetitems" >
@@ -10,7 +9,6 @@
         </div>
         <div id="recommendusers">
             <p style=" margin-top: 15px">推荐关注</p>
-          <divider/>
             <recommendusers></recommendusers>
         </div>
     </div>
