@@ -5,8 +5,9 @@
   width: 100%;
 }
 .load-more {
-  font-size: 30px;
-  color: #222222;
+  /* font-size: 30px;*/
+  font-weight: bold;
+  color: #1DA1F2; 
   text-align: center;
   margin-bottom: 20px;
   border-radius: 10px;
@@ -35,10 +36,13 @@
         @likeTwi="doLike(item)"
         @collectTwi="doCollect(item)"
         @follow="doFollow(item)"
+        v-bind:isFollowing="isFollowing[item.message_sender_user_id]"
+        @change_follow="change_follow($event,item)"
       ></twiitem>
       <divider />
     </div>
-    <div v-if="ableShowMore" class="load-more" @click="loadMore()">加载更多</div>
+    <div v-if="ableShowMore" class="load-more" @click="loadMore()">Load More...<spin v-if="spinShow"><Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+                <div>Loading</div></spin></div>
     <div v-else class="no-more">已无更多内容</div>
   </div>
 </template>
@@ -62,7 +66,8 @@ export default {
       showBigImage: false,
       BigImageSource: "",
       ableShowMore: true,
-
+      isFollowing: new Object(),
+      spinShow:false,
       burl: "http://localhost:12293/"
     };
   },
@@ -94,6 +99,7 @@ export default {
     },
     //下载数据
     downloadData() {
+      this.spinShow=true;
       if (this.type == "explore") {
         this.queryMessagesOf(
           this.getCookies("userID"),
@@ -103,6 +109,7 @@ export default {
           this.twiDatas = Response.data.data;
           //console.log(this.twiDatas);
           this.generateData();
+          this.spinShow=false;
         });
       } else if (this.type == "topic") {
         //console.log("id", this.info);
@@ -112,6 +119,7 @@ export default {
               this.twiDatas = Response.data.data;
               //console.log(this.twiDatas);
               this.generateData();
+              this.spinShow=false;
             }
           );
         }
@@ -123,12 +131,14 @@ export default {
         ).then(Response => {
           this.twiDatas = Response.data.data;
           this.generateData();
+          this.spinShow=false;
         });
       } else if (this.type == "collection") {
         
           this.queryCollections(this.info, this.items.length + 1, 10).then(Response => {
             this.twiDatas = Response.data.data;
             this.generateData();
+            this.spinShow=false;
           });
         
       } else if (this.type == "userhome") {
@@ -137,6 +147,7 @@ export default {
             Response => {
               this.twiDatas = Response.data.data;
               this.generateData();
+              this.spinShow=false;
             }
           );
         }
@@ -145,18 +156,21 @@ export default {
           this.search(this.info, this.items.length + 1, 10).then(Response => {
             this.twiDatas = Response.data.data.twitters;
             this.generateData();
+            this.spinShow=false;
           });
         }
       }else if(this.type=="notification"){
                 this.queryAtMe(this.items.length + 1, 10).then(Response=>{
                     this.twiDatas=Response.data.data;
                     this.generateData();
+                    this.spinShow=false;
                 });
             }
             else if(this.type=="search"){
                 this.search(this.info, this.items.length + 1, 10).then(Response=>{
                     this.twiDatas=Response.data.data.twitters;
                     this.generateData();
+                    this.spinShow=false;
                 });
             }
         },
@@ -206,21 +220,36 @@ export default {
                     itemTemp.message_image_urls=[];
                 }
                 //可以先解析已有内容
-
+                this.isFollowing[itemTemp.message_sender_user_id]=false;
                 //取用户数据
                 //获取以上的数据，这里由于可能是第二次拿数据，因此i+twiCount才是当前要处理的推的索引
                 this.getUserPublicInfo(itemTemp.message_sender_user_id).then(Response=>{
                     itemTemp.userName=Response.data.data.nickname;
                     itemTemp.userAvt=Response.data.data.avatar_url;
-
+                    
                     //有了推文和用户基本信息后加入数组，其他信息tweetsingle自行判断
                     this.items.push(itemTemp);
+                    
                 });
       }
       //完成加入后清空twiDatas，必须有，否则验证出错
       this.twiDatas = [];
-      ////console.log("asdads",this.items[0]);
+      //console.log("asdads",this.items[0]);
+    },
+    change_follow(event,item){
+      var k=JSON.parse(JSON.stringify(this.isFollowing));
+      k[item.message_sender_user_id]=event;
+      this.isFollowing=k;
+      this.$emit('change_following',event)
+    },
+    change_follow2(val,id){
+      if(this.isFollowing[id]!=val){
+        var k=JSON.parse(JSON.stringify(this.isFollowing));
+        k[id]=val;
+        this.isFollowing=k;
+      }
     }
+
   },
   mounted() {
     //测试时把整个函数替换成/**/里的内容
@@ -233,6 +262,11 @@ export default {
         this.generateData();
         */
     this.downloadData();
+    var array = new Array(this.items)
+    if(array.length<10)
+    {
+      //this.ableShowMore = false
+    }
   },
   watch: {
     info: function(nval, oval) {

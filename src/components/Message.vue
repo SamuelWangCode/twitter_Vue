@@ -55,7 +55,7 @@ ul li {
             <div style="margin-left: 10px">
               <a>
                 <Avatar
-                  :src="contact.avatar_url"
+                  :src="contact.sender_info.avatar_url"
                   style="margin-top: 10px;margin-left: 15px;margin-bottom: 1px;"
                   size="large"
                 ></Avatar>
@@ -64,7 +64,7 @@ ul li {
             <div>
               <div id="chat-content">
               <p style="font-size: 20px;">
-              <a style="color: black">{{contact.nickname}}</a>
+              <a style="color: black">{{contact.sender_info.nickname}}</a>
               </p>
                 <p style=" margin-top:2px;font-size: 15px">
               {{contact.private_letter_content}}
@@ -100,6 +100,7 @@ export default {
   },
   mounted(){
     this.queryForMe(1, 10).then(response=>{
+      console.log(response);
       this.contactList = response.data.data;
     });
   },

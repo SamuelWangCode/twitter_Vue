@@ -6,7 +6,7 @@
   overflow: auto;
 }
 #background-top-container {
-  height: 400px;
+  height: 320px;
   width: 100%;
   background-color: deepskyblue;
 }
@@ -80,16 +80,24 @@
 }
 
 #nickname-container {
-  height: 60px;
+  height: 40px;
   font-size: 30px;
   font-weight: bold;
-  color: white;
+  color: black;
   float: top;
 }
 
 #selfIntroduction-container {
   font-size: 15px;
-  padding-top: 0px;
+  margin-top: 10px;
+  background-color: rgb(230, 236, 240);
+}
+
+#introduction{
+  height: 200px;
+  margin-top: 20px;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 #middle-middle-container {
@@ -213,9 +221,11 @@
 </style>
 <template>
   <div class="root-div">
-    <div id="background-top-container">
+
       <div class="WallImgContainer">
-        <div class="BkgImgContainer"></div>
+        <div class="BkgImgContainer">
+          <img :src="personBkgImg" style="height: 320px;width: 100%"/>
+        </div>
         <div class="ProfileImgContainer">
           <div class="ProfileImg">
             <a href="#" class="ProfileImgLink">
@@ -224,13 +234,24 @@
           </div>
         </div>
       </div>
-    </div>
+
     <div id="middle-container">
       <div id="middle-left-container">
-        <div id="introduction-container">
-          <div id="nickname-container">{{nickname}}</div>
-          <div style="font-size: 20px">@ {{nickname}}</div>
-          <div id="selfIntroduction-container">{{selfIntroduction}}</div>
+
+        <div>
+          <div id="selfIntroduction-container">
+            <div id="introduction-container">
+              <div id="decoration" style="height: 70px;background-color: white;padding-top: 0px"></div>
+              <div id="nickname-container">
+                {{nickname}}
+                <img :src="confirm_url" style="height: 20px"/>
+              </div>
+              <div style="font-size: 20px;padding-right: 20px">@ {{nickname}}</div>
+            </div>
+            <div id="introduction">
+              {{selfIntroduction}}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -271,6 +292,7 @@
           <Button
             v-bind:style="navStatus.collectionsShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'"
             v-bind:class="!navStatus.collectionsShow ? 'TabItem' : 'active'"
+            v-show="visitor==user"
             exact-active-class="active"
             @click="collectionsClicked"
           >
@@ -286,7 +308,7 @@
 
           <!--display tweets-->
           <div v-if="navStatus.tweetsShow" id="tweets-container">
-            <tweets type="userhome" v-bind:info="visitor"></tweets>
+            <tweets :ref="'twe1'"v-on:change_following="change_follow($event)" type="userhome" v-bind:info="visitor"></tweets>
           </div>
 
           <!--display following-->
@@ -306,15 +328,15 @@
           </div>
 
           <!--display collections-->
-          <div v-show="navStatus.collectionsShow" id="collections">
-            <tweets type="collection" v-bind:info="user_info.user_id"></tweets>
+          <div v-show="navStatus.collectionsShow" id="collections" >
+            <tweets :ref="'twe2'" v-on:change_following="change_follow($event)" type="collection" v-bind:info="user"></tweets>
           </div>
         </div>
       </div>
       <div id="middle-right-container">
         <div id="middle-right-top-container">
           <div v-if="visitor!=user" id="follow-button-container">
-            <FollowButton class="follow-button-style" v-bind:followerCount.sync="followerCount" v-bind:isFollowing.sync="isFollowing" v-bind:visitor="visitor"></FollowButton>
+            <FollowButton class="follow-button-style" v-bind:followerCount.sync="followerCount" v-bind:isFollowing.sync="isFollowing" v-bind:visitor="Number(visitor)"></FollowButton>
           </div>
         </div>
       </div>
@@ -339,6 +361,8 @@ export default {
       num: 0,
       visitor: 0,
       user: 0,
+      confirm_url:"static/confirmed.png",
+      user_info: {},
       avatar: null,
       nickname: "NickName",
       personBkgImg: "/static/background.png",
@@ -365,7 +389,8 @@ export default {
       selfIntroduction: "The man is lazy,leaving nothing.",
       toFollowList: [],
       followingList: [],
-      followersList: []
+      followersList: [],
+      user_info:null
     };
   },
   components: {
@@ -377,7 +402,7 @@ export default {
   },
   created() {
     this.loading = true;
-    this.visitor = this.$route.query.visitor_id;
+    this.visitor = Number(this.$route.query.visitor_id);
     this.user = this.getCookies("userID");
     console.log("user", this.user);
     try {
@@ -397,8 +422,8 @@ export default {
       var p1 = this.if_following_by_me(this.visitor)
       var p2 = this.queryFollowingFor(this.visitor, 1, 10)
       var p3 = this.queryFollowersFor(this.visitor, 1, 10)
-      
-      
+
+
       Promise.all([p1, p2, p3]).then(res => {
         console.log("完成数据加载", res)
         _this.isFollowing = res[0].data.data.if_following;
@@ -415,7 +440,7 @@ export default {
   },
   mounted: function getUser() {
     this.loading = true;
-    this.visitor = this.$route.query.visitor_id;
+    this.visitor = Number(this.$route.query.visitor_id);
     this.user = this.getCookies("userID");
     console.log("user", this.user);
   },
@@ -460,10 +485,18 @@ export default {
       this.showName = "collectionsShow";
       this.navStatus[this.showName] = true;
       console.log(this.navStatus.collectionsShow);
+    },
+    change_follow(event){
+      console.log('afasa');
+      this.isFollowing=event;
     }
   },
   watch: {
-    "$route.params.PersonAccount": "initUserID"
+    "$route.params.PersonAccount": "initUserID",
+    isFollowing(val){
+      this.$refs.twe1.change_follow2(val,this.visitor);
+      this.$refs.twe2.change_follow2(val,this.visitor);
+    }
   }
 };
 </script>

@@ -22,7 +22,7 @@
 <template>
 <div>
     <p>
-        <span class="twi-text">        
+        <span v-html="fullText" class="twi-text">        
             {{fullText}}
         </span>
     </p>
@@ -54,6 +54,24 @@ export default {
         }
     },
     methods:{
+        parseTwitter(twitter_content){
+            // ats[i] {atName, atIds} topics[i] {topicId, topicName}
+            twitter_content;
+            var topics = this.topics;
+            var ats = this.ats;
+            console.log("解析前", topics, ats)
+            for(let i = 0; i < ats.length; i++){
+                var re = new RegExp(ats[i].atName, "g");
+                var atNameTripped = ats[i].atName;
+                twitter_content = twitter_content.replace(re, ' <a href="http://localhost:8080/Zoom?visitor_id='+ ats[i].atIds + '" > ' + atNameTripped + ' </a> ');
+            }
+            for(let i = 0; i < topics.length; i++){
+                var re = new RegExp(topics[i].topicName, "g");
+                var topicNameTripped = topics[i].topicName.split("#")[1];
+                twitter_content = twitter_content.replace(re, ' <a href="http://localhost:8080/Topic?topic_id='+ topics[i].topicId + '&topic_name=' + topicNameTripped + "' > #" + topicNameTripped + "# </a> ");
+            }
+            return twitter_content;
+        },
         doAtToUserHome(text){
             
         },
@@ -61,23 +79,15 @@ export default {
             this.$router.push({path:'/Topic', query: { topic_id:text.id }});
         },
         solveText(){
-            for(let i=0;i<this.ats.length;i++){
-                let start=this.fullText.indexOf(this.ats[i].atName);
-                
+            this.fullText=this.parseTwitter(this.fullText);
+            //alert(this.parseTwitter(this.fullText));
+   
             //alert(this.fullText);
-                
-                this.fullText=this.fullText.substr(0,start)
-                    +"<a href='"+this.url+"zoom?user_id="+this.ats[i].atIds+">"+this.fullText.substr(start,this.ats[i].atName)
-                    +this.fullText.substr(start+this.ats[i].atName.length,this.fullText.length-start-this.ats[i].atName.length)+"</a>";
-
-                    
-            //alert(this.fullText);
-            }
         }
     },
     created(){
-        console.log("fulltext",this.fullText);
-        console.log("this.ats",this.ats);
+        //console.log("fulltext",this.fullText);
+        //console.log("this.ats",this.ats);
         this.solveText();
     },
     
