@@ -240,9 +240,10 @@ export default {
             }
         },
         doLike(){
+            console.log("like_message_id:", this.item.message_id);
             if(this.likeByUser==false){
                 this.likeByUser=true;
-                this.addCollection(this.item.message_id).then(Response=>{
+                this.like(this.item.message_id).then(Response=>{
                     if (Response.data.message=="success"){
                     }
                     //失败了就返回来

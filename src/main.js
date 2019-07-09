@@ -245,7 +245,7 @@ Vue.prototype.like = function (message_id){
   if(!checkNumber(message_id)){
     return null;
   }
-  return get(LIKE + "message");
+  return get(LIKE + message_id);
 }
 //cancelLike(message_id)
 Vue.prototype.cancelLike = function (message_id){
