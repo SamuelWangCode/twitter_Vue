@@ -445,12 +445,7 @@ ul li{
       console.log("测试点击 topic_id:", topic.topic_id);
       //TODO 点击热点之后跳转
     },
-    tapRecommendUser(visitor_id){
-      console.log("测试点击推荐用户 visitor_id", visitor_id);
-      //TODO 跳转
-      this.$router.push({ path: '/Zoom', query: { visitor_id: visitor_id }});
 
-    },
     async sendPostBtnClickEventHandler (e) {
 
     },
