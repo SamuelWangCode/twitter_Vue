@@ -6,7 +6,7 @@
             <hottopics></hottopics>
         </div>
         <div id="tweetitems" >
-            <tweets type="home"></tweets>
+            <tweets type="jij"></tweets>
         </div>
         <div id="recommendusers">
             <p style=" margin-top: 15px">推荐关注</p>

@@ -16,12 +16,10 @@
     z-index: 1;
   }
   .WallImgContainer {
-    position: relative;
-
+    height: 320px;
   }
   .BkgImgContainer {
     height: 320px;
-    background-size: cover;
     background: #dedede no-repeat center;
   }
   .ProfileImgContainer {
@@ -78,6 +76,8 @@
     height:60px;
     font-size:30px;
     font-weight: bold;
+    color: black;
+    float: top;
   }
 
   #selfIntroduction-container{
@@ -196,8 +196,11 @@
 <template>
   <div class="root-div">
     <div id = "background-top-container" >
+
       <div class="WallImgContainer">
-        <div class="BkgImgContainer" :style="`background-image: url({{personBkgImg}})`"></div>
+
+        <div class="BkgImgContainer">
+        </div>
         <div class="ProfileImgContainer">
           <div class="ProfileImg">
             <a href="#" class="ProfileImgLink">
@@ -211,6 +214,7 @@
       <div id = "middle-left-container">
         <div id="introduction-container">
           <div id="nickname-container">{{nickname}}</div>
+          <div style="font-size: 20px">@ {{nickname}}</div>
           <div id="selfIntroduction-container">{{selfIntroduction}}</div>
         </div>
       </div>
@@ -251,7 +255,6 @@
           <!--display tweets-->
           <div v-if ="navStatus.tweetsShow" id="tweets-container">
             <div class='to-follow-list' v-for= "toFollow in toFollowList" >
-
               <a id="ad">
                 <Avatar class='infor-avatar' v-bind:src='toFollow.avatarUrl' ></Avatar>
                 {{toFollow.name}}
@@ -291,7 +294,7 @@
             <Button v-else class ="follow-button"type="primary" shape="circle" @click="unfollowClick" style="width:100px;background-color: maroon;border:darkred; height: 45px;margin-top: 15px">
               <span style="font-weight:bold;font-size: 16px">Unfollow</span>
             </Button>
-            
+
           </div>
         </div>
       </div>
@@ -316,7 +319,7 @@
             user:0,
             avatar:null,
             nickname:"NickName",
-            personBkgImg:"/static/logo",
+            personBkgImg:"/static/background.png",
             postsCount: 0,
             followerCount:0,
             followingCount:0,
@@ -377,7 +380,7 @@
                 console.log(this.isFollowing)
               }
             })
-            
+
           }
 
           catch (e) {
@@ -395,7 +398,7 @@
             this.cancelFollowingTo(this.visitor).then(response=>{
               console.log("取消关注")
             })
-            
+
             console.log("unfollowClicked")
           }
           ,
