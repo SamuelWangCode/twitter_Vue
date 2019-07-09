@@ -534,14 +534,9 @@ ul li{
           this.uploadList = [];
         }
       })
-<<<<<<< HEAD
       this.$router.go(0)
     }
       
-=======
-    },
-    
->>>>>>> 027046a56b46d131d86075a2badf476353cfa4ee
     }
   }
 </script>
