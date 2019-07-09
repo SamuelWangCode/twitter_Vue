@@ -335,14 +335,14 @@ export default {
             console.log("like_message_id:", this.item.message_id);
             if(this.likeByUser==false){
                 this.likeByUser=true;
-                item.message_like_num++;
+                this.item.message_like_num++;
                 this.like(this.item.message_id).then(Response=>{
                     if (Response.data.message=="success"){
                     }
                     //失败了就返回来
                     else{
                         this.likeByUser=false;
-                        item.message_like_num--;
+                        this.item.message_like_num--;
                         alert("点赞失败");
                     }
                 });
