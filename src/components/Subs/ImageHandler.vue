@@ -179,7 +179,7 @@
 <script>
 export default {
     props:{
-        imgData:Array,
+        imgUrls:Array,
         twiId:Number,
     },
     data(){
@@ -195,6 +195,7 @@ export default {
             smallSize:[],
             //开始时就计算出大图的长和宽
             bigSize:[],
+            imgData:[],
         }
     },
     methods:{
@@ -235,6 +236,9 @@ export default {
         }
         */
        //console.log(this.imgData);
+       if(this.imgUrls!=null){
+           this.imgData=this.imgUrls;
+       }
     },
     mounted(){
         

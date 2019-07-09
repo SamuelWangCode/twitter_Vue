@@ -81,13 +81,7 @@ ul li {
     </ElContainer>
 
     <ElContainer id="middle-container">
-      <div class="el-header" style="border-bottom: 1px solid #e6ecf0;width: 100%">
-        <Tabs active-key="key1" style="float: left;width: 100%">
-          <Tab-pane label="Mention" key="key1">
-            <tweet type="at"></tweet>
-          </Tab-pane>
-        </Tabs>
-      </div>
+      <tweets type="notification"></tweets>
     </ElContainer>
 
     <ElContainer id="right-container">
@@ -109,13 +103,10 @@ export default {
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
       topics: [],
       toFollowList: [],
-      informationList: [
-        
-      ]
     };
   },
-  components: { "user":User, "tweet": Tweets},
-  mounted(){
+  components: { "user":User, "tweets": Tweets },
+  created(){
     this.queryTopicsBaseOnHeat(0, 5).then(response=>{
           console.log("测试topics", response);
           this.topics = response.data.data;
