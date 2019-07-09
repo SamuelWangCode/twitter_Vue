@@ -5,8 +5,9 @@
   width: 100%;
 }
 .load-more {
-  font-size: 30px;
-  color: #222222;
+  /* font-size: 30px;*/
+  font-weight: bold;
+  color: #1DA1F2; 
   text-align: center;
   margin-bottom: 20px;
   border-radius: 10px;
@@ -40,7 +41,8 @@
       ></twiitem>
       <divider />
     </div>
-    <div v-if="ableShowMore" class="load-more" @click="loadMore()">加载更多</div>
+    <div v-if="ableShowMore" class="load-more" @click="loadMore()">Load More...<spin v-if="spinShow"><Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+                <div>Loading</div></spin></div>
     <div v-else class="no-more">已无更多内容</div>
   </div>
 </template>
@@ -65,6 +67,7 @@ export default {
       BigImageSource: "",
       ableShowMore: true,
       isFollowing: new Object(),
+      spinShow:false,
       burl: "http://localhost:12293/"
     };
   },
@@ -96,6 +99,7 @@ export default {
     },
     //下载数据
     downloadData() {
+      this.spinShow=true;
       if (this.type == "explore") {
         this.queryMessagesOf(
           this.getCookies("userID"),
@@ -105,6 +109,7 @@ export default {
           this.twiDatas = Response.data.data;
           console.log(this.twiDatas);
           this.generateData();
+          this.spinShow=false;
         });
       } else if (this.type == "topic") {
         console.log("id", this.info);
@@ -114,6 +119,7 @@ export default {
               this.twiDatas = Response.data.data;
               console.log(this.twiDatas);
               this.generateData();
+              this.spinShow=false;
             }
           );
         }
@@ -125,12 +131,14 @@ export default {
         ).then(Response => {
           this.twiDatas = Response.data.data;
           this.generateData();
+          this.spinShow=false;
         });
       } else if (this.type == "collection") {
         
           this.queryCollections(this.info, this.items.length + 1, 10).then(Response => {
             this.twiDatas = Response.data.data;
             this.generateData();
+            this.spinShow=false;
           });
         
       } else if (this.type == "userhome") {
@@ -139,6 +147,7 @@ export default {
             Response => {
               this.twiDatas = Response.data.data;
               this.generateData();
+              this.spinShow=false;
             }
           );
         }
@@ -147,18 +156,21 @@ export default {
           this.search(this.info, this.items.length + 1, 10).then(Response => {
             this.twiDatas = Response.data.data.twitters;
             this.generateData();
+            this.spinShow=false;
           });
         }
       }else if(this.type=="notification"){
                 this.queryAtMe(this.items.length + 1, 10).then(Response=>{
                     this.twiDatas=Response.data.data;
                     this.generateData();
+                    this.spinShow=false;
                 });
             }
             else if(this.type=="search"){
                 this.search(this.info, this.items.length + 1, 10).then(Response=>{
                     this.twiDatas=Response.data.data.twitters;
                     this.generateData();
+                    this.spinShow=false;
                 });
             }
         },
@@ -242,6 +254,11 @@ export default {
         this.generateData();
         */
     this.downloadData();
+    var array = new Array(this.items)
+    if(array.length<10)
+    {
+      //this.ableShowMore = false
+    }
   },
   watch: {
     info: function(nval, oval) {
