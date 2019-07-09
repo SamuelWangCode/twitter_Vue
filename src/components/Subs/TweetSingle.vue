@@ -1,8 +1,8 @@
 <style scoped>
 .twi-left{
     float: left;
-    width: 12%;
-    margin-left: 1%;
+    width: 10%;
+    margin-left: 3%;
     margin-top: 10px;
     height: 80px;
 }
@@ -29,9 +29,10 @@
 .twi-right{
     float: left;
     width: 84%;
-    margin-left: 1%;
+    margin-left: 0;
 }
 .twi-right-top-div{
+    display: inline-block;
     width: 100%;
     background-color: rgb(205, 214, 255);
     margin-top: 10px;
@@ -144,10 +145,8 @@
                 <div class="follow-button-div" @click="doFollow()">
                     <Button type="primary" class="follow-button" v-if="followByUser==false">关注</Button>
                     <Button type="primary" class="follow-button-alt" v-else>已关注</Button>
-                </div>
-                <div v-if="ifBeMyTwi()">
-                    <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
                 </div>  
+                <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
             </div>
             <div class="twi-text-block">
                 <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
@@ -200,9 +199,6 @@
     <div v-else>
         <div class="twi-left">
             <Avatar  size=large v-bind:src="item.userAvt"></Avatar>
-            <div v-if="ifBeMyTwi()">
-                <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
-            </div>
         </div>
         
         <div class="twi-right">
@@ -214,6 +210,7 @@
                 <div class="follow-button-div" @click="doFollow()">
                     <Button type="primary" class="follow-button" v-if="followByUser==false">关注</Button>
                     <Button type="primary" class="follow-button-alt" v-else>已关注</Button>
+                    <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
                 </div>
 
             </div>
@@ -333,14 +330,14 @@ export default {
             console.log("like_message_id:", this.item.message_id);
             if(this.likeByUser==false){
                 this.likeByUser=true;
-                item.message_like_num++;
+                this.item.message_like_num++;
                 this.like(this.item.message_id).then(Response=>{
                     if (Response.data.message=="success"){
                     }
                     //失败了就返回来
                     else{
                         this.likeByUser=false;
-                        item.message_like_num--;
+                        this.item.message_like_num--;
                         alert("点赞失败");
                     }
                 });
