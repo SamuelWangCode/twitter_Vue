@@ -14,6 +14,10 @@
     width:100%;
     margin-bottom: 20px;
   background-color: #2c3e50;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
 }
 .send-comm-input{
   margin-left: 55px;
@@ -53,7 +57,8 @@
 <div>
     <div class="show-comment-div" v-show="ifShowComment">
         <div class="send-comm-div">
-            <input type="text" style="width: 60%;margin-left:10%;margin-right:8%; margin-top:10px;" v-model="commTextToSend">
+            <!--<input type="text" style="width: 60%;margin-left:10%;margin-right:8%; margin-top:10px;" v-model="commTextToSend"/>-->
+            <Input :rows="1" style="width: 60%;margin-left:10%;margin-right:8%;"  v-model="commTextToSend" type="textarea" placeholder="Enter something..."/> 
             <Button type="primary" @click="sendComment()" style="background-color: white ;color: #14171a;">发送</Button>
         </div>
         <div v-for="comm in comments">
