@@ -19,6 +19,7 @@
 }
 .no-more{
     width:100%;
+    color: #CCCCCC;
 }
 </style>
 
