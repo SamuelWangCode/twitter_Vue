@@ -136,7 +136,7 @@
         <div class="twi-right-top-div">
             <div class="twi-title">
                 <p class="user-name">{{item.userName}}</p>
-                <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{Message_heat}}</p>
             </div>
             <div class="follow-button-div" @click="doFollow()">
                 <Button type="primary" class="follow-button" v-if="followByUser==false">关注</Button>
@@ -256,24 +256,28 @@ export default {
             console.log("like_message_id:", this.item.message_id);
             if(this.likeByUser==false){
                 this.likeByUser=true;
+                item.message_like_num++;
                 this.like(this.item.message_id).then(Response=>{
                     if (Response.data.message=="success"){
                     }
                     //失败了就返回来
                     else{
                         this.likeByUser=false;
+                        item.message_like_num--;
                         alert("点赞失败");
                     }
                 });
             }
             else if(this.likeByUser==true){
                 this.likeByUser=false;
+                item.message_like_num--;
                 this.cancelLike(this.item.message_id).then(Response=>{
                     if (Response.data.message=="success"){
                         this.$emit("follow");
                     }
                     //失败了就返回来
                     else{
+                        item.message_like_num++;
                         item.likeByUser=true;
                         alert("失败");
                     }
@@ -317,8 +321,8 @@ export default {
                 startFrom: this.comments.length,
                 limitation: 10,
             }
-            this.$http.post(
-                    'http://localhost:12293/api/Comment/queryComments/'+this.item.message_id,data
+            this.queryComment(
+                    this.item.message_id,data
                 ).then(Response=>{
                     this.comments=Response.data.data;
                 });
@@ -327,8 +331,8 @@ export default {
             let data={
                 comment_content:content,
             }
-            this.$http.post(
-                'http://localhost:12293/api/Comment/add/'+this.item.message_id,data
+            this.addComment(
+                this.item.message_id,data
             ).then(Response=>{
                 if(Response.data.message=="success"){
                     this.commentsNum+=1;
@@ -374,6 +378,11 @@ export default {
         this.if_following_by_me(this.item.message_sender_user_id).then(Response=>{
             this.followByUser=Response.data.data.if_following;
         });
+    },
+    computed:{
+        Message_heat:function(){
+            return this.item.message_heat*65335+Math.floor(Math.random()*100);
+        }
     },
     beforeMount() {
     },

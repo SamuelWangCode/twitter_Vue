@@ -3,7 +3,7 @@
     <router-link class="user-container" :to="{ path: '/Zoom', query: { visitor_id: user_info.user_id }}">
       <div class="user-inner-container">
       <div class="av-container">
-        <Avatar  size=large class="av" v-bind:src="user_info.avatar_url"></Avatar>
+        <Avatar  size=large style="margin-bottom: 10px" class="av" v-bind:src="user_info.avatar_url"></Avatar>
       </div>
       <div class="name-container">
         <div style="font-size: 20px;font-weight: bold; color: black; ">{{user_info.nickname}}</div>

@@ -253,7 +253,7 @@
           <hr />
 
           <!--display tweets-->
-          <div v-if="navStatus.tweetsShow" id="tweets-container">
+          <div v-if ="navStatus.tweetsShow" id="tweets-container">
             <tweets type="userhome" v-bind:info="visitor"></tweets>
           </div>
 
@@ -276,14 +276,7 @@
       <div id="middle-right-container">
         <div id="middle-right-top-container">
           <div v-if="visitor!=user" id="follow-button-container">
-            <Button
-              v-if="isFollowing==false"
-              class="follow-button"
-              type="primary"
-              shape="circle"
-              @click="followClick"
-              style="height: 45px;margin-top: 15px;width:100px"
-            >
+            <Button v-if="isFollowing==false" class ="follow-button" type="primary" shape="circle" @click="followClick" style="height: 45px;margin-top: 25%;width:100px;margin-left: 75px">
               <span style="font-weight:bold;font-size: 16px">Follow</span>
             </Button>
             <Button
@@ -340,7 +333,7 @@ export default {
         collectionsShow: false
       },
       selfIntroduction: "The man is lazy,leaving nothing.",
-
+      toFollowList: []
       
     };
   },
