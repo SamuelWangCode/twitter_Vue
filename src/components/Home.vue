@@ -118,7 +118,7 @@ ul li{
     margin-top: 0px
   }
   #middle-container2{
-    margin-top: 50px
+    margin-top: 0px;
   }
   #right-container{
     float: left;
@@ -246,17 +246,17 @@ ul li{
         
 
         <div class="PostSenderContainer">
-         <Avatar :src=address shape="circle" on-error="" size="large" style="width:32px;height:32px;border-radius:50%"/>
+         <Avatar :src=address shape="circle" on-error="" size="large" style="width:50px;height:50px;border-radius:50%;margin-left:10px;margin-top:10px;"/>
           
-          <div class="EditerContainer" style="margin-left: 3%">
+          <div class="EditerContainer" style="margin-left:-5px;">
             <!--
               <div class="Editer" default-txt="What happens?" contenteditable @click.prevent="clickEditor" v-bind:focus="isEditerFocused" @input="editerInputEventHandler">
                 What happens?
               </div>-->
-            <Input :ref="'editor'" :rows="editor_content.length > 0 ? 6 : 1" v-model="editor_content" type="textarea" placeholder="Enter something..." 
+            <Input :ref="'editor'" :rows="editor_content.length > 0 ? 4 : 1" v-model="editor_content" maxlength="140" type="textarea" placeholder="Enter something..." 
             @v-bind:focus="isEditerFocused" @focus="editerFocusEventHandler"  @blur="editerBlurEventHandler" />
             <!-----TODO:AddPicture--- ----------------------------------------------->
-            
+            <div style="margin-top:5px;">
             <div v-show="editor_content.length > 0" style="float:left;" >
               <div class="demo-upload-list" v-for="item in uploadList">
                 <template>
@@ -284,13 +284,14 @@ ul li{
                     <Icon type="ios-camera" size="20"></Icon>
                   </div>
               </Upload>
+              </div>
               <Modal title="View Image" v-model="visible">
                 <img :src="img_preview" v-if="visible" style="width: 100%">
               </Modal>
             </div>
     
             <!-- sdadasdasdasdsad ---------------------------------------------------------------------------->
-            <Button type="primary" size="large" shape="circle" :disabled="!editor_content.length" v-show="editor_content.length > 0" @click="sendPostBtnClickEventHandler" @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" style="float:right;margin-top:10px;margin-left:200px;">Tweet</button>
+            <Button type="primary" size="large" shape="circle" :disabled="!editor_content.length" v-show="editor_content.length > 0" @click="sendPostBtnClickEventHandler" @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" style="float:right;margin-top:10px;margin-right:20px;">Tweet</button>
           </div>
 
         </div>
@@ -503,8 +504,8 @@ ul li{
     },
 
     tapTopic(topic){
-      console.log("测试点击 topic_id:", topic);
-      this.$router.push({path:'/Topic', query: { topic_id:topic.topic_id,topic_name:topic.topic_content }})
+      console.log("测试点击 topic_id:", topic.topic_id);
+      this.$router.push({path:'/Topic', query: { topic_id:topic.topic_id }})
       //TODO 点击热点之后跳转
     },
 
