@@ -386,7 +386,6 @@ ul li{
         })
     },
     mounted(){
-      this.$refs.mask.style.height = doc.getElementById('app').clientHeight + 'px';
       this.isEditerFocused = true;
       //this.loading=true;
       var userID = this.getCookies("userID")
@@ -524,8 +523,8 @@ ul li{
         formData.append("file"+i, this.uploadList[i]);
       }
       this.sendMessage(formData).then(response=>{
-        setTimeout(()=>{this.sendingTwitter = false;}, 2000);
-        //this.sendingTwitter = false;
+        
+        this.sendingTwitter = false;
         console.log(response);
         if(response.data.message == "success"){
           this.editor_content = "";
