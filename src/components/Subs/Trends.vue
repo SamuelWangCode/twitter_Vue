@@ -10,6 +10,8 @@
         </div>
       </a>
     </div>
+    <!-- <div v-if="ableShowMore" class="load-more" @click="loadMore()">加载更多</div>
+    <div v-else class="no-more">已无更多内容</div> -->
   </ul>
 </div>
 </template>
@@ -38,6 +40,13 @@
   font-size: 13px;
   padding-left: 15px;
 }
+.load-more:hover {
+  cursor: pointer;
+}
+.no-more {
+  width: 100%;
+  color: #cccccc;
+}
 </style>
 
 <script>
@@ -45,13 +54,25 @@ export default {
   name: "trends",
   data() {
     return {
-      topics: []
+      topics: [],
+    //   ableShowMore: true,
+    //   startNumber:1
     };
   },
-  created() {
+  mounted() {
     var _this = this;
-    this.queryTopicsBaseOnHeat(0, 5).then(Response => {
+    this.queryTopicsBaseOnHeat(1, 5).then(Response => {
       console.log(Response);
+    //   var array = new Array(Response.data.data)
+    //   var size = array.length
+    //   console.log(size)
+    //   if(size<5)
+    //   {
+    //       this.ableShowMore = false
+    //   }
+    //   else{
+    //       this.ableShowMore = true
+    //   }
       _this.topics = Response.data.data;
     });
   },
@@ -62,7 +83,23 @@ export default {
         path: "/Topic",
         query: { topic_id: topic.topic_id, topic_name: topic.topic_content }
       });
-    }
+    },
+    // loadMore(){
+    //     var _this = this
+    //     console.log("loadMore")
+    //     this.startNumber = this.startNumber + 5 
+    //     this.queryTopicsBaseOnHeat(1+this.startNumber, 5+this.startNumber).then(Response => {
+    //     console.log(Response);
+    //     var array = new Array(Response.data.data)
+    //     var size = array.length
+    //     console.log(size)
+    //     if(size<5)
+    //     {
+    //       this.ableShowMore = false
+    //     }
+    //     _this.topics = _this.topics + Response.data.data;
+    // });
+    // }
   }
 };
 </script>

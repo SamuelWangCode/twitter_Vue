@@ -328,15 +328,14 @@ export default {
             }
             else if(this.likeByUser==true){
                 this.likeByUser=false;
-                item.message_like_num--;
+                this.item.message_like_num--;
                 this.cancelLike(this.item.message_id).then(Response=>{
                     if (Response.data.message=="success"){
-                        this.$emit("follow");
                     }
                     //失败了就返回来
                     else{
-                        item.message_like_num++;
-                        item.likeByUser=true;
+                        this.item.message_like_num++;
+                        this.item.likeByUser=true;
                         alert("失败");
                     }
                 });
