@@ -21,7 +21,8 @@
     },
 
       mounted(){
-          this.topicId = this.$route.query.topic_id
+          this.topicId = this.$route.query.topic_id;
+          this.topicName=this.$route.query.topic_name;
       },
 
       components:{

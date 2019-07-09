@@ -505,8 +505,8 @@ ul li{
     },
 
     tapTopic(topic){
-      console.log("测试点击 topic_id:", topic.topic_id);
-      this.$router.push({path:'/Topic', query: { topic_id:topic.topic_id }})
+      console.log("测试点击 topic_id:", topic);
+      this.$router.push({path:'/Topic', query: { topic_id:topic.topic_id,topic_name:topic.topic_content }})
       //TODO 点击热点之后跳转
     },
 
