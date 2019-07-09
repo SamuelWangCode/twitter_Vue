@@ -18,16 +18,6 @@ bottom:0;
   display: flex;
 }
 
-/* .UserImg {
-  border-radius: 50%;
-  overflow: hidden;
-  width: 32px;
-  height: 32px;
-  left: 16px;
-  position: relative;
-  flex-shrink: 0;
-} */
-
 .EditerContainer {
   position: relative;
   left: 32px;
@@ -127,33 +117,6 @@ ul li{
     margin-left: 10px;
     margin-top: 70px
   }
-  #trends-container{
-    line-height: 17px;
-    margin-bottom: 10px;
-    text-align: left;
-  }
-  #trends-name{
-    font-weight: bold;
-    color: #1DA1F2;
-    font-size: 17px;
-    padding-left: 15px;
-  }
-  #tweets-times{
-    color: #657786;
-    font-size: 13px;
-    padding-left: 15px;
-  }
-  .header-left-align{
-    font-weight: bold;
-    font-size: 24px;
-    text-align: left;
-    padding-top: 15px;
-    padding-left: 15px
-}
-  .to-follow-list{
-    text-align: left;
-    line-height: 17px;
-  }
   .infor-avatar{
     margin-top: 10px;
     margin-left: 15px;
@@ -224,18 +187,7 @@ ul li{
 
 
      <ElContainer id = 'left-container2' >
-       <el-header class='header-left-align'>Trends for you</el-header>
-       <ul>
-         
-         <li id="trends-container" v-for="topic in topics">
-           <a>
-             <div v-on:click="tapTopic(topic)" >
-             <span id='trends-name' >{{topic.topic_content}}</span>
-             <div id='tweets-times'>{{ topic.topic_heat }} heat</div>
-             </div>
-           </a>
-         </li>
-       </ul>
+       <Trends></Trends>
      </ElContainer>
 
 
@@ -318,22 +270,17 @@ ul li{
     </div>
 
       <ElContainer id="right-container" >
-        <el-header class="header-left-align">Who to follow</el-header>
-        <div class='to-follow-list' v-for="toFollow in toFollowList">
-          <User v-bind:p_follow_info="toFollow"></User>
-        </div>
+        <whoToFollows></whoToFollows>
       </ElContainer>
   </div>
 </template>
 <script>
-  import ElUploadList from "element-ui/packages/upload/src/upload-list";
-  import Caspanel from "iview/src/components/cascader/caspanel";
   import axios from "axios"
   axios.defaults.withCredentials = true;
-  import User from "./Subs/User"
-  //import user from "./store/user"
   import loadingAnimate from "./animate/loading"
   import Tweets from "./Subs/Tweets"
+  import Trends from "./Subs/Trends"
+  import whoToFollows from "./Subs/whoToFollows"
   export default {
     name:'Home',
     
@@ -351,12 +298,6 @@ ul li{
           { name: 'Google' },
           { name: 'Taobao' }
         ],
-        topics:[
-          
-        ],
-        toFollowList:[
-          
-        ],
         informationList:[
         ],
         isEditerFocused: false,
@@ -366,26 +307,12 @@ ul li{
       }
     },
     components:{
-      loadingAnimate,User,
+      loadingAnimate,
       "tweets":Tweets,
-    },
-    created(){
-      this.loading = true;
-      var p1 = this.queryTopicsBaseOnHeat(0, 5)
-       var p2 =  this.getRecommendUsers()
-        var _this = this;
-        Promise.all([p1,p2]).then((res)=>{
-          console.log("测试topics", res[0]);
-          _this.topics = res[0].data.data;
-          console.log("测试getRecommendUsers", res[1]);
-          console.log(res[1].data.data);
-          _this.toFollowList=res[1].data.data;
-          console.log(_this.toFollowList)
-          console.log("加载完毕")
-          _this.loading = false;
-        })
+      Trends,whoToFollows
     },
     mounted(){
+      this.loading = true;
       this.isEditerFocused = true;
       //this.loading=true;
       var userID = this.getCookies("userID")
@@ -402,12 +329,12 @@ ul li{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
             {
-              //this.loading=false;
+              this.loading=false;
               this.userName = Response.data.data.nickname
               console.log(this.userName)
             }
             else{
-              //this.loading=false;
+              this.loading=false;
               console.log("fail")
               this.userName="userName"
             }
@@ -415,7 +342,7 @@ ul li{
           })
         }
         catch(e){
-            //this.loading=false;
+            this.loading=false;
             return {
           result: false,
           errMsg: "Can't connect with server"
