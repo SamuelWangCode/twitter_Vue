@@ -166,18 +166,22 @@
             </div>
             <div class="buttom-buttons">
                 <div class="collection-div" @click="doCollect()">
-                  <VueStar animate="animated rubberBand" color="#F05654">
+                  <VueStar animate="animated rubberBand" color="#19be6b">
                     <a slot="icon">
-                    <Icon type="ios-star" size="24" v-if="collectByUser"></Icon>
+                    <Icon type="ios-star" size="24" v-if="collectByUser" style="color=#19be6b"></Icon>
                     <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
                     </a>
                   </VueStar>
                 </div>
-                <div class="comment-div" @click="showComment()">
+              <div class="comment-div" @click="showComment()">
+                <VueStar animate="animated rubberBand" color="#F05654">
+                  <a slot="icon">
                     <Icon v-if="commented" type="ios-chatboxes" size="24"></Icon>
                     <Icon v-else type="ios-chatboxes-outline" size="24"></Icon>
                     <span>{{commentsNum}}</span>
-                </div>
+                  </a>
+                </VueStar>
+              </div>
               <div class="share-div">
                 <VueStar animate="animated rubberBand" color="#F05654">
                   <a slot="icon">
@@ -185,14 +189,17 @@
                   </a>
                 </VueStar>
               </div>
-                <div class="likes-div" @click="doLike()">
-                    <Icon type="ios-heart" size="24" v-if="likeByUser"></Icon>
-                    <Icon type="ios-heart-outline" size="24" v-else></Icon>
+              <div class="likes-div" @click="doLike()">
+                <VueStar animate="animated rubberBand" color="#F05654">
+                  <a slot="icon">
+                    <Icon type="ios-heart" size="24" v-if="likeByUser"style="color: #ed4014"></Icon>
+                    <Icon type="ios-heart-outline" size="24" v-else ></Icon>
                     <span>{{item.message_like_num}}</span>
-                </div>
+                  </a>
+                </VueStar>
+              </div>
             </div>
             <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
-    
         </div>
     </div>
 
@@ -254,8 +261,8 @@
             <div class="likes-div" @click="doLike()">
               <VueStar animate="animated rubberBand" color="#F05654">
                 <a slot="icon">
-                <Icon type="ios-heart" size="24" v-if="likeByUser"></Icon>
-                <Icon type="ios-heart-outline" size="24" v-else></Icon>
+                <Icon type="ios-heart" size="24" v-if="likeByUser"style="color: #ed4014"></Icon>
+                <Icon type="ios-heart-outline" size="24" v-else ></Icon>
                 <span>{{item.message_like_num}}</span>
                 </a>
               </VueStar>
