@@ -125,6 +125,11 @@ export default {
                     this.twiDatas=Response.data.data.twitters;
                     this.generateData();
                 });
+            }else if(this.type=="notification"){
+                this.queryAtMe(this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data;
+                    this.generateData();
+                })
             }
         },
         //下载数据后解析数据

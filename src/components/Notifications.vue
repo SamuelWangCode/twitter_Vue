@@ -81,22 +81,7 @@ ul li {
     </ElContainer>
 
     <ElContainer id="middle-container">
-      <div class="el-header" style="border-bottom: 1px solid #e6ecf0;width: 100%">
-        <Tabs active-key="key1" style="float: left;width: 100%">
-          <Tab-pane label="All" key="key1">
-            <ElContainer v-for="infor in informationList">
-              <a>
-                <Avatar
-                  :src="infor.avatarUrl"
-                  style="margin-top: 10px;margin-left: 15px;margin-bottom: 5px"
-                ></Avatar>
-                {{infor.name}}: {{infor.content}}
-              </a>
-            </ElContainer>
-          </Tab-pane>
-          <Tab-pane label="Mention" key="key2">标签二的内容</Tab-pane>
-        </Tabs>
-      </div>
+      <tweets type="notification"></tweets>
     </ElContainer>
 
     <ElContainer id="right-container">
@@ -110,6 +95,7 @@ ul li {
 <script>
 
 import User from "./Subs/User"
+import Tweets from "./Subs/Tweets"
 export default {
   name: "Notifications",
   data() {
@@ -117,32 +103,10 @@ export default {
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
       topics: [],
       toFollowList: [],
-      informationList: [
-        {
-          name: "妙蛙种子",
-          content: "阳光烈焰",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "百变怪",
-          content: "变身",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "小锯鳄",
-          content: "撞击",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "果然翁",
-          content: "反弹",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        }
-      ]
     };
   },
-  components: { "user":User },
-  mounted(){
+  components: { "user":User, "tweets": Tweets },
+  created(){
     this.queryTopicsBaseOnHeat(0, 5).then(response=>{
           console.log("测试topics", response);
           this.topics = response.data.data;

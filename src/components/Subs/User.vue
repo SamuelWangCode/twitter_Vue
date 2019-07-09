@@ -1,7 +1,7 @@
 <template>
   <div class="toFollow-container">
     <router-link class="user-container" :to="{ path: '/Zoom', query: { visitor_id: user_info.user_id }}">
-
+      <div class="user-inner-container">
       <div class="av-container">
         <Avatar  size=large class="av" v-bind:src="user_info.avatar_url"></Avatar>
       </div>
@@ -10,6 +10,7 @@
         <div style="font-size: 10px;color: grey;margin-top: 6px">@ {{user_info.nickname}}</div>
       </div>
       <img class="confirm-container" style="width: 20px;height: 20px" v-bind:src="confirm_url"/>
+      </div>
     </router-link>
 
   </div>
@@ -90,25 +91,37 @@ export default {
 };
 </script>
 <style>
+.user-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
 
   .user-container:hover:after{
     text-decoration:underline;
   }
   .toFollow-container{
-    margin-top: 30px;
-    margin-left: 10px;
-
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+  }
+  .user-inner-container{
+    width: 80%;
+    margin-left: 20px;
+    margin-bottom: 20px;
   }
   .av-container{
     width: 18%;
-
-    float: left;
+    float: left; 
   }
   .name-container{
+    margin-left: 10px;
+    margin-top: 2px;
     float: left;
   }
-
   .confirm-container{
+    margin-top: 5px;
     margin-left: 10px;
   }
 
