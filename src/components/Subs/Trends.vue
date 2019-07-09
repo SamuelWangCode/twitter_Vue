@@ -60,7 +60,7 @@ export default {
       console.log("测试点击 topic_id:", topic.topic_id);
       this.$router.push({
         path: "/Topic",
-        query: { topic_id: topic.topic_id }
+        query: { topic_id: topic.topic_id, topic_name: topic.topic_content }
       });
     }
   }

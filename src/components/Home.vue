@@ -206,7 +206,7 @@ ul li{
               <div class="Editer" default-txt="What happens?" contenteditable @click.prevent="clickEditor" v-bind:focus="isEditerFocused" @input="editerInputEventHandler">
                 What happens?
               </div>-->
-            <Input :ref="'editor'" :rows="editor_content.length > 0 ? 4 : 1" v-model="editor_content" v-bind:maxlength="140" type="textarea" placeholder="Enter something..." 
+            <Input :ref="'editor'" :rows="editor_content.length > 0 ? 4 : 2" v-model="editor_content" v-bind:maxlength="140" type="textarea" placeholder="Enter something..." 
             @v-bind:focus="isEditerFocused" @focus="editerFocusEventHandler"  @blur="editerBlurEventHandler" />
             <!-----TODO:AddPicture--- ----------------------------------------------->
             <div style="margin-top:5px;">
