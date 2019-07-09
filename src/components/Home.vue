@@ -253,7 +253,7 @@ ul li{
               <div class="Editer" default-txt="What happens?" contenteditable @click.prevent="clickEditor" v-bind:focus="isEditerFocused" @input="editerInputEventHandler">
                 What happens?
               </div>-->
-            <Input :ref="'editor'" :rows="editor_content.length > 0 ? 4 : 1" v-model="editor_content" maxlength="140" type="textarea" placeholder="Enter something..." 
+            <Input :ref="'editor'" :rows="editor_content.length > 0 ? 4 : 1" v-model="editor_content" v-bind:maxlength="140" type="textarea" placeholder="Enter something..." 
             @v-bind:focus="isEditerFocused" @focus="editerFocusEventHandler"  @blur="editerBlurEventHandler" />
             <!-----TODO:AddPicture--- ----------------------------------------------->
             <div style="margin-top:5px;">
@@ -504,8 +504,8 @@ ul li{
     },
 
     tapTopic(topic){
-      console.log("测试点击 topic_id:", topic.topic_id);
-      this.$router.push({path:'/Topic', query: { topic_id:topic.topic_id }})
+      console.log("测试点击 topic_id:", topic);
+      this.$router.push({path:'/Topic', query: { topic_id:topic.topic_id,topic_name:topic.topic_content }})
       //TODO 点击热点之后跳转
     },
 
