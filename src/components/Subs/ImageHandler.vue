@@ -4,7 +4,10 @@
 .img-handler-div{
     width:100%;
     height:100%;
-    box-shadow: #8287b4 0px 0px 8px;
+    box-shadow: #ecedf3 0px 0px 4px;
+}
+.img-handler-div:hover{
+    box-shadow: #cacee6 0px 0px 8px;
 }
 
 .img1-1-div{
@@ -107,6 +110,7 @@
 </style>
 
 <template>
+<div>
 <div class="img-handler-div">
     <div v-show="showBigImage" class="cover" v-bind:style='{"height":coverHeight,"width":coverWidth}'>
     </div>
@@ -168,7 +172,7 @@
     </div>
 
 </div>
-
+</div>
 </template>
 
 

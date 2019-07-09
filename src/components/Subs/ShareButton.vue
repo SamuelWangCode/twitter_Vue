@@ -83,8 +83,9 @@
 
 
     <div class="share-div" @click="doShowSharePage()">
-        <Icon type="ios-share-alt-outline" size="24"></Icon>
-        <span>{{item.message_transpond_num}}</span>
+        <Icon v-if="shared==false" type="ios-share-alt-outline" size="24"></Icon>
+        <Icon v-else type="ios-share-alt" size="24"></Icon>
+        <span>{{shareNum}}</span>
     </div>
 
 </div>
@@ -102,6 +103,8 @@ export default {
             sharePageHeight:"",
             sharePageWidth:"",
             shareText:"",
+            shareNum:0,
+            shared:false,
         }
     },
     methods:{
@@ -112,7 +115,16 @@ export default {
                 message_source_is_transpond:this.item.message_is_transpond,
                 message_transpond_message_id:this.item.message_id,
             }
-            this.transpond(formData);
+            //调用接口上传数据
+            this.transpond(formData).then(Response=>{
+                if(Response.data.message=="success"){
+                    this.shareNum+=1;
+                    this.shared=true;
+                }
+                else{
+                    alert("转发失败");
+                }
+            });
         },
         //展示转发的覆盖页
         doShowSharePage(){
@@ -130,7 +142,7 @@ export default {
         
     },
     created(){
-            
+        this.shareNum=this.item.message_transpond_num;
     },
     mounted(){
         

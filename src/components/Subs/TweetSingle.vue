@@ -68,8 +68,11 @@
     margin-top:10px;
     margin-bottom: 10px;
     width: 100%;
-    box-shadow: #cdcfe4 0px 0px 8px;
+    box-shadow: #edeef5 0px 0px 4px;
     display:inline-block;
+}
+.twi-text-block:hover{
+    box-shadow: #cacee6 0px 0px 8px;
 }
 .twi-text{
     margin-bottom: 10px;
@@ -92,9 +95,13 @@
 .collection-div:hover{
     cursor: pointer;
 }
-.comment-button{
+.comment-div{
     float: left;
     width:25%;
+    text-align: center;
+}
+.comment-div:hover{
+    cursor: pointer;
 }
 .share-button{
     float: left;
@@ -149,11 +156,15 @@
             <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px"></Icon>
             <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
         </div>
-        <commentbutton class="comment-button" @showComment="showComment()" v-bind:commentsNum="item.message_comment_num" :twiId="item.message_id"></commentbutton>
+        <div class="comment-div" @click="showComment()">
+            <Icon v-if="commented" type="ios-chatboxes" size="24"></Icon>
+            <Icon v-else type="ios-chatboxes-outline" size="24"></Icon>
+            <span>{{commentsNum}}</span>
+        </div>
         <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
         <div class="likes-div" @click="doLike()">
-            <Icon type="ios-heart-outline" size="24" v-if="likeByUser==false"></Icon>
-            <Icon type="ios-heart" size="24" v-else></Icon>
+            <Icon type="ios-heart" size="24" v-if="likeByUser"></Icon>
+            <Icon type="ios-heart-outline" size="24" v-else></Icon>
             <span>{{item.message_like_num}}</span>
         </div>
     </div>
@@ -164,7 +175,6 @@
 
 <script>
 import axios from 'axios'
-import CommentButton from "./CommentButton"
 import ShareButton from "./ShareButton"
 import ImageHandler from "./ImageHandler"
 import CommentBlock from "./CommentBlock"
@@ -185,6 +195,8 @@ export default {
             collectByUser:false,
             likeByUser:false,
             followByUser:false,
+            commentsNum:0,
+            commented:false,
         }
     },
     methods:{
@@ -206,6 +218,7 @@ export default {
         //展示评论或者取消展示评论
         showComment(){
             if (this.comments.length==0){
+                //调用接口请求数据
                 this.getComment();
             }
             this.ifShowComment=!this.ifShowComment;
@@ -314,16 +327,42 @@ export default {
                 comment_content:content,
             }
             this.$http.post(
-                    'http://localhost:12293/api/Comment/add/'+this.item.message_id,data
-                ).then(Response=>{
-                });
+                'http://localhost:12293/api/Comment/add/'+this.item.message_id,data
+            ).then(Response=>{
+                if(Response.data.message=="success"){
+                    this.commentsNum+=1;
+                    this.commented=true;
+                    this.getUserPublicInfo(this.getCookies("userID")).then(Response=>{
+                        let timeObj=new Date();
+                        if(Response.data.message=="success"){
+                            let commTemp={
+                                userPublicInfo:{
+                                    nickname:Response.data.data.nickname,
+                                    avatar_url:Response.data.data.avatar_url,
+                                },
+                                comment:{
+                                    comment_content:content,
+                                    comment_create_time:"刚刚",
+                                }
+                            };
+                            this.comments.unshift(commTemp);
+                        }
+                        else{
+                            alert("评论失败");
+                        }
+                    });
+                }
+                else{
+                    alert("转发失败");
+                }
+            });
         }
     },
     created(){
         this.collectByUser=this.item.collectByUser;
         this.likeByUser=this.item.likeByUser;
         this.followByUser=this.item.followByUser;
-        
+        this.commentsNum=this.item.message_comment_num;
         //求证是否点赞收藏关注
         this.checkUserLikesMessage(this.getCookies("userID"),this.item.message_id).then(Response=>{
             this.likeByUser=Response.data.data.like;
@@ -338,7 +377,6 @@ export default {
     beforeMount() {
     },
     components:{
-        "commentbutton":CommentButton,
         "sharebutton":ShareButton,
         "imagehandler":ImageHandler,
         "commentblock":CommentBlock,
