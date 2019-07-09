@@ -308,7 +308,7 @@
 
           <!--display tweets-->
           <div v-if="navStatus.tweetsShow" id="tweets-container">
-            <tweets :ref="'twe1'"v-on:change_following="change_follow($event)" type="userhome" v-bind:info="visitor"></tweets>
+            <tweets :ref="'twe1'" v-on:change_following="change_follow($event)" type="userhome" v-bind:info="visitor"></tweets>
           </div>
 
           <!--display following-->
