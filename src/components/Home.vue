@@ -117,33 +117,6 @@ ul li{
     margin-left: 10px;
     margin-top: 70px
   }
-  #trends-container{
-    line-height: 17px;
-    margin-bottom: 10px;
-    text-align: left;
-  }
-  #trends-name{
-    font-weight: bold;
-    color: #1DA1F2;
-    font-size: 17px;
-    padding-left: 15px;
-  }
-  #tweets-times{
-    color: #657786;
-    font-size: 13px;
-    padding-left: 15px;
-  }
-  .header-left-align{
-    font-weight: bold;
-    font-size: 24px;
-    text-align: left;
-    padding-top: 15px;
-    padding-left: 15px
-}
-  .to-follow-list{
-    text-align: left;
-    line-height: 17px;
-  }
   .infor-avatar{
     margin-top: 10px;
     margin-left: 15px;

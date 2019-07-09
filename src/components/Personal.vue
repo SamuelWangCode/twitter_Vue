@@ -199,7 +199,6 @@
               <FormItem>
                 <Button type="primary" @click="handleSubmit('formCustom')">Submit</Button>
                 <Button @click="handleReset('formCustom')" style="margin-left: 8px">Reset</Button>
-                <
               </FormItem>
             </Form>
           </Tab-pane>

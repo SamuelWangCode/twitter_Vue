@@ -1,29 +1,28 @@
 <template>
     <div id="explore">
-        <div id="hottopic" >
-            <p style="margin-top: 15px">热门话题</p>
-            <hottopics></hottopics>
-        </div>
-        <div id="tweetitems" >
+        <ElContainer id="left-container">
+      <Trends></Trends>
+      </ElContainer>
+        <div id="middle-container" >
             <tweets type="home"></tweets>
         </div>
-        <div id="recommendusers">
-            <p style=" margin-top: 15px">推荐关注</p>
-            <recommendusers></recommendusers>
-        </div>
+        <ElContainer id="right-container">
+      <whoToFollows></whoToFollows>
+      </ElContainer>
     </div>
 </template>
 
 
 <script>
-import HotTopics from "./Subs/HotTopics"
-import RecommendUsers from "./Subs/RecommendUsers"
 import Tweets from "./Subs/Tweets"
+import Trends from "./Subs/Trends"
+import whoToFollows from "./Subs/whoToFollows"
 
 export default {
     name:'explore',
-    props:{
-        
+    components:{
+      Trends,whoToFollows,
+      "tweets":Tweets
     },
     data(){
         return {
@@ -35,11 +34,6 @@ export default {
     },
     beforeMount() {
     },
-    components:{
-        "tweets":Tweets,
-        "recommendusers":RecommendUsers,
-        "hottopics":HotTopics
-    }
 }
 </script>
 
@@ -52,37 +46,26 @@ export default {
   background-color: rgb(230, 236, 240);
   overflow: auto;
 }
-#hottopic{
-  margin-top: 70px;
-  margin-left: 7%;
-    width:20%;
-    float: left;
-    height:100%;
-  background-color:  #4AB3F4;
-  color: white;
-    border-radius: 4px;
-    font-size: 25px;
-}
-#tweetitems{
-  margin-top: 70px;
-    width:48%;
-  margin-left: 5px;
-    float: left;
+#left-container {
+  float: left;
+  width: 20%;
   background-color: white;
-    border-radius: 4px;
-    overflow: hidden;
+  margin-left: 150px;
+  margin-top: 70px;
 }
-#recommendusers{
-
-    margin-top: 70px;
-  margin-left: 5px;
-    width:20%;
-    float: left;
-     height:100%;
-  background-color: #4AB3F4;
-  color: white;
-    font-size: 25px;
-    border-radius: 4px;
+#middle-container {
+  float: left;
+  width: 40%;
+  background-color: white;
+  margin-left: 10px;
+  margin-top: 70px;
+}
+#right-container {
+  float: left;
+  width: 20%;
+  background-color: white;
+  margin-left: 10px;
+  margin-top: 70px;
 }
 </style>
 
