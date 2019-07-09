@@ -175,9 +175,10 @@ export default {
         },
         //下载数据后解析数据
         generateData(){
+            
             //如果没有数据或者没有数据了
-            if (this.twiDatas.length==0){
-                this.ableShowMore==false;
+            if (!this.twiDatas||this.twiDatas.length==0){
+                this.ableShowMore=false;
                 return ;
             }
             //对twidatas根据时间排序
