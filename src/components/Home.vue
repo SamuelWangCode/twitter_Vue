@@ -477,6 +477,7 @@ ul li{
 
     tapTopic(topic){
       console.log("测试点击 topic_id:", topic.topic_id);
+      this.$router.push({path:'/Topic', query: { topic_id:topic.topic_id }})
       //TODO 点击热点之后跳转
     },
 

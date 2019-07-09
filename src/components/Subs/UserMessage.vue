@@ -68,11 +68,12 @@
         <div class="message-block-title">发送私信
             <Icon class="close-icon" type="ios-close" size="30" @click="closePage()"></Icon>
         </div>
-        <div>
+        <div >
             <input class="message-text-inputer" type="text" v-model="text">
             <Button class="send-message-button" type="primary" @click="message()">发送</Button>
             <Button class="cancel-message-button" type="primary" @click="closePage()">取消</Button>
         </div>
+        
     </div>
 
 
@@ -103,12 +104,12 @@ export default {
             let data={
                 private_letter_content:this.text,
             }
-            this.$http.post(
-                'http://localhost:12293/api/PrivateLetter/send/'+this.userId,data
+            this.sendPrivateLetter(this.userId,this.text
             ).then(Response=>{
             //成功发送了
                 if (Response.data.code==200){
                     //播放动画？
+                    this.closePage();
                 }
                 else{
                     window.alert("发送失败");
@@ -127,6 +128,7 @@ export default {
         //关掉转发的覆盖页
         closePage(){
             this.showPage=false;
+            this.text='';
         },
         
     },
