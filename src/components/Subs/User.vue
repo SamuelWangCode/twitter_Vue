@@ -102,10 +102,11 @@ export default {
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 0px;
-
+    width: 300px;
+    
   }
   .user-inner-container{
-    width: 80%;
+    width: 90%;
     margin-left: 20px;
     margin-bottom: 20px;
   }
@@ -117,7 +118,7 @@ export default {
 
   .name-container{
     float: left;
-   
+
   }
   .name-container div{
     margin-left: 10px;
