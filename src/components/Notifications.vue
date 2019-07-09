@@ -62,10 +62,20 @@ ul li {
   margin-left: 15px;
   margin-bottom: 5px;
 }
+.center-fix{
+	position: fixed;/*固定位置*/
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/	
+  margin:auto;
+left:0;
+right:0;
+top:0;
+bottom:0;
+}
 </style>
 
 <template>
   <div id="root-div">
+    <loadingAnimate v-if="loading" class="center-fix"/>
     <ElContainer id="left-container">
       <el-header class="header-left-align">Trends for you</el-header>
       <ul>
@@ -96,26 +106,30 @@ ul li {
 
 import User from "./Subs/User"
 import Tweets from "./Subs/Tweets"
+import loadingAnimate from "./animate/loading"
 export default {
   name: "Notifications",
   data() {
     return {
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
       topics: [],
-      toFollowList: [],
+      followingList: [],
+      loading: false
     };
   },
-  components: { "user":User, "tweets": Tweets },
+  components: { "user":User, "tweets": Tweets, "loading":loadingAnimate },
   created(){
-    this.queryTopicsBaseOnHeat(0, 5).then(response=>{
-          console.log("测试topics", response);
-          this.topics = response.data.data;
-        });
-        this.getRecommendUsers().then(response => {
-          console.log("测试getRecommendUsers", response);
-          this.toFollowList = response.data.data;
-          console.log(this.toFollowList)
-        });
+    var p1 = this.queryTopicsBaseOnHeat(0, 5).then(response=>{
+      console.log("测试topics", response);
+        this.topics = response.data.data;
+      });
+    var p2 = this.getRecommendUsers().then(response => {
+      console.log("测试getRecommendUsers", response);
+        this.toFollowList = response.data.data;
+        console.log(this.toFollowList)
+    });
+    
+    
   },
   methods: {
     tapTopic(topic) {

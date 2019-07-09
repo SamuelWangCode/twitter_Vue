@@ -28,7 +28,7 @@
 }
 
 .active {
-  border-bottom:1px solid #0084b4;
+  border-bottom: 1px solid #0084b4;
   border-left: 0px;
   border-top: 0px;
   border-right: 0px;
@@ -135,7 +135,7 @@
   height: 100%;
   position: relative;
   border: 0px;
-  width: 25%
+  width: 25%;
 }
 
 .to-follow-list {
@@ -190,7 +190,11 @@
 }
 
 .infor-avatar {
+
 }
+
+
+
 </style>
 <style>
 .el-tabs__item {
@@ -223,25 +227,45 @@
 
       <div id="middle-middle-container">
         <div class="TabContainer">
-          <Button  v-bind:style="navStatus.tweetsShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'" v-bind:class="!navStatus.tweetsShow ? 'TabItem' : 'active'"   @click="tweetsClicked">
+          <Button
+            v-bind:style="navStatus.tweetsShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'"
+            v-bind:class="!navStatus.tweetsShow ? 'TabItem' : 'active'"
+            @click="tweetsClicked"
+          >
             <div class="TabTxt">
               <div class="TabTitle">Tweets</div>
               <div class="Count">{{postsCount}}</div>
             </div>
           </Button>
-          <Button v-bind:style="navStatus.followingShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'" v-bind:class="!navStatus.followingShow ? 'TabItem' : 'active'"  exact-active-class="active" @click="followingClicked">
+          <Button
+            v-bind:style="navStatus.followingShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'"
+            v-bind:class="!navStatus.followingShow ? 'TabItem' : 'active'"
+            exact-active-class="active"
+            @click="followingClicked"
+          >
             <div class="TabTxt">
               <div class="TabTitle">Following</div>
               <div class="Count">{{followingCount}}</div>
             </div>
           </Button>
-          <Button v-bind:style="navStatus.followersShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'" v-bind:class="!navStatus.followersShow ? 'TabItem' : 'active'" exact-active-class="active" @click="followersClicked">
+          <Button
+            v-bind:style="navStatus.followersShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'"
+            v-bind:class="!navStatus.followersShow ? 'TabItem' : 'active'"
+            exact-active-class="active"
+            @click="followersClicked"
+          >
             <div class="TabTxt">
               <div class="TabTitle">Followers</div>
               <div class="Count">{{followerCount}}</div>
             </div>
           </Button>
-          <Button v-bind:style="navStatus.collectionsShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'" v-bind:class="!navStatus.collectionsShow ? 'TabItem' : 'active'" v-show="visitor==user" exact-active-class="active" @click="collectionsClicked">
+          <Button
+            v-bind:style="navStatus.collectionsShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'"
+            v-bind:class="!navStatus.collectionsShow ? 'TabItem' : 'active'"
+            v-show="visitor==user"
+            exact-active-class="active"
+            @click="collectionsClicked"
+          >
             <div class="TabTxt">
               <div class="TabTitle">Collections</div>
               <div class="Count">{{collectCount}}</div>
@@ -253,13 +277,16 @@
           <hr />
 
           <!--display tweets-->
-          <div v-if ="navStatus.tweetsShow" id="tweets-container">
+          <div v-if="navStatus.tweetsShow" id="tweets-container">
             <tweets type="userhome" v-bind:info="visitor"></tweets>
           </div>
 
           <!--display following-->
           <div v-show="navStatus.followingShow" id="following-container">
-            <div>following</div>
+            <div  v-for="user in followingList" v-bind:key="user.user_id">
+              <User v-bind:p_user_id="user.user_id" style="background-color:black;">
+              </User>
+            </div>
           </div>
 
           <!--display followers-->
@@ -276,7 +303,14 @@
       <div id="middle-right-container">
         <div id="middle-right-top-container">
           <div v-if="visitor!=user" id="follow-button-container">
-            <Button v-if="isFollowing==false" class ="follow-button" type="primary" shape="circle" @click="followClick" style="height: 45px;margin-top: 25%;width:100px;margin-left: 75px">
+            <Button
+              v-if="isFollowing==false"
+              class="follow-button"
+              type="primary"
+              shape="circle"
+              @click="followClick"
+              style="height: 45px;margin-top: 25%;width:100px;margin-left: 75px"
+            >
               <span style="font-weight:bold;font-size: 16px">Follow</span>
             </Button>
             <Button
@@ -298,9 +332,11 @@
 
 <script>
 import axios from "axios";
+axios.defaults.withCredentials = true;
 import loadingAnimate from "./animate/loading";
 import Tweets from "./Subs/Tweets.vue";
-axios.defaults.withCredentials = true;
+import User from "./Subs/User"
+
 export default {
   name: "Zoom",
 
@@ -333,42 +369,44 @@ export default {
         collectionsShow: false
       },
       selfIntroduction: "The man is lazy,leaving nothing.",
-      toFollowList: []
-      
+      toFollowList: [],
+      followingList: [],
+      followerList: []
     };
   },
   components: {
     loadingAnimate,
-    Tweets
+    Tweets,
+    User
   },
-  mounted: function getUser() {
+  created() {
     this.loading = true;
     this.visitor = this.$route.query.visitor_id;
     this.user = this.getCookies("userID");
     console.log("user", this.user);
     try {
-      this.getUserPublicInfo(this.visitor).then(response => {
-        console.log(this.visitor);
-        console.log(response.data.data);
-        if (response.data.code == 200 && response.data.message == "success") {
-          this.nickname = response.data.data.nickname;
-          console.log(this.nickname);
-          this.avatar = response.data.data.avatar_url;
-          this.postsCount = response.data.data.messages_num;
-          this.followerCount = response.data.data.followers_num;
-          this.followingCount = response.data.data.follows_num;
-          this.collectCount = response.data.data.collection_num;
-          this.selfIntroduction = response.data.data.self_introction;
-          this.joinTime = response.data.data.register_time;
-          console.log(this.nickname);
-        }
+      var _this = this;
+      this.getUserPublicInfo(this.visitor).then(response=>{
+        _this.user_info = response.data.data;
+        _this.nickname = response.data.data.nickname;
+        console.log(this.nickname);
+        _this.avatar = response.data.data.avatar_url;
+        _this.postsCount = response.data.data.messages_num;
+        _this.followerCount = response.data.data.followers_num;
+        _this.followingCount = response.data.data.follows_num;
+        _this.collectCount = response.data.data.collection_num;
+        _this.selfIntroduction = response.data.data.self_introction;
+        _this.joinTime = response.data.data.register_time;
       });
-      this.if_following_by_me(this.visitor).then(response => {
-        console.log(response);
-        if (response.data.code == 200 && response.data.message == "success") {
-          this.isFollowing = response.data.data.if_following;
-          console.log(this.isFollowing);
-        }
+      var p1 = this.if_following_by_me(this.visitor)
+      var p2 = this.queryFollowingFor(this.visitor, 1, 10)
+      var p3 = this.queryFollowersFor(this.visitor, 1, 10)
+      
+      
+      Promise.all([p1, p2]).then(res => {
+        _this.isFollowing = res[0].data.data.if_following;
+        _this.followingList = res[1].data.data;
+        _this.followersList = res[2].data.data;
       });
     } catch (e) {
       return {
@@ -376,6 +414,12 @@ export default {
         errMsg: "Can't connect with server"
       };
     }
+  },
+  mounted: function getUser() {
+    this.loading = true;
+    this.visitor = this.$route.query.visitor_id;
+    this.user = this.getCookies("userID");
+    console.log("user", this.user);
   },
   methods: {
     unfollowClick() {
