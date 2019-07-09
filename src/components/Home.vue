@@ -105,7 +105,8 @@ ul li{
     margin-top: 70px
   }
   #middle-container1{
-    margin-top: 0px
+    margin-top: 0px;
+
   }
   #middle-container2{
     margin-top: 0px;

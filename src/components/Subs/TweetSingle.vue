@@ -23,7 +23,6 @@
 .user-message{
     margin-top:8px;
     width: 60px;
-    box-shadow: #d1d3e5 0px 0px 8px;
 }
 
 
@@ -67,10 +66,10 @@
     margin-top:10px;
     margin-bottom: 10px;
     display: inline-block;
-    box-shadow: #edeef5 0px 0px 4px;
+
 }
 .twi-text-block:hover{
-    box-shadow: #cacee6 0px 0px 8px;
+
 }
 .twi-text{
     margin-bottom: 10px;
@@ -83,7 +82,7 @@
 
 .buttom-buttons{
     display: inline-block;
-    background-color: antiquewhite;
+    background-color: white;
     width:100%;
 }
 .collection-div{

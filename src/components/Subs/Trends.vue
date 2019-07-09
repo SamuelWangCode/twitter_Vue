@@ -2,14 +2,14 @@
 <div>
   <el-header class="header-left-align">Trends for you</el-header>
   <ul>
-    <li id="trends-container" v-for="topic in topics">
+    <div id="trends-container" v-for="topic in topics">
       <a>
         <div v-on:click="tapTopic(topic)">
-          <span id="trends-name">{{topic.topic_content}}</span>
+          <div id="trends-name">{{topic.topic_content}}</div>
           <div id="tweets-times">{{ topic.topic_heat }} heat</div>
         </div>
       </a>
-    </li>
+    </div>
   </ul>
 </div>
 </template>
