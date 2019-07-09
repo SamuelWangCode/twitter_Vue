@@ -78,7 +78,7 @@ export default {
       loading: false
     };
   },
-  components: { "user":User, "tweets": Tweets, "loading":loadingAnimate, Trends,
+  components: {"tweets": Tweets, "loading":loadingAnimate, Trends,
     whoToFollows },
   created(){
     var p1 = this.queryTopicsBaseOnHeat(0, 5).then(response=>{
