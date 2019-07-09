@@ -2,6 +2,7 @@
 .tweet-items{
     text-align: left;
     margin-top: 10px;
+    width:100%;
 }
 .load-more{
     font-size: 30px;
@@ -10,10 +11,14 @@
     margin-bottom: 20px;
     border-radius: 10px;
     background-color: white;
+    width:100%;
 }
 
 .load-more:hover{
     cursor: pointer;
+}
+.no-more{
+    width:100%;
 }
 </style>
 
@@ -21,12 +26,13 @@
 
 
 <template>
-    <div class="tweet-items">
+    <div>
         <div v-for="item in items">
             <twiitem v-bind:item="item" class="tweet-items" @likeTwi="doLike(item)" @collectTwi="doCollect(item)" @follow="doFollow(item)"></Twiitem>
             <divider/>
         </div>
-        <div class="load-more" @click="loadMore()">加载更多</div>
+        <div v-if="ableShowMore" class="load-more" @click="loadMore()">加载更多</div>
+        <div v-else class="no-more">已无更多内容</div>
     </div>
 </template>
 
@@ -48,7 +54,7 @@ export default {
             userDatas:"",
             showBigImage:false,
             BigImageSource:"",
-
+            ableShowMore:true,
 
             burl:"http://localhost:12293/",
         }
@@ -122,6 +128,11 @@ export default {
         },
         //下载数据后解析数据
         generateData(){
+            //如果没有数据或者没有数据了
+            if (this.twiDatas.length==0){
+                this.ableShowMore==false;
+                return ;
+            }
             //取得当前保存的推特总数
             let twiCount=this.items.length;
             for (let i=0;i<this.twiDatas.length;i++){

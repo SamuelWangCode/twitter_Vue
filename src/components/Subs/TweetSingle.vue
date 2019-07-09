@@ -11,8 +11,11 @@
     height:60px;
     border-radius: 30px;
     overflow: hidden;
-    box-shadow: #d1d3e5 0px 0px 8px;
+    box-shadow: #e9eaf1 0px 0px 4px;
 
+}
+.user-avatar-div:hover{
+    box-shadow: #d1d3e5 0px 0px 8px;
 }
 .user-avatar{
     width: 60px;

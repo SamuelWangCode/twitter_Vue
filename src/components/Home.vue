@@ -294,7 +294,7 @@ ul li{
        </div>
        -->
 
-      <tweets type="home">
+      <tweets type="home" style="width:100%;">
       </tweets>
 
      </ElContainer>
