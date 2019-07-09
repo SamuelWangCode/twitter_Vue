@@ -261,7 +261,6 @@ ul li{
               <div class="demo-upload-list" v-for="item in uploadList">
                 <template>
                   <img :src="item.url">
-
                     <div class="demo-upload-list-cover">
                       <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
                       <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
@@ -291,7 +290,7 @@ ul li{
             </div>
     
             <!-- sdadasdasdasdsad ---------------------------------------------------------------------------->
-            <Button type="primary" size="large" shape="circle" :disabled="!editor_content.length" v-show="editor_content.length > 0" @click="sendPostBtnClickEventHandler" @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" style="float:left;margin-top:10px;margin-left:200px;">Tweet</button>
+            <Button type="primary" size="large" shape="circle" :disabled="!editor_content.length" v-show="editor_content.length > 0" @click="sendPostBtnClickEventHandler" @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" style="float:right;margin-top:10px;margin-left:200px;">Tweet</button>
           </div>
 
         </div>
