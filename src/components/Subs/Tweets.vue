@@ -240,8 +240,16 @@ export default {
       var k=JSON.parse(JSON.stringify(this.isFollowing));
       k[item.message_sender_user_id]=event;
       this.isFollowing=k;
-      this.$emit('change_follow',event)
+      this.$emit('change_following',event)
+    },
+    change_follow2(val,id){
+      if(this.isFollowing[id]!=val){
+        var k=JSON.parse(JSON.stringify(this.isFollowing));
+        k[id]=val;
+        this.isFollowing=k;
+      }
     }
+
   },
   mounted() {
     //测试时把整个函数替换成/**/里的内容

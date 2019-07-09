@@ -34,7 +34,7 @@
 .twi-right-top-div{
     display: inline-block;
     width: 100%;
-    background-color: rgb(205, 214, 255);
+    background-color: white;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 0px;
@@ -72,34 +72,44 @@
 }
 .collection-div{
     float: left;
-    width:25%;
-    height:auto;
+    width:20%;
+    height:40px;
+  /*margin-bottom: 20px;*/
     text-align: center;
+  margin-left: 60px;
 }
 .collection-div:hover{
     cursor: pointer;
 }
 .comment-div{
     float: left;
-    width:25%;
+  height: 40px;
+    width:20%;
+  /*padding-left:50%;*/
     text-align: center;
 }
 .comment-div:hover{
     cursor: pointer;
 }
-.share-button{
-    float: left;
-    width:25%;
-}
+/*.share-button{*/
+/*    float: left;*/
+/*    width:20%;*/
+/*}*/
 .likes-div{
-    width:100%;
-    height:auto;
+  float: left;
+    width:20%;
+    height:40px;
     text-align: center;
 }
 .likes-div{
     cursor: pointer;
 }
-
+.share-div{
+  float: left;
+  width:20%;
+  height:40px;
+  text-align: center;
+}
 
 .shared-twi-div{
     width: 100%;
@@ -156,15 +166,25 @@
             </div>
             <div class="buttom-buttons">
                 <div class="collection-div" @click="doCollect()">
-                    <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px"></Icon>
+                  <VueStar animate="animated rubberBand" color="#F05654">
+                    <a slot="icon">
+                    <Icon type="ios-star" size="24" v-if="collectByUser"></Icon>
                     <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
+                    </a>
+                  </VueStar>
                 </div>
                 <div class="comment-div" @click="showComment()">
                     <Icon v-if="commented" type="ios-chatboxes" size="24"></Icon>
                     <Icon v-else type="ios-chatboxes-outline" size="24"></Icon>
                     <span>{{commentsNum}}</span>
                 </div>
-                <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
+              <div class="share-div">
+                <VueStar animate="animated rubberBand" color="#F05654">
+                  <a slot="icon">
+                    <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
+                  </a>
+                </VueStar>
+              </div>
                 <div class="likes-div" @click="doLike()">
                     <Icon type="ios-heart" size="24" v-if="likeByUser"></Icon>
                     <Icon type="ios-heart-outline" size="24" v-else></Icon>
@@ -205,19 +225,40 @@
         </div>
         <div class="buttom-buttons">
             <div class="collection-div" @click="doCollect()">
-                <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px"></Icon>
-                <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
+              <VueStar animate="animated rubberBand" color="#F05654">
+                <a slot="icon">
+                  <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px"></Icon>
+                  <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
+                </a>
+              </VueStar>
             </div>
+
             <div class="comment-div" @click="showComment()">
+              <VueStar animate="animated rubberBand" color="#F05654">
+                <a slot="icon">
                 <Icon v-if="commented" type="ios-chatboxes" size="24"></Icon>
                 <Icon v-else type="ios-chatboxes-outline" size="24"></Icon>
                 <span>{{commentsNum}}</span>
+                </a>
+              </VueStar>
             </div>
+
+          <div class="share-div">
+          <VueStar animate="animated rubberBand" color="#F05654">
+            <a slot="icon">
             <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
+            </a>
+          </VueStar>
+          </div>
+
             <div class="likes-div" @click="doLike()">
+              <VueStar animate="animated rubberBand" color="#F05654">
+                <a slot="icon">
                 <Icon type="ios-heart" size="24" v-if="likeByUser"></Icon>
                 <Icon type="ios-heart-outline" size="24" v-else></Icon>
                 <span>{{item.message_like_num}}</span>
+                </a>
+              </VueStar>
             </div>
         </div>
         <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
@@ -233,6 +274,8 @@ import CommentBlock from "./CommentBlock"
 import UserMessage from './UserMessage'
 import BlockUser from './BlockUser'
 import TwiTextBlock from './TwiTextBlock'
+
+import VueStar from 'vue-star'
 import FollowButoon from './FollowButoon'
 export default {
     name:'twitter-item',
@@ -484,6 +527,7 @@ export default {
         "usermessage":UserMessage,
         "blockuser":BlockUser,
         "twitextblock":TwiTextBlock,
+      VueStar,
         "FollowButton":FollowButoon
     },
 }

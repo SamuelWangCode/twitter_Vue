@@ -308,7 +308,7 @@
 
           <!--display tweets-->
           <div v-if="navStatus.tweetsShow" id="tweets-container">
-            <tweets type="userhome" v-bind:info="visitor"></tweets>
+            <tweets :ref="'twe1'"v-on:change_following="change_follow($event)" type="userhome" v-bind:info="visitor"></tweets>
           </div>
 
           <!--display following-->
@@ -328,8 +328,8 @@
           </div>
 
           <!--display collections-->
-          <div v-show="navStatus.collectionsShow" id="collections">
-            <tweets :ref="'twe'" @change_follow="change_follow($event)" type="collection" v-bind:info="user"></tweets>
+          <div v-show="navStatus.collectionsShow" id="collections" >
+            <tweets :ref="'twe2'" v-on:change_following="change_follow($event)" type="collection" v-bind:info="user"></tweets>
           </div>
         </div>
       </div>
@@ -494,7 +494,8 @@ export default {
   watch: {
     "$route.params.PersonAccount": "initUserID",
     isFollowing(val){
-      this.$refs.twe.change_follow(val,visitor);
+      this.$refs.twe1.change_follow2(val,this.visitor);
+      this.$refs.twe2.change_follow2(val,this.visitor);
     }
   }
 };

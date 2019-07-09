@@ -1,10 +1,11 @@
 <style scoped>
 
-.share-div{
-    width:100%;
-    height:auto;
-    text-align: center;
-}
+/*.share-div{*/
+/*  float: left;*/
+/*    width:20%;*/
+/*    height:40px;*/
+/*    text-align: center;*/
+/*}*/
 .share-div:hover{
     cursor: pointer;
 }
@@ -93,9 +94,9 @@
 
 
     <div class="share-div" @click="doShowSharePage()">
-        <Icon v-if="shared==false" type="ios-share-alt-outline" size="24"></Icon>
-        <Icon v-else type="ios-share-alt" size="24"></Icon>
-        <span>{{shareNum}}</span>
+        <Icon style="float:left;" v-if="shared==false" type="ios-share-alt-outline" size="24"></Icon>
+        <Icon style="float:left;" v-else type="ios-share-alt" size="24"></Icon>
+        <span style="float:left;">{{shareNum}}</span>
     </div>
 
 </div>
