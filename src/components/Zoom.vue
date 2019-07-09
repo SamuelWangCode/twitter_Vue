@@ -6,7 +6,7 @@
   overflow: auto;
 }
 #background-top-container {
-  height: 400px;
+  height: 320px;
   width: 100%;
   background-color: deepskyblue;
 }
@@ -80,16 +80,24 @@
 }
 
 #nickname-container {
-  height: 60px;
+  height: 40px;
   font-size: 30px;
   font-weight: bold;
-  color: white;
+  color: black;
   float: top;
 }
 
 #selfIntroduction-container {
   font-size: 15px;
-  padding-top: 0px;
+  margin-top: 10px;
+  background-color: rgb(230, 236, 240);
+}
+
+#introduction{
+  height: 200px;
+  margin-top: 20px;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 #middle-middle-container {
@@ -213,9 +221,11 @@
 </style>
 <template>
   <div class="root-div">
-    <div id="background-top-container">
+
       <div class="WallImgContainer">
-        <div class="BkgImgContainer"></div>
+        <div class="BkgImgContainer">
+          <img :src="personBkgImg" style="height: 320px;width: 100%"/>
+        </div>
         <div class="ProfileImgContainer">
           <div class="ProfileImg">
             <a href="#" class="ProfileImgLink">
@@ -224,13 +234,24 @@
           </div>
         </div>
       </div>
-    </div>
+
     <div id="middle-container">
       <div id="middle-left-container">
-        <div id="introduction-container">
-          <div id="nickname-container">{{nickname}}</div>
-          <div style="font-size: 20px">@ {{nickname}}</div>
-          <div id="selfIntroduction-container">{{selfIntroduction}}</div>
+
+        <div>
+          <div id="selfIntroduction-container">
+            <div id="introduction-container">
+              <div id="decoration" style="height: 70px;background-color: white;padding-top: 0px"></div>
+              <div id="nickname-container">
+                {{nickname}}
+                <img :src="confirm_url" style="height: 20px"/>
+              </div>
+              <div style="font-size: 20px;padding-right: 20px">@ {{nickname}}</div>
+            </div>
+            <div id="introduction">
+              {{selfIntroduction}}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -339,6 +360,7 @@ export default {
       num: 0,
       visitor: 0,
       user: 0,
+      confirm_url:"static/confirmed.png",
       avatar: null,
       nickname: "NickName",
       personBkgImg: "/static/background.png",
@@ -397,8 +419,8 @@ export default {
       var p1 = this.if_following_by_me(this.visitor)
       var p2 = this.queryFollowingFor(this.visitor, 1, 10)
       var p3 = this.queryFollowersFor(this.visitor, 1, 10)
-      
-      
+
+
       Promise.all([p1, p2, p3]).then(res => {
         console.log("完成数据加载", res)
         _this.isFollowing = res[0].data.data.if_following;
