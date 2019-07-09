@@ -46,22 +46,6 @@
     font-size: 20px;
     height:40px;
 }
-.twi-title{
-    float: left;
-    width: 80%;
-}
-.follow-button-div{
-    float: right;
-    width:20%;
-    line-height: 20px;
-}
-.follow-button{
-    margin: 4px;
-}
-.follow-button-alt{
-    margin: 4px;
-    opacity: 0.3;
-}
 
 
 .twi-text-block{
@@ -134,20 +118,20 @@
 <div>
     <div v-if="messageIsShared">
         <div class="twi-left">
-            <Avatar style="width:60px;height:60px;border-radius:50%;" v-bind:src="item.userAvt"></Avatar>
+            <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="item.userAvt"></Avatar>
         </div>
 
         <div class="twi-right">
             <div class="twi-right-top-div">
-                <div class="twi-title">
+                <div style="float:left;width:50%;">
                     <p class="user-name">{{item.userName}}</p>
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
                 </div>
-                <div class="follow-button-div" @click="doFollow()">
-                    <Button type="primary" class="follow-button" v-if="followByUser==false">关注</Button>
-                    <Button type="primary" class="follow-button-alt" v-else>已关注</Button>
+                <div class="follow-button-div">
+                    <Button type="primary" @click="doFollow()" style="float:right;width:12%;margin-right:5%;" v-if="followByUser==false">关注</Button>
+                    <Button type="primary" @click="doFollow()" style="float:right;width:12%;margin-right:5%;" v-else>已关注</Button>
                 </div>  
-                <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
+                <usermessage style="float:right;width:12%;margin-right:5%;" v-bind:userId="item.message_sender_user_id"></usermessage>
             </div>
             <div class="twi-text-block">
                 <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
@@ -204,14 +188,14 @@
         
         <div class="twi-right">
             <div class="twi-right-top-div">
-                <div class="twi-title">
+                <div style="float:left;width:50%;">
                     <p class="user-name">{{item.userName}}</p>
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
                 </div>
                 <div class="follow-button-div" @click="doFollow()">
-                    <Button type="primary" class="follow-button" v-if="followByUser==false">关注</Button>
-                    <Button type="primary" class="follow-button-alt" v-else>已关注</Button>
-                    <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
+                    <Button type="primary" style="float:right;width:12%;margin-right:5%;" v-if="followByUser==false">关注</Button>
+                    <Button type="primary" style="float:right;width:12%;margin-right:5%;" v-else>已关注</Button>
+                    <usermessage style="float:right;margin-right:5%;width:12%;" v-bind:userId="item.message_sender_user_id"></usermessage>
                 </div>
 
             </div>
