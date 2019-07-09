@@ -292,6 +292,7 @@
           <Button
             v-bind:style="navStatus.collectionsShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'"
             v-bind:class="!navStatus.collectionsShow ? 'TabItem' : 'active'"
+            v-show="visitor==user"
             exact-active-class="active"
             @click="collectionsClicked"
           >
@@ -361,6 +362,7 @@ export default {
       visitor: 0,
       user: 0,
       confirm_url:"static/confirmed.png",
+      user_info: {},
       avatar: null,
       nickname: "NickName",
       personBkgImg: "/static/background.png",
@@ -399,7 +401,7 @@ export default {
   },
   created() {
     this.loading = true;
-    this.visitor = this.$route.query.visitor_id;
+    this.visitor = Number(this.$route.query.visitor_id);
     this.user = this.getCookies("userID");
     console.log("user", this.user);
     try {
@@ -437,7 +439,7 @@ export default {
   },
   mounted: function getUser() {
     this.loading = true;
-    this.visitor = this.$route.query.visitor_id;
+    this.visitor = Number(this.$route.query.visitor_id);
     this.user = this.getCookies("userID");
     console.log("user", this.user);
   },

@@ -46,7 +46,7 @@
     width: 40%;
     height: 100%;
     overflow: auto;
-
+    background-color: white
   }
   .topic-name-container{
     margin-top: 60px;
