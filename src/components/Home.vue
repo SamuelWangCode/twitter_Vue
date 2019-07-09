@@ -437,7 +437,6 @@ ul li{
         this.isEditerFocused = true;
       },
       handleView (url) {
-                consosle.log("visible")
                 this.img_preview = url;
                 this.visible = true;
       },
@@ -520,8 +519,8 @@ ul li{
         formData.append("file"+i, this.uploadList[i]);
       }
       this.sendMessage(formData).then(response=>{
-        
-        this.sendingTwitter = false;
+        setTimeout(()=>{this.sendingTwitter = false;}, 2000);
+        //this.sendingTwitter = false;
         console.log(response);
         if(response.data.message == "success"){
           this.editor_content = "";
