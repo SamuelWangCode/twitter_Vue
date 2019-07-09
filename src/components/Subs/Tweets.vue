@@ -101,16 +101,16 @@ export default {
           10
         ).then(Response => {
           this.twiDatas = Response.data.data;
-          console.log(this.twiDatas);
+          //console.log(this.twiDatas);
           this.generateData();
         });
       } else if (this.type == "topic") {
-        console.log("id", this.info);
+        //console.log("id", this.info);
         if (this.info) {
           this.queryMessagesContains(this.info, this.items.length + 1, 10).then(
             Response => {
               this.twiDatas = Response.data.data;
-              console.log(this.twiDatas);
+              //console.log(this.twiDatas);
               this.generateData();
             }
           );
@@ -219,7 +219,7 @@ export default {
       }
       //完成加入后清空twiDatas，必须有，否则验证出错
       this.twiDatas = [];
-      //console.log("asdads",this.items[0]);
+      ////console.log("asdads",this.items[0]);
     }
   },
   mounted() {

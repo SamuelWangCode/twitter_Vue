@@ -3,25 +3,25 @@
 
 .img-handler-div{
     width:100%;
-    height:100%;
     box-shadow: #ecedf3 0px 0px 4px;
 }
 .img-handler-div:hover{
     box-shadow: #cacee6 0px 0px 8px;
+    cursor: zoom-in;
 }
 
 .img1-1-div{
     height:360px;
-    width:480px;
+    width:100%;
     overflow: hidden;
     border-radius: 10px;
 }
 .img1-1{
-    width:500px;
+    width:100%;
 }
 
 .img-div-for2{
-    width: 480px;
+    width: 100%;
     height: 300px;
     overflow: hidden;
     border-radius: 10px;
@@ -42,7 +42,7 @@
 }
 
 .img-div-for3{
-    width: 480px;
+    width: 100%;
     height: 320px;
     overflow: hidden;
     border-radius: 10px;
@@ -69,7 +69,7 @@
 }
 
 .img-div-for4{
-    width: 480px;
+    width: 100%;
     height: 360px;
     overflow: hidden;
     border-radius: 10px;
@@ -111,7 +111,7 @@
 
 <template>
 <div>
-<div class="img-handler-div">
+<div class="img-handler-div" ref='div'>
     <div v-show="showBigImage" class="cover" v-bind:style='{"height":coverHeight,"width":coverWidth}'>
     </div>
     <div v-show="showBigImage">
@@ -121,7 +121,7 @@
 
     <div class="twi-img" v-if="imgData.length==1">
         <div class="img1-1-div">
-            <img class="img1-1" v-bind:src="imgData[0]" alt="1-1">
+            <img class="img1-1" v-bind:src="imgData[0]" @click="doShowBigImg(0)" alt="1-1">
         </div>
     </div>
 
@@ -130,10 +130,10 @@
     <div class="twi-img" v-else-if="imgData.length==2">
         <div class="img-div-for2">
             <div class="img2-12-div">
-                <img class="img2-1" v-bind:src="imgData[0]" alt="2-1">
+                <img class="img2-1" v-bind:src="imgData[0]" @click="doShowBigImg(0)" alt="2-1">
             </div>
             <div class="img2-12-div">
-                <img class="img2-2" v-bind:src="imgData[1]" alt="2-2">
+                <img class="img2-2" v-bind:src="imgData[1]" @click="doShowBigImg(1)" alt="2-2">
             </div>
         </div>
     </div>
@@ -143,13 +143,13 @@
     <div class="twi-img" v-else-if="imgData.length==3">
         <div class="img-div-for3">
             <div class="img3-1-div">
-                <img class="img3-1" v-bind:src="imgData[0]" alt="3-1">
+                <img class="img3-1" v-bind:src="imgData[0]" @click="doShowBigImg(0)" alt="3-1">
             </div>
             <div class="img3-23-div">
-                <img class="img3-2" v-bind:src="imgData[1]" alt="3-2">
+                <img class="img3-2" v-bind:src="imgData[1]" @click="doShowBigImg(1)" alt="3-2">
             </div>
             <div class="img3-23-div">
-                <img class="img3-3" v-bind:src="imgData[2]" alt="3-3">
+                <img class="img3-3" v-bind:src="imgData[2]" @click="doShowBigImg(2)" alt="3-3">
             </div>
         </div>
     </div>
@@ -157,16 +157,16 @@
     <div class="twi-img" v-else-if="imgData.length==4">
                 <div class="img-div-for4">
                     <div class="img4-1-div">
-                        <img class="img4-1" v-bind:src="imgData[0]" alt="4-1">
+                        <img class="img4-1" v-bind:src="imgData[0]" @click="doShowBigImg(0)" alt="4-1">
                     </div>
                     <div class="img4-234-div">
-                        <img class="img4-234" v-bind:src="imgData[1]" alt="4-2">
+                        <img class="img4-234" v-bind:src="imgData[1]" @click="doShowBigImg(1)" alt="4-2">
                     </div>
                     <div class="img4-234-div">
-                        <img class="img4-234" v-bind:src="imgData[2]" alt="4-3">
+                        <img class="img4-234" v-bind:src="imgData[2]" @click="doShowBigImg(2)" alt="4-3">
                     </div>
                     <div class="img4-234-div">
-                        <img class="img4-234" v-bind:src="imgData[3]" alt="4-4">
+                        <img class="img4-234" v-bind:src="imgData[3]" @click="doShowBigImg(3)" alt="4-4">
                     </div>
                 </div>
     </div>
@@ -179,8 +179,8 @@
 <script>
 export default {
     props:{
-        imgUrls:Array,
         twiId:Number,
+        imgData:Array,
     },
     data(){
         return {
@@ -191,15 +191,15 @@ export default {
             //要展示的大图的长和宽
             bigImgHeight:"",
             bigImgWidth:"",
-            //开始时就计算出小图的长和宽
+            //开始时就计算出小图的长和宽，第一张图片的长和宽分别保存在
             smallSize:[],
             //开始时就计算出大图的长和宽
             bigSize:[],
-            imgData:[],
+            handlerHeight:0,
         }
     },
     methods:{
-        doShowBigImg(obj){
+        doShowBigImg(){
             let h=document.documentElement.offsetHeight;
             let w=document.documentElement.offsetWidth;
             this.coverHeight=h.toString()+"px";
@@ -236,13 +236,33 @@ export default {
         }
         */
        //console.log(this.imgData);
-       if(this.imgUrls!=null){
-           this.imgData=this.imgUrls;
-       }
+         
     },
     mounted(){
         
+    },
+    watch: {   
+        imgData: {
+            handler(newVal, oldVal) {
+            if(this.imgData){
+                if(this.imgData.length==1){
+                    //this.$refs.div.style.height="600px";
+                }
+                else if(this.imgData.length==2){
+                }
+                else if(this.imgData.length==3){
+                    
+                }
+                else if(this.imgData.length==4){
+                    
+                }
+            }
+        },
+    // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
+        immediate: true,
+        deep:true,
     }
+}
 }
 </script>
 

@@ -117,8 +117,8 @@ export default {
             console.log(formData);
             //调用接口上传数据
             this.transpond(formData).then(Response=>{
+                this.shareNum+=1;
                 if(Response.data.message=="success"){
-                    this.shareNum+=1;
                     this.shared=true;
                 }
                 else{
