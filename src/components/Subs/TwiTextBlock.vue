@@ -5,10 +5,16 @@
 .normal-text{
 }
 .at-text{
-    background-color: brown;
+    color: rgb(167, 90, 45);
+}
+.at-text:hover{
+    cursor: pointer;
 }
 .topic-text{
-    background-color: blue;
+    color:rgb(83, 142, 170);
+}
+.topic-text:hover{
+    cursor: pointer;
 }
 
 </style>

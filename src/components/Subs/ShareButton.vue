@@ -38,7 +38,7 @@
     text-align: center;
     font-size: 20px;
     background-color: #2c3e50;
-  color: white;
+    color: white;
 }
 .close-icon{
     float: right;
@@ -75,7 +75,7 @@
             <Icon class="close-icon" type="ios-close" size="30" @click="closeSharePage()"></Icon>
         </div>
         <div>
-            <input type="textarea":rows="4" style="height: 100px;width: 90%;margin:5%;  font-size:20px;" v-model="shareText">
+            <input type="textarea" :rows="4" style="height: 100px;width: 90%;margin:5%;  font-size:20px;" v-model="shareText">
             <Button class="send-share-button" type="primary" @click="share()">发送</Button>
             <Button class="cancel-share-button" type="primary" @click="closeSharePage()">取消</Button>
         </div>

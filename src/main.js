@@ -316,8 +316,6 @@ Vue.prototype.queryMessagesOf = function(user_id, startFrom, limitation){
   if(!checkNumber(user_id, startFrom, limitation)){
     return null;
   }
-  startFrom = startFrom || 0;
-  limitation = limitation || 10;
   var data = {
     startFrom : startFrom,
     limitation : limitation

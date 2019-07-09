@@ -1,9 +1,4 @@
 <style scoped>
-.twi-single-div{
-    width:100%;
-  background-color: #2c3e50;
-}
-
 .twi-left{
     float: left;
     width: 12%;
@@ -16,9 +11,19 @@
     height:60px;
     border-radius: 30px;
     overflow: hidden;
+    box-shadow: #e9eaf1 0px 0px 4px;
+
+}
+.user-avatar-div:hover{
+    box-shadow: #d1d3e5 0px 0px 8px;
 }
 .user-avatar{
     width: 60px;
+}
+.user-message{
+    margin-top:8px;
+    width: 60px;
+    box-shadow: #d1d3e5 0px 0px 8px;
 }
 
 
@@ -30,62 +35,41 @@
 }
 .twi-right-top-div{
     width: 100%;
-    background-color: blanchedalmond;
+    background-color: rgb(205, 214, 255);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 .user-name{
     font-weight:bold;
     font-size: 20px;
     height:40px;
-    width:70%;
+}
+.twi-title{
     float: left;
+    width: 80%;
 }
 .follow-button-div{
     float: right;
     width:20%;
     line-height: 20px;
-    height:40px;
 }
 .follow-button{
-    float: right;
-    width:80%;
-    margin: 4px;
-}
-.follow-button:hover{
-    float: right;
-    width:80%;
     margin: 4px;
 }
 .follow-button-alt{
-    float: right;
-    width:80%;
     margin: 4px;
     opacity: 0.3;
+}
 
-    box-shadow: #c7c7c7 0px 0px 8px;
-}
-.item-menu{
-    line-height:40px;
-    list-style-type:none;
-    padding:0px;
-    width:10%;
-    overflow: hidden;
-    float: right;
-}
-.item-menu-icon{
-    float: right;
-}
-.item-menu li{
-    background-color: beige;
-    width: 80px;
-    list-style-type: none;
-}
-.item-menu li:hover{
-    background-color: rgb(255, 182, 182);
-}
 
 .twi-text-block{
+    margin-top:10px;
     margin-bottom: 10px;
     width: 100%;
+    box-shadow: #cdcfe4 0px 0px 8px;
+    display:inline-block;
 }
 .twi-text{
     margin-bottom: 10px;
@@ -99,9 +83,14 @@
 .buttom-buttons{
     width:100%;
 }
-.collection-button{
+.collection-div{
     float: left;
-    width: 25%;
+    width:25%;
+    height:auto;
+    text-align: center;
+}
+.collection-div:hover{
+    cursor: pointer;
 }
 .comment-button{
     float: left;
@@ -111,9 +100,13 @@
     float: left;
     width:25%;
 }
-.like-button{
-    float: left;
-    width:25%;
+.likes-div{
+    width:100%;
+    height:auto;
+    text-align: center;
+}
+.likes-div{
+    cursor: pointer;
 }
 
 </style>
@@ -121,40 +114,28 @@
 
 
 <template>
-<div class="twi-single-div">
+<div>
     
     <div class="twi-left">
         <div class="user-avatar-div">
             <img class="user-avatar" :src="item.userAvt" alt="no">
         </div>
+        <div v-if="ifBeMyTwi()">
+            <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
+        </div>
     </div>
     
     <div class="twi-right">
         <div class="twi-right-top-div">
-            <div class="user-name">{{item.userName}}</div>
-            <div class="item-menu">
-                <Icon type="ios-arrow-down" size='24' class="item-menu-icon" @click="doShowMenu()"></Icon>
-                <div class="menu" v-show="showMenu">
-                    <ul v-if="ifBeMyTwi(item)">
-                        <li @click="delTwi(item)">我的推特</li>
-                        <li>可以删除</li>
-                    </ul>
-                    <ul v-if="ifBeMyTwi(item)==false">
-                        <li>
-                            <blockuser v-bind:userId="item.message_sender_user_id"></blockuser>
-                        </li>
-                        <li>
-                            <usermessage v-bind:userId="item.message_sender_user_id"></usermessage>
-                        </li>
-                    </ul>
-                </div>
+            <div class="twi-title">
+                <p class="user-name">{{item.userName}}</p>
+                <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
             </div>
-
             <div class="follow-button-div" @click="doFollow()">
-                <Button type="primary" class="follow-button" v-if="item.followByUser==false">关注</Button>
+                <Button type="primary" class="follow-button" v-if="followByUser==false">关注</Button>
                 <Button type="primary" class="follow-button-alt" v-else>已关注</Button>
             </div>
-                        
+
         </div>
         <div class="twi-text-block">
             <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
@@ -164,10 +145,17 @@
 
     </div>
     <div class="buttom-buttons">
-        <collectionbutton class="collection-button" @collectTwi="doCollect()" v-bind:twiId="item.message_id" :collectByUser="item.collectByUser"></collectionbutton>
+        <div class="collection-div" @click="doCollect()">
+            <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px"></Icon>
+            <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
+        </div>
         <commentbutton class="comment-button" @showComment="showComment()" v-bind:commentsNum="item.message_comment_num" :twiId="item.message_id"></commentbutton>
         <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
-        <likebutton class="like-button" @likeTwi="doLike()" v-bind:likeByUser="item.likeByUser" v-bind:likesNum="item.message_agree_num" :twiId="item.message_id"></likebutton>
+        <div class="likes-div" @click="doLike()">
+            <Icon type="ios-heart-outline" size="24" v-if="likeByUser==false"></Icon>
+            <Icon type="ios-heart" size="24" v-else></Icon>
+            <span>{{item.message_like_num}}</span>
+        </div>
     </div>
     <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
 
@@ -176,11 +164,9 @@
 
 <script>
 import axios from 'axios'
-import LikeButton from './LikeButton'
 import CommentButton from "./CommentButton"
 import ShareButton from "./ShareButton"
 import ImageHandler from "./ImageHandler"
-import CollectionButton from "./CollectionButton"
 import CommentBlock from "./CommentBlock"
 import UserMessage from './UserMessage'
 import BlockUser from './BlockUser'
@@ -196,13 +182,18 @@ export default {
             showMenu:false,
             ifShowComment:false,
             comments:[],
+            collectByUser:false,
+            likeByUser:false,
+            followByUser:false,
         }
     },
     methods:{
         //辅助函数，判断是不是这个浏览器cookies里用户的推特
-        ifBeMyTwi(item){
-            let myId=document.cookie;
-            if(item.message_sender_user_id==233){
+        getCookies(name){
+            return this.getCookie(name);
+        },
+        ifBeMyTwi(){
+            if(this.item.message_sender_user_id==this.getCookies("userID")){
                 return true;
             }
             else{
@@ -221,30 +212,91 @@ export default {
         },
         //关注谁谁
         doFollow(){
-            if(this.item.followByUser==false){
-                this.follow(this.item.message_sender_user_id).then(Response=>{
-                    this.$emit("follow");
-                    console.log("关注1/2");
+            if(this.followByUser==false){
+                this.followByUser=true;
+                this.followSb(this.item.message_sender_user_id).then(Response=>{
+                    if (Response.data.message=="success"){
+                        this.$emit("follow");
+                        console.log("取消关注1/2");
+                    }
+                    else{
+                        this.followByUser=false;
+                        alert("关注失败");
+                    }
                 });
             }
-            if(this.item.followByUser==true){
+            if(this.followByUser==true){
+                this.followByUser=false;
                 this.cancelFollowingTo(this.item.message_sender_user_id).then(Response=>{
-                    this.$emit("follow");
-                    console.log("取消关注1/2");
+                    if (Response.data.message=="success"){
+                        this.$emit("follow");
+                        console.log("取消关注1/2");
+                    }
+                    else{
+                        this.followByUser=true;
+                        alert("失败");
+                    }
                 });
             }
         },
         doLike(){
+            if(this.likeByUser==false){
+                this.likeByUser=true;
+                this.addCollection(this.item.message_id).then(Response=>{
+                    if (Response.data.message=="success"){
+                    }
+                    //失败了就返回来
+                    else{
+                        this.likeByUser=false;
+                        alert("点赞失败");
+                    }
+                });
+            }
+            else if(this.likeByUser==true){
+                this.likeByUser=false;
+                this.cancelLike(this.item.message_id).then(Response=>{
+                    if (Response.data.message=="success"){
+                        this.$emit("follow");
+                    }
+                    //失败了就返回来
+                    else{
+                        item.likeByUser=true;
+                        alert("失败");
+                    }
+                });
+            }
             this.$emit("likeTwi");
-            console.log("点赞取消点赞 2/3");
         },
         doCollect(){
-            this.$emit("collectTwi")
-            console.log("收藏取消收藏 2/3");
-        },
-        //删除自己的推特
-        delTwi(item){
-            console.log("删除",item.message_content);
+            if(this.collectByUser==false){
+                this.collectByUser=true;
+                this.addCollection(this.item.message_id).then(Response=>{
+                    if (Response.data.message=="success"){
+                        console.log("收藏");
+                        this.$emit("collectTwi");
+                    }
+                    //失败了就返回来
+                    else{
+                        this.collectByUser=false;
+                        
+                        alert("收藏失败");
+                    }
+                });
+            }
+            else if(this.collectByUser==true){
+                this.collectByUser=false;
+                this.deleteCollection(this.item.message_id).then(Response=>{
+                    if (Response.data.message=="success"){
+                        console.log("取消收藏");
+                        this.$emit("collectTwi");
+                    }
+                    //失败了就返回来
+                    else{
+                        this.collectByUser=true;
+                        alert("失败");
+                    }
+                });
+            }
         },
         getComment(){
             let data={
@@ -268,16 +320,27 @@ export default {
         }
     },
     created(){
+        this.collectByUser=this.item.collectByUser;
+        this.likeByUser=this.item.likeByUser;
+        this.followByUser=this.item.followByUser;
         
+        //求证是否点赞收藏关注
+        this.checkUserLikesMessage(this.getCookies("userID"),this.item.message_id).then(Response=>{
+            this.likeByUser=Response.data.data.like;
+        });
+        this.checkUserCollectMessage(this.getCookies("userID"),this.item.message_id).then(Response=>{
+            this.collectByUser=Response.data.data.favor;
+        });
+        this.if_following_by_me(this.item.message_sender_user_id).then(Response=>{
+            this.followByUser=Response.data.data.if_following;
+        });
     },
     beforeMount() {
     },
     components:{
-        "likebutton":LikeButton,
         "commentbutton":CommentButton,
         "sharebutton":ShareButton,
         "imagehandler":ImageHandler,
-        "collectionbutton":CollectionButton,
         "commentblock":CommentBlock,
         "usermessage":UserMessage,
         "blockuser":BlockUser,
