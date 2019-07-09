@@ -8,9 +8,9 @@
 }
 #middle-container {
   float: left;
-  width: 70%;
+  width: 50%;
   background-color: white;
-  margin-left: 15%;
+  margin-left: 25%;
   margin-top: 70px;
 }
 .header-left-align {
@@ -78,6 +78,7 @@
                 :model="formValidate"
                 :rules="ruleValidate"
                 :label-width="80"
+                style="width: 100%"
               >
                 <br />
                 <br />
@@ -176,7 +177,7 @@
               :model="formCustom"
               :rules="ruleCustom"
               :label-width="80"
-              style="float: left"
+              style="float: left;width: 100%"
             >
               <!--新密码-->
               <FormItem label="New Password" prop="passwd">
@@ -198,6 +199,7 @@
               <FormItem>
                 <Button type="primary" @click="handleSubmit('formCustom')">Submit</Button>
                 <Button @click="handleReset('formCustom')" style="margin-left: 8px">Reset</Button>
+                <
               </FormItem>
             </Form>
           </Tab-pane>

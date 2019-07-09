@@ -57,7 +57,7 @@ export default {
   margin-left: 7%;
     width:20%;
     float: left;
-    height:500px;
+    height:100%;
   background-color:  #4AB3F4;
   color: white;
     border-radius: 4px;
@@ -78,7 +78,7 @@ export default {
   margin-left: 5px;
     width:20%;
     float: left;
-     height:500px;
+     height:100%;
   background-color: #4AB3F4;
   color: white;
     font-size: 25px;
