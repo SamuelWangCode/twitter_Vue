@@ -2,7 +2,7 @@
 <div class="root-div">
   <div class="topic-name-container">#{{topicName}}</div>
   <div class="topic-container">
-    <tweets :type="topicId"></tweets>
+    <tweets type="topic" v-bind:info="topicId"></tweets>
   </div>
 </div>
 </template>

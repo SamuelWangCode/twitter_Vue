@@ -254,7 +254,7 @@ ul li{
                 What happens?
               </div>-->
             <Input :ref="'editor'" :rows="editor_content.length > 0 ? 6 : 1" v-model="editor_content" type="textarea" placeholder="Enter something..." 
-            @v-bind:focus="isEditerFocused" on-focus="editerFocusEventHandler"  @blur="editerBlurEventHandler" />
+            @v-bind:focus="isEditerFocused" @focus="editerFocusEventHandler"  @blur="editerBlurEventHandler" />
             <!-----TODO:AddPicture--- ----------------------------------------------->
             
             <div v-show="editor_content.length > 0" style="float:left;" >
@@ -386,7 +386,6 @@ ul li{
         })
     },
     mounted(){
-      this.$refs.mask.style.height = doc.getElementById('app').clientHeight + 'px';
       this.isEditerFocused = true;
       //this.loading=true;
       var userID = this.getCookies("userID")
@@ -430,11 +429,16 @@ ul li{
     
     },
     methods:{
+      flashCom()
+      {
+        this.$router.go(0);  
+      },
       uploadTapped(){
         console.log("调用uploadTapped");
         this.isEditerFocused = true;
       },
       handleView (url) {
+                consosle.log("visible")
                 this.img_preview = url;
                 this.visible = true;
       },
@@ -502,17 +506,10 @@ ul li{
 
     tapTopic(topic){
       console.log("测试点击 topic_id:", topic.topic_id);
+      this.$router.push({path:'/Topic', query: { topic_id:topic.topic_id }})
       //TODO 点击热点之后跳转
     },
-    tapRecommendUser(visitor_id){
-      console.log("测试点击推荐用户 visitor_id", visitor_id);
-      //TODO 跳转
-      this.$router.push({ path: '/Zoom', query: { visitor_id: visitor_id }});
 
-    },
-    async sendPostBtnClickEventHandler (e) {
-
-    },
     sendPostBtnClickEventHandler(){
       this.sendingTwitter = true;
       console.log("点击发送推特", this.editor_content, this.uploadList);
@@ -524,16 +521,17 @@ ul li{
         formData.append("file"+i, this.uploadList[i]);
       }
       this.sendMessage(formData).then(response=>{
-        setTimeout(()=>{this.sendingTwitter = false;}, 2000);
-        //this.sendingTwitter = false;
+        
+        this.sendingTwitter = false;
         console.log(response);
         if(response.data.message == "success"){
           this.editor_content = "";
           this.uploadList = [];
         }
       })
-    },
-    
+      this.$router.go(0)
+    }
+      
     }
   }
 </script>

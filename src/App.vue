@@ -3,7 +3,7 @@
     <section v-if="$route.meta.keepAlive">
       <nav class="navBar" style="z-index: 1">
         <Menu mode="horizontal" :theme="theme1" active-name="home" style="padding-left:15%;" @on-select="onSelect">
-          <MenuItem name="home" router-link="{path: '/'}" key="Home" @click.native="flushCom">
+          <MenuItem name="home" router-link="{path: '/'}" key="Home">
             <Icon type="ios-home" size="24"></Icon>
             Home
           </MenuItem>
@@ -46,9 +46,6 @@
       }
     },
     methods:{
-      flushCom(){
-        this.$router.go(0);  
-      },
       handleSearch()
       {
         this.$router.push({
