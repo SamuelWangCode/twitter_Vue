@@ -147,6 +147,10 @@ export default {
             this.generateData();
           });
         }
+      }else if(this.type=="at"){
+          this.queryAtMe(this.items.length + 1, 10).then(Response=>{
+              this.twiDatas=Response.data.data
+          });
       }
     },
     //返回排序规则函数的函数

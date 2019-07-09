@@ -83,18 +83,9 @@ ul li {
     <ElContainer id="middle-container">
       <div class="el-header" style="border-bottom: 1px solid #e6ecf0;width: 100%">
         <Tabs active-key="key1" style="float: left;width: 100%">
-          <Tab-pane label="All" key="key1">
-            <ElContainer v-for="infor in informationList">
-              <a>
-                <Avatar
-                  :src="infor.avatarUrl"
-                  style="margin-top: 10px;margin-left: 15px;margin-bottom: 5px"
-                ></Avatar>
-                {{infor.name}}: {{infor.content}}
-              </a>
-            </ElContainer>
+          <Tab-pane label="Mention" key="key1">
+            <tweet type="at"></tweet>
           </Tab-pane>
-          <Tab-pane label="Mention" key="key2">标签二的内容</Tab-pane>
         </Tabs>
       </div>
     </ElContainer>
@@ -110,6 +101,7 @@ ul li {
 <script>
 
 import User from "./Subs/User"
+import Tweets from "./Subs/Tweets"
 export default {
   name: "Notifications",
   data() {
@@ -122,7 +114,7 @@ export default {
       ]
     };
   },
-  components: { "user":User },
+  components: { "user":User, "tweet": Tweets},
   mounted(){
     this.queryTopicsBaseOnHeat(0, 5).then(response=>{
           console.log("测试topics", response);

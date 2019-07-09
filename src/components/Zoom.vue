@@ -287,13 +287,7 @@
       <div id="middle-right-container">
         <div id = "middle-right-top-container">
           <div v-if="visitor!=user" id="follow-button-container">
-            <Button v-if="isFollowing==false" class ="follow-button"type="primary" shape="circle" @click="followClick" style="height: 45px;margin-top: 25%;width:100px;margin-left: 75px">
-              <span style="font-weight:bold;font-size: 16px">Follow</span>
-            </Button>
-            <Button v-else class ="follow-button"type="primary" shape="circle" @click="unfollowClick" style="width:100px;background-color: maroon;border:darkred; height: 45px;margin-top: 15px">
-              <span style="font-weight:bold;font-size: 16px">Unfollow</span>
-            </Button>
-
+            <FollowButton v-bind:followerCount.sync="followerCount" v-bind:isFollowing.sync="isFollowing" v-bind:visitor="visitor"></FollowButton>
           </div>
         </div>
       </div>
@@ -307,6 +301,7 @@
   import axios from "axios"
   import loadingAnimate from "./animate/loading"
   import Tweets from "./Subs/Tweets.vue"
+  import FollowButton from "./Subs/FollowButoon"
   axios.defaults.withCredentials = true;
     export default {
         name: "Zoom",
@@ -351,7 +346,7 @@
       },
       mounted: function getUser(){
           this.loading=true;
-          this.visitor = this.$route.query.visitor_id
+          this.visitor = Number(this.$route.query.visitor_id)
           this.user = this.getCookies("userID")
           console.log('user',this.user)
           try{
@@ -390,26 +385,7 @@
           }
       },
       methods:{
-          unfollowClick(){
-            this.isFollowing=false;
-            this.followerCount--;
-            console.log(this.isFollowing);
-            this.cancelFollowingTo(this.visitor).then(response=>{
-              console.log("取消关注")
-            })
-
-            console.log("unfollowClicked")
-          }
-          ,
-          followClick(){
-            this.isFollowing = true;
-            this.followerCount++;
-            this.followSb(this.visitor).then(response=>{
-              console.log("follow结果", response);
-            })
-            console.log("followClicked")
-          }
-        ,
+          
         setFalseStatus(){
           this.navStatus.followersShow = false;
           this.navStatus.collectionsShow = false;
@@ -454,6 +430,9 @@
       },
       watch: {
         '$route.params.PersonAccount': 'initUserID'
+      },
+      components:{
+        "FollowButton":FollowButton
       }
 
 
