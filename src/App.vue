@@ -54,6 +54,7 @@
             searchKey:this.model13
           }
         })
+        this.$router.go(0)
       },
 
       onSelect (d){
