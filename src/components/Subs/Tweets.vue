@@ -27,7 +27,7 @@
 
 
 <template>
-    <div>
+    <div style="width:100%">
         <div v-for="item in items">
             <twiitem v-bind:item="item" class="tweet-items" @likeTwi="doLike(item)" @collectTwi="doCollect(item)" @follow="doFollow(item)"></Twiitem>
             <divider/>
