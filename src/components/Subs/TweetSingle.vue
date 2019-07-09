@@ -33,6 +33,7 @@
     margin-left: 1%;
 }
 .twi-right-top-div{
+    display: inline-block;
     width: 100%;
     background-color: rgb(205, 214, 255);
     margin-top: 10px;
