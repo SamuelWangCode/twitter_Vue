@@ -66,7 +66,7 @@ export default {
             twitter_content;
             var topics = this.topics;
             var ats = this.ats;
-            //console.log("解析前", topics, ats)
+            console.log("解析前", topics, ats)
             for(let i = 0; i < ats.length; i++){
                 var re = new RegExp(ats[i].atName, "g");
                 var atNameTripped = ats[i].atName;
@@ -87,7 +87,7 @@ export default {
         },
         solveText(){
 
-            //console.log("解析结果", this.parseTwitter(this.fullText));
+            console.log("解析结果", this.parseTwitter(this.fullText));
 
             //保存找到的topic和at的字符串的索引位置
             let index=[];
