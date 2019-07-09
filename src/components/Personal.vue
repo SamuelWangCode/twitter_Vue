@@ -328,6 +328,7 @@ export default {
         "Wyoming"
       ],
       formValidate: {
+        avatar:"",
         alias: "",
         name: "",
         gender: "",
@@ -337,7 +338,7 @@ export default {
       ruleValidate: {
         avatar:[
           {
-            required: true,
+            required: false,
             message: "The avatar cannot be empty",
             trigger: "blur"
           }
@@ -394,15 +395,16 @@ export default {
     };
   },
   mounted() {
-    var user_id = this.getCookies("userID");
+    var _this = this
+    var user_id = _this.getCookies("userID");
     console.log(user_id);
     this.user_id = user_id;
     this.uploadList = this.$refs.upload.fileList;
     console.log(this.formValidate);
-    this.getUserPublicInfo(this.user_id).then(response => {
+    _this.getUserPublicInfo(this.user_id).then(response => {
       console.log(response);
     });
-    this.getUserAllInfo().then(response => {
+    _this.getUserAllInfo().then(response => {
       console.log("获取用户全部信息", response);
       var user_info = response.data.data;
       this.formValidate.alias = user_info.userPublicInfo.nickname;
