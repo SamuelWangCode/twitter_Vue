@@ -21,7 +21,7 @@ export default {
   components: {ImageHandler},
   data() {
     return {
-      user_info: {
+        user_info: {
         user_id: -1,
         nickname: "",
         register_time: "",
@@ -106,8 +106,8 @@ export default {
   }
   .name-container{
     float: left;
-
   }
+
   .confirm-container{
     margin-left: 10px;
   }
