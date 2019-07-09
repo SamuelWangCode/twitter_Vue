@@ -151,62 +151,70 @@ export default {
                 this.queryAtMe(this.items.length + 1, 10).then(Response=>{
                     this.twiDatas=Response.data.data;
                     this.generateData();
-                })
-      }
-    },
-    //返回排序规则函数的函数
-    rule(key) {
-      return function(a, b) {
-        // sort 默认接受a,b两个参数表示数组中的值
-        var value1 = a[key];
-        var value2 = b[key];
-        return value1 - value2;
-      };
-    },
-    //下载数据后解析数据
-    generateData() {
-      //如果没有数据或者没有数据了
-      if (this.twiDatas.length == 0) {
-        this.ableShowMore = false;
-        return;
-      }
-      //对twidatas根据时间排序
-      this.twiDatas.sort(this.rule("message_create_time"));
-      //取得当前保存的推特总数
-      let twiCount = this.items.length;
-      for (let i = 0; i < this.twiDatas.length; i++) {
-        //还有一些属性需要自己去获取，包括是否被....以及用户的....
-        let itemTemp = this.twiDatas[i];
-        itemTemp.ifShowComment = false;
-        itemTemp.comments = [];
-        itemTemp.userName = "用户";
-        itemTemp.userAvt = "";
-        itemTemp.collectByUser = false;
-        itemTemp.likeByUser = false;
-        itemTemp.followByUser = false;
-        itemTemp.comments = [];
-        if (itemTemp.message_ats == null) {
-          itemTemp.message_ats = [];
-        }
-        if (itemTemp.message_topics == null) {
-          itemTemp.message_topics = [];
-        }
-        if (itemTemp.message_image_urls == null) {
-          itemTemp.message_image_urls = [];
-        }
-        //可以先解析已有内容
+                });
+            }
+            else if(this.type=="search"){
+                this.search(this.info, this.items.length + 1, 10).then(Response=>{
+                    this.twiDatas=Response.data.data.twitters;
+                    this.generateData();
+                });
+            }
+        },
+        //返回排序规则函数的函数
+        rule(key) {
+            return function (a, b) { // sort 默认接受a,b两个参数表示数组中的值
+                var value1 = a[key]  
+                var value2 = b[key]
+                if (value1<value2){
+                    return 1;
+                }
+                else{
+                    return -1;
+                }
+            }
+        },
+        //下载数据后解析数据
+        generateData(){
+            //如果没有数据或者没有数据了
+            if (this.twiDatas.length==0){
+                this.ableShowMore==false;
+                return ;
+            }
+            //对twidatas根据时间排序
+            this.twiDatas.sort(this.rule("message_create_time")); 
+            //取得当前保存的推特总数
+            let twiCount=this.items.length;
+            for (let i=0;i<this.twiDatas.length;i++){
+                //还有一些属性需要自己去获取，包括是否被....以及用户的....
+                let itemTemp=this.twiDatas[i];
+                itemTemp.ifShowComment=false;
+                itemTemp.comments=[];
+                itemTemp.userName="用户";
+                itemTemp.userAvt="";
+                itemTemp.collectByUser=false;
+                itemTemp.likeByUser=false;
+                itemTemp.followByUser=false;
+                itemTemp.comments=[];
+                if(itemTemp.message_ats==null){
+                    itemTemp.message_ats=[];
+                }
+                if(itemTemp.message_topics==null){
+                    itemTemp.message_topics=[];
+                }
+                if (itemTemp.message_image_urls==null){
+                    itemTemp.message_image_urls=[];
+                }
+                //可以先解析已有内容
 
-        //取用户数据
-        //获取以上的数据，这里由于可能是第二次拿数据，因此i+twiCount才是当前要处理的推的索引
-        this.getUserPublicInfo(itemTemp.message_sender_user_id).then(
-          Response => {
-            itemTemp.userName = Response.data.data.nickname;
-            itemTemp.userAvt = Response.data.data.avatar_url;
+                //取用户数据
+                //获取以上的数据，这里由于可能是第二次拿数据，因此i+twiCount才是当前要处理的推的索引
+                this.getUserPublicInfo(itemTemp.message_sender_user_id).then(Response=>{
+                    itemTemp.userName=Response.data.data.nickname;
+                    itemTemp.userAvt=Response.data.data.avatar_url;
 
-            //有了推文和用户基本信息后加入数组，其他信息tweetsingle自行判断
-            this.items.push(itemTemp);
-          }
-        );
+                    //有了推文和用户基本信息后加入数组，其他信息tweetsingle自行判断
+                    this.items.push(itemTemp);
+                });
       }
       //完成加入后清空twiDatas，必须有，否则验证出错
       this.twiDatas = [];

@@ -93,7 +93,7 @@
                     <Icon type="ios-plus-empty" class="uploadIcon"></Icon>
                   </div>
                 </FormItem>-->
-
+                <FormItem label="Avatar" prop="avatar">
                 <div class="demo-upload-list" v-for="item in uploadList">
                   <template>
                     <img :src="item.url" />
@@ -124,7 +124,7 @@
                 <Modal title="View Image" v-model="visible">
                   <img :src="img_preview" v-if="visible" style="width: 100%" />
                 </Modal>
-
+                </FormItem>
                 <!--账号名称更改-->
                 <FormItem label="Alias" prop="alias">
                   <Input
@@ -330,9 +330,17 @@ export default {
         alias: "",
         name: "",
         gender: "",
-        desc: ""
+        desc: "",
+        avatar:""
       },
       ruleValidate: {
+        avatar:[
+          {
+            required: true,
+            message: "The avatar cannot be empty",
+            trigger: "blur"
+          }
+        ],
         alias: [
           {
             required: true,

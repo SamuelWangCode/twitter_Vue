@@ -126,7 +126,7 @@
   display: flex;
   width: 100%;
   height: 80px;
-  background-color: blueviolet;
+  background-color: white;
 }
 .TabItem {
   background-color: white;
@@ -228,7 +228,7 @@
       <div id="middle-middle-container">
         <div class="TabContainer">
           <Button
-            v-bind:style="navStatus.tweetsShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'"
+            v-bind:style="navStatus.tweetsShow ? 'border-radius:0; border-left:0px solid white; border-bottom:1px solid blue' : 'border-radius:0;'"
             v-bind:class="!navStatus.tweetsShow ? 'TabItem' : 'active'"
             @click="tweetsClicked"
           >
@@ -303,26 +303,7 @@
       <div id="middle-right-container">
         <div id="middle-right-top-container">
           <div v-if="visitor!=user" id="follow-button-container">
-            <Button
-              v-if="isFollowing==false"
-              class="follow-button"
-              type="primary"
-              shape="circle"
-              @click="followClick"
-              style="height: 45px;margin-top: 25%;width:100px;margin-left: 75px"
-            >
-              <span style="font-weight:bold;font-size: 16px">Follow</span>
-            </Button>
-            <Button
-              v-else
-              class="follow-button"
-              type="primary"
-              shape="circle"
-              @click="unfollowClick"
-              style="width:100px;background-color: maroon;border:darkred; height: 45px;margin-top: 15px"
-            >
-              <span style="font-weight:bold;font-size: 16px">Unfollow</span>
-            </Button>
+            <FollowButton v-bind:followerCount.sync="followerCount" v-bind:isFollowing.sync="isFollowing" v-bind:visitor="visitor"></FollowButton>
           </div>
         </div>
       </div>
@@ -422,24 +403,6 @@ export default {
     console.log("user", this.user);
   },
   methods: {
-    unfollowClick() {
-      this.isFollowing = false;
-      this.followerCount--;
-      console.log(this.isFollowing);
-      this.cancelFollowingTo(this.visitor).then(response => {
-        console.log("取消关注");
-      });
-
-      console.log("unfollowClicked");
-    },
-    followClick() {
-      this.isFollowing = true;
-      this.followerCount++;
-      this.followSb(this.visitor).then(response => {
-        console.log("follow结果", response);
-      });
-      console.log("followClicked");
-    },
     setFalseStatus() {
       this.navStatus.followersShow = false;
       this.navStatus.collectionsShow = false;
