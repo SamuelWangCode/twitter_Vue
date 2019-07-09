@@ -126,7 +126,7 @@ export default {
         });
       } else if (this.type == "collection") {
         
-          this.queryCollections(this.items.length + 1, 10).then(Response => {
+          this.queryCollections(this.info, this.items.length + 1, 10).then(Response => {
             this.twiDatas = Response.data.data;
             this.generateData();
           });

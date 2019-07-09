@@ -336,14 +336,14 @@ Vue.prototype.addCollection = function(message_id){
 Vue.prototype.deleteCollection = function(message_id){
   return post(COLLECTION + "delete?message_id=" + message_id);
 }
-//queryCollections(startFrom, limitation)
-//查询自己的收藏列表
-Vue.prototype.queryCollections = function(startFrom, limitation){
+//queryCollections(user_id, startFrom, limitation)
+//查询收藏列表
+Vue.prototype.queryCollections = function(user_id, startFrom, limitation){
   var data = {
     startFrom : startFrom,
     limitation : limitation
   }
-  return post(COLLECTION + "query", data);
+  return post(COLLECTION + "query/" + user_id, data);
 }
 //checkUserCollectMessage(user_id, message_id)
 //检查是否收藏

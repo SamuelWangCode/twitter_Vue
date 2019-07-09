@@ -83,7 +83,7 @@
   height: 60px;
   font-size: 30px;
   font-weight: bold;
-  color: black;
+  color: white;
   float: top;
 }
 
@@ -115,10 +115,14 @@
 }
 
 #follow-button-container {
-  margin-top: 0px;
+  margin-bottom: 20px;
   margin-left: 70px;
   height: 80px;
   width: 30%;
+  display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 .TabContainer {
   margin-top: 0px;
@@ -193,7 +197,12 @@
 
 }
 
-
+.follow-button-style{
+  height: 45px;
+  width:100px;
+  font-weight:bold;
+  font-size: 16px;
+}
 
 </style>
 <style>
@@ -262,7 +271,6 @@
           <Button
             v-bind:style="navStatus.collectionsShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'"
             v-bind:class="!navStatus.collectionsShow ? 'TabItem' : 'active'"
-            v-show="visitor==user"
             exact-active-class="active"
             @click="collectionsClicked"
           >
@@ -284,26 +292,29 @@
           <!--display following-->
           <div v-show="navStatus.followingShow" id="following-container">
             <div  v-for="user in followingList" v-bind:key="user.user_id">
-              <User v-bind:p_user_id="user.user_id" style="background-color:black;">
-              </User>
+              <userForZoom v-bind:p_user_id="user.user_id">
+              </userForZoom>
             </div>
           </div>
 
           <!--display followers-->
           <div v-show="navStatus.followersShow" id="followers-container">
-            <div>followers</div>
+            <div v-for="user in followersList" v-bind:key="user.user_id">
+              <userForZoom v-bind:p_user_id="user.user_id">
+              </userForZoom>
+            </div>
           </div>
 
           <!--display collections-->
-          <div v-show="navStatus.collectionsShow && visitor==user" id="collections">
-            <tweets type="collection"></tweets>
+          <div v-show="navStatus.collectionsShow" id="collections">
+            <tweets type="collection" v-bind:info="user_info.user_id"></tweets>
           </div>
         </div>
       </div>
       <div id="middle-right-container">
         <div id="middle-right-top-container">
           <div v-if="visitor!=user" id="follow-button-container">
-            <FollowButton v-bind:followerCount.sync="followerCount" v-bind:isFollowing.sync="isFollowing" v-bind:visitor="visitor"></FollowButton>
+            <FollowButton class="follow-button-style" v-bind:followerCount.sync="followerCount" v-bind:isFollowing.sync="isFollowing" v-bind:visitor="visitor"></FollowButton>
           </div>
         </div>
       </div>
@@ -316,7 +327,9 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 import loadingAnimate from "./animate/loading";
 import Tweets from "./Subs/Tweets.vue";
-import User from "./Subs/User"
+import User from "./Subs/User";
+import UserForZoom from "./Subs/UserForZoom";
+import FollowButton from "./Subs/FollowButoon"
 
 export default {
   name: "Zoom",
@@ -352,13 +365,15 @@ export default {
       selfIntroduction: "The man is lazy,leaving nothing.",
       toFollowList: [],
       followingList: [],
-      followerList: []
+      followersList: []
     };
   },
   components: {
     loadingAnimate,
     Tweets,
-    User
+    "userForZoom":UserForZoom,
+    User,
+    FollowButton
   },
   created() {
     this.loading = true;
@@ -384,10 +399,12 @@ export default {
       var p3 = this.queryFollowersFor(this.visitor, 1, 10)
       
       
-      Promise.all([p1, p2]).then(res => {
+      Promise.all([p1, p2, p3]).then(res => {
+        console.log("完成数据加载", res)
         _this.isFollowing = res[0].data.data.if_following;
         _this.followingList = res[1].data.data;
         _this.followersList = res[2].data.data;
+        console.log("这个人的followersList", _this.followersList);
       });
     } catch (e) {
       return {

@@ -6,7 +6,7 @@
         <Avatar  size=large style="margin-bottom: 10px" class="av" v-bind:src="user_info.avatar_url"></Avatar>
       </div>
       <div class="name-container">
-        <div style="font-size: 20px;font-weight: bold; color: black; ">{{user_info.nickname}}</div>
+        <div style="font-size: 20px;font-weight: bold; ">{{user_info.nickname}}</div>
         <div style="font-size: 10px;color: grey;margin-top: 6px">@ {{user_info.nickname}}</div>
       </div>
       <img class="confirm-container" style="width: 20px;height: 20px" v-bind:src="confirm_url"/>
@@ -90,7 +90,7 @@ export default {
 
 };
 </script>
-<style>
+<style scoped>
 .user-container{
   display: flex;
   flex-direction: row;
