@@ -21,18 +21,19 @@
 
 <template>
 <div>
-    <span class="twi-text" v-for="text in textArr">
-        
-        <span v-if="text.type=='normal'" class="normal-text">
-            {{text.content}}
+    <p>
+        <span class="twi-text" v-for="text in textArr">        
+            <span v-if="text.type=='normal'" class="normal-text">
+                {{text.content}}
+            </span>
+            <span v-if="text.type=='at'" class="at-text" @click="doAtToUserHome(text.id)">
+                {{text.content}}
+            </span>
+            <span v-if="text.type=='topic'" class="topic-text" @click="doTopicToTopic(text)">
+                {{text.content}}
+            </span>
         </span>
-        <span v-if="text.type=='at'" class="at-text" @click="doAtToUserHome(text.id)">
-            {{text.content}}
-        </span>
-        <span v-if="text.type=='topic'" class="topic-text" @click="doTopicToTopic(text.id)">
-            {{text.content}}
-        </span>
-    </span>
+    </p>
 </div>
 </template>
 
@@ -60,11 +61,11 @@ export default {
         }
     },
     methods:{
-        doAtToUserHome(userId){
-            console.log("去的用户id是",userId);
+        doAtToUserHome(text){
+            
         },
-        doTopicToTopic(topicId){
-            console.log("去的话题id是",topicId);
+        doTopicToTopic(text){
+            this.$router.push({path:'/Topic', query: { topic_id:text.id }});
         },
         solveText(){
             //保存找到的topic和at的字符串的索引位置

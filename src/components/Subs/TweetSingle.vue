@@ -31,7 +31,6 @@
     float: left;
     width: 84%;
     margin-left: 1%;
-    margin-top: 10px;
 }
 .twi-right-top-div{
     width: 100%;
@@ -69,7 +68,6 @@
     margin-bottom: 10px;
     width: 100%;
     box-shadow: #edeef5 0px 0px 4px;
-    display:inline-block;
 }
 .twi-text-block:hover{
     box-shadow: #cacee6 0px 0px 8px;
@@ -84,6 +82,8 @@
 
 
 .buttom-buttons{
+    display: inline-block;
+    background-color: antiquewhite;
     width:100%;
 }
 .collection-div{
@@ -116,60 +116,135 @@
     cursor: pointer;
 }
 
+
+.shared-twi-div{
+    width: 100%;
+    float: left;
+    padding-top:20px;
+    margin-bottom:20px;
+    background-color: rgb(236, 236, 236);
+}
+
 </style>
 
 
 
 <template>
 <div>
-    
-    <div class="twi-left">
-        <div class="user-avatar-div">
-            <img class="user-avatar" :src="item.userAvt" alt="no">
+    <div v-if="messageIsShared">
+        <div class="twi-left">
+            <Avatar style="width:60px;height:60px;border-radius:50%;" v-bind:src="item.userAvt"></Avatar>
+            
         </div>
-        <div v-if="ifBeMyTwi()">
-            <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
+
+        <div class="twi-right">
+            <div class="twi-right-top-div">
+                <div class="twi-title">
+                    <p class="user-name">{{item.userName}}</p>
+                    <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                </div>
+                <div class="follow-button-div" @click="doFollow()">
+                    <Button type="primary" class="follow-button" v-if="followByUser==false">关注</Button>
+                    <Button type="primary" class="follow-button-alt" v-else>已关注</Button>
+                </div>
+                <div v-if="ifBeMyTwi()">
+                    <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
+                </div>  
+            </div>
+            <div class="twi-text-block">
+                <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
+            </div>
+            
+        </div>
+
+        <div class="shared-twi-div">
+            <div style="float:left;width:8%;margin-left:6%">
+                <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="rawItemUserAvt"></Avatar>
+            </div>
+            
+            <div style="float:left;width:70%;margin-left:2%;margin-right:6%">
+                <div>
+                    <p style="text-size:30px;">{{rawItemUserName}}</p>
+                    <p style="text-size:24px;">{{item.rawItem.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                </div>
+                <div class="twi-text-block">
+                    <twitextblock class="twi-text" v-bind:fullText="item.rawItem.message_content" :ats="item.rawItem.message_ats" :topics="item.rawItem.message_topics"></twitextblock>
+                </div>
+                
+                <imagehandler class="img-handler" :imgUrls="item.rawItem.message_image_urls" :twiId="item.rawItem.message_id"></imagehandler>
+
+            </div>
+            <div class="buttom-buttons">
+                <div class="collection-div" @click="doCollect()">
+                    <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px"></Icon>
+                    <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
+                </div>
+                <div class="comment-div" @click="showComment()">
+                    <Icon v-if="commented" type="ios-chatboxes" size="24"></Icon>
+                    <Icon v-else type="ios-chatboxes-outline" size="24"></Icon>
+                    <span>{{commentsNum}}</span>
+                </div>
+                <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
+                <div class="likes-div" @click="doLike()">
+                    <Icon type="ios-heart" size="24" v-if="likeByUser"></Icon>
+                    <Icon type="ios-heart-outline" size="24" v-else></Icon>
+                    <span>{{item.message_like_num}}</span>
+                </div>
+            </div>
+            <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
+    
         </div>
     </div>
-    
-    <div class="twi-right">
-        <div class="twi-right-top-div">
-            <div class="twi-title">
-                <p class="user-name">{{item.userName}}</p>
-                <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{Message_heat}}</p>
-            </div>
-            <div class="follow-button-div" @click="doFollow()">
-                <Button type="primary" class="follow-button" v-if="followByUser==false">关注</Button>
-                <Button type="primary" class="follow-button-alt" v-else>已关注</Button>
-            </div>
 
-        </div>
-        <div class="twi-text-block">
-            <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
+
+
+
+    <div v-else>
+        <div class="twi-left">
+            <Avatar  size=large v-bind:src="item.userAvt"></Avatar>
+            <div v-if="ifBeMyTwi()">
+                <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
+            </div>
         </div>
         
-        <imagehandler class="img-handler" :imgData="item.message_image_urls" :twiId="item.message_id"></imagehandler>
+        <div class="twi-right">
+            <div class="twi-right-top-div">
+                <div class="twi-title">
+                    <p class="user-name">{{item.userName}}</p>
+                    <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                </div>
+                <div class="follow-button-div" @click="doFollow()">
+                    <Button type="primary" class="follow-button" v-if="followByUser==false">关注</Button>
+                    <Button type="primary" class="follow-button-alt" v-else>已关注</Button>
+                </div>
 
-    </div>
-    <div class="buttom-buttons">
-        <div class="collection-div" @click="doCollect()">
-            <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px"></Icon>
-            <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
-        </div>
-        <div class="comment-div" @click="showComment()">
-            <Icon v-if="commented" type="ios-chatboxes" size="24"></Icon>
-            <Icon v-else type="ios-chatboxes-outline" size="24"></Icon>
-            <span>{{commentsNum}}</span>
-        </div>
-        <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
-        <div class="likes-div" @click="doLike()">
-            <Icon type="ios-heart" size="24" v-if="likeByUser"></Icon>
-            <Icon type="ios-heart-outline" size="24" v-else></Icon>
-            <span>{{item.message_like_num}}</span>
-        </div>
-    </div>
-    <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
+            </div>
+            <div class="twi-text-block">
+                <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
+            </div>
+            
+            <imagehandler class="img-handler" :imgData="item.message_image_urls" :twiId="item.message_id"></imagehandler>
 
+        </div>
+        <div class="buttom-buttons">
+            <div class="collection-div" @click="doCollect()">
+                <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px"></Icon>
+                <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
+            </div>
+            <div class="comment-div" @click="showComment()">
+                <Icon v-if="commented" type="ios-chatboxes" size="24"></Icon>
+                <Icon v-else type="ios-chatboxes-outline" size="24"></Icon>
+                <span>{{commentsNum}}</span>
+            </div>
+            <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
+            <div class="likes-div" @click="doLike()">
+                <Icon type="ios-heart" size="24" v-if="likeByUser"></Icon>
+                <Icon type="ios-heart-outline" size="24" v-else></Icon>
+                <span>{{item.message_like_num}}</span>
+            </div>
+        </div>
+        <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
+    </div>
 </div>
 </template>
 
@@ -183,9 +258,9 @@ import BlockUser from './BlockUser'
 import TwiTextBlock from './TwiTextBlock'
 
 export default {
-    name:'twitter-items',
+    name:'twitter-item',
     props:{
-        item:{},
+        item:Object,
     },
     data(){
         return {
@@ -197,6 +272,10 @@ export default {
             followByUser:false,
             commentsNum:0,
             commented:false,
+            messageIsShared:false,
+
+            rawItemUserAvt:"",
+            rawItemUserName:"",
         }
     },
     methods:{
@@ -378,6 +457,25 @@ export default {
         this.if_following_by_me(this.item.message_sender_user_id).then(Response=>{
             this.followByUser=Response.data.data.if_following;
         });
+
+        //如果是转发的就取原推特条
+        if (this.item.message_transpond_message_id>0){
+            this.queryMessage(this.item.message_transpond_message_id).then(Response=>{
+                if (Response.data.message=="success"){
+                    this.item.rawItem=Response.data.data;
+                    this.messageIsShared=true;
+                    this.getUserPublicInfo(this.item.rawItem.message_sender_user_id).then(Response=>{
+                        
+                        this.rawItemUserName=Response.data.data.nickname;
+                        this.rawItemUserAvt=Response.data.data.avatar_url;
+                        console.log("转发的推特",this.item.rawItem);
+                    });
+                }
+                else{
+                    alert("请求被转发推特失败");
+                }
+            });
+        }
     },
     computed:{
         Message_heat:function(){
