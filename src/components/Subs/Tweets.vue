@@ -127,6 +127,14 @@ export default {
                 });
             }
         },
+        //返回排序规则函数的函数
+        rule(key) {
+            return function (a, b) { // sort 默认接受a,b两个参数表示数组中的值
+                var value1 = a[key]  
+                var value2 = b[key]
+                return value1 - value2
+            }
+        },
         //下载数据后解析数据
         generateData(){
             //如果没有数据或者没有数据了
@@ -134,6 +142,8 @@ export default {
                 this.ableShowMore==false;
                 return ;
             }
+            //对twidatas根据时间排序
+            this.twiDatas.sort(this.rule("message_create_time")); 
             //取得当前保存的推特总数
             let twiCount=this.items.length;
             for (let i=0;i<this.twiDatas.length;i++){
