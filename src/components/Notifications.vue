@@ -102,51 +102,27 @@ ul li {
     <ElContainer id="right-container">
       <el-header class="header-left-align">Who to follow</el-header>
       <div class="to-follow-list" v-for="toFollow in toFollowList">
-        <a>
-          <div v-on:click="tapRecommendUser(toFollow.user_id)">
-            <Avatar class="infor-avatar" v-bind:src="toFollow.avatar_url"></Avatar>
-            {{toFollow.user_nickname}}
-          </div>
-        </a>
+        <user v-bind:p_follow_info="toFollow"></user>
       </div>
     </ElContainer>
   </div>
 </template>
 <script>
-import ElUploadList from "element-ui/packages/upload/src/upload-list";
-import Caspanel from "iview/src/components/cascader/caspanel";
+
+import User from "./Subs/User"
 export default {
   name: "Notifications",
-  components: { Caspanel, ElUploadList },
   data() {
     return {
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
       topics: [],
       toFollowList: [],
       informationList: [
-        {
-          name: "妙蛙种子",
-          content: "阳光烈焰",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "百变怪",
-          content: "变身",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "小锯鳄",
-          content: "撞击",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "果然翁",
-          content: "反弹",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        }
+        
       ]
     };
   },
+  components: { "user":User },
   mounted(){
     this.queryTopicsBaseOnHeat(0, 5).then(response=>{
           console.log("测试topics", response);
@@ -155,6 +131,7 @@ export default {
         this.getRecommendUsers().then(response => {
           console.log("测试getRecommendUsers", response);
           this.toFollowList = response.data.data;
+          console.log(this.toFollowList)
         });
   },
   methods: {

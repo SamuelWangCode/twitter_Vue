@@ -160,8 +160,6 @@ Vue.prototype.queryMessagesContains = function(topic_id, startFrom, limitation){
   if(!checkNumber(topic_id)){
     return null;
   }
-  startFrom = startFrom || 0;
-  limitation = limitation || 10;
   var data = {
     startFrom : startFrom,
     limitation : limitation
@@ -170,8 +168,6 @@ Vue.prototype.queryMessagesContains = function(topic_id, startFrom, limitation){
 }
 //queryTopicsBaseOnHeat(startFrom, limitation)
 Vue.prototype.queryTopicsBaseOnHeat = function(startFrom, limitation){
-  startFrom = startFrom || 0;
-  limitation = limitation || 10;
   var data = {
     startFrom : startFrom,
     limitation : limitation
@@ -194,8 +190,6 @@ Vue.prototype.queryFollowingFor = function(user_id, startFrom, limitation){
   if(!checkNumber(user_id)){
     return null;
   }
-  startFrom = startFrom || 0;
-  limitation = limitation || 10;
   var data = {
     startFrom : startFrom,
     limitation : limitation
@@ -207,8 +201,6 @@ Vue.prototype.queryFollowersFor = function(user_id, startFrom, limitation){
   if(!checkNumber(user_id)){
     return null;
   }
-  startFrom = startFrom || 0;
-  limitation = limitation || 10;
   var data = {
     startFrom : startFrom,
     limitation : limitation
@@ -245,7 +237,7 @@ Vue.prototype.like = function (message_id){
   if(!checkNumber(message_id)){
     return null;
   }
-  return get(LIKE + "message");
+  return get(LIKE + message_id);
 }
 //cancelLike(message_id)
 Vue.prototype.cancelLike = function (message_id){
@@ -275,8 +267,6 @@ Vue.prototype.checkUserLikesMessage = function (user_id, message_id){
 var PRIVATE_LETTER = "api/PrivateLetter/";
 //queryForMe(startFrom, limitation)
 Vue.prototype.queryForMe = function (startFrom, limitation){
-  startFrom = startFrom || 0;
-  limitation = limitation || 10;
   var data = {
     startFrom : startFrom,
     limitation: limitation
@@ -349,8 +339,6 @@ Vue.prototype.deleteCollection = function(message_id){
 //queryCollections(startFrom, limitation)
 //查询自己的收藏列表
 Vue.prototype.queryCollections = function(startFrom, limitation){
-  startFrom = startFrom || 0;
-  limitation = limitation || 10;
   var data = {
     startFrom : startFrom,
     limitation : limitation
@@ -378,8 +366,6 @@ Vue.prototype.getCollectionNum = function(user_id){
 var AT = "api/At/";
 //queryAtMe(startFrom, limitation)
 Vue.prototype.queryAtMe = function(startFrom, limitation){
-  startFrom = startFrom || 0;
-  limitation = limitation || 10;
   var data = {
     startFrom : startFrom,
     limitation : limitation

@@ -6,12 +6,18 @@
     margin:0px;
     padding-top: 20px;
     background-color: white;
+    max-height: 600px;
+    overflow: scroll;
 }
 .send-comm-div{
   height: 40px;
     width:100%;
     margin-bottom: 20px;
   background-color: #2c3e50;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
 }
 .send-comm-input{
   margin-left: 55px;
@@ -20,7 +26,7 @@
 }
 .comm-avt-div{
     float: left;
-  margin-left: 40px;
+    margin-left: 40px;
     margin-top:15px;
     background-color: white;
     overflow: hidden;
@@ -51,8 +57,9 @@
 <div>
     <div class="show-comment-div" v-show="ifShowComment">
         <div class="send-comm-div">
-            <input type="text" style="width: 60%;margin-left: 125px;margin-top:10px;" v-model="commTextToSend">
-            <Button type="primary" @click="sendComment()" style="background-color: white ;color: #14171a;margin-left: 10px;">发送</Button>
+            <!--<input type="text" style="width: 60%;margin-left:10%;margin-right:8%; margin-top:10px;" v-model="commTextToSend"/>-->
+            <Input :rows="1" style="width: 60%;margin-left:10%;margin-right:8%;"  v-model="commTextToSend" type="textarea" placeholder="Enter something..."/> 
+            <Button type="primary" @click="sendComment()" style="background-color: white ;color: #14171a;">发送</Button>
         </div>
         <div v-for="comm in comments">
             <div class="comm-avt-div">
@@ -91,6 +98,7 @@ export default {
     methods:{
         sendComment(){
             this.$emit("sendComm",this.commTextToSend);
+            this.commTextToSend="";
         },
     },
 }

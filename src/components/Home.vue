@@ -1,4 +1,15 @@
 <style scoped>
+
+
+.center-fix{
+	position: fixed;/*固定位置*/
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/	
+  margin:auto;
+left:0;
+right:0;
+top:0;
+bottom:0;
+}
 .PostSenderContainer {
   width:100%;
   border: 1px solid #e6ecf0;
@@ -191,8 +202,14 @@ ul li{
     /* ----------------------------------------------------------------- */
 </style>
 
-<template @click="clickOuter">
+<template >
   <div id='root-div'>
+
+  
+
+        <center>
+        <loadingAnimate v-if="sendingTwitter" class="center-fix"/>
+        </center>
         <loadingAnimate v-if="loading" style="margin-left:auto;margin-right:auto;margin-top:48px;"/>
 
     <div id=left-container>
@@ -237,7 +254,7 @@ ul li{
                 What happens?
               </div>-->
             <Input :ref="'editor'" :rows="editor_content.length > 0 ? 6 : 1" v-model="editor_content" type="textarea" placeholder="Enter something..." 
-            @v-bind:focus="isEditerFocused" on-focus="editerFocusEventHandler"  @blur="editerBlurEventHandler" />
+            @v-bind:focus="isEditerFocused" @focus="editerFocusEventHandler"  @blur="editerBlurEventHandler" />
             <!-----TODO:AddPicture--- ----------------------------------------------->
             
             <div v-show="editor_content.length > 0" style="float:left;" >
@@ -316,17 +333,17 @@ ul li{
   //import user from "./store/user"
   import loadingAnimate from "./animate/loading"
   import Tweets from "./Subs/Tweets"
-  axios.defaults.withCredentials = true;
   export default {
     name:'Home',
     
     data(){
       return{
+        sendingTwitter: false,
         editor_content:"",
         visible:false,
         img_preview:"",
         uploadList: [],
-        loading:false,
+        loading:true,
         userName: "username",
         sites: [
           { name: 'Runoob' },
@@ -351,9 +368,25 @@ ul li{
       loadingAnimate,User,
       "tweets":Tweets,
     },
+    created(){
+      this.loading = true;
+      var p1 = this.queryTopicsBaseOnHeat(0, 5)
+       var p2 =  this.getRecommendUsers()
+        var _this = this;
+        Promise.all([p1,p2]).then((res)=>{
+          console.log("测试topics", res[0]);
+          _this.topics = res[0].data.data;
+          console.log("测试getRecommendUsers", res[1]);
+          console.log(res[1].data.data);
+          _this.toFollowList=res[1].data.data;
+          console.log(_this.toFollowList)
+          console.log("加载完毕")
+          _this.loading = false;
+        })
+    },
     mounted(){
       this.isEditerFocused = true;
-      this.loading=true;
+      //this.loading=true;
       var userID = this.getCookies("userID")
       console.log("登录：", userID)
       //let userID=user.userID
@@ -368,12 +401,12 @@ ul li{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
             {
-              this.loading=false;
+              //this.loading=false;
               this.userName = Response.data.data.nickname
               console.log(this.userName)
             }
             else{
-              this.loading=false;
+              //this.loading=false;
               console.log("fail")
               this.userName="userName"
             }
@@ -381,7 +414,7 @@ ul li{
           })
         }
         catch(e){
-            this.loading=false;
+            //this.loading=false;
             return {
           result: false,
           errMsg: "Can't connect with server"
@@ -389,26 +422,22 @@ ul li{
         }
    
     
-        this.queryTopicsBaseOnHeat(0, 5).then(response=>{
-          console.log("测试topics", response);
-          this.topics = response.data.data;
-        });
-        this.getRecommendUsers().then(response => {
-          console.log("测试getRecommendUsers", response);
-          console.log(response.data.data);
-          this.toFollowList=response.data.data;
-          console.log(this.toFollowList)
-        });
+        
         
         
     
     },
     methods:{
+      flashCom()
+      {
+        this.$router.go(0);  
+      },
       uploadTapped(){
         console.log("调用uploadTapped");
         this.isEditerFocused = true;
       },
       handleView (url) {
+                consosle.log("visible")
                 this.img_preview = url;
                 this.visible = true;
       },
@@ -476,18 +505,12 @@ ul li{
 
     tapTopic(topic){
       console.log("测试点击 topic_id:", topic.topic_id);
+      this.$router.push({path:'/Topic', query: { topic_id:topic.topic_id }})
       //TODO 点击热点之后跳转
     },
-    tapRecommendUser(visitor_id){
-      console.log("测试点击推荐用户 visitor_id", visitor_id);
-      //TODO 跳转
-      this.$router.push({ path: '/Zoom', query: { visitor_id: visitor_id }});
 
-    },
-    async sendPostBtnClickEventHandler (e) {
-
-    },
     sendPostBtnClickEventHandler(){
+      this.sendingTwitter = true;
       console.log("点击发送推特", this.editor_content, this.uploadList);
       var formData = new FormData();
       formData.append("message_content", this.editor_content);
@@ -497,14 +520,17 @@ ul li{
         formData.append("file"+i, this.uploadList[i]);
       }
       this.sendMessage(formData).then(response=>{
+        
+        this.sendingTwitter = false;
         console.log(response);
         if(response.data.message == "success"){
           this.editor_content = "";
           this.uploadList = [];
         }
       })
+      this.$router.go(0)
     }
-    
+      
     }
   }
 </script>
