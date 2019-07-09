@@ -18,16 +18,6 @@ bottom:0;
   display: flex;
 }
 
-/* .UserImg {
-  border-radius: 50%;
-  overflow: hidden;
-  width: 32px;
-  height: 32px;
-  left: 16px;
-  position: relative;
-  flex-shrink: 0;
-} */
-
 .EditerContainer {
   position: relative;
   left: 32px;
@@ -118,7 +108,7 @@ ul li{
     margin-top: 0px
   }
   #middle-container2{
-    margin-top: 50px
+    margin-top: 0px;
   }
   #right-container{
     float: left;
@@ -224,18 +214,7 @@ ul li{
 
 
      <ElContainer id = 'left-container2' >
-       <el-header class='header-left-align'>Trends for you</el-header>
-       <ul>
-         
-         <li id="trends-container" v-for="topic in topics">
-           <a>
-             <div v-on:click="tapTopic(topic)" >
-             <span id='trends-name' >{{topic.topic_content}}</span>
-             <div id='tweets-times'>{{ topic.topic_heat }} heat</div>
-             </div>
-           </a>
-         </li>
-       </ul>
+       <Trends></Trends>
      </ElContainer>
 
 
@@ -246,17 +225,17 @@ ul li{
         
 
         <div class="PostSenderContainer">
-         <Avatar :src=address shape="circle" on-error="" size="large" style="width:32px;height:32px;border-radius:50%"/>
+         <Avatar :src=address shape="circle" on-error="" size="large" style="width:50px;height:50px;border-radius:50%;margin-left:10px;margin-top:10px;"/>
           
-          <div class="EditerContainer" style="margin-left: 3%">
+          <div class="EditerContainer" style="margin-left:-5px;">
             <!--
               <div class="Editer" default-txt="What happens?" contenteditable @click.prevent="clickEditor" v-bind:focus="isEditerFocused" @input="editerInputEventHandler">
                 What happens?
               </div>-->
-            <Input :ref="'editor'" :rows="editor_content.length > 0 ? 6 : 1" v-model="editor_content" type="textarea" placeholder="Enter something..." 
+            <Input :ref="'editor'" :rows="editor_content.length > 0 ? 4 : 1" v-model="editor_content" maxlength="140" type="textarea" placeholder="Enter something..." 
             @v-bind:focus="isEditerFocused" @focus="editerFocusEventHandler"  @blur="editerBlurEventHandler" />
             <!-----TODO:AddPicture--- ----------------------------------------------->
-            
+            <div style="margin-top:5px;">
             <div v-show="editor_content.length > 0" style="float:left;" >
               <div class="demo-upload-list" v-for="item in uploadList">
                 <template>
@@ -284,13 +263,14 @@ ul li{
                     <Icon type="ios-camera" size="20"></Icon>
                   </div>
               </Upload>
+              </div>
               <Modal title="View Image" v-model="visible">
                 <img :src="img_preview" v-if="visible" style="width: 100%">
               </Modal>
             </div>
     
             <!-- sdadasdasdasdsad ---------------------------------------------------------------------------->
-            <Button type="primary" size="large" shape="circle" :disabled="!editor_content.length" v-show="editor_content.length > 0" @click="sendPostBtnClickEventHandler" @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" style="float:right;margin-top:10px;margin-left:200px;">Tweet</button>
+            <Button type="primary" size="large" shape="circle" :disabled="!editor_content.length" v-show="editor_content.length > 0" @click="sendPostBtnClickEventHandler" @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" style="float:right;margin-top:10px;margin-right:20px;">Tweet</button>
           </div>
 
         </div>
@@ -317,22 +297,17 @@ ul li{
     </div>
 
       <ElContainer id="right-container" >
-        <el-header class="header-left-align">Who to follow</el-header>
-        <div class='to-follow-list' v-for="toFollow in toFollowList">
-          <User v-bind:p_follow_info="toFollow"></User>
-        </div>
+        <whoToFollows></whoToFollows>
       </ElContainer>
   </div>
 </template>
 <script>
-  import ElUploadList from "element-ui/packages/upload/src/upload-list";
-  import Caspanel from "iview/src/components/cascader/caspanel";
   import axios from "axios"
   axios.defaults.withCredentials = true;
-  import User from "./Subs/User"
-  //import user from "./store/user"
   import loadingAnimate from "./animate/loading"
   import Tweets from "./Subs/Tweets"
+  import Trends from "./Subs/Trends"
+  import whoToFollows from "./Subs/whoToFollows"
   export default {
     name:'Home',
     
@@ -350,12 +325,6 @@ ul li{
           { name: 'Google' },
           { name: 'Taobao' }
         ],
-        topics:[
-          
-        ],
-        toFollowList:[
-          
-        ],
         informationList:[
         ],
         isEditerFocused: false,
@@ -365,26 +334,12 @@ ul li{
       }
     },
     components:{
-      loadingAnimate,User,
+      loadingAnimate,
       "tweets":Tweets,
-    },
-    created(){
-      this.loading = true;
-      var p1 = this.queryTopicsBaseOnHeat(0, 5)
-       var p2 =  this.getRecommendUsers()
-        var _this = this;
-        Promise.all([p1,p2]).then((res)=>{
-          console.log("测试topics", res[0]);
-          _this.topics = res[0].data.data;
-          console.log("测试getRecommendUsers", res[1]);
-          console.log(res[1].data.data);
-          _this.toFollowList=res[1].data.data;
-          console.log(_this.toFollowList)
-          console.log("加载完毕")
-          _this.loading = false;
-        })
+      Trends,whoToFollows
     },
     mounted(){
+      this.loading = true;
       this.isEditerFocused = true;
       //this.loading=true;
       var userID = this.getCookies("userID")
@@ -401,12 +356,12 @@ ul li{
             console.log(Response)
           if(Response.data.code==200 && Response.data.message=="success")
             {
-              //this.loading=false;
+              this.loading=false;
               this.userName = Response.data.data.nickname
               console.log(this.userName)
             }
             else{
-              //this.loading=false;
+              this.loading=false;
               console.log("fail")
               this.userName="userName"
             }
@@ -414,7 +369,7 @@ ul li{
           })
         }
         catch(e){
-            //this.loading=false;
+            this.loading=false;
             return {
           result: false,
           errMsg: "Can't connect with server"
@@ -501,13 +456,6 @@ ul li{
     getCookies(a){
       return this.getCookie(a)
     },
-
-    tapTopic(topic){
-      console.log("测试点击 topic_id:", topic.topic_id);
-      this.$router.push({path:'/Topic', query: { topic_id:topic.topic_id }})
-      //TODO 点击热点之后跳转
-    },
-
     sendPostBtnClickEventHandler(){
       this.sendingTwitter = true;
       console.log("点击发送推特", this.editor_content, this.uploadList);

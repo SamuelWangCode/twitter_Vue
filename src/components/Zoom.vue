@@ -1,216 +1,219 @@
 <style scoped>
-  .root-div{
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-  }
-  #background-top-container{
-    height:400px;
-    width: 100%;
-    background-color: deepskyblue;
-  }
-  .PersonalWall {
-    position: relative;
-    height: 380px;
-    z-index: 1;
-  }
-  .WallImgContainer {
-    height: 320px;
-  }
-  .BkgImgContainer {
-    height: 320px;
-    background: #dedede no-repeat center;
-  }
-  .ProfileImgContainer {
-    position: relative;
-    margin-left: 122px;
-  }
+.root-div {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+#background-top-container {
+  height: 400px;
+  width: 100%;
+  background-color: deepskyblue;
+}
+.PersonalWall {
+  position: relative;
+  height: 380px;
+  z-index: 1;
+}
+.WallImgContainer {
+  height: 320px;
+}
+.BkgImgContainer {
+  height: 320px;
+  background: #dedede no-repeat center;
+}
+.ProfileImgContainer {
+  position: relative;
+  margin-left: 122px;
+}
 
-  .TabItem:hover:after,
-  .TabItem.active:after {
-    opacity: 1;
-  }
-  .ProfileImg {
-    position: absolute;
-    bottom: -70px;
-    background: #fff;
-    border: 5px solid #fff;
-    border-radius: 50%;
-    transition: 300ms;
-    transform: translateY(0);
-    overflow: hidden;
-  }
-  .ProfileImgContainer .ProfileImgLink {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-color: black;
-    display: inline-block;
-    position: relative;
-  }
-  .ProfileImgContainer img {
-    position: relative;
-    width: 100%;
-  }
-  .ProfileInfoContainer {
-    height: 60px;
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.25);
-    background-color: white;
-  }
-  #middle-container {
-    float: left;
-    height: 100%;
-    width: 100%;
-    background-color: rgb(230, 236, 240);
-  }
+.active {
+  border-bottom:1px solid #0084b4;
+  border-left: 0px;
+  border-top: 0px;
+  border-right: 0px;
+  margin-top: 0px;
+  height: 100%;
+  position: relative;
+  border: 0px;
+  width: 25%;
+}
+.ProfileImg {
+  position: absolute;
+  bottom: -70px;
+  background: #fff;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  transition: 300ms;
+  transform: translateY(0);
+  overflow: hidden;
+}
+.ProfileImgContainer .ProfileImgLink {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: black;
+  display: inline-block;
+  position: relative;
+}
+.ProfileImgContainer img {
+  position: relative;
+  width: 100%;
+}
+.ProfileInfoContainer {
+  height: 60px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
+  background-color: white;
+}
+#middle-container {
+  float: left;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(230, 236, 240);
+}
 
-  #middle-left-container{
-    float:left;
-    height:100px;
-    width:25%;
-    background-color: white;
-  }
+#middle-left-container {
+  float: left;
+  height: 80px;
+  width: 30%;
+  background-color: white;
+}
 
-  #nickname-container{
-    height:30px;
-    font-size:30px;
-    font-weight: bold;
-    color: black;
-    float: top;
-  }
+#nickname-container {
+  height: 60px;
+  font-size: 30px;
+  font-weight: bold;
+  color: black;
+  float: top;
+}
 
-  #selfIntroduction-container{
-    font-size: 15px;
+#selfIntroduction-container {
+  font-size: 15px;
+  padding-top: 0px;
+}
 
-  }
+#middle-middle-container {
+  float: left;
+  height: 100%;
+  width: 40%;
+  background-color: white;
+}
 
-  #middle-middle-container{
-    float:left;
-    height:100%;
-    width: 50%;
-    background-color: white;
-  }
+#display-container {
+  margin-top: 0px;
+}
 
+#middle-right-container {
+  float: left;
+  width: 30%;
+  background-color: rgb(230, 236, 240);
+}
 
-  #display-container{
-    margin-top:0px
-  }
+#middle-right-top-container {
+  height: 80px;
+  background-color: white;
+}
 
-  #middle-right-container{
-    float:left;
-    width:25%;
-    background-color: rgb(230, 236, 240);
-  }
+#follow-button-container {
+  margin-top: 0px;
+  margin-left: 70px;
+  height: 80px;
+  width: 30%;
+}
+.TabContainer {
+  margin-top: 0px;
+  margin-right: 0px;
+  display: flex;
+  width: 100%;
+  height: 80px;
+  background-color: blueviolet;
+}
+.TabItem {
+  background-color: white;
+  margin-top: 0px;
+  display: block;
+  height: 100%;
+  position: relative;
+  border: 0px;
+  width: 25%
+}
 
-  #middle-right-top-container{
-    height: 100px;
-    background-color: white;
-  }
+.to-follow-list {
+  text-align: left;
+  margin-top: 20px;
+  line-height: 50px;
+}
 
-  #follow-button-container{
-    margin-top: 0px;
-    margin-left: 70px;
-    height:80px;
-    width:30%;
-  }
-  .TabContainer {
-    margin-top: 0px;
-    display: flex;
-    width: 100%;
-    height: 100px;
-    background-color: white;
-  }
-  .TabItem {
-    background-color: white;
-    width: 25%;
-    display: block;
-    height: 100%;
-    position: relative;
-  }
+.TabItem:after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  opacity: 0;
+  transition: 400ms;
+  background-color: #0084b4;
+}
 
-  .to-follow-list{
-    text-align: left;
-    margin-top: 20px;
-    line-height: 50px;
-  }
+.TabTxt {
+  background-color: white;
+  position: relative;
+  top: 30%;
+  transform: translateY(-50%);
+  margin-top: 30px;
+  padding: 0 30px;
 
-  .TabItem:after {
-    content: '';
-    display: block;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    opacity: 0;
-    transition: 400ms;
-    background-color: #0084B4;
-  }
+  text-align: center;
+}
+.TabTitle {
+  color: #657786;
+  font-weight: bold;
+  font-size: 15px;
+}
+.Count {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
 
+#ad:hover {
+  text-decoration: underline;
+  transition: margin-left;
+}
 
-  .TabTxt {
-    background-color: white;
-    position: relative;
-    top: 30%;
-    transform: translateY(-50%);
-    margin-top: 10px;
-    padding:0 30px;
+#content-container {
+  height: 100%;
+  float: left;
+  margin-left: 20px;
+  background-color: darkred;
+}
 
-    text-align: center;
-  }
-  .TabTitle {
-    color: #657786;
-    font-weight: bold;
-    font-size: 15px;
-  }
-  .Count {
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 2px;
-  }
-
-  #ad:hover{
-    text-decoration:underline;
-    transition: margin-left;
-  }
-
-  #content-container{
-    height: 100%;
-    float: left;
-    margin-left: 20px;
-    background-color: darkred;
-  }
-
-  .infor-avatar{
-    margin-left: 10px;
-  }
+.infor-avatar {
+}
 </style>
 <style>
-
-  .el-tabs__item{
-    white-space: pre-line !important;
-    font-weight: bold !important;
-  }
+.el-tabs__item {
+  white-space: pre-line !important;
+  font-weight: bold !important;
+}
 </style>
 <template>
   <div class="root-div">
-    <div id = "background-top-container" >
-
+    <div id="background-top-container">
       <div class="WallImgContainer">
-
-        <div class="BkgImgContainer">
-        </div>
+        <div class="BkgImgContainer"></div>
         <div class="ProfileImgContainer">
           <div class="ProfileImg">
             <a href="#" class="ProfileImgLink">
-              <img :src="avatar" alt="">
+              <img :src="avatar" alt />
             </a>
           </div>
         </div>
       </div>
     </div>
-    <div id = "middle-container">
-      <div id = "middle-left-container">
+    <div id="middle-container">
+      <div id="middle-left-container">
         <div id="introduction-container">
           <div id="nickname-container">{{nickname}}</div>
           <div style="font-size: 20px">@ {{nickname}}</div>
@@ -219,28 +222,26 @@
       </div>
 
       <div id="middle-middle-container">
-
         <div class="TabContainer">
-
-          <Button class="TabItem" exact-active-class="active" @click="tweetsClicked">
-            <div class="TabTxt" >
+          <Button  v-bind:style="navStatus.tweetsShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'" v-bind:class="!navStatus.tweetsShow ? 'TabItem' : 'active'"   @click="tweetsClicked">
+            <div class="TabTxt">
               <div class="TabTitle">Tweets</div>
               <div class="Count">{{postsCount}}</div>
             </div>
           </Button>
-          <Button class = "TabItem" exact-active-class="active" @click="followingClicked">
+          <Button v-bind:style="navStatus.followingShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'" v-bind:class="!navStatus.followingShow ? 'TabItem' : 'active'"  exact-active-class="active" @click="followingClicked">
             <div class="TabTxt">
               <div class="TabTitle">Following</div>
               <div class="Count">{{followingCount}}</div>
             </div>
           </Button>
-          <Button class="TabItem" exact-active-class="active" @click="followersClicked">
+          <Button v-bind:style="navStatus.followersShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'" v-bind:class="!navStatus.followersShow ? 'TabItem' : 'active'" exact-active-class="active" @click="followersClicked">
             <div class="TabTxt">
               <div class="TabTitle">Followers</div>
               <div class="Count">{{followerCount}}</div>
             </div>
           </Button>
-          <Button class="TabItem" exact-active-class="active" @click="collectionsClicked">
+          <Button v-bind:style="navStatus.collectionsShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'" v-bind:class="!navStatus.collectionsShow ? 'TabItem' : 'active'" v-show="visitor==user" exact-active-class="active" @click="collectionsClicked">
             <div class="TabTxt">
               <div class="TabTitle">Collections</div>
               <div class="Count">{{collectCount}}</div>
@@ -249,215 +250,168 @@
         </div>
 
         <div id="display-container">
-          <hr>
+          <hr />
 
           <!--display tweets-->
           <div v-if ="navStatus.tweetsShow" id="tweets-container">
-            <div class='to-follow-list' v-for= "toFollow in toFollowList" >
-              <a id="ad">
-                <Avatar class='infor-avatar' v-bind:src='toFollow.avatarUrl'  size="large"></Avatar>
-                {{toFollow.name}}
-              </a>
-            </div>
+            <tweets type="userhome" v-bind:info="visitor"></tweets>
           </div>
 
           <!--display following-->
-          <div v-show="navStatus.followingShow" id = "following-container">
-            <div>
-              following
-            </div>
+          <div v-show="navStatus.followingShow" id="following-container">
+            <div>following</div>
           </div>
 
           <!--display followers-->
-          <div v-show="navStatus.followersShow" id ="followers-container">
-            <div>
-              followers
-            </div>
+          <div v-show="navStatus.followersShow" id="followers-container">
+            <div>followers</div>
           </div>
 
           <!--display collections-->
-          <div v-show="navStatus.collectionsShow" id ="collections">
-            <div>
-              collections
-            </div>
+          <div v-show="navStatus.collectionsShow && visitor==user" id="collections">
+            <tweets type="collection"></tweets>
           </div>
-
         </div>
       </div>
       <div id="middle-right-container">
-        <div id = "middle-right-top-container">
+        <div id="middle-right-top-container">
           <div v-if="visitor!=user" id="follow-button-container">
-            <Button v-if="isFollowing==false" class ="follow-button"type="primary" shape="circle" @click="followClick" style="height: 45px;margin-top: 25%;width:100px;margin-left: 75px">
-              <span style="font-weight:bold;font-size: 16px">Follow</span>
-            </Button>
-            <Button v-else class ="follow-button"type="primary" shape="circle" @click="unfollowClick" style="width:100px;background-color: maroon;border:darkred; height: 45px;margin-top: 15px">
-              <span style="font-weight:bold;font-size: 16px">Unfollow</span>
-            </Button>
-
+            <FollowButton v-bind:followerCount.sync="followerCount" v-bind:isFollowing.sync="isFollowing" v-bind:visitor="visitor"></FollowButton>
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
+import axios from "axios";
+import loadingAnimate from "./animate/loading";
+import Tweets from "./Subs/Tweets.vue";
+axios.defaults.withCredentials = true;
+export default {
+  name: "Zoom",
 
-  import axios from "axios"
-  import loadingAnimate from "./animate/loading"
-  import Tweets from "./Subs/Tweets.vue"
-  axios.defaults.withCredentials = true;
-    export default {
-        name: "Zoom",
-
-        data(){
-          return{
-            num:0,
-            visitor:0,
-            user:0,
-            avatar:null,
-            nickname:"NickName",
-            personBkgImg:"/static/background.png",
-            postsCount: 0,
-            followerCount:0,
-            followingCount:0,
-            collectCount:0,
-            isFollowing:false,
-            personAccount:null,
-            joinTime:null,
-            showName:"tweetsShow",
-            status: ['tweetsShow', 'followingShow', 'followersShow', 'collectionsShow'],
-            navStatus: {
-              tweetsShow:true,
-              followingShow:false,
-              followersShow:false,
-              collectionsShow:false
-        },
-            selfIntroduction:"The man is lazy,leaving nothing.",
-
-            toFollowList:[
-              {name:'皮卡丘', avatarUrl:'/static/logo',introduction:"How are you"},
-              {name:'杰尼龟', avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg',introdutcion:"Let us make the world a better place"},
-              {name:'喷火龙', avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg',introduction:"I love coding"},
-              {name:'超梦', avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg',introduction:"Database Course Design...."},
-              {name:'伊布',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg',introduction:"nmsl"},
-              {name:'梦幻',avatarUrl:'https://i.loli.net/2017/08/21/599a521472424.jpg',introduction:"nmzdsl"}
-            ]
-          }
-        },
-      components:{
-          loadingAnimate,Tweets
+  data() {
+    return {
+      num: 0,
+      visitor: 0,
+      user: 0,
+      avatar: null,
+      nickname: "NickName",
+      personBkgImg: "/static/background.png",
+      postsCount: 0,
+      followerCount: 0,
+      followingCount: 0,
+      collectCount: 0,
+      isFollowing: false,
+      personAccount: null,
+      joinTime: null,
+      showName: "tweetsShow",
+      status: [
+        "tweetsShow",
+        "followingShow",
+        "followersShow",
+        "collectionsShow"
+      ],
+      navStatus: {
+        tweetsShow: true,
+        followingShow: false,
+        followersShow: false,
+        collectionsShow: false
       },
-      mounted: function getUser(){
-          this.loading=true;
-          this.visitor = this.$route.query.visitor_id
-          this.user = this.getCookies("userID")
-          console.log('user',this.user)
-          try{
-            this.getUserPublicInfo(this.visitor).then(response=>{
-              console.log(this.visitor)
-              console.log(response.data.data)
-              if(response.data.code===200 && response.data.message==="success")
-              {
-                this.nickname=response.data.data.nickname
-                console.log(this.nickname)
-                this.avatar = response.data.data.avatar_url
-                this.postsCount = response.data.data.messages_num
-                this.followerCount=response.data.data.followers_num
-                this.followingCount=response.data.data.follows_num
-                this.collectCount=response.data.data.collection_num
-                this.selfIntroduction=response.data.data.self_introction
-                this.joinTime=response.data.data.register_time
-                console.log(this.nickname)
-              }
-            })
-            this.if_following_by_me(this.visitor).then(response=>{
-              console.log(response)
-              if(response.data.code==200&&response.data.message=="success"){
-                this.isFollowing=response.data.data.if_following
-                console.log(this.isFollowing)
-              }
-            })
-
-          }
-
-          catch (e) {
-            return {
-              result: false,
-              errMsg: "Can't connect with server"
-            };
-          }
-      },
-      methods:{
-          unfollowClick(){
-            this.isFollowing=false;
-            this.followerCount--;
-            console.log(this.isFollowing);
-            this.cancelFollowingTo(this.visitor).then(response=>{
-              console.log("取消关注")
-            })
-
-            console.log("unfollowClicked")
-          }
-          ,
-          followClick(){
-            this.isFollowing = true;
-            this.followerCount++;
-            this.followSb(this.visitor).then(response=>{
-              console.log("follow结果", response);
-            })
-            console.log("followClicked")
-          }
-        ,
-        setFalseStatus(){
-          this.navStatus.followersShow = false;
-          this.navStatus.collectionsShow = false;
-          this.navStatus.followingShow = false;
-          this.navStatus.tweetsShow = false;
-        },
-        getCookies(a){
-          return this.getCookie(a)
-        },
-
-        tweetsClicked(){
-          console.log("tweetsClicked")
-          this.setFalseStatus()
-          this.navStatus.tweetsShow = true;
-          this.showName="tweetsShow"
-          console.log(this.navStatus)
-        },
-
-        followingClicked(){
-          console.log("followingClicked");
-          this.setFalseStatus();
-          this.navStatus.followingShow = true;
-          this.showName="followingShow"
-          console.log(this.navStatus)
-        },
-
-        followersClicked(){
-          console.log("followersClicked")
-          this.setFalseStatus();
-          this.showName="followersShow"
-          this.navStatus[this.showName]=true
-          console.log(this.navStatus.followersShow)
-        },
-
-        collectionsClicked(){
-          console.log("collectionsClicked")
-          this.setFalseStatus();
-          this.showName="collectionsShow"
-          this.navStatus[this.showName]=true
-          console.log(this.navStatus.collectionsShow)
+      selfIntroduction: "The man is lazy,leaving nothing.",
+      toFollowList: []
+      
+    };
+  },
+  components: {
+    loadingAnimate,
+    Tweets
+  },
+  mounted: function getUser() {
+    this.loading = true;
+    this.visitor = this.$route.query.visitor_id;
+    this.user = this.getCookies("userID");
+    console.log("user", this.user);
+    try {
+      this.getUserPublicInfo(this.visitor).then(response => {
+        console.log(this.visitor);
+        console.log(response.data.data);
+        if (response.data.code == 200 && response.data.message == "success") {
+          this.nickname = response.data.data.nickname;
+          console.log(this.nickname);
+          this.avatar = response.data.data.avatar_url;
+          this.postsCount = response.data.data.messages_num;
+          this.followerCount = response.data.data.followers_num;
+          this.followingCount = response.data.data.follows_num;
+          this.collectCount = response.data.data.collection_num;
+          this.selfIntroduction = response.data.data.self_introction;
+          this.joinTime = response.data.data.register_time;
+          console.log(this.nickname);
         }
-      },
-      watch: {
-        '$route.params.PersonAccount': 'initUserID'
-      }
-
-
+      });
+      this.if_following_by_me(this.visitor).then(response => {
+        console.log(response);
+        if (response.data.code == 200 && response.data.message == "success") {
+          this.isFollowing = response.data.data.if_following;
+          console.log(this.isFollowing);
+        }
+      });
+    } catch (e) {
+      return {
+        result: false,
+        errMsg: "Can't connect with server"
+      };
     }
+  },
+  methods: {
+    setFalseStatus() {
+      this.navStatus.followersShow = false;
+      this.navStatus.collectionsShow = false;
+      this.navStatus.followingShow = false;
+      this.navStatus.tweetsShow = false;
+    },
+    getCookies(a) {
+      return this.getCookie(a);
+    },
+
+    tweetsClicked() {
+      console.log("tweetsClicked");
+      this.setFalseStatus();
+      this.navStatus.tweetsShow = true;
+      this.showName = "tweetsShow";
+      console.log(this.navStatus);
+    },
+
+    followingClicked() {
+      console.log("followingClicked");
+      this.setFalseStatus();
+      this.navStatus.followingShow = true;
+      this.showName = "followingShow";
+      console.log(this.navStatus);
+    },
+
+    followersClicked() {
+      console.log("followersClicked");
+      this.setFalseStatus();
+      this.showName = "followersShow";
+      this.navStatus[this.showName] = true;
+      console.log(this.navStatus.followersShow);
+    },
+
+    collectionsClicked() {
+      console.log("collectionsClicked");
+      this.setFalseStatus();
+      this.showName = "collectionsShow";
+      this.navStatus[this.showName] = true;
+      console.log(this.navStatus.collectionsShow);
+    }
+  },
+  watch: {
+    "$route.params.PersonAccount": "initUserID"
+  }
+};
 </script>
 
 

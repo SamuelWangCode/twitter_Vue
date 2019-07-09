@@ -122,8 +122,12 @@ export default {
                     this.shared=true;
                 }
                 else{
+                    this.shareNum-=1;
+                    this.shared=false;
                     alert("转发失败");
                 }
+                console.log("close")
+                this.closeSharePage();
             });
         },
         //展示转发的覆盖页
