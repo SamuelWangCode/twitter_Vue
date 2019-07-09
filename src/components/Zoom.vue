@@ -329,14 +329,14 @@
 
           <!--display collections-->
           <div v-show="navStatus.collectionsShow" id="collections">
-            <tweets type="collection" v-bind:info="user_info.user_id"></tweets>
+            <tweets :ref="'twe'" @change_follow="change_follow($event)" type="collection" v-bind:info="user"></tweets>
           </div>
         </div>
       </div>
       <div id="middle-right-container">
         <div id="middle-right-top-container">
           <div v-if="visitor!=user" id="follow-button-container">
-            <FollowButton class="follow-button-style" v-bind:followerCount.sync="followerCount" v-bind:isFollowing.sync="isFollowing" v-bind:visitor="visitor"></FollowButton>
+            <FollowButton class="follow-button-style" v-bind:followerCount.sync="followerCount" v-bind:isFollowing.sync="isFollowing" v-bind:visitor="Number(visitor)"></FollowButton>
           </div>
         </div>
       </div>
@@ -389,7 +389,8 @@ export default {
       selfIntroduction: "The man is lazy,leaving nothing.",
       toFollowList: [],
       followingList: [],
-      followersList: []
+      followersList: [],
+      user_info:null
     };
   },
   components: {
@@ -484,10 +485,17 @@ export default {
       this.showName = "collectionsShow";
       this.navStatus[this.showName] = true;
       console.log(this.navStatus.collectionsShow);
+    },
+    change_follow(event){
+      console.log('afasa');
+      this.isFollowing=event;
     }
   },
   watch: {
-    "$route.params.PersonAccount": "initUserID"
+    "$route.params.PersonAccount": "initUserID",
+    isFollowing(val){
+      this.$refs.twe.change_follow(val,visitor);
+    }
   }
 };
 </script>
