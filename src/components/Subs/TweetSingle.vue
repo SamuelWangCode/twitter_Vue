@@ -54,7 +54,7 @@
 
 }
 .twi-text-block:hover{
-
+    
 }
 .twi-text{
     margin-bottom: 10px;
@@ -127,8 +127,7 @@
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
                 </div>
                 <div class="follow-button-div">
-                    <Button type="primary" @click="doFollow()" style="float:right;width:12%;margin-right:5%;" v-if="followByUser==false">关注</Button>
-                    <Button type="primary" @click="doFollow()" style="float:right;width:12%;margin-right:5%;" v-else>已关注</Button>
+                    <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)"></FollowButton>
                 </div>  
                 <usermessage style="float:right;width:12%;margin-right:5%;" v-bind:userId="item.message_sender_user_id"></usermessage>
             </div>
@@ -191,9 +190,8 @@
                     <p class="user-name">{{item.userName}}</p>
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
                 </div>
-                <div class="follow-button-div" @click="doFollow()">
-                    <Button type="primary" style="float:right;width:12%;margin-right:5%;" v-if="followByUser==false">关注</Button>
-                    <Button type="primary" style="float:right;width:12%;margin-right:5%;" v-else>已关注</Button>
+                <div class="follow-button-div">
+                    <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)"></FollowButton>
                     <usermessage style="float:right;margin-right:5%;width:12%;" v-bind:userId="item.message_sender_user_id"></usermessage>
                 </div>
 
@@ -235,11 +233,12 @@ import CommentBlock from "./CommentBlock"
 import UserMessage from './UserMessage'
 import BlockUser from './BlockUser'
 import TwiTextBlock from './TwiTextBlock'
-
+import FollowButoon from './FollowButoon'
 export default {
     name:'twitter-item',
     props:{
         item:Object,
+        isFollowing:Boolean,
     },
     data(){
         return {
@@ -418,6 +417,9 @@ export default {
                     alert("转发失败");
                 }
             });
+        },
+        set_follow_status(status){
+            this.followByUser=status;
         }
     },
     created(){
@@ -460,6 +462,19 @@ export default {
             return this.item.message_heat*65335+Math.floor(Math.random()*100);
         }
     },
+    watch:{
+        followByUser(nval,oval){
+            this.$emit('change_follow',nval);
+        },
+        isFollowing:{
+            deep:true,
+            handler(nval){
+                console.log('fafasf')
+            this.followByUser=nval;
+            }
+            
+        }
+    },
     beforeMount() {
     },
     components:{
@@ -469,6 +484,7 @@ export default {
         "usermessage":UserMessage,
         "blockuser":BlockUser,
         "twitextblock":TwiTextBlock,
+        "FollowButton":FollowButoon
     },
 }
 </script>
