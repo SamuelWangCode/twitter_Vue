@@ -118,26 +118,7 @@ export default {
       topics: [],
       toFollowList: [],
       informationList: [
-        {
-          name: "妙蛙种子",
-          content: "阳光烈焰",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "百变怪",
-          content: "变身",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "小锯鳄",
-          content: "撞击",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        },
-        {
-          name: "果然翁",
-          content: "反弹",
-          avatarUrl: "https://i.loli.net/2017/08/21/599a521472424.jpg"
-        }
+        
       ]
     };
   },
