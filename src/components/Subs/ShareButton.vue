@@ -19,7 +19,7 @@
 }
 #share-dialog{
     width:33%;
-    height: 300px;
+    height: 220px;
     background-color: #fff;
     left: 33%;
     top: 100px;
@@ -70,16 +70,26 @@
     <div v-show="showSharePage" id="share-page" v-bind:style='{"height":sharePageHeight,"width":sharePageWidth}'>
     </div>
     
+    <!--
     <div v-show="showSharePage" id="share-dialog" ref="sharedialog">
         <div class="share-block-title">转发微博
             <Icon class="close-icon" type="ios-close" size="30" @click="closeSharePage()"></Icon>
         </div>
         <div>
-            <input type="textarea" :rows="4" style="height: 100px;width: 90%;margin:5%;  font-size:20px;" v-model="shareText">
+            <Input type="textarea" :rows="4" style="height: 100px;width: 90%;margin:5%;  font-size:20px;" v-model="shareText"/>
             <Button class="send-share-button" type="primary" @click="share()">发送</Button>
             <Button class="cancel-share-button" type="primary" @click="closeSharePage()">取消</Button>
         </div>
     </div>
+    -->
+
+    <Modal
+        v-model="showSharePage"
+        title="转发微博"
+        :loading="loading"
+        @on-ok="share">
+        <Input type="textarea" :rows="4" style="height: 100px;width: 90%;margin:5%;  font-size:20px;" v-model="shareText"/>
+    </Modal>
 
 
     <div class="share-div" @click="doShowSharePage()">
@@ -99,6 +109,7 @@ export default {
     },
     data(){
         return {
+            loading: true,
             showSharePage:false,
             sharePageHeight:"",
             sharePageWidth:"",

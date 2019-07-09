@@ -61,6 +61,24 @@ export default {
         }
     },
     methods:{
+        parseTwitter(twitter_content){
+            // ats[i] {atName, atIds} topics[i] {topicId, topicName}
+            twitter_content;
+            var topics = this.topics;
+            var ats = this.ats;
+            //console.log("解析前", topics, ats)
+            for(let i = 0; i < ats.length; i++){
+                var re = new RegExp(ats[i].atName, "g");
+                var atNameTripped = ats[i].atName;
+                twitter_content = twitter_content.replace(re, ' <a href="http://localhost:8080/Zoom?visitor_id='+ ats[i].atIds + '" > ' + atNameTripped + ' </a> ');
+            }
+            for(let i = 0; i < topics.length; i++){
+                var re = new RegExp(topics[i].topicName, "g");
+                var topicNameTripped = topics[i].topicName.split("#")[1];
+                twitter_content = twitter_content.replace(re, ' <a href="http://localhost:8080/Topic?topic_id='+ topics[i].topicId + '&topic_name=' + topicNameTripped + "' > #" + topicNameTripped + "# </a> ");
+            }
+            return twitter_content;
+        },
         doAtToUserHome(text){
             
         },
@@ -68,6 +86,9 @@ export default {
             this.$router.push({path:'/Topic', query: { topic_id:text.id }});
         },
         solveText(){
+
+            //console.log("解析结果", this.parseTwitter(this.fullText));
+
             //保存找到的topic和at的字符串的索引位置
             let index=[];
             //查找fullText的topic子字符串
@@ -166,6 +187,7 @@ export default {
         this.solveText();
         
     },
+    
 }
         
 </script>
