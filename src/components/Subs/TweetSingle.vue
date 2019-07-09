@@ -66,7 +66,7 @@
 .twi-text-block{
     margin-top:10px;
     margin-bottom: 10px;
-    width: 100%;
+    display: inline-block;
     box-shadow: #edeef5 0px 0px 4px;
 }
 .twi-text-block:hover{
@@ -134,7 +134,6 @@
     <div v-if="messageIsShared">
         <div class="twi-left">
             <Avatar style="width:60px;height:60px;border-radius:50%;" v-bind:src="item.userAvt"></Avatar>
-            
         </div>
 
         <div class="twi-right">
