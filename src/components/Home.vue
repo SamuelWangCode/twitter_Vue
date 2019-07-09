@@ -332,7 +332,7 @@ ul li{
             {
               this.loading=false;
               this.userName = Response.data.data.nickname
-              this.address = Response.data.data.avatar_url;
+              this.address = Response.data.data.avatar_url
               console.log(this.userName)
             }
             else{
