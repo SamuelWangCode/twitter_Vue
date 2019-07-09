@@ -112,9 +112,9 @@ export default {
         share(){ 
             let formData={
                 message_content:this.shareText,
-                message_source_is_transpond:this.item.message_is_transpond,
                 message_transpond_message_id:this.item.message_id,
             }
+            console.log(formData);
             //调用接口上传数据
             this.transpond(formData).then(Response=>{
                 if(Response.data.message=="success"){

@@ -261,7 +261,6 @@ ul li{
               <div class="demo-upload-list" v-for="item in uploadList">
                 <template>
                   <img :src="item.url">
-
                     <div class="demo-upload-list-cover">
                       <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
                       <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
@@ -291,7 +290,7 @@ ul li{
             </div>
     
             <!-- sdadasdasdasdsad ---------------------------------------------------------------------------->
-            <Button type="primary" size="large" shape="circle" :disabled="!editor_content.length" v-show="editor_content.length > 0" @click="sendPostBtnClickEventHandler" @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" style="float:left;margin-top:10px;margin-left:200px;">Tweet</button>
+            <Button type="primary" size="large" shape="circle" :disabled="!editor_content.length" v-show="editor_content.length > 0" @click="sendPostBtnClickEventHandler" @focus="editerFocusEventHandler" @blur="editerBlurEventHandler" style="float:right;margin-top:10px;margin-left:200px;">Tweet</button>
           </div>
 
         </div>
@@ -505,14 +504,10 @@ ul li{
 
     tapTopic(topic){
       console.log("测试点击 topic_id:", topic.topic_id);
+      this.$router.push({path:'/Topic', query: { topic_id:topic.topic_id }})
       //TODO 点击热点之后跳转
     },
-    tapRecommendUser(visitor_id){
-      console.log("测试点击推荐用户 visitor_id", visitor_id);
-      //TODO 跳转
-      this.$router.push({ path: '/Zoom', query: { visitor_id: visitor_id }});
 
-    },
     sendPostBtnClickEventHandler(){
       this.sendingTwitter = true;
       console.log("点击发送推特", this.editor_content, this.uploadList);
