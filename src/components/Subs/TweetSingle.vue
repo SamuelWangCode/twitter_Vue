@@ -54,7 +54,7 @@
 
 }
 .twi-text-block:hover{
-
+    
 }
 .twi-text{
     margin-bottom: 10px;
@@ -127,8 +127,10 @@
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
                 </div>
                 <div class="follow-button-div">
-                    <Button type="primary" @click="doFollow()" style="float:right;width:12%;margin-right:5%;" v-if="followByUser==false">关注</Button>
-                    <Button type="primary" @click="doFollow()" style="float:right;width:12%;margin-right:5%;" v-else>已关注</Button>
+                    <div style="float:right;margin-right:10px;">
+                    <Button type="primary" @click="doFollow()"  v-if="followByUser==false">follow</Button>
+                    <Button type="primary" @click="doFollow()"  v-else>followed</Button>
+                    </div>
                 </div>  
                 <usermessage style="float:right;width:12%;margin-right:5%;" v-bind:userId="item.message_sender_user_id"></usermessage>
             </div>
@@ -192,8 +194,10 @@
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
                 </div>
                 <div class="follow-button-div" @click="doFollow()">
-                    <Button type="primary" style="float:right;width:12%;margin-right:5%;" v-if="followByUser==false">关注</Button>
-                    <Button type="primary" style="float:right;width:12%;margin-right:5%;" v-else>已关注</Button>
+                                        <div style="float:right;margin-right:10px;">
+                    <Button type="primary"  v-if="followByUser==false">follow</Button>
+                    <Button type="primary" v-else>followed</Button>
+                                        </div>
                     <usermessage style="float:right;margin-right:5%;width:12%;" v-bind:userId="item.message_sender_user_id"></usermessage>
                 </div>
 
