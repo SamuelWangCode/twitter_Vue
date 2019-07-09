@@ -1,22 +1,22 @@
-<style>
+<style scoped>
 .unfollow {
   background-color: maroon;
   border:darkred;
 }
 .font{
-    font-weight:bold;font-size: 16px
+    font-weight:bold;
 }
+
 
 </style>
 <template>
   <Button
-    class="follow-button font"
+    class="font"
     type="primary"
     shape="circle"
     v-on:click="click_func()"
-    style="height: 45px;margin-top: 25%;width:100px;margin-left: 75px"
     v-bind:class="my_class"
-  ><span>{{content}}</span></Button>
+  ><span style="font-size:14px;">{{content}}</span></Button>
 </template>
 
 <script>
@@ -52,6 +52,7 @@ export default {
     followClick() {
       this.$emit("update:isFollowing", true);
       this.$emit("update:followerCount", this.followerCount + 1);
+      console.log("follow谁：", this.visitor);
       this.followSb(this.visitor).then(response => {
         console.log("follow结果", response);
         if (response.data.message != "success") {
