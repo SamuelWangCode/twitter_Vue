@@ -34,7 +34,7 @@
 .twi-right-top-div{
     display: inline-block;
     width: 100%;
-    background-color: rgb(205, 214, 255);
+    background-color: white;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 0px;
