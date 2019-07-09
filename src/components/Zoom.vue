@@ -67,13 +67,13 @@
 
   #middle-left-container{
     float:left;
-    height:80px;
-    width:30%;
+    height:100px;
+    width:25%;
     background-color: white;
   }
 
   #nickname-container{
-    height:60px;
+    height:30px;
     font-size:30px;
     font-weight: bold;
     color: black;
@@ -82,16 +82,16 @@
 
   #selfIntroduction-container{
     font-size: 15px;
-    padding-top: 0px;
 
   }
 
   #middle-middle-container{
     float:left;
     height:100%;
-    width: 40%;
+    width: 50%;
     background-color: white;
   }
+
 
   #display-container{
     margin-top:0px
@@ -99,12 +99,12 @@
 
   #middle-right-container{
     float:left;
-    width:30%;
+    width:25%;
     background-color: rgb(230, 236, 240);
   }
 
   #middle-right-top-container{
-    height: 80px;
+    height: 100px;
     background-color: white;
   }
 
@@ -116,15 +116,14 @@
   }
   .TabContainer {
     margin-top: 0px;
-    margin-left: 40px;
     display: flex;
-    width: 80%;
-    height: 80px;
-    background-color: blueviolet;
+    width: 100%;
+    height: 100px;
+    background-color: white;
   }
   .TabItem {
     background-color: white;
-    margin-top: 0px;
+    width: 25%;
     display: block;
     height: 100%;
     position: relative;
@@ -183,7 +182,7 @@
   }
 
   .infor-avatar{
-
+    margin-left: 10px;
   }
 </style>
 <style>
@@ -256,7 +255,7 @@
           <div v-if ="navStatus.tweetsShow" id="tweets-container">
             <div class='to-follow-list' v-for= "toFollow in toFollowList" >
               <a id="ad">
-                <Avatar class='infor-avatar' v-bind:src='toFollow.avatarUrl' ></Avatar>
+                <Avatar class='infor-avatar' v-bind:src='toFollow.avatarUrl'  size="large"></Avatar>
                 {{toFollow.name}}
               </a>
             </div>
@@ -288,7 +287,7 @@
       <div id="middle-right-container">
         <div id = "middle-right-top-container">
           <div v-if="visitor!=user" id="follow-button-container">
-            <Button v-if="isFollowing==false" class ="follow-button"type="primary" shape="circle" @click="followClick" style="height: 45px;margin-top: 15px;width:100px">
+            <Button v-if="isFollowing==false" class ="follow-button"type="primary" shape="circle" @click="followClick" style="height: 45px;margin-top: 15px;width:100px;margin-left: 75px">
               <span style="font-weight:bold;font-size: 16px">Follow</span>
             </Button>
             <Button v-else class ="follow-button"type="primary" shape="circle" @click="unfollowClick" style="width:100px;background-color: maroon;border:darkred; height: 45px;margin-top: 15px">
