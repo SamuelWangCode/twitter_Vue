@@ -30,33 +30,6 @@ ul li {
   margin-left: 10px;
   margin-top: 70px;
 }
-#trends-container {
-  line-height: 17px;
-  margin-bottom: 10px;
-  text-align: left;
-}
-#trends-name {
-  font-weight: bold;
-  color: #1da1f2;
-  font-size: 17px;
-  padding-left: 15px;
-}
-#tweets-times {
-  color: #657786;
-  font-size: 13px;
-  padding-left: 15px;
-}
-.header-left-align {
-  font-weight: bold;
-  font-size: 24px;
-  text-align: left;
-  padding-top: 15px;
-  padding-left: 15px;
-}
-.to-follow-list {
-  text-align: left;
-  line-height: 17px;
-}
 .infor-avatar {
   margin-top: 10px;
   margin-left: 15px;
@@ -77,17 +50,7 @@ bottom:0;
   <div id="root-div">
     <loadingAnimate v-if="loading" class="center-fix"/>
     <ElContainer id="left-container">
-      <el-header class="header-left-align">Trends for you</el-header>
-      <ul>
-        <li id="trends-container" v-for="topic in topics">
-          <a>
-             <div v-on:click="tapTopic(topic)" >
-             <span id='trends-name' >{{topic.topic_content}}</span>
-             <div id='tweets-times'>{{ topic.topic_heat }} heat</div>
-             </div>
-           </a>
-        </li>
-      </ul>
+      <Trends></Trends>
     </ElContainer>
 
     <ElContainer id="middle-container">
@@ -95,18 +58,16 @@ bottom:0;
     </ElContainer>
 
     <ElContainer id="right-container">
-      <el-header class="header-left-align">Who to follow</el-header>
-      <div class="to-follow-list" v-for="toFollow in toFollowList">
-        <user v-bind:p_follow_info="toFollow"></user>
-      </div>
+      <whoToFollows></whoToFollows>
     </ElContainer>
   </div>
 </template>
 <script>
 
-import User from "./Subs/User"
 import Tweets from "./Subs/Tweets"
 import loadingAnimate from "./animate/loading"
+import Trends from "./Subs/Trends"
+import whoToFollows from "./Subs/whoToFollows"
 export default {
   name: "Notifications",
   data() {
@@ -117,7 +78,8 @@ export default {
       loading: false
     };
   },
-  components: { "user":User, "tweets": Tweets, "loading":loadingAnimate },
+  components: { "user":User, "tweets": Tweets, "loading":loadingAnimate, Trends,
+    whoToFollows },
   created(){
     var p1 = this.queryTopicsBaseOnHeat(0, 5).then(response=>{
       console.log("测试topics", response);

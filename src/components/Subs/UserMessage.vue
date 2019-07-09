@@ -77,9 +77,8 @@
     </div>
 
 
-    <div class="message-div" @click="doShowPage()">
-        <Icon type="ios-mail-outline" size="24"></Icon>私信
-    </div>
+    <Button type="primary" class="message-div" @click="doShowPage()">私信
+    </Button>
 </div>
 </template>
 

@@ -1,8 +1,8 @@
 <style scoped>
 .twi-left{
     float: left;
-    width: 12%;
-    margin-left: 1%;
+    width: 10%;
+    margin-left: 3%;
     margin-top: 10px;
     height: 80px;
 }
@@ -23,16 +23,16 @@
 .user-message{
     margin-top:8px;
     width: 60px;
-    box-shadow: #d1d3e5 0px 0px 8px;
 }
 
 
 .twi-right{
     float: left;
     width: 84%;
-    margin-left: 1%;
+    margin-left: 0;
 }
 .twi-right-top-div{
+    display: inline-block;
     width: 100%;
     background-color: rgb(205, 214, 255);
     margin-top: 10px;
@@ -45,32 +45,16 @@
     font-size: 20px;
     height:40px;
 }
-.twi-title{
-    float: left;
-    width: 80%;
-}
-.follow-button-div{
-    float: right;
-    width:20%;
-    line-height: 20px;
-}
-.follow-button{
-    margin: 4px;
-}
-.follow-button-alt{
-    margin: 4px;
-    opacity: 0.3;
-}
 
 
 .twi-text-block{
     margin-top:10px;
     margin-bottom: 10px;
-    width: 100%;
-    box-shadow: #edeef5 0px 0px 4px;
+    display: inline-block;
+
 }
 .twi-text-block:hover{
-    box-shadow: #cacee6 0px 0px 8px;
+
 }
 .twi-text{
     margin-bottom: 10px;
@@ -83,7 +67,7 @@
 
 .buttom-buttons{
     display: inline-block;
-    background-color: antiquewhite;
+    background-color: white;
     width:100%;
 }
 .collection-div{
@@ -133,23 +117,20 @@
 <div>
     <div v-if="messageIsShared">
         <div class="twi-left">
-            <Avatar style="width:60px;height:60px;border-radius:50%;" v-bind:src="item.userAvt"></Avatar>
-            
+            <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="item.userAvt"></Avatar>
         </div>
 
         <div class="twi-right">
             <div class="twi-right-top-div">
-                <div class="twi-title">
+                <div style="float:left;width:50%;">
                     <p class="user-name">{{item.userName}}</p>
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
                 </div>
-                <div class="follow-button-div" @click="doFollow()">
-                    <Button type="primary" class="follow-button" v-if="followByUser==false">关注</Button>
-                    <Button type="primary" class="follow-button-alt" v-else>已关注</Button>
-                </div>
-                <div v-if="ifBeMyTwi()">
-                    <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
+                <div class="follow-button-div">
+                    <Button type="primary" @click="doFollow()" style="float:right;width:12%;margin-right:5%;" v-if="followByUser==false">关注</Button>
+                    <Button type="primary" @click="doFollow()" style="float:right;width:12%;margin-right:5%;" v-else>已关注</Button>
                 </div>  
+                <usermessage style="float:right;width:12%;margin-right:5%;" v-bind:userId="item.message_sender_user_id"></usermessage>
             </div>
             <div class="twi-text-block">
                 <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
@@ -202,20 +183,18 @@
     <div v-else>
         <div class="twi-left">
             <Avatar  size=large v-bind:src="item.userAvt"></Avatar>
-            <div v-if="ifBeMyTwi()">
-                <usermessage class="user-message" v-bind:userId="item.message_sender_user_id"></usermessage>
-            </div>
         </div>
         
         <div class="twi-right">
             <div class="twi-right-top-div">
-                <div class="twi-title">
+                <div style="float:left;width:50%;">
                     <p class="user-name">{{item.userName}}</p>
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
                 </div>
                 <div class="follow-button-div" @click="doFollow()">
-                    <Button type="primary" class="follow-button" v-if="followByUser==false">关注</Button>
-                    <Button type="primary" class="follow-button-alt" v-else>已关注</Button>
+                    <Button type="primary" style="float:right;width:12%;margin-right:5%;" v-if="followByUser==false">关注</Button>
+                    <Button type="primary" style="float:right;width:12%;margin-right:5%;" v-else>已关注</Button>
+                    <usermessage style="float:right;margin-right:5%;width:12%;" v-bind:userId="item.message_sender_user_id"></usermessage>
                 </div>
 
             </div>
@@ -335,14 +314,14 @@ export default {
             console.log("like_message_id:", this.item.message_id);
             if(this.likeByUser==false){
                 this.likeByUser=true;
-                item.message_like_num++;
+                this.item.message_like_num++;
                 this.like(this.item.message_id).then(Response=>{
                     if (Response.data.message=="success"){
                     }
                     //失败了就返回来
                     else{
                         this.likeByUser=false;
-                        item.message_like_num--;
+                        this.item.message_like_num--;
                         alert("点赞失败");
                     }
                 });

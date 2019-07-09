@@ -8,9 +8,9 @@
 }
 #middle-container {
   float: left;
-  width: 70%;
+  width: 50%;
   background-color: white;
-  margin-left: 15%;
+  margin-left: 25%;
   margin-top: 70px;
 }
 .header-left-align {
@@ -78,6 +78,7 @@
                 :model="formValidate"
                 :rules="ruleValidate"
                 :label-width="80"
+                style="width: 100%"
               >
                 <br />
                 <br />
@@ -176,7 +177,7 @@
               :model="formCustom"
               :rules="ruleCustom"
               :label-width="80"
-              style="float: left"
+              style="float: left;width: 100%"
             >
               <!--新密码-->
               <FormItem label="New Password" prop="passwd">
@@ -327,6 +328,7 @@ export default {
         "Wyoming"
       ],
       formValidate: {
+        avatar:"",
         alias: "",
         name: "",
         gender: "",
@@ -336,7 +338,7 @@ export default {
       ruleValidate: {
         avatar:[
           {
-            required: true,
+            required: false,
             message: "The avatar cannot be empty",
             trigger: "blur"
           }
@@ -393,15 +395,16 @@ export default {
     };
   },
   mounted() {
-    var user_id = this.getCookies("userID");
+    var _this = this
+    var user_id = _this.getCookies("userID");
     console.log(user_id);
     this.user_id = user_id;
     this.uploadList = this.$refs.upload.fileList;
     console.log(this.formValidate);
-    this.getUserPublicInfo(this.user_id).then(response => {
+    _this.getUserPublicInfo(this.user_id).then(response => {
       console.log(response);
     });
-    this.getUserAllInfo().then(response => {
+    _this.getUserAllInfo().then(response => {
       console.log("获取用户全部信息", response);
       var user_info = response.data.data;
       this.formValidate.alias = user_info.userPublicInfo.nickname;
