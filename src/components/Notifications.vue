@@ -67,17 +67,7 @@ ul li {
 <template>
   <div id="root-div">
     <ElContainer id="left-container">
-      <el-header class="header-left-align">Trends for you</el-header>
-      <ul>
-        <li id="trends-container" v-for="topic in topics">
-          <a>
-             <div v-on:click="tapTopic(topic)" >
-             <span id='trends-name' >{{topic.topic_content}}</span>
-             <div id='tweets-times'>{{ topic.topic_heat }} heat</div>
-             </div>
-           </a>
-        </li>
-      </ul>
+      <Trends></Trends>
     </ElContainer>
 
     <ElContainer id="middle-container">
@@ -85,37 +75,25 @@ ul li {
     </ElContainer>
 
     <ElContainer id="right-container">
-      <el-header class="header-left-align">Who to follow</el-header>
-      <div class="to-follow-list" v-for="toFollow in toFollowList">
-        <user v-bind:p_follow_info="toFollow"></user>
-      </div>
+      <whoToFollows></whoToFollows>
     </ElContainer>
   </div>
 </template>
 <script>
 
-import User from "./Subs/User"
 import Tweets from "./Subs/Tweets"
+import Trends from "./Subs/Trends"
+import whoToFollows from "./Subs/whoToFollows"
 export default {
   name: "Notifications",
   data() {
     return {
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
-      topics: [],
-      toFollowList: [],
     };
   },
-  components: { "user":User, "tweets": Tweets },
-  created(){
-    this.queryTopicsBaseOnHeat(0, 5).then(response=>{
-          console.log("测试topics", response);
-          this.topics = response.data.data;
-        });
-        this.getRecommendUsers().then(response => {
-          console.log("测试getRecommendUsers", response);
-          this.toFollowList = response.data.data;
-          console.log(this.toFollowList)
-        });
+  components: { "tweets": Tweets,
+    Trends,
+    whoToFollows
   },
   methods: {
     tapTopic(topic) {
