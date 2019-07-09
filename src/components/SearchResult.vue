@@ -30,33 +30,6 @@ ul li {
   margin-left: 10px;
   margin-top: 70px;
 }
-#trends-container {
-  line-height: 17px;
-  margin-bottom: 10px;
-  text-align: left;
-}
-#trends-name {
-  font-weight: bold;
-  color: #1da1f2;
-  font-size: 17px;
-  padding-left: 15px;
-}
-#tweets-times {
-  color: #657786;
-  font-size: 13px;
-  padding-left: 15px;
-}
-.header-left-align {
-  font-weight: bold;
-  font-size: 24px;
-  text-align: left;
-  padding-top: 15px;
-  padding-left: 15px;
-}
-.to-follow-list {
-  text-align: left;
-  line-height: 17px;
-}
 .infor-avatar {
   margin-top: 10px;
   margin-left: 15px;
@@ -67,17 +40,7 @@ ul li {
 <template>
   <div id="root-div">
     <ElContainer id="left-container">
-      <el-header class="header-left-align">Trends</el-header>
-      <ul>
-        <li id="trends-container" v-for="topic in topics">
-          <a>
-             <div v-on:click="tapTopic(topic)" >
-             <span id='trends-name' >{{topic.topic_content}}</span>
-             <div id='tweets-times'>{{ topic.topic_heat }} heat</div>
-             </div>
-           </a>
-        </li>
-      </ul>
+      <Trends></Trends>
     </ElContainer>
 
     <div id="middle-container">
@@ -85,32 +48,25 @@ ul li {
     </div>
 
     <ElContainer id="right-container">
-      <el-header class="header-left-align">Users</el-header>
-      <div class="to-follow-list" v-for="user in users">
-        <a>
-          <div v-on:click="tapRecommendUser(user.user_id)">
-            <Avatar class="infor-avatar" v-bind:src="user.avatar_url"></Avatar>
-            {{user.nickname}}
-          </div>
-        </a>
-      </div>
+      <whoToFollows></whoToFollows>
     </ElContainer>
   </div>
 </template>
 <script>
-import ElUploadList from "element-ui/packages/upload/src/upload-list";
-import Caspanel from "iview/src/components/cascader/caspanel";
 import Tweets from "./Subs/Tweets"
+import Trends from "./Subs/Trends"
+import whoToFollows from "./Subs/whoToFollows"
 export default {
   name: "SearchResult",
   components:{
     "tweets": Tweets,
+    Trends,
+    whoToFollows
   },
   data() {
     return {
       searchKey : this.$route.query.searchKey,
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
-      topics: [],
       users: [],
     };
   },
@@ -122,16 +78,5 @@ export default {
           this.users = response.data.data.users;
     });
   },
-  methods: {
-    tapTopic(topic) {
-      console.log("测试点击 topic_id:", topic.topic_id);
-      //TODO 点击热点之后跳转
-    },
-    tapRecommendUser(visitor_id) {
-      console.log("测试点击推荐用户 visitor_id", visitor_id);
-      //TODO 跳转
-      this.$router.push({ path: "/Zoom", query: { visitor_id: visitor_id } });
-    }
-  }
 };
 </script>
