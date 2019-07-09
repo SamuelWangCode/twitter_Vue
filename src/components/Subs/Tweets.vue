@@ -132,7 +132,12 @@ export default {
             return function (a, b) { // sort 默认接受a,b两个参数表示数组中的值
                 var value1 = a[key]  
                 var value2 = b[key]
-                return value1 - value2
+                if (value1<value2){
+                    return -1;
+                }
+                else{
+                    return 1;
+                }
             }
         },
         //下载数据后解析数据
