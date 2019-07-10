@@ -56,8 +56,7 @@
   width: 100%;
 }
 .img-handler {
-  margin-bottom: 20px;
-  height:auto;
+  overflow:visible;
 }
 
 .buttom-buttons {
