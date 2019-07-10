@@ -65,7 +65,7 @@ export default {
     };
   },
   components: {"tweets": Tweets, "loading":loadingAnimate, Trends,
-    whoToFollows,backToTop },
+    whoToFollows,backToTop},
   created(){
     var p1 = this.queryTopicsBaseOnHeat(0, 5).then(response=>{
       console.log("测试topics", response);
@@ -92,6 +92,15 @@ export default {
       //TODO 跳转
       this.$router.push({ path: "/Zoom", query: { visitor_id: visitor_id } });
     }
-  }
+  },
+  beforeRouteEnter(to,from,next){
+      next(vm=>{
+        if(!vm.getCookie("userID"))
+        {
+          console.log("请先登录")
+          vm.$router.push("index")
+        }
+      })
+    }
 };
 </script>

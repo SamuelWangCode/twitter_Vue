@@ -17,7 +17,7 @@ export default new router({
   mode: 'history',
   routes: [
     {
-      path: '/', alias:'/home',
+      path: '/home',
       name: 'Home',
       component: Home,
       meta: {
@@ -49,7 +49,7 @@ export default new router({
       }
     },
     {
-      path: '/index',
+      path: '/index', alias:'/',
       name: 'index',
       component: index,
       meta: {

@@ -465,7 +465,15 @@ ul li{
       canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
       return canvas.toDataURL("image/png");
     }
-      
+    },
+    beforeRouteEnter(to,from,next){
+      next(vm=>{
+        if(!vm.getCookie("userID"))
+        {
+          console.log("请先登录")
+          vm.$router.push("index")
+        }
+      })
     }
   }
 </script>
