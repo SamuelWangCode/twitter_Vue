@@ -212,7 +212,7 @@ created() {
 }
 #RegistPage {
   height: calc(100vh - 46px);
-  padding-top: 10px;
+  /* padding-top: 10px; */
   background-color: #e6ecf0;
 }
 

@@ -112,7 +112,7 @@
   border-bottom:1px solid #000;
 }
 
-#follow-button-container {
+/* #follow-button-container {
   margin-bottom: 20px;
   margin-left: 70px;
   height: 80px;
@@ -121,7 +121,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-}
+} */
 .TabContainer {
   margin-top: 0px;
   margin-right: 0px;
@@ -216,12 +216,24 @@
   transition: margin-left;
 }
 
-
-.follow-button-style {
+.message-button-container {
+  margin-top: 20px;
   height: 45px;
   width: 100px;
   font-weight: bold;
   font-size: 16px;
+    margin-left: 60px;
+  float:left;
+}
+
+.follow-button-container {
+  margin-top: 20px;
+  height: 45px;
+  width: 100px;
+  font-weight: bold;
+  font-size: 17px;
+  margin-left: 20px;
+  float:left;
 }
 .center-fix{
 	position: fixed;/*固定位置*/
@@ -363,9 +375,12 @@ bottom:0;
       </div>
       <div id="middle-right-container">
         <div id="middle-right-top-container">
-          <div v-if="visitor!=user" id="follow-button-container">
+
+          <UserMessage class="message-button-container">
+          </UserMessage>
+
+          <div v-if="visitor!=user" class="follow-button-container">
             <FollowButton
-              class="follow-button-style"
               v-bind:followerCount.sync="followerCount"
               v-bind:isFollowing.sync="isFollowing"
               v-bind:visitor="Number(visitor)"
@@ -385,8 +400,9 @@ import loadingAnimate from "./animate/loading";
 import Tweets from "./Subs/Tweets.vue";
 import User from "./Subs/User";
 import UserForZoom from "./Subs/UserForZoom";
-import FollowButton from "./Subs/FollowButoon";
-import backToTop from "./Subs/BackToTop";
+import FollowButton from "./Subs/FollowButoon"
+import backToTop from "./Subs/BackToTop"
+import UserMessage from "./Subs/UserMessage"
 
 export default {
   name: "Zoom",
@@ -437,7 +453,8 @@ export default {
     userForZoom: UserForZoom,
     User,
     FollowButton,
-    backToTop
+    backToTop,
+    UserMessage
   },
   created() {
     // this.loading = true;
