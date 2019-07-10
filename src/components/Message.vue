@@ -55,17 +55,37 @@ bottom:0;
 <template>
 
   <div id="root-div">
+    <div v-if="visible">
+    <wxChat 
+      :ref="'subChat'"
+      @closeChat="closeChat"
+      :sendPrivateLetter="send"
+      :data="wxChatData"
+      :showShade="true"
+      contactNickname="聊天"
+      :getUnderData="getUnderData"
+      :ownerAvatarUrl="ownerAvatarUrl"
+      :maxHeight=400
+      :contactAvatarUrl="contactAvatarUrl"
+      :contact_user_id="chating_contact_user_id"
+      :my_user_id="chating_my_user_id"
+      :width="chatWidth">
+    </wxChat>
+    </div>
+    
+
+
     <loadingAnimate v-if="loading" class="center-fix"/>
     <ElContainer id="middle-container">
       <el-header class="header-left-align">Message</el-header>
       <Divider />
       <ul>
-        <ElContainer id="chat-container"  v-for="contact in contactList"  :key="contact.private_letter_id">
+        <ElContainer id="chat-container"  v-for="contact in contactList"  :key="contact.contact_person_id">
           <el-container>
             <div style="margin-left: 10px">
               <a>
                 <Avatar
-                  :src="contact.sender_info.avatar_url"
+                  :src="contact.contact_person_avator_url"
                   style="margin-top: 10px;margin-left: 15px;margin-bottom: 1px;"
                   size="large"
                 ></Avatar>
@@ -74,21 +94,21 @@ bottom:0;
             <div>
               <div id="chat-content">
               <p style="font-size: 20px;">
-              <a style="color: black">{{contact.sender_info.nickname}}</a>
+              <a style="color: black">{{contact.contact_nickname}}</a>
               </p>
-                <p style=" margin-top:2px;font-size: 15px">
-              {{contact.private_letter_content}}
-                </p>
+              <p> {{contact.contact_time}} </p>
               </div>
             </div>
             <div style="position: fixed;left: 1100px;margin-top: 10px">
-              <Button style="height: 50%; ;" @click="reply=true">Reply</Button>
+              <Button style="height: 50%; ;" @click="startChat(contact)">Chat</Button>
             </div>
             <!--私信文字排版还有问题-->
             <!--<Button type="primary" @click="reply=true">reply</Button>-->
+            <!--
             <Modal  v-model="reply" title="Reply:" @on-ok="ok(contact.private_letter_id, contact.private_letter_sender_id)" @on-cancel="cancel">
               <input v-model="replycontent" placeholder="Enter yout reply" />
             </Modal>
+            -->
           </el-container>
           <Divider style="margin-top: 70px; margin-bottom: 15px;width: 100%; "></Divider>
         </ElContainer>
@@ -99,29 +119,83 @@ bottom:0;
 
 </template>
 <script>
+import wxChat from "./wxChat"
 import loadingAnimate from "./animate/loading"
 import backToTop from "./Subs/BackToTop"
 export default {
   name: "Message",
   data() {
     return {
+      visible: false,
       pageNum: 1,
       reply: false,
       replycontent: "",
       contactList: [],
-      loading:false
+      my_user_info: {},
+      chatWidth: 400,
+      contactAvatarUrl: "",
+      ownerAvatarUrl: "",
+      contactNickname: "",
+      chating_my_user_id: 0,
+      chating_contact_user_id: 0,
+      loading:false,
+      wxChatData: [{
+        direction: 2,
+        id: 1,
+        type: 1,
+        content: '你好!![呲牙]',
+        ctime: new Date().toLocaleString()
+      },
+      {
+        direction: 1,
+        id: 2,
+        type: 1,
+        content: '你也好。[害羞]',
+        ctime: new Date().toLocaleString()
+      },
+      {
+        direction: 2,
+        id: 3,
+        type: 1,
+        content: '这是我的简历头像：',
+        ctime: new Date().toLocaleString()
+      },
+      {
+        direction: 2,
+        id: 4,
+        type: 2,
+        content: './src/assets/wyz.jpg',
+        ctime: new Date().toLocaleString()
+      },
+      {
+        direction: 1,
+        id: 5,
+        type: 1,
+        content: '你开心就好。[微笑]',
+        ctime: new Date().toLocaleString()
+      }]
     };
   },
   components:{
-    loadingAnimate,backToTop
+    wxChat,loadingAnimate,backToTop
+  },
+  created(){
+    var _this = this;
+    this.getUserPublicInfo(this.getCookies("userID")).then(response=>{
+      _this.my_user_info = response.data.data;
+    })
+
   },
   mounted(){
-    this.queryForMe(1, 10).then(response=>{
+    this.queryLatestContact(1, 10).then(response=>{
       console.log(response);
       this.contactList = response.data.data;
-    });
+    })
   },
   methods: {
+    getCookies(a){
+      return this.getCookie(a)
+    },
     ok(private_letter_sender_id) {
       this.$Message.info("hello");
       console.log(this.replycontent, private_letter_sender_id);
@@ -149,6 +223,34 @@ export default {
           this.pageNum += 1;
         })
       } 
+    },
+    startChat(contact){
+      this.contactAvatarUrl = contact.contact_person_avator_url;
+      this.ownerAvatarUrl = this.my_user_info.avatar_url;
+      this.chating_my_user_id = this.my_user_info.user_id;
+      this.chating_contact_user_id = contact.contact_person_id;
+      //TODO 獲取數據
+
+      this.visible = true;
+
+      //console.log(this.$refs.subChat);
+      //this.wxChatData = this.$refs.subChat.data;
+    },
+    getUnderData(){
+      return new Promise(function(resolve){
+        setTimeout(function(){
+            return resolve([]);
+        }, 0)
+      });
+    },
+    closeChat(){
+      this.visible = false;
+    },
+    send(contact_id, send_content){
+      console.log("準備發送私信", contact_id, send_content);
+      this.sendPrivateLetter(contact_id, send_content).then(response=>{
+        console.log(response);
+      })
     }
   }
 };

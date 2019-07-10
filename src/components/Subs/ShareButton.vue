@@ -86,10 +86,10 @@
 
     <Modal
         v-model="showSharePage"
-        title="转发微博"
+        title="Share"
         :loading="loading"
         @on-ok="share">
-        <Input type="textarea" :rows="4" style="height: 100px;width: 90%;margin:5%;  font-size:20px;" v-model="shareText"/>
+        <Input type="textarea" maxlength="140" :rows="4" style="height: 100px;width: 90%; margin:5%; font-size:20px;" v-model="shareText"/>
     </Modal>
 
 
@@ -122,6 +122,15 @@ export default {
     methods:{
         //转发
         share(){ 
+            if(!this.shareText)
+            {
+                this.$Notice.error({
+                 title: "You should enter something to share.",
+                desc:''
+                })
+                this.loading=false
+                return 
+            }
             let formData={
                 message_content:this.shareText,
                 message_transpond_message_id:this.item.message_id,
@@ -131,12 +140,17 @@ export default {
             this.transpond(formData).then(Response=>{
                 this.shareNum+=1;
                 if(Response.data.message=="success"){
+                    this.$Notice.success({
+                 title: "Share success!.",
+                desc:''
+                })
                     this.shared=true;
+                    this.$router.go(0)
                 }
                 else{
                     this.shareNum-=1;
                     this.shared=false;
-                    alert("转发失败");
+                    alert("Share failed");
                 }
                 console.log("close")
                 this.closeSharePage();

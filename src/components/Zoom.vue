@@ -4,6 +4,7 @@
   height: 100%;
   width: 100%;
   overflow: auto;
+  background-color: rgb(230, 236, 240);
 }
 #background-top-container {
   height: 320px;
@@ -66,15 +67,12 @@
   background-color: white;
 }
 #middle-container {
-  float: left;
-
   width: 100%;
   background-color: rgb(230, 236, 240);
 }
 
 #middle-left-container {
   float: left;
-  height: 80px;
   width: 30%;
   background-color: white;
 }
@@ -89,12 +87,10 @@
 
 #selfIntroduction-container {
   font-size: 15px;
-  margin-top: 10px;
   background-color: rgb(230, 236, 240);
 }
 
 #introduction {
-  height: 200px;
   margin-top: 20px;
   margin-left: 30px;
   margin-right: 30px;
@@ -109,6 +105,7 @@
 
 #display-container {
   margin-top: 0px;
+  z-index: 100;
 }
 
 #middle-right-container {
@@ -118,8 +115,9 @@
 }
 
 #middle-right-top-container {
-  height: 80px;
+  height: 81px;
   background-color: white;
+  border-bottom:1px solid #000;
 }
 
 #follow-button-container {
@@ -194,15 +192,6 @@
   transition: margin-left;
 }
 
-#content-container {
-  height: 100%;
-  float: left;
-  margin-left: 20px;
-  background-color: darkred;
-}
-
-.infor-avatar {
-}
 
 .follow-button-style {
   height: 45px;
@@ -210,14 +199,14 @@
   font-weight: bold;
   font-size: 16px;
 }
-.center-fix {
-  position: fixed; /*固定位置*/
-  z-index: 99; /*设置优先级显示，保证不会被覆盖*/
-  margin: auto;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+.center-fix{
+	position: fixed;/*固定位置*/
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/
+  margin:auto;
+left:0;
+right:0;
+top:0;
+bottom:0;
 }
 </style>
 <style>
@@ -245,10 +234,9 @@
 
     <div id="middle-container">
       <div id="middle-left-container">
-        <div>
+        <div id="decoration" style="height: 80px;background-color: white;border-bottom:1px solid #000"></div>
           <div id="selfIntroduction-container">
             <div id="introduction-container">
-              <div id="decoration" style="height: 70px;background-color: white;padding-top: 0px"></div>
               <div id="nickname-container">
                 {{nickname}}
                 <img :src="confirm_url" style="height: 20px" />
@@ -257,7 +245,6 @@
             </div>
             <div id="introduction">{{selfIntroduction}}</div>
           </div>
-        </div>
       </div>
 
       <div id="middle-middle-container">

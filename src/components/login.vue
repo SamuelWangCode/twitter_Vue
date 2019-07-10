@@ -118,10 +118,10 @@ lett.loginEventHandeler();
           else{
             this.loading=false
             this.$Notice.error({
-              title: "Can't connect with server.",
+              title: "You have already loged in.",
               desc:''
             })
-            this.errHint="Can't connect with server."
+            this.errHint="You have already loged in."
           }
         });
       } catch (e) {

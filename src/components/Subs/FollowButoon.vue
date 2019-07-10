@@ -5,6 +5,7 @@
 }
 .font{
     font-weight:bold;
+    /* font-size: 20px; */
 }
 
 
@@ -16,7 +17,7 @@
     shape="circle"
     v-on:click="click_func()"
     v-bind:class="my_class"
-  ><span style="font-size:14px;">{{content}}</span></Button>
+  ><span style="font-size:12px;">{{content}}</span></Button>
 </template>
 
 <script>
@@ -44,6 +45,8 @@ export default {
         if (response.data.message != "success") {
           this.$emit("update:isFollowing", true);
           this.$emit("update:followerCount", this.followerCount + 1);
+        }else{
+          this.$emit("finish_update",false);
         }
       });
 
@@ -58,6 +61,8 @@ export default {
         if (response.data.message != "success") {
           this.$emit("update:isFollowing", false);
           this.$emit("update:followerCount", this.followerCount - 1);
+        }else{
+          this.$emit("finish_update",true);
         }
       });
       console.log("followClicked");

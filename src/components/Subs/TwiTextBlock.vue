@@ -76,7 +76,7 @@ export default {
             for(let i = 0; i < topics.length; i++){
                 var re = new RegExp(topics[i].topicName, "g");
                 var topicNameTripped = topics[i].topicName.split("#")[1];
-                twitter_content = twitter_content.replace(re, ' <a href="http://localhost:8080/Topic?topic_id='+ topics[i].topicId + '&topic_name=' + topicNameTripped + "' > #" + topicNameTripped + "# </a> ");
+                twitter_content = twitter_content.replace(re, ' <a href="http://localhost:8080/Topic?topic_id='+ topics[i].topicId + '&topic_name=' + topicNameTripped + '" > #' + topicNameTripped + '# </a> ');
             }
             return twitter_content;
         },
@@ -88,6 +88,7 @@ export default {
         },
         solveText(){
             this.htmlText=this.parseTwitter(this.fullText);
+            console.log(this.parseTwitter(this.fullText))
             //alert(this.parseTwitter(this.fullText));
    
             //alert(this.fullText);
