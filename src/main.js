@@ -324,6 +324,17 @@ Vue.prototype.queryMessage = function(message_id){
   }
   return post(MESSAGE + "query?message_id=" + message_id);
 }
+///api/Message/queryNewestMessage
+Vue.prototype.queryNewestMessage=function(startFrom,limitation){
+  if(!checkNumber(startFrom, limitation)){
+    return null;
+  }
+  let data={
+    startFrom : startFrom,
+    limitation : limitation
+  }
+  return post(MESSAGE + "queryNewestMessage" , data);
+}
 //queryMessagesOf(user_id, startFrom, limitation)
 Vue.prototype.queryMessagesOf = function(user_id, startFrom, limitation){
   if(!checkNumber(user_id, startFrom, limitation)){
@@ -335,13 +346,13 @@ Vue.prototype.queryMessagesOf = function(user_id, startFrom, limitation){
   }
   return post(MESSAGE + "queryMessage/" + user_id, data)
 }
-//queryNewestMessage(startFrom, limitation)
-Vue.prototype.queryNewestMessage = function(startFrom, limitation){
+//queryFollowMessage(startFrom, limitation)
+Vue.prototype.queryFollowMessage = function(startFrom, limitation){
   var data = {
     startFrom: startFrom,
     limitation: limitation
   }
-  return post(MESSAGE + "queryNewestMessage", data);
+  return post(MESSAGE + "queryFollowMessage", data);
 }
 //sendMessage(formData: {message_content, message_has_image, message_image_count, files})
 Vue.prototype.sendMessage = function(formData){

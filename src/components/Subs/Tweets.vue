@@ -105,8 +105,7 @@ export default {
     downloadData() {
       this.spinShow = true;
       if (this.type == "explore") {
-        this.queryMessagesOf(
-          this.getCookies("userID"),
+        this.queryNewestMessage(
           this.items.length + 1,
           10
         ).then(Response => {
@@ -128,8 +127,7 @@ export default {
           );
         }
       } else if (this.type == "home") {
-        this.queryMessagesOf(
-          this.getCookies("userID"),
+        this.queryFollowMessage(
           this.items.length + 1,
           10
         ).then(Response => {
