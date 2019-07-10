@@ -138,7 +138,7 @@
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
                 </div>
                 <div class="follow-button-div">
-                    <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="margin-left: 200px;margin-bottom: 5px"></FollowButton>
+                    <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="margin-left: 205px;margin-bottom: 5px"></FollowButton>
                 </div>
                 <usermessage style="float:right;width:12%;margin-right:5%;" v-bind:userId="item.message_sender_user_id"></usermessage>
             </div>
@@ -169,7 +169,7 @@
                 <div class="collection-div" @click="doCollect()">
                   <VueStar animate="animated rubberBand" color="#19be6b">
                     <a slot="icon">
-                    <Icon type="ios-star" size="24" v-if="collectByUser" style="color=#19be6b"></Icon>
+                    <Icon type="ios-star" size="24" v-if="collectByUser" style="color: #ff9900"></Icon>
                     <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
                     </a>
                   </VueStar>
@@ -219,7 +219,7 @@
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
                 </div>
                 <div class="follow-button-div">
-                    <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)"></FollowButton>
+                    <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="margin-left: 205px;margin-bottom: 5px"></FollowButton>
                     <usermessage style="float:right;margin-right:5%;width:12%;" v-bind:userId="item.message_sender_user_id"></usermessage>
                 </div>
 
@@ -235,7 +235,7 @@
             <div class="collection-div" @click="doCollect()">
               <VueStar animate="animated rubberBand" color="#F05654">
                 <a slot="icon">
-                  <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px"></Icon>
+                  <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px;color: #ff9900"></Icon>
                   <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
                 </a>
               </VueStar>

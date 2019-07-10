@@ -1,9 +1,9 @@
 <style scoped>
 
 .message-div{
-    width:100%;
+    width:105%;
     height:auto;
-    text-align: center;
+    text-align: left;
 }
 .message-div:hover{
     cursor: pointer;
@@ -77,8 +77,7 @@
     </div>
 
 
-    <Button type="primary" class="message-div" @click="doShowPage()">私信
-    </Button>
+    <Button type="primary" class="message-div" @click="doShowPage()"style="font-weight: bold">Message</Button>
 </div>
 </template>
 
