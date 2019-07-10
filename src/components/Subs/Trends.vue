@@ -1,22 +1,61 @@
 <template>
-<div>
-  <el-header class="header-left-align">Trends for you</el-header>
-  <ul>
-    <div id="trends-container" v-for="topic in topics">
-      <a>
-        <div v-on:click="tapTopic(topic)">
-          <div id="trends-name">{{topic.topic_content}}</div>
-          <div id="tweets-times">{{ topic.topic_heat }} heat</div>
+  <div id="left-container">
+    <ElContainer id="left-container1" style="background-color:#1DA1F2;">
+      <router-link :to="{ path: '/Zoom', query: { visitor_id: userID}}">
+      <div style="float:left;margin-left:20px; margin-top:50px;">
+      <Avatar
+        v-bind:src="address"
+        shape="circle"
+        on-error
+        size="large"
+        style="height:60px; width:60px; border-radius:50%;"
+      />
+      </div>
+      <div style="float:left; margin-top:70px;margin-left:10px;">
+      <span style="font-weight:bold;font-size:20px;color:white">{{userName}}</span>
+      </div>
+      </router-link>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+    </ElContainer>
+
+    <ElContainer id="left-container2">
+      <el-header class="header-left-align">Trends for you</el-header>
+      <ul>
+        <div id="trends-container" v-for="topic in topics">
+          <a>
+            <div v-on:click="tapTopic(topic)">
+              <div id="trends-name">{{topic.topic_content}}</div>
+              <div id="tweets-times">{{ topic.topic_heat }} heat</div>
+            </div>
+          </a>
         </div>
-      </a>
-    </div>
-    <!-- <div v-if="ableShowMore" class="load-more" @click="loadMore()">加载更多</div>
-    <div v-else class="no-more">已无更多内容</div> -->
-  </ul>
-</div>
+      </ul>
+    </ElContainer>
+  </div>
 </template>
 
 <style>
+#left-container {
+  position: fixed;
+  width: 20%;
+  background-color: white;
+  left: 8%;
+  top: 70px;
+}
+#left-container1 {
+  background-color: white;
+}
+#left-container2 {
+  background-color: white;
+  margin-top: 10px;
+}
 .header-left-align {
   font-weight: bold;
   font-size: 24px;
@@ -55,26 +94,33 @@ export default {
   data() {
     return {
       topics: [],
-    //   ableShowMore: true,
-    //   startNumber:1
+      address: "http://localhost:12293/avatars/0.jpg",
+      userName:"userName",
+      userID:"0"
     };
   },
   mounted() {
     var _this = this;
+    this.userID = _this.getCookie("userID")
+    console.log("登录：", this.userID)
+    console.log(this.userID)
+    this.getUserPublicInfo(this.userID).then(Response=>{
+    console.log(Response)
+    if(Response.data.code==200 && Response.data.message=="success")
+      {
+        this.userName = Response.data.data.nickname
+        this.address = Response.data.data.avatar_url
+        console.log(this.userName)
+      }
+      else{
+        console.log("fail")
+        this.userName="userName"
+      }  
+    })
     this.queryTopicsBaseOnHeat(1, 5).then(Response => {
       console.log(Response);
-    //   var array = new Array(Response.data.data)
-    //   var size = array.length
-    //   console.log(size)
-    //   if(size<5)
-    //   {
-    //       this.ableShowMore = false
-    //   }
-    //   else{
-    //       this.ableShowMore = true
-    //   }
       _this.topics = Response.data.data;
-    });
+    })
   },
   methods: {
     tapTopic(topic) {
@@ -83,23 +129,7 @@ export default {
         path: "/Topic",
         query: { topic_id: topic.topic_id, topic_name: topic.topic_content }
       });
-    },
-    // loadMore(){
-    //     var _this = this
-    //     console.log("loadMore")
-    //     this.startNumber = this.startNumber + 5 
-    //     this.queryTopicsBaseOnHeat(1+this.startNumber, 5+this.startNumber).then(Response => {
-    //     console.log(Response);
-    //     var array = new Array(Response.data.data)
-    //     var size = array.length
-    //     console.log(size)
-    //     if(size<5)
-    //     {
-    //       this.ableShowMore = false
-    //     }
-    //     _this.topics = _this.topics + Response.data.data;
-    // });
-    // }
+    }
   }
 };
 </script>

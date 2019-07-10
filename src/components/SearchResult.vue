@@ -9,26 +9,12 @@ ul li {
   background-color: rgb(230, 236, 240);
   overflow: auto;
 }
-#left-container {
-  float: left;
-  width: 20%;
-  background-color: white;
-  margin-left: 150px;
-  margin-top: 70px;
-}
-#middle-container {
-  float: left;
+#middle-container{
   width: 40%;
   background-color: white;
-  margin-left: 10px;
-  margin-top: 70px;
-}
-#right-container {
-  float: left;
-  width: 20%;
-  background-color: white;
-  margin-left: 10px;
-  margin-top: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 70px
 }
 .infor-avatar {
   margin-top: 10px;
@@ -39,9 +25,7 @@ ul li {
 
 <template>
   <div id="root-div">
-    <ElContainer id="left-container">
       <Trends></Trends>
-    </ElContainer>
 
     <div id="middle-container">
       <tweets type="search" v-bind:info="searchKey"></tweets>

@@ -1,10 +1,12 @@
 <template>
-<div>
-  <el-header class="header-left-align">Who to follow</el-header>
-  <div class="to-follow-list" v-for="toFollow in toFollowList">
-    <User v-bind:p_follow_info="toFollow"></User>
+  <div>
+    <ElContainer id="right-container">
+      <el-header class="header-left-align">Who to follow</el-header>
+      <div class="to-follow-list" v-for="toFollow in toFollowList">
+        <User v-bind:p_follow_info="toFollow"></User>
+      </div>
+    </ElContainer>
   </div>
-</div>
 </template>
 
 <style>
@@ -19,6 +21,13 @@
   text-align: left;
   line-height: 17px;
 }
+#right-container{
+    position: fixed;
+    width: 20%;
+    background-color: white;
+    right: 9%;
+    top: 70px;
+  }
 </style>
 <script>
 import User from "./User";
@@ -26,19 +35,17 @@ export default {
   name: "whoToFollows",
   data() {
     return {
-           toFollowList: []
-    }
+      toFollowList: []
+    };
   },
   components: {
     User
   },
-  methods: {
- 
-  },
+  methods: {},
   created() {
     var _this = this;
     this.getRecommendUsers().then(Response => {
-        console.log("getRecommendUsers")
+      console.log("getRecommendUsers");
       console.log(Response);
       _this.toFollowList = Response.data.data;
     });

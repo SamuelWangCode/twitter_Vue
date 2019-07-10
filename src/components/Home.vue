@@ -83,39 +83,11 @@ ul li{
     background-color: rgb(230, 236, 240);
     overflow: auto;
   }
-   #left-container{
-     float:left;
-    width: 20%;
-    background-color: white;
-    margin-left: 150px;
-    margin-top: 70px;
-  }
-  #left-container1{
-    background-color: white;
-  }
-   #left-container2{
-    background-color: white;
-    margin-top: 10px;
-  }
   #middle-container{
-    float:left;
     width: 40%;
     background-color: white;
-    margin-left: 10px;
-    margin-top: 70px
-  }
-  #middle-container1{
-    margin-top: 0px;
-
-  }
-  #middle-container2{
-    margin-top: 0px;
-  }
-  #right-container{
-    float: left;
-    width: 20%;
-    background-color: white;
-    margin-left: 10px;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 70px
   }
   .infor-avatar{
@@ -176,23 +148,7 @@ ul li{
         </center>
         <loadingAnimate v-if="loading" style="margin-left:auto;margin-right:auto;margin-top:48px;"/>
 
-    <div id=left-container>
-     <ElContainer id = 'left-container1' style="background-color:#1DA1F2;">
-       <Avatar v-bind:src=address shape="circle" on-error="" size="large" style="height:60px; width:60px; border-radius:50%;margin-left:10%;margin-top:20%;"/>
-       <span style="margin-top:80px;margin-left:10px;font-weight:bold;font-size:20px;">
-         {{userName}}
-       </span>
-       <br><br><br><br><br><br><br><br>
-     </ElContainer>
-
-
-
-     <ElContainer id = 'left-container2' >
-       <Trends></Trends>
-     </ElContainer>
-
-
-    </div>
+    <Trends></Trends>
 
     <div id="middle-container">
      <ElContainer  id="middle-container1" >
@@ -269,10 +225,7 @@ ul li{
 
      </ElContainer>
     </div>
-
-      <ElContainer id="right-container" >
         <whoToFollows></whoToFollows>
-      </ElContainer>
   </div>
 </template>
 <script>
@@ -292,8 +245,7 @@ ul li{
         visible:false,
         img_preview:"",
         uploadList: [],
-        loading:true,
-        userName: "username",
+        loading:false,
         sites: [
           { name: 'Runoob' },
           { name: 'Google' },
@@ -304,7 +256,7 @@ ul li{
         isEditerFocused: false,
         contentEl: null,
         inputContent: '',
-        address: "http://localhost:12293/avatars/0.jpg",
+        address:""
       }
     },
     components:{
@@ -312,50 +264,24 @@ ul li{
       "tweets":Tweets,
       Trends,whoToFollows
     },
-    mounted(){
-      this.loading = true;
-      this.isEditerFocused = true;
-      //this.loading=true;
-      var userID = this.getCookies("userID")
-      console.log("登录：", userID)
-      //let userID=user.userID
-      //使用cookie
-      this.uploadList = this.$refs.upload.fileList;
-      
-        
-        //nickname
-        try{
-          console.log(userID)
-          this.getUserPublicInfo(userID).then(Response=>{
-            console.log(Response)
-          if(Response.data.code==200 && Response.data.message=="success")
-            {
-              this.loading=false;
-              this.userName = Response.data.data.nickname
-              this.address = Response.data.data.avatar_url
-              console.log(this.userName)
-            }
-            else{
-              this.loading=false;
-              console.log("fail")
-              this.userName="userName"
-            }
-            
-          })
-        }
-        catch(e){
-            this.loading=false;
-            return {
-          result: false,
-          errMsg: "Can't connect with server"
-        };
-        }
-   
-    
-        
-        
-        
-    
+    mounted() {
+    var _this = this;
+    var userID = _this.getCookie("userID")
+    console.log("登录：", userID)
+    console.log(userID)
+    this.getUserPublicInfo(userID).then(Response=>{
+    console.log(Response)
+    if(Response.data.code==200 && Response.data.message=="success")
+      {
+
+        this.address = Response.data.data.avatar_url
+        console.log(this.userName)
+      }
+      else{
+        console.log("fail")
+        this.userName="userName"
+      }  
+    })
     },
     methods:{
       flashCom()
