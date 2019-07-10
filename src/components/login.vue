@@ -136,7 +136,7 @@ export default {
 <style lang="css" scoped>
 #LoginPage {
   height: calc(100vh - 46px);
-  padding-top: 10px;
+  /* padding-top: 10px; */
   background-color: #e6ecf0;
 }
 #head-div
