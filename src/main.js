@@ -399,7 +399,6 @@ Vue.prototype.queryAtMe = function(startFrom, limitation){
   return post(AT + "query", data);
 }
 
-
 //////////////////////////////////////////////////////
 //评论
 var COMMENT="api/Comment/";
