@@ -345,13 +345,38 @@ ul li{
                   file.is_video = true;
                   file.is_img = false;
                 }
+                var _this = this;
+                if(file.is_video){
+                  if(_this.$refs.upload.fileList.length > 1){
+                    this.$Notice.warning({
+                      title: 'Up to single video can be uploaded'
+                    });
+                    return;
+                  }
+                }
+
+                if(file.is_img){
+                  var hasVideo = false;
+                  for(let i = 0; i < this.$refs.upload.fileList.length; i++){
+                    if(this.$refs.upload.fileList[i].is_video){
+                      hasVideo = true;
+                    }
+                  }
+                  if(hasVideo){
+                    this.$Notice.warning({
+                      title: 'Video and Image cannot be uploaded together'
+                    });
+                    return;
+                  }
+                    
+                }
+
                 const check =  this.$refs.upload.fileList.length < 4;
                 if (!check) {
                     this.$Notice.warning({
                         title: 'Up to four items can be uploaded.'
                     });
                 }else{
-                  let _this = this
                   if(file.is_img){
                       let reader = new FileReader()
                       reader.readAsDataURL(file) // 这里是最关键的一步，转换就在这里
