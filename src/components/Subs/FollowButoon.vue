@@ -18,6 +18,7 @@
     v-bind:disabled="typeof(isFollowing) == 'object' ? true : false "
     v-on:click="click_func()"
     v-bind:class="my_class"
+    v-if="isShow"
   ><span style="font-size:12px;">{{content}}</span></Button>
 </template>
 
