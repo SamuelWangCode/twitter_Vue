@@ -1,5 +1,5 @@
 <template>
-  <div class="toFollow-container">
+  <div class="toFollow-container" v-show="user_info.nickname!=''">
     <div class="user-container">
       <div @click="flushCom" class="user-inner-container">
         <router-link :to="{ path: '/Zoom', query: { visitor_id: user_info.user_id }}">
@@ -17,6 +17,7 @@
         class="user-follow-button"
         v-bind:isFollowing.sync="isFollowing"
         v-bind:visitor="user_info.user_id"
+        @finish_update="send_update($event)"
       />
     </div>
   </div>
@@ -78,7 +79,13 @@ export default {
       this.user_info.avatar_url = info.avatarUrl;
     },
     change_follow(val){
-      this.isFollowing=val;
+      if(this.isFollowing!=val){
+        this.isFollowing=val;
+        this.$emit("change_my_follow",val,this.user_info.user_id);
+      }
+    },
+    send_update(val){
+      this.$emit("change_my_follow",val,this.user_info.user_id);
     }
   },
   mounted() {
@@ -103,7 +110,7 @@ export default {
       this.load_follow_info(nval);
     },
     isFollowing(nval,oval){
-      this.$emit("change_my_follow",nval,this.user_info);
+      
     }
   }
 };

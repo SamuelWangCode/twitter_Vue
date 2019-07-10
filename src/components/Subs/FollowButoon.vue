@@ -15,6 +15,7 @@
     class="font"
     type="primary"
     shape="circle"
+    v-if="isShow"
     v-on:click="click_func()"
     v-bind:class="my_class"
   ><span style="font-size:12px;">{{content}}</span></Button>
@@ -34,7 +35,10 @@ export default {
       type: Number,
       default: 0
     },
-    visitor: Number
+    visitor: {
+      type: Number,
+      default: 0
+    }
   },
   methods: {
     unfollowClick() {
@@ -45,6 +49,8 @@ export default {
         if (response.data.message != "success") {
           this.$emit("update:isFollowing", true);
           this.$emit("update:followerCount", this.followerCount + 1);
+        }else{
+          this.$emit("finish_update",false);
         }
       });
 
@@ -59,6 +65,8 @@ export default {
         if (response.data.message != "success") {
           this.$emit("update:isFollowing", false);
           this.$emit("update:followerCount", this.followerCount - 1);
+        }else{
+          this.$emit("finish_update",true);
         }
       });
       console.log("followClicked");
@@ -80,6 +88,13 @@ export default {
     },
     my_class(){
         return this.isFollowing ? "unfollow" : "follow";
+    },
+    isShow(){
+      if(this.getCookie('userID')&&this.visitor&&this.getCookie('userID').toString()!=this.visitor.toString()){
+        return true;
+      }else{
+        return false;
+      }
     }
   }
 };

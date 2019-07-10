@@ -17,12 +17,12 @@
         <div class="ErrHint alert alert-danger" v-if="errHint">
           {{ errHint }}
         </div>
-        <div class="LoginInput">
+        <div class="LoginInput" >
           <div class="account">
-            <input type="text" v-model="email" placeholder="email">
+            <input size="large" type="text" v-model="email" placeholder="email" @keyup.enter="loginEventHandeler"></input>
           </div>
           <div class="password">
-            <input type="password" v-model="password" placeholder="password">
+            <input size="large" type="password" v-model="password" placeholder="password" @keyup.enter="loginEventHandeler"></input>
           </div>
         </div>
         <div class="Submit">
@@ -65,12 +65,8 @@ export default {
     }
   },
   created() {
-var lett = this;
-document.onkeydown = function(e) {
-var key = window.event.keyCode;
-if (key == 13) {
-lett.loginEventHandeler();
-}}},
+
+},
   components:{
     loadingAnimation
   },
@@ -140,11 +136,12 @@ lett.loginEventHandeler();
 <style lang="css" scoped>
 #LoginPage {
   height: calc(100vh - 46px);
-  padding-top: 10px;
+  /* padding-top: 10px; */
   background-color: #e6ecf0;
 }
 #head-div
 {
+  top:0;
   height: 15%;
   width: 100%;
   background-color: #1da1f2;

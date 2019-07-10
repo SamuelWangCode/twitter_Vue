@@ -19,16 +19,16 @@
         </div>
         <div class="RegistInput">
           <div class="username">
-            <input type="text" v-model="name" placeholder="user name">
+            <input type="text" v-model="name" placeholder="user name" @keyup.enter="registEventHandler">
           </div>
           <div class="account">
-            <input type="text" v-model="email" placeholder="email">
+            <input type="text" v-model="email" placeholder="email" @keyup.enter="registEventHandler">
           </div>
           <div class="password">
-            <input type="password" v-model="password" placeholder="password">
+            <input type="password" v-model="password" placeholder="password" @keyup.enter="registEventHandler">
           </div>
           <div class="password-confirm">
-            <input type="password" v-model="password2" placeholder="password-confirm">
+            <input type="password" v-model="password2" placeholder="password-confirm" @keyup.enter="registEventHandler">
           </div>
         </div>
         <div class="Submit">
@@ -72,12 +72,7 @@ export default {
     };
   },
 created() {
-var lett = this;
-document.onkeydown = function(e) {
-var key = window.event.keyCode;
-if (key == 13) {
-lett.registEventHandler();
-}}},
+},
   components: {
     loadingAnimation
   },
@@ -217,7 +212,7 @@ lett.registEventHandler();
 }
 #RegistPage {
   height: calc(100vh - 46px);
-  padding-top: 10px;
+  /* padding-top: 10px; */
   background-color: #e6ecf0;
 }
 

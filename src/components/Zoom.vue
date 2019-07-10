@@ -254,7 +254,7 @@ bottom:0;
 <template>
   <div id="root-div">
     <div id="topAnchor"></div>
-      <loadingAnimate v-if="loading" class="center-fix"/>
+    <loadingAnimate v-if="loading" class="center-fix" />
     <div class="WallImgContainer">
       <div class="BkgImgContainer">
         <img :src="personBkgImg" style="height: 320px;width: 100%" />
@@ -346,7 +346,7 @@ bottom:0;
               <userForZoom
                 v-bind:p_user_id="user.user_id"
                 :ref="'following'+user.user_id"
-                @change_my_follow="change_my_follow(arguments,user)"
+                @change_my_follow="change_my_follow(arguments)"
               ></userForZoom>
             </div>
           </div>
@@ -357,7 +357,7 @@ bottom:0;
               <userForZoom
                 v-bind:p_user_id="user.user_id"
                 :ref="'follower'+user.user_id"
-                @change_my_follow="change_my_follow(arguments,user)"
+                @change_my_follow="change_my_follow(arguments)"
               ></userForZoom>
             </div>
           </div>
@@ -409,7 +409,7 @@ export default {
 
   data() {
     return {
-      loading:false,
+      loading: false,
       num: 0,
       visitor: 0,
       user: 0,
@@ -486,6 +486,9 @@ export default {
         _this.followersList = res[2].data.data;
         console.log("这个人的followersList", _this.followersList);
       });
+      this.getUserPublicInfo(this.user).then(response => {
+        this.my_info = response.data.data;
+      });
     } catch (e) {
       return {
         result: false,
@@ -542,8 +545,8 @@ export default {
       console.log(this.navStatus.collectionsShow);
     },
     change_follow(event) {
-      console.log("change_follow");
-      if (this.isFollowing != event[0] && this.visitor==event[1]) {
+      console.log("change_follow", event[1]);
+      if (this.isFollowing != event[0] && this.visitor == event[1]) {
         this.isFollowing = event[0];
         if (event[0]) {
           this.followerCount++;
@@ -551,28 +554,42 @@ export default {
           this.followerCount--;
         }
       }
+      this.change_my_follow(event);
     },
-    change_my_follow(event, user) {
+    change_my_follow(event) {
+      console.log(event);
       for (var i = 0; i < this.followingList.length; ++i) {
-        if (this.followingList[i].user_id == user.user_id) {
-          this.$refs["following" + user.user_id][0].change_follow(event[0]);
+        if (this.followingList[i].user_id == event[1]) {
+          this.$refs["following" + event[1]][0].change_follow(event[0]);
           break;
         }
       }
       for (var i = 0; i < this.followersList.length; ++i) {
-        if (this.followersList[i].user_id == user.user_id) {
-          this.$refs["follower" + user.user_id][0].change_follow(event[0]);
+        if (this.followersList[i].user_id == event[1]) {
+          this.$refs["follower" + event[1]][0].change_follow(event[0]);
           break;
         }
       }
       if (this.$refs.twe1) {
-        this.$refs.twe1.change_follow2(val, this.visitor);
-
+        this.$refs.twe1.change_follow2(event[0], event[1]);
       }
-      if(this.$refs.twe2){
-        this.$refs.twe2.change_follow2(val, this.visitor);
+      if (this.$refs.twe2) {
+        this.$refs.twe2.change_follow2(event[0], event[1]);
       }
       if (this.visitor == this.getCookie("userID")) {
+        var k = [];
+        for (var i = 0; i < this.followingList.length; ++i) {
+          if (this.followingList[i].user_id.toString() != event[1].toString()) {
+            k.push(this.followingList[i]);
+          }
+        }
+        if (event[0] && event[1]!=-1) {
+          var temp = new Object();
+          temp.user_id = event[1];
+          k.push(temp);
+        }
+        this.followingList = k;
+        this.followingCount = k.length;
       }
     },
     getRightClass(typeName){
@@ -592,13 +609,12 @@ export default {
   watch: {
     "$route.params.PersonAccount": "initUserID",
     isFollowing(val) {
-      if (this.$refs.twe1) {
+      /*if (this.$refs.twe1) {
         this.$refs.twe1.change_follow2(val, this.visitor);
-
       }
-      if(this.$refs.twe2){
+      if (this.$refs.twe2) {
         this.$refs.twe2.change_follow2(val, this.visitor);
-      }
+      }*/
       var k = [];
       for (var i = 0; i < this.followersList.length; ++i) {
         if (this.followersList[i].user_id != this.user) {
@@ -611,9 +627,12 @@ export default {
         temp.avatar_url = this.my_info.avatar_url;
         temp.nickname = this.my_info.nickname;
         k.push(temp);
-      } else {
       }
       this.followersList = k;
+      var temp=new Array();
+      temp[0]=val;
+      temp[1]=this.visitor;
+      this.change_follow(temp);
     }
   }
 };
