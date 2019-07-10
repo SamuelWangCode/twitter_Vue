@@ -46,10 +46,10 @@
     </div>
     <div id="buttom-div">
 <div id="buttom-content" style="color: white;">
-  <p>联系我们</p>
-  <p>地址：中国 上海曹安公路4800号同济大学软件学院</p>
-  <p>邮编：201804</p>
-  <p>联系电话：86-21-69589585,69589332(FAX)</p>
+  <p>Contact us</p>
+  <p>Address: School of Software, Tongji University, 4800 Caoan Road, Shanghai, China</p>
+  <p>Zip code: 201804</p>
+  <p> Contact number: 86-21-69589585, 69589932 (FAX)</p>
 </div>
     </div>
   </div>
@@ -190,14 +190,16 @@ lett.registEventHandler();
   height: 15%;
   width: 100%;
   background-color: #1da1f2;
-  margin-bottom: 50px;
+  margin-bottom: 100px;
 }
 #buttom-div
 {
+  position: fixed;
+  bottom: 0;
   height: 15%;
   width: 100%;
   background-color: #1da1f2;
-  margin-top: 150px;
+  /*margin-top: 100px;*/
 }
 #logo
 {
@@ -210,7 +212,7 @@ width: 5%;
   margin-top: 20px;
   margin-left: 40px;
   float: left;
-  font-size: 10px;
+  font-size: 17px;
   text-align: left;
 }
 #RegistPage {

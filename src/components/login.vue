@@ -4,6 +4,9 @@
       <div id="logo" >
         <Icon type="logo-twitter" size="50" style="color:white;margin-top: 45px;">Twitter</Icon>
       </div>
+      <div id="WebName" style="font-size: 30px;color: white;float: left;margin-top: 48px">
+        Twitter
+      </div>
     </div>
     <div class="LoginFormContainer">
       <loadingAnimation v-if="loading"/>
@@ -33,6 +36,14 @@
           <span>New?</span>
           <router-link to="/regist">Join now! »</router-link>
         </div>
+      </div>
+    </div>
+    <div id="buttom-div">
+      <div id="buttom-content" style="color: white;">
+        <p>Contact us</p>
+        <p>Address: School of Software, Tongji University, 4800 Caoan Road, Shanghai, China</p>
+        <p>Zip code: 201804</p>
+        <p> Contact number: 86-21-69589585, 69589932 (FAX)</p>
       </div>
     </div>
   </div>
@@ -137,14 +148,15 @@ lett.loginEventHandeler();
   height: 15%;
   width: 100%;
   background-color: #1da1f2;
-  margin-bottom: 50px;
+  margin-bottom: 150px;
 }
 #buttom-div
 {
   height: 15%;
   width: 100%;
   background-color: #1da1f2;
-  margin-top: 150px;
+  position: fixed;
+  bottom: 0;
 }
 #logo
 {
@@ -157,7 +169,7 @@ lett.loginEventHandeler();
   margin-top: 20px;
   margin-left: 40px;
   float: left;
-  font-size: 10px;
+  font-size: 17px;
   text-align: left;
 }
 .LoginFormContainer {
