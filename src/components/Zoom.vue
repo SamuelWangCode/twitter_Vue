@@ -94,6 +94,9 @@
   margin-top: 20px;
   margin-left: 30px;
   margin-right: 30px;
+  display:block;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 #middle-middle-container {
