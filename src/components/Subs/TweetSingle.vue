@@ -1,10 +1,10 @@
 <style scoped>
 .twi-left{
     float: left;
-    width: 10%;
+    /* width: 10%; */
     margin-left: 3%;
     margin-top: 10px;
-    height: 80px;
+    /* height: 80px; */
 }
 .user-avatar-div{
     width: 60px;
@@ -29,27 +29,27 @@
 .twi-right{
     float: left;
     width: 84%;
-    margin-left: 0;
+    margin-left: 5px;
 }
 .twi-right-top-div{
     display: inline-block;
     width: 100%;
     background-color: white;
     margin-top: 10px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     margin-left: 0px;
     margin-right: 0px;
 }
 .user-name{
     font-weight:bold;
-    font-size: 20px;
-    height:40px;
+    font-size: 16px;
+    /* height:40px; */
 }
 
 
 .twi-text-block{
     margin-top:10px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     display: inline-block;
 
 }
@@ -57,16 +57,15 @@
 
 }
 .twi-text{
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     width: 100%;
 }
 .img-handler{
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 
 .buttom-buttons{
-  height: 100px;
     display: inline-block;
     background-color: white;
     width:100%;
@@ -74,7 +73,7 @@
 .collection-div{
     float: left;
     width:20%;
-    height:60px;
+    height:50px;
   /*margin-bottom: 20px;*/
     text-align: center;
   margin-left: 60px;
@@ -84,7 +83,7 @@
 }
 .comment-div{
     float: left;
-  height: 60px;
+  height: 50px;
     width:20%;
   /*padding-left:50%;*/
     text-align: center;
@@ -99,7 +98,7 @@
 .likes-div{
   float: left;
     width:20%;
-    height:60px;
+    height:50px;
     text-align: center;
 }
 .likes-div{
@@ -108,15 +107,16 @@
 .share-div{
   float: left;
   width:20%;
-  height:60px;
+  height:50px;
   text-align: center;
 }
 
 .shared-twi-div{
-    width: 100%;
-    float: left;
-    padding-top:20px;
-    margin-bottom:20px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    /* padding-top:20px; */
+    /* margin-bottom:20px; */
     background-color: rgb(236, 236, 236);
 }
 
@@ -138,7 +138,7 @@
             <div id="name-time-die" @click="clickUser()" style="float:left;">
               <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
                 <p class="user-name">{{item.userName}}</p>
-                <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                <p class="time">{{item.message_create_time}}<Icon type="ios-flame" size="18" style="color: #ff9900"></Icon>{{item.message_heat}}</p>
               </router-link>
             </div>
             <div id="follow-mes-butt-div" style="float: right;">
@@ -163,7 +163,7 @@
                 <div @click="clickUser()">
                     <router-link :to="{ path: '/Zoom', query: { visitor_id: item.rawItem.message_sender_user_id }}">
                     <p style="text-size:30px;">{{rawItemUserName}}</p>
-                    <p style="text-size:24px;">{{item.rawItem.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                    <p style="text-size:24px;">{{item.rawItem.message_create_time}}<Icon type="ios-flame" size="18" style="color: #ff9900"></Icon>{{item.message_heat}}</p>
                     </router-link>
                 </div>
                 <div class="twi-text-block">
@@ -173,11 +173,12 @@
                 <imagehandler class="img-handler" v-bind:imgData="item.rawItem.message_image_urls" :twiId="item.rawItem.message_id"></imagehandler>
 
             </div>
+        </div>
             <div class="buttom-buttons">
                 <div class="collection-div" @click="doCollect()">
                   <VueStar animate="animated rubberBand" color="#19be6b">
                     <a slot="icon">
-                    <Icon type="ios-star" size="24" v-if="collectByUser" style="color: #ff9900"></Icon>
+                    <Icon type="ios-star" size="24" v-if="collectByUser" style="color: gold"></Icon>
                     <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
                     </a>
                   </VueStar>
@@ -209,7 +210,6 @@
               </div>
             </div>
             <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
-        </div>
     </div>
 
 
@@ -227,7 +227,7 @@
                 <div id="name-time-die" @click="clickUser()" style="float:left;">
                     <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
                         <p class="user-name">{{item.userName}}</p>
-                        <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                        <p class="time">{{item.message_create_time}}<Icon type="ios-flame" size="18" style="color: #ff9900"></Icon>{{item.message_heat}}</p>
                     </router-link>
                 </div>
               <div id="follow-mes-butt-div" style="float: right;">
@@ -246,7 +246,7 @@
             <div class="collection-div" @click="doCollect()">
               <VueStar animate="animated rubberBand" color="#F05654">
                 <a slot="icon">
-                  <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px;color: #ff9900"></Icon>
+                  <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px;color: gold"></Icon>
                   <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
                 </a>
               </VueStar>

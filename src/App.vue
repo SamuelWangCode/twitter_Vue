@@ -25,7 +25,7 @@
             Explore
           </MenuItem>
           <Input v-model = "model13" @keyup.enter.native="handleSearch" placeholder="search in twitter" style="width: 300px;"></Input><Button shape="circle" @click="handleSearch" icon="ios-search" size="small" style="border:0"></Button>
-          <Button shape="circle" type="error" style="margin-left:20px;" @click = "signOut">log out</Button>
+          <Button shape="circle" type="error" style="margin-left:20px;" @click = "signOut">Log out</Button>
         </Menu>
       </nav>
     </section>

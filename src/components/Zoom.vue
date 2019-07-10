@@ -4,7 +4,7 @@
   height: 100%;
   width: 100%;
   overflow: scroll;
-  
+  background-color: rgb(230, 236, 240);
 }
 #background-top-container {
   height: 320px;
@@ -56,15 +56,12 @@
   background-color: white;
 }
 #middle-container {
-  float: left;
-
   width: 100%;
   background-color: rgb(230, 236, 240);
 }
 
 #middle-left-container {
   float: left;
-  height: 80px;
   width: 30%;
   background-color: white;
 }
@@ -79,15 +76,16 @@
 
 #selfIntroduction-container {
   font-size: 15px;
-  margin-top: 10px;
   background-color: rgb(230, 236, 240);
 }
 
 #introduction {
-  height: 200px;
   margin-top: 20px;
   margin-left: 30px;
   margin-right: 30px;
+  display:block;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 #middle-middle-container {
@@ -99,6 +97,7 @@
 
 #display-container {
   margin-top: 0px;
+  z-index: 100;
 }
 
 #middle-right-container {
@@ -108,8 +107,9 @@
 }
 
 #middle-right-top-container {
-  height: 80px;
+  height: 81px;
   background-color: white;
+  border-bottom:1px solid #000;
 }
 
 #follow-button-container {
@@ -216,15 +216,6 @@
   transition: margin-left;
 }
 
-#content-container {
-  height: 100%;
-  float: left;
-  margin-left: 20px;
-  background-color: darkred;
-}
-
-.infor-avatar {
-}
 
 .follow-button-style {
   height: 45px;
@@ -234,7 +225,7 @@
 }
 .center-fix{
 	position: fixed;/*固定位置*/
-	z-index:99;/*设置优先级显示，保证不会被覆盖*/	
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/
   margin:auto;
 left:0;
 right:0;
@@ -267,10 +258,9 @@ bottom:0;
 
     <div id="middle-container">
       <div id="middle-left-container">
-        <div>
+        <div id="decoration" style="height: 80px;background-color: white;border-bottom:1px solid #000"></div>
           <div id="selfIntroduction-container">
             <div id="introduction-container">
-              <div id="decoration" style="height: 70px;background-color: white;padding-top: 0px"></div>
               <div id="nickname-container">
                 {{nickname}}
                 <img :src="confirm_url" style="height: 20px" />
@@ -279,7 +269,6 @@ bottom:0;
             </div>
             <div id="introduction">{{selfIntroduction}}</div>
           </div>
-        </div>
       </div>
 
       <div id="middle-middle-container">
@@ -561,7 +550,7 @@ export default {
       }
       if (this.$refs.twe1) {
         this.$refs.twe1.change_follow2(val, this.visitor);
-        
+
       }
       if(this.$refs.twe2){
         this.$refs.twe2.change_follow2(val, this.visitor);
@@ -588,7 +577,7 @@ export default {
     isFollowing(val) {
       if (this.$refs.twe1) {
         this.$refs.twe1.change_follow2(val, this.visitor);
-        
+
       }
       if(this.$refs.twe2){
         this.$refs.twe2.change_follow2(val, this.visitor);
