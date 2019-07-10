@@ -414,6 +414,10 @@ Vue.prototype.queryAtMe = function(startFrom, limitation){
   }
   return post(AT + "query", data);
 }
+Vue.prototype.queryUnreadAt=function(){
+  console.log("Atljklk")
+  return get(AT+"queryUnreadAt");
+}
 
 //////////////////////////////////////////////////////
 //评论
