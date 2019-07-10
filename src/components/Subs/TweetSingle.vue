@@ -127,15 +127,19 @@
 <template>
 <div>
     <div v-if="messageIsShared">
-        <div class="twi-left">
+        <div @click="clickUser()" class="twi-left">
+            <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
             <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="item.userAvt"></Avatar>
+            </router-link>
         </div>
 
         <div class="twi-right">
             <div class="twi-right-top-div">
-                <div style="float:left;width:50%;">
+                <div @click="clickUser()" style="float:left;width:50%;">
+                    <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
                     <p class="user-name">{{item.userName}}</p>
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                    </router-link>
                 </div>
                 <div class="follow-button-div">
                     <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="margin-left: 200px;margin-bottom: 5px"></FollowButton>
@@ -149,14 +153,18 @@
         </div>
 
         <div class="shared-twi-div">
-            <div style="float:left;width:8%;margin-left:6%">
+            <div @click="clickUser()" style="float:left;width:8%;margin-left:6%">
+                <router-link :to="{ path: '/Zoom', query: { visitor_id: item.rawItem.message_sender_user_id }}">
                 <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="rawItemUserAvt"></Avatar>
+                </router-link>
             </div>
 
             <div style="float:left;width:70%;margin-left:2%;margin-right:6%">
-                <div>
+                <div @click="clickUser()">
+                    <router-link :to="{ path: '/Zoom', query: { visitor_id: item.rawItem.message_sender_user_id }}">
                     <p style="text-size:30px;">{{rawItemUserName}}</p>
                     <p style="text-size:24px;">{{item.rawItem.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                    </router-link>
                 </div>
                 <div class="twi-text-block">
                     <twitextblock class="twi-text" v-bind:fullText="item.rawItem.message_content" :ats="item.rawItem.message_ats" :topics="item.rawItem.message_topics"></twitextblock>
@@ -208,15 +216,19 @@
 
 
     <div v-else>
-        <div class="twi-left">
+        <div @click="clickUser()" class="twi-left">
+            <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
             <Avatar  size=large v-bind:src="item.userAvt"></Avatar>
+            </router-link>
         </div>
 
         <div class="twi-right">
             <div class="twi-right-top-div">
-                <div style="float:left;width:50%;">
-                    <p class="user-name">{{item.userName}}</p>
-                    <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                <div @click="clickUser()" style="float:left;width:50%;">
+                    <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
+                        <p class="user-name">{{item.userName}}</p>
+                        <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                    </router-link>
                 </div>
                 <div class="follow-button-div">
                     <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)"></FollowButton>
@@ -262,7 +274,7 @@
             <div class="likes-div" @click="doLike()">
               <VueStar animate="animated rubberBand" color="#F05654">
                 <a slot="icon">
-                <Icon type="ios-heart" size="24" v-if="likeByUser"style="color: #ed4014"></Icon>
+                <Icon type="ios-heart" size="24" v-if="likeByUser" style="color: #ed4014"></Icon>
                 <Icon type="ios-heart-outline" size="24" v-else ></Icon>
                 <span>{{item.message_like_num}}</span>
                 </a>
@@ -471,6 +483,12 @@ export default {
         },
         set_follow_status(status){
             this.followByUser=status;
+        },
+        clickUser(user_id){
+            this.$router.push({
+                path: "/Zoom", 
+                query:{visitor_id: user_id}
+            })
         }
     },
     created(){

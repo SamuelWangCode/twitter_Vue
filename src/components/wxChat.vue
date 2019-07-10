@@ -293,10 +293,6 @@
                 type: String,
             },
 
-            getUpperData: {
-                type: Function,
-                required: true
-            },
 
             getUnderData: {
                 type: Function,
@@ -314,7 +310,7 @@
                 isRefreshedAll: false,
                 isLoadedAll: false,
                 
-                minHeight: 700,
+                minHeight: 2,
                 dataArray: []
             }
         },
@@ -325,15 +321,50 @@
         },
         mounted(){
             //document.getElementsByTagName('body')[0].scrollTop=0;
-            this.minHeight = document.getElementById('window-view-container').offsetHeight;
+            this.minHeight = 300;
             this.maxHeight = document.getElementById('window-view-container').offsetHeight;
         },
 
         methods: {
             initData(){
-                this.dataArray = this.dataArray.concat(this.data);
+                var _this = this;
+                this.querySpecified(_this.contact_user_id, 1, 10).then(response=>{
+                    console.log("獲取聊天數據，", response);
+                    var chatData = []
+                    var originalData = response.data.data;
+                    for(let i = 0; i < originalData.length; i++){
+                        chatData.push({
+                        direction: originalData[i].sender_user_id == _this.my_user_id ? 2 : 1,
+                        id: originalData[i].private_letter_id,
+                        type: 1,
+                        content: originalData[i].private_letter_content,
+                        ctime: originalData[i].timeStamp
+                    })
+                    }
+                    _this.dataArray = chatData;
+                });
             },
-
+            getUpperData(){
+                var _this = this;
+                return this.querySpecified(_this.contact_user_id, _this.dataArray.length + 1, 10).then(response=>{
+                    console.log("獲取聊天數據，", response);
+                    var chatData = []
+                    var originalData = response.data.data;
+                    for(let i = 0; i < originalData.length; i++){
+                        chatData.push({
+                        direction: originalData[i].sender_user_id == _this.my_user_id ? 1 : 2,
+                        id: originalData[i].private_letter_id,
+                        type: 1,
+                        content: originalData[i].private_letter_content,
+                        ctime: originalData[i].timeStamp
+                    })
+                    }
+                    return new Promise(function(resolve){
+                        return resolve(chatData);
+                    });
+                });
+                
+            },
             //向上拉刷新
             refresh(done) {
                 var me = this;
@@ -396,9 +427,12 @@
             },
             Send(){
                 var send_content = this.editor_content;
+                if(send_content == ""){
+                    return;
+                }
                 var contact_user_id = this.contact_user_id;
                 this.dataArray.push({
-                    direction: 1,
+                    direction: 2,
                     id: this.dataArray[this.dataArray.length-1].id + 1,
                     type: 1,
                     content: send_content,

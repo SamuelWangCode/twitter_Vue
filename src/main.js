@@ -291,6 +291,24 @@ Vue.prototype.deletePrivateLetter = function (private_letter_id){
   }
   return get(PRIVATE_LETTER + "delete/" + private_letter_id);
 }
+///api/PrivateLetter/queryLatestContact(startForm, limitation)
+Vue.prototype.queryLatestContact = function(startFrom, limitation){
+  var data = {
+    startFrom: startFrom,
+    limitation: limitation
+  }
+  return post(PRIVATE_LETTER + "queryLatestContact", data);
+}
+///api/PrivateLetter/querySpecified
+Vue.prototype.querySpecified = function(contact_id, startFrom, limitation){
+  var data = {
+    startFrom: startFrom,
+    limitation: limitation
+  }
+  return post(PRIVATE_LETTER + "querySpecified/" + contact_id, data);
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 //MESSAGE推特
 var MESSAGE = "api/Message/";

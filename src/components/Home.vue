@@ -143,7 +143,7 @@ ul li{
         <center>
         <loadingAnimate v-if="sendingTwitter" class="center-fix"/>
         </center>
-        <loadingAnimate v-if="loading" style="margin-left:auto;margin-right:auto;margin-top:48px;"/>
+        
 
     <Trends></Trends>
 
@@ -417,15 +417,16 @@ ul li{
         formData.append("file"+i, this.uploadList[i]);
       }
       this.sendMessage(formData).then(response=>{
-        setTimeout(()=>{this.sendingTwitter = false;}, 2000);
         //this.sendingTwitter = false;
         console.log(response);
         if(response.data.message == "success"){
           this.editor_content = "";
           this.uploadList = [];
         }
+        this.sendingTwitter = false;
+        this.$router.go(0)
       })
-      this.$router.go(0)
+      
     },
 
     captureImage() {

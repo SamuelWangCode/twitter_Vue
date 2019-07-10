@@ -54,7 +54,6 @@ ul li {
       :data="wxChatData"
       :showShade="true"
       contactNickname="聊天"
-      :getUpperData="getUpperData"
       :getUnderData="getUnderData"
       :ownerAvatarUrl="ownerAvatarUrl"
       :maxHeight=400
@@ -71,12 +70,12 @@ ul li {
       <el-header class="header-left-align">Message</el-header>
       <Divider />
       <ul>
-        <ElContainer id="chat-container"  v-for="contact in contactList"  :key="contact.private_letter_id">
+        <ElContainer id="chat-container"  v-for="contact in contactList"  :key="contact.contact_person_id">
           <el-container>
             <div style="margin-left: 10px">
               <a>
                 <Avatar
-                  :src="contact.sender_info.avatar_url"
+                  :src="contact.contact_person_avator_url"
                   style="margin-top: 10px;margin-left: 15px;margin-bottom: 1px;"
                   size="large"
                 ></Avatar>
@@ -85,11 +84,9 @@ ul li {
             <div>
               <div id="chat-content">
               <p style="font-size: 20px;">
-              <a style="color: black">{{contact.sender_info.nickname}}</a>
+              <a style="color: black">{{contact.contact_nickname}}</a>
               </p>
-                <p style=" margin-top:2px;font-size: 15px">
-              {{contact.private_letter_content}}
-                </p>
+              <p> {{contact.contact_time}} </p>
               </div>
             </div>
             <div style="position: fixed;left: 1100px;margin-top: 10px">
@@ -175,10 +172,10 @@ export default {
     })
   },
   mounted(){
-    this.queryForMe(1, 10).then(response=>{
+    this.queryLatestContact(1, 10).then(response=>{
       console.log(response);
       this.contactList = response.data.data;
-    });
+    })
   },
   methods: {
     getCookies(a){
@@ -213,21 +210,23 @@ export default {
       } 
     },
     startChat(contact){
-      this.visible = true;
-      this.contactAvatarUrl = contact.sender_info.avatar_url;
+      this.contactAvatarUrl = contact.contact_person_avator_url;
       this.ownerAvatarUrl = this.my_user_info.avatar_url;
-      this.contactNickname = contact.sender_info.nickname;
       this.chating_my_user_id = this.my_user_info.user_id;
-      this.chating_contact_user_id = contact.sender_info.user_id,
-      this.wxChatData; //TODO 獲取數據
+      this.chating_contact_user_id = contact.contact_person_id;
+      //TODO 獲取數據
+
+      this.visible = true;
+
       //console.log(this.$refs.subChat);
       //this.wxChatData = this.$refs.subChat.data;
     },
-    getUpperData(){
-
-    },
     getUnderData(){
-
+      return new Promise(function(resolve){
+        setTimeout(function(){
+            return resolve([]);
+        }, 0)
+      });
     },
     closeChat(){
       this.visible = false;
