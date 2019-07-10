@@ -169,7 +169,7 @@
                 <div class="collection-div" @click="doCollect()">
                   <VueStar animate="animated rubberBand" color="#19be6b">
                     <a slot="icon">
-                    <Icon type="ios-star" size="24" v-if="collectByUser" style="color=#19be6b"></Icon>
+                    <Icon type="ios-star" size="24" v-if="collectByUser" style="color: #ff9900"></Icon>
                     <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
                     </a>
                   </VueStar>
@@ -235,7 +235,7 @@
             <div class="collection-div" @click="doCollect()">
               <VueStar animate="animated rubberBand" color="#F05654">
                 <a slot="icon">
-                  <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px"></Icon>
+                  <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px;color: #ff9900"></Icon>
                   <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
                 </a>
               </VueStar>
