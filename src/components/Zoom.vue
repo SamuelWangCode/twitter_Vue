@@ -67,7 +67,7 @@
 }
 #middle-container {
   float: left;
-  height: 100%;
+
   width: 100%;
   background-color: rgb(230, 236, 240);
 }
