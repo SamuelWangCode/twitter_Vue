@@ -41,6 +41,15 @@ ul li {
   font-size: 15px;
   width:400px;
 }
+.center-fix{
+	position: fixed;/*固定位置*/
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/	
+  margin:auto;
+left:0;
+right:0;
+top:0;
+bottom:0;
+}
 </style>
 
 <template>
@@ -66,6 +75,7 @@ ul li {
     
 
 
+    <loadingAnimate v-if="loading" class="center-fix"/>
     <ElContainer id="middle-container">
       <el-header class="header-left-align">Message</el-header>
       <Divider />
@@ -104,11 +114,14 @@ ul li {
         </ElContainer>
       </ul>
     </ElContainer>
+    <backToTop></backToTop>
   </div>
 
 </template>
 <script>
 import wxChat from "./wxChat"
+import loadingAnimate from "./animate/loading"
+import backToTop from "./Subs/BackToTop"
 export default {
   name: "Message",
   data() {
@@ -125,6 +138,7 @@ export default {
       contactNickname: "",
       chating_my_user_id: 0,
       chating_contact_user_id: 0,
+      loading:false,
       wxChatData: [{
         direction: 2,
         id: 1,
@@ -163,13 +177,14 @@ export default {
     };
   },
   components:{
-    wxChat
+    wxChat,loadingAnimate,backToTop
   },
   created(){
     var _this = this;
     this.getUserPublicInfo(this.getCookies("userID")).then(response=>{
       _this.my_user_info = response.data.data;
     })
+
   },
   mounted(){
     this.queryLatestContact(1, 10).then(response=>{

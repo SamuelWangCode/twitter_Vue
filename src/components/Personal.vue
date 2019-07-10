@@ -24,7 +24,15 @@
   size: 20px;
   border-radius: 100px;
 }
-
+.center-fix{
+	position: fixed;/*固定位置*/
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/	
+  margin:auto;
+left:0;
+right:0;
+top:0;
+bottom:0;
+}
 /* -------------------------------------------------------------------------------- */
 .demo-upload-list {
   display: inline-block;
@@ -66,7 +74,8 @@
 </style>
 
 <template>
-  <div id="root-div">
+  <div id="root-div"><div id="topAnchor"></div>
+  <loadingAnimate v-if="loading" class="center-fix"/>
     <ElContainer id="middle-container">
       <el-header class="header-left-align">Edit Profile</el-header>
       <div class="el-header" style="border-bottom: 1px solid #e6ecf0;width: 100%">
@@ -205,14 +214,20 @@
         </Tabs>
       </div>
     </ElContainer>
+    <backToTop></backToTop>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import backToTop from "./Subs/BackToTop"
+import loadingAnimate from "./animate/loading"
 axios.defaults.withCredentials = true;
 export default {
   name: "Personal",
+  components:{
+    backToTop,loadingAnimate
+  },
   data() {
     const validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -252,6 +267,7 @@ export default {
       }, 1000);
     };
     return {
+      loading:false,
       uploadList: [],
       visible: false,
       img_preview: "",

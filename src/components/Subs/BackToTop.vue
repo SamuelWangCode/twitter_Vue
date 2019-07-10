@@ -1,21 +1,22 @@
 <template>
-    <a href="#topAnchor"><Button shape="circle" size="large" icon="ios-arrow-up" class="backTop" @click="buttonTapped"></Button></a>
+<div>
+  <Anchor class="backTop" container="#root-div">
+        <AnchorLink style="color:#AEEEEE" href="#topAnchor" title="<(￣︶￣)↗[GO!]"></AnchorLink>
+    </Anchor>
+</div>
 </template>
 <script>
-    export default {
-        name:"backToTop",
-        methods:{
-            buttonTapped(){
-                scrollTo(0,0);
-            }
-        }
-    }
+export default {
+  name: "backToTop"
+};
 </script>
+
 <style>
-.backTop{
-    color:"#1DA1F2";
-    position: fixed;
-    right: 70px;
-    bottom:80px;
+.backTop {
+  position: fixed;
+  right: 70px;
+  bottom: 80px;
+  font-size: 16px;
+  /* font-weight: bold; */
 }
 </style>
