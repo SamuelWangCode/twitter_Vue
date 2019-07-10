@@ -43,7 +43,7 @@
     </div>
     <div v-if="ableShowMore" class="load-more" @click="loadMore()">Load More...<spin v-if="spinShow"><Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
                 <div>Loading</div></spin></div>
-    <div v-else class="no-more">已无更多内容</div>
+    <div v-else class="no-more">No More</div>
   </div>
 </template>
 
