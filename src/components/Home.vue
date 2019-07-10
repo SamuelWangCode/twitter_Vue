@@ -139,10 +139,7 @@ ul li{
 </style>
 
 <template >
-  <div id='root-div'>
-
-  
-
+  <div id='root-div'><div id="topAnchor"></div>
         <center>
         <loadingAnimate v-if="sendingTwitter" class="center-fix"/>
         </center>
@@ -233,6 +230,7 @@ ul li{
      </ElContainer>
     </div>
         <whoToFollows></whoToFollows>
+        <backTop></backTop>
   </div>
 </template>
 <script>
@@ -242,6 +240,7 @@ ul li{
   import Tweets from "./Subs/Tweets"
   import Trends from "./Subs/Trends"
   import whoToFollows from "./Subs/whoToFollows"
+  import backTop from "./Subs/BackToTop"
   export default {
     name:'Home',
     
@@ -272,7 +271,8 @@ ul li{
     components:{
       loadingAnimate,
       "tweets":Tweets,
-      Trends,whoToFollows
+      Trends,whoToFollows,
+      backTop
     },
     mounted() {
     var _this = this;
