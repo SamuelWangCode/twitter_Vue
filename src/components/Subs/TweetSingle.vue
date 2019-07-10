@@ -57,10 +57,10 @@
 }
 .img-handler {
   margin-bottom: 20px;
-  height:auto;
 }
 
 .buttom-buttons {
+  height: 100px;
   display: inline-block;
   background-color: white;
   width: 100%;
@@ -68,7 +68,7 @@
 .collection-div {
   float: left;
   width: 20%;
-  height: 40px;
+  height: 60px;
   /*margin-bottom: 20px;*/
   text-align: center;
   margin-left: 60px;
@@ -78,7 +78,7 @@
 }
 .comment-div {
   float: left;
-  height: 40px;
+  height: 60px;
   width: 20%;
   /*padding-left:50%;*/
   text-align: center;
@@ -93,7 +93,7 @@
 .likes-div {
   float: left;
   width: 20%;
-  height: 40px;
+  height: 60px;
   text-align: center;
 }
 .likes-div {
@@ -102,7 +102,7 @@
 .share-div {
   float: left;
   width: 20%;
-  height: 40px;
+  height: 60px;
   text-align: center;
 }
 
@@ -118,7 +118,7 @@
 
 
 <template>
-  <div v-if="isFinish">
+  <div>
     <div v-if="messageIsShared">
       <div class="twi-left">
         <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="item.userAvt"></Avatar>
@@ -336,7 +336,6 @@ export default {
   },
   data() {
     return {
-      user: -1,
       showMenu: false,
       ifShowComment: false,
       comments: [],
@@ -346,15 +345,10 @@ export default {
       commentsNum: 0,
       commented: false,
       messageIsShared: false,
-      isFinish: false,    
+
       rawItemUserAvt: "",
       rawItemUserName: ""
     };
-  },
-  computed:{
-    handlerHeight:function(){
-      return 0;
-    }
   },
   methods: {
     //辅助函数，判断是不是这个浏览器cookies里用户的推特
@@ -514,55 +508,52 @@ export default {
     }
   },
   created() {
-    this.user=this.getCookies("userID")
-    console.log(this.user);
     this.collectByUser = this.item.collectByUser;
     this.likeByUser = this.item.likeByUser;
     this.followByUser = this.item.followByUser;
     this.commentsNum = this.item.message_comment_num;
     //求证是否点赞收藏关注
-    var p1 = this.checkUserLikesMessage(
+    this.checkUserLikesMessage(
       this.getCookies("userID"),
       this.item.message_id
-    );
-    var p2 = this.checkUserCollectMessage(
-      this.getCookies("userID"),
-      this.item.message_id
-    );
-    var p3 = this.if_following_by_me(this.item.message_sender_user_id);
-    Promise.all([p1, p2, p3]).then(values => {
-      this.likeByUser = values[0].data.data.like;
-      this.collectByUser = values[1].data.data.favor;
-      this.followByUser = values[2].data.data.if_following;
-      //如果是转发的就取原推特条
-      if (this.item.message_transpond_message_id > 0) {
-        this.queryMessage(this.item.message_transpond_message_id).then(
-          Response => {
-            if (Response.data.message == "success") {
-              this.item.rawItem = Response.data.data;
-              this.messageIsShared = true;
-              this.getUserPublicInfo(
-                this.item.rawItem.message_sender_user_id
-              ).then(Response => {
-                this.rawItemUserName = Response.data.data.nickname;
-                this.rawItemUserAvt = Response.data.data.avatar_url;
-                //console.log("转发的推特",this.item.rawItem);
-              });
-            } else {
-              alert("请求被转发推特失败");
-            }
-            this.isFinish=true;
-          }
-        );
-      }else{
-          this.isFinish=true;
-      }
+    ).then(Response => {
+      this.likeByUser = Response.data.data.like;
     });
+    this.checkUserCollectMessage(
+      this.getCookies("userID"),
+      this.item.message_id
+    ).then(Response => {
+      this.collectByUser = Response.data.data.favor;
+    });
+    this.if_following_by_me(this.item.message_sender_user_id).then(Response => {
+      this.followByUser = Response.data.data.if_following;
+    });
+
+    //如果是转发的就取原推特条
+    if (this.item.message_transpond_message_id > 0) {
+      this.queryMessage(this.item.message_transpond_message_id).then(
+        Response => {
+          if (Response.data.message == "success") {
+            this.item.rawItem = Response.data.data;
+            this.messageIsShared = true;
+            this.getUserPublicInfo(
+              this.item.rawItem.message_sender_user_id
+            ).then(Response => {
+              this.rawItemUserName = Response.data.data.nickname;
+              this.rawItemUserAvt = Response.data.data.avatar_url;
+              //console.log("转发的推特",this.item.rawItem);
+            });
+          } else {
+            alert("请求被转发推特失败");
+          }
+        }
+      );
+    }
   },
   computed: {
     Message_heat: function() {
       return this.item.message_heat * 65335 + Math.floor(Math.random() * 100);
-    },
+    }
   },
   watch: {
     followByUser(nval, oval) {
@@ -571,6 +562,7 @@ export default {
     isFollowing: {
       deep: true,
       handler(nval) {
+        console.log("fafasf");
         this.followByUser = nval;
       }
     }
