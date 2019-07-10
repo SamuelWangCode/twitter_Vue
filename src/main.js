@@ -404,10 +404,10 @@ Vue.prototype.queryAtMe = function(startFrom, limitation){
 //评论
 var COMMENT="api/Comment/";
 Vue.prototype.queryComment=function(id,data){
-  return post(COMMENT+'queryComments/'+id,data);
+  return post(COMMENT+'queryComments/'+id, data);
 }
 Vue.prototype.addComment=function(id,data){
-  return post(COMMENT+'add/'+id,data);
+  return post(COMMENT+'add/'+id, data);
 }
 
 
