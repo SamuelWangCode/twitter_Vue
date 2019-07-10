@@ -240,7 +240,7 @@ export default {
       var k=JSON.parse(JSON.stringify(this.isFollowing));
       k[item.message_sender_user_id]=event;
       this.isFollowing=k;
-      this.$emit('change_following',event)
+      this.$emit('change_following',event,this.message_sender_user_id)
     },
     change_follow2(val,id){
       if(this.isFollowing[id]!=val){

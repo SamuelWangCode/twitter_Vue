@@ -304,7 +304,7 @@
           <div v-if="navStatus.tweetsShow" id="tweets-container">
             <tweets
               :ref="'twe1'"
-              v-on:change_following="change_follow($event)"
+              v-on:change_following="change_follow(arguments)"
               type="userhome"
               v-bind:info="visitor"
             ></tweets>
@@ -313,14 +313,22 @@
           <!--display following-->
           <div v-show="navStatus.followingShow" id="following-container">
             <div v-for="user in followingList" v-bind:key="user.user_id">
-              <userForZoom v-bind:p_user_id="user.user_id"></userForZoom>
+              <userForZoom
+                v-bind:p_user_id="user.user_id"
+                :ref="'following'+user.user_id"
+                @change_my_follow="change_my_follow(arguments,user)"
+              ></userForZoom>
             </div>
           </div>
 
           <!--display followers-->
           <div v-show="navStatus.followersShow" id="followers-container">
             <div v-for="user in followersList" v-bind:key="user.user_id">
-              <userForZoom v-bind:p_user_id="user.user_id"></userForZoom>
+              <userForZoom
+                v-bind:p_user_id="user.user_id"
+                :ref="'follower'+user.user_id"
+                @change_my_follow="change_my_follow(arguments,user)"
+              ></userForZoom>
             </div>
           </div>
 
@@ -328,7 +336,7 @@
           <div v-show="navStatus.collectionsShow" id="collections">
             <tweets
               :ref="'twe2'"
-              v-on:change_following="change_follow($event)"
+              v-on:change_following="change_follow(arguments)"
               type="collection"
               v-bind:info="user"
             ></tweets>
@@ -438,10 +446,6 @@ export default {
         _this.followersList = res[2].data.data;
         console.log("这个人的followersList", _this.followersList);
       });
-
-      this.getUserPublicInfo(this.user).then(response => {
-        this.my_info = response.data.data;
-      });
     } catch (e) {
       return {
         result: false,
@@ -498,14 +502,37 @@ export default {
       console.log(this.navStatus.collectionsShow);
     },
     change_follow(event) {
-      console.log("afasa");
-      if ((this.isFollowing != event)) {
-        this.isFollowing = event;
-        if (event) {
+      console.log("change_follow");
+      if (this.isFollowing != event[0] && this.visitor==event[1]) {
+        this.isFollowing = event[0];
+        if (event[0]) {
           this.followerCount++;
         } else {
           this.followerCount--;
         }
+      }
+    },
+    change_my_follow(event, user) {
+      for (var i = 0; i < this.followingList.length; ++i) {
+        if (this.followingList[i].user_id == user.user_id) {
+          this.$refs["following" + user.user_id][0].change_follow(event[0]);
+          break;
+        }
+      }
+      for (var i = 0; i < this.followersList.length; ++i) {
+        if (this.followersList[i].user_id == user.user_id) {
+          this.$refs["follower" + user.user_id][0].change_follow(event[0]);
+          break;
+        }
+      }
+      if (this.$refs.twe1) {
+        this.$refs.twe1.change_follow2(val, this.visitor);
+        
+      }
+      if(this.$refs.twe2){
+        this.$refs.twe2.change_follow2(val, this.visitor);
+      }
+      if (this.visitor == this.getCookie("userID")) {
       }
     }
   },
@@ -514,6 +541,9 @@ export default {
     isFollowing(val) {
       if (this.$refs.twe1) {
         this.$refs.twe1.change_follow2(val, this.visitor);
+        
+      }
+      if(this.$refs.twe2){
         this.$refs.twe2.change_follow2(val, this.visitor);
       }
       var k = [];
