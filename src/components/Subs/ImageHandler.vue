@@ -49,50 +49,34 @@ div{
     overflow: hidden;
 }
 .img3-1-div {
-  height: 100%;
-  width: 67%;
   overflow: hidden;
   float: left;
 }
 .img3-1 {
-  width: 100%;
-  height: 100%;
 }
 .img3-23-div {
-  height: 50%;
-  width: 33%;
   overflow: hidden;
-  float: left;
+  float: right;
 }
 .img3-23 {
-  height: 100%;
-  width: 100%;
 }
 
 .img-div-for4{
-    width: 100%;
-    height: 100%;
     overflow: hidden;
 }
 .img4-1-div {
-  height: 100%;
-  width: 75%;
   overflow: hidden;
   float: left;
 }
 .img4-1 {
-  width: 100%;
-  height: 99%;
+
 }
 .img4-234-div {
-  height: 33%;
-  width: 25%;
   overflow: hidden;
-  float: left;
+  float: right;
 }
 .img4-234 {
-  height: 100%;
-  width: 100%;
+  float: left;
 }
 .cover {
   position: absolute;
@@ -122,24 +106,20 @@ div{
       />
     </Modal>
     
-    <div class="img-handler-div" ref="wholediv" v-bind:style="{height:handlerHeight}" >
-
-        <div class="twi-img" v-if="imgNum==1">
-        <div class="img1-1-div">
+    <div class="img-handler-div" ref="wholediv" v-bind:style="{height:handlerHeight + 'px'}" >
+        <div class="img1-1-div" v-if="imgNum==1" v-bind:style="{height:sizeH[0],width:sizeW[0]}">
           <img
             class="img1-1"
             v-if='imgData[0].split(".")[1] ==  "jpg" '
+            v-bind:style="{height:sizeH[0],width:sizeW[0]}"
             v-bind:src="imgData[0]"
             @click="doShowBigImg(0)"
             alt="1-1"
           />
           <video class="img1-1" v-else v-bind:src="imgData[0]" @click="doShowBigImg(0)" alt="1-1" />
         </div>
-      </div>
 
-
-    <div class="twi-img" v-else-if="imgNum==2">
-        <div class="img-div-for2">
+        <div v-else-if="imgNum==2" v-bind:style="{height:handlerHeight}" class="img-div-for2">
             <div class="img2-12-div">
             <img
               class="img2-1"
@@ -151,7 +131,6 @@ div{
             />
             <video
               class="img2-1"
-              v-bind:style="{height:sizeH[1],width:sizeW[1]}" ref="img2"
               v-else
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
@@ -162,6 +141,7 @@ div{
             <img
               class="img2-2"
               v-if='imgData[1].split(".")[1] ==  "jpg" '
+              v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img2"
               v-bind:src="imgData[1]"
               @click="doShowBigImg(1)"
               alt="2-2"
@@ -175,13 +155,12 @@ div{
             />
           </div>
         </div>
-      </div>
 
-      <div class="twi-img" v-else-if="imgData.length==3">
-        <div class="img-div-for3">
+        <div class="img-div-for3" v-else-if="imgNum==3" v-bind:style="{height:handlerHeight}">
           <div class="img3-1-div">
             <img
               class="img3-1"
+              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-if='imgData[0].split(".")[1] ==  "jpg" '
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
@@ -228,15 +207,14 @@ div{
             />
           </div>
         </div>
-      </div>
 
 
-      <div class="twi-img" v-else-if="imgNum==4">
-        <div class="img-div-for4">
-          <div class="img4-1-div">
+      <div class="img-div-for4" v-else-if="imgNum==4" v-bind:style="{height:handlerHeight+'px'}">
+          <div class="img4-1-div" v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}">
             <img
               class="img4-1"
               v-if='imgData[0].split(".")[1] ==  "jpg" '
+              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
               alt="4-1"
@@ -249,10 +227,11 @@ div{
               alt="4-1"
             />
           </div>
-          <div class="img4-234-div">
+          <div class="img4-234-div" v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}">
             <img
               class="img4-234"
               v-if='imgData[1].split(".")[1] ==  "jpg" '
+              v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img2"
               v-bind:src="imgData[1]"
               @click="doShowBigImg(1)"
               alt="4-2"
@@ -265,10 +244,11 @@ div{
               alt="4-1"
             />
           </div>
-          <div class="img4-234-div">
+          <div class="img4-234-div" v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}">
             <img
               class="img4-234"
               v-if='imgData[2].split(".")[1] ==  "jpg" '
+              v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}" ref="img3"
               v-bind:src="imgData[2]"
               @click="doShowBigImg(2)"
               alt="4-3"
@@ -281,10 +261,11 @@ div{
               alt="4-3"
             />
           </div>
-          <div class="img4-234-div">
+          <div class="img4-234-div" v-bind:style="{height:sizeH[3]+'px',width:sizeW[3]+'px'}">
             <img
               class="img4-234"
               v-if='imgData[3].split(".")[1] ==  "jpg" '
+              v-bind:style="{height:sizeH[3]+'px',width:sizeW[3]+'px'}" ref="img4"
               v-bind:src="imgData[3]"
               @click="doShowBigImg(3)"
               alt="4-4"
@@ -297,7 +278,6 @@ div{
               alt="4-4"
             />
           </div>
-        </div>
       </div>
     </div>
   </div>
@@ -324,8 +304,8 @@ export default {
       //开始时就计算出小图的长和宽，第一张图片的长和宽分别保存在
       sizeW: [],
       sizeH: [],
-      handlerWidth:"0px",
-      handlerHeight:"0px",
+      handlerWidth:0,
+      handlerHeight:0,
       imgNum:0,
     };
   },
@@ -364,6 +344,8 @@ export default {
                 this.sizeH[2]= this.handlerHeight*0.33;
                 this.sizeH[3]= this.handlerHeight*0.33;
             }
+            console.log("hhhhhhhhhh",this.sizeH);
+            console.log("mmmmmmmm",this.sizeW);
         }
     },
     mounted(){
@@ -371,26 +353,26 @@ export default {
                 this.imgNum=this.imgData.length;
                 this.handlerWidth=this.$refs.wholediv.offsetWidth;
                 if (this.imgData.length==1){
-                    this.handlerHeight=this.handlerWidth+"px";
+                    this.handlerHeight=this.handlerWidth;
                 }
                 if (this.imgData.length==2) {
-                    this.handlerHeight=0.5*this.handlerWidth+"px";
+                    this.handlerHeight=0.5*this.handlerWidth;
                 }
                 if (this.imgData.length==3) {
-                    this.handlerHeight=0.67*this.handlerWidth+"px";
+                    this.handlerHeight=0.67*this.handlerWidth;
                 }
                 if (this.imgData.length==4) {
-                    this.handlerHeight=0.75*this.handlerWidth+"px";
+                    this.handlerHeight=0.75*this.handlerWidth;
             }
             console.log("mount里",this.handlerHeight);
         }
     },
     computed: {
-    imgNewData: {
-      get: function() {},
+        imgNewData: {
+        get: function() {},
 
-      set: function(newValue) {}
-    }
+        set: function(newValue) {}
+        }
     },
   
   methods: {
