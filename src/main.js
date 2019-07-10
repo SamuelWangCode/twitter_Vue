@@ -160,6 +160,7 @@ Vue.prototype.queryMessagesContains = function(topic_id, startFrom, limitation){
   if(!checkNumber(topic_id)){
     return null;
   }
+
   var data = {
     startFrom : startFrom,
     limitation : limitation
@@ -168,6 +169,7 @@ Vue.prototype.queryMessagesContains = function(topic_id, startFrom, limitation){
 }
 //queryTopicsBaseOnHeat(startFrom, limitation)
 Vue.prototype.queryTopicsBaseOnHeat = function(startFrom, limitation){
+
   var data = {
     startFrom : startFrom,
     limitation : limitation
@@ -190,6 +192,7 @@ Vue.prototype.queryFollowingFor = function(user_id, startFrom, limitation){
   if(!checkNumber(user_id)){
     return null;
   }
+
   var data = {
     startFrom : startFrom,
     limitation : limitation
@@ -201,6 +204,7 @@ Vue.prototype.queryFollowersFor = function(user_id, startFrom, limitation){
   if(!checkNumber(user_id)){
     return null;
   }
+
   var data = {
     startFrom : startFrom,
     limitation : limitation
@@ -267,6 +271,7 @@ Vue.prototype.checkUserLikesMessage = function (user_id, message_id){
 var PRIVATE_LETTER = "api/PrivateLetter/";
 //queryForMe(startFrom, limitation)
 Vue.prototype.queryForMe = function (startFrom, limitation){
+
   var data = {
     startFrom : startFrom,
     limitation: limitation
@@ -362,8 +367,8 @@ Vue.prototype.addCollection = function(message_id){
 Vue.prototype.deleteCollection = function(message_id){
   return post(COLLECTION + "delete?message_id=" + message_id);
 }
-//queryCollections(user_id, startFrom, limitation)
-//查询收藏列表
+//queryCollections(startFrom, limitation)
+//查询自己的收藏列表
 Vue.prototype.queryCollections = function(user_id, startFrom, limitation){
   var data = {
     startFrom : startFrom,
