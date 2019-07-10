@@ -1,7 +1,7 @@
 <style scoped>
 
 .message-div{
-    width:105%;
+    /* width:105%; */
     height:auto;
     text-align: left;
 }
@@ -84,7 +84,7 @@
         -->
 
 
-    <Button type="primary" class="message-div" shape="circle" @click="doShowPage()"style="font-weight: bold">Message</Button>
+    <Button type="primary" class="message-div" shape="circle" @click="doShowPage()" style="font-weight: bold">Message</Button>
 </div>
 </template>
 
@@ -114,10 +114,17 @@ export default {
             //成功发送了
                 if (Response.data.code==200){
                     //播放动画？
+                    this.$Notice.success({
+              title: 'Send message success!',
+              desc:''
+            })
                     this.closePage();
                 }
                 else{
-                    window.alert("发送失败");
+                    this.$Notice.error({
+              title: 'You should say something.',
+              desc:''
+            })
                 }
             });
         },

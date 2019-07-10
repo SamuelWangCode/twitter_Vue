@@ -1,6 +1,9 @@
 <style scoped>
 .twi-text{
     font-size: 20px;
+    word-break:break-all;
+    width:100%;
+    overflow:auto;
 }
 .normal-text{
 }
@@ -21,10 +24,8 @@
 
 <template>
 <div>
-    <p>
-        <span v-html="htmlText" class="twi-text">        
-            {{htmlText}}
-        </span>
+    <p v-html="htmlText" class="twi-text">
+        {{htmlText}}
     </p>
 </div>
 </template>

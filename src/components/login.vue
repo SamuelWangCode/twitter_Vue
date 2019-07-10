@@ -1,5 +1,6 @@
 <template lang="html">
   <div id="LoginPage">
+    <loadingAnimate v-if="loading" class="center-fix"/>
     <div id="head-div">
       <div id="logo" >
         <Icon type="logo-twitter" size="50" style="color:white;margin-top: 30px;">Twitter</Icon>
@@ -9,7 +10,6 @@
       </div>
     </div>
     <div class="LoginFormContainer">
-      <loadingAnimation v-if="loading"/>
       <div class="Wrapper">
         <div class="LoginText">
           <span>Log in</span>
@@ -51,7 +51,7 @@
 
 <script>
 import axios from 'axios'
-import loadingAnimation from "./animate/loading"
+import loadingAnimate from "./animate/loading"
 //import User from "./store/user"
 axios.defaults.withCredentials = true;
 export default {
@@ -68,7 +68,7 @@ export default {
 
 },
   components:{
-    loadingAnimation
+    loadingAnimate
   },
   methods: {
     async loginEventHandeler () {
@@ -136,7 +136,7 @@ export default {
 <style lang="css" scoped>
 #LoginPage {
   height: calc(100vh - 46px);
-  padding-top: 10px;
+  /* padding-top: 10px; */
   background-color: #e6ecf0;
 }
 #head-div
@@ -247,5 +247,14 @@ export default {
   border-bottom-left-radius: 4px;
   max-width: 840px;
   margin: 0 auto;
+}
+.center-fix{
+	position: fixed;/*固定位置*/
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/
+  margin:auto;
+left:0;
+right:0;
+top:0;
+bottom:0;
 }
 </style>

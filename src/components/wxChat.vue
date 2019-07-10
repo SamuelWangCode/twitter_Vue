@@ -40,7 +40,7 @@
     .mb10{margin-bottom: 10px;}
     .mb20{margin-bottom: 20px;}
     .fs0{font-size: 0}
-    .title{background: #000; text-align: center; color:#fff; width: 100%; height: 50px; line-height: 50px; font-size: 14px;}
+    .title{background: #000; display: flex; flex-direction: row; justify-content: space-between; text-align: center; color:#fff; width: 100%; height: 50px; line-height: 50px; font-size: 14px;}
     .loading,.no-more{text-align: center; color: #b0b0b0; line-height: 100px;}
     .no-more{line-height: 60px;}
     .pull-right{float: right;}
@@ -178,6 +178,10 @@
     .main-contact{
         display: flex;
     }
+
+    .back-button{
+        
+    }
 </style>
 
 <template>
@@ -198,8 +202,10 @@
             </div>
 
             <div class="title" v-if="dataArray && dataArray.length>0">
+                <div style="margin-left: 20px;">
                 {{contactNickname}}
-                <Button type="success" ghost shape="circle" @click="Back()" ><Icon type="ios-arrow-back" />Back</Button>
+                </div>
+                <Button type="success" class="back-button" ghost shape="circle" @click="Back()" ><Icon type="ios-arrow-back" />Back</Button>
             </div>
             <!-- main -->
             <ScrollLoader :minHeight="minHeight" @scroll-to-top="refresh" @scroll-to-botton="infinite" class="container-main" v-if="dataArray && dataArray.length>0" :style="{maxHeight: maxHeight-100 + 'px'}">
