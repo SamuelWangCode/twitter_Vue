@@ -53,9 +53,10 @@
         try{
           console.log("艾特")
             axios.get("http://localhost:12293/api/At/queryUnreadAt").then((response)=>{
-              console.log(response)
-              if(response.code==200&&response.message=="success"){
-                this.mentionedCount=response.data
+              console.log("艾特數量", response)
+              if(response.data.code==200&&response.data.message=="success"){
+                console.log("設置mentionedCount")
+                this.mentionedCount=response.data.data
               }
             })
         }
