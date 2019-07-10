@@ -143,6 +143,8 @@ ul li{
         <center>
         <loadingAnimate v-if="loading" class="center-fix"/>
         </center>
+        
+
     <Trends></Trends>
 
     <div id="middle-container">
@@ -277,6 +279,7 @@ ul li{
     var userID = _this.getCookie("userID")
     console.log("登录：", userID)
     console.log(userID)
+    this.uploadList = this.$refs.upload.fileList;
     this.getUserPublicInfo(userID).then(Response=>{
     console.log(Response)
     if(Response.data.code==200 && Response.data.message=="success")
@@ -414,15 +417,16 @@ ul li{
         formData.append("file"+i, this.uploadList[i]);
       }
       this.sendMessage(formData).then(response=>{
-        setTimeout(()=>{this.sendingTwitter = false;}, 2000);
         //this.sendingTwitter = false;
         console.log(response);
         if(response.data.message == "success"){
           this.editor_content = "";
           this.uploadList = [];
         }
+        this.sendingTwitter = false;
+        this.$router.go(0)
       })
-      this.$router.go(0)
+      
     },
 
     captureImage() {
