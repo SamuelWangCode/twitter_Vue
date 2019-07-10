@@ -1,5 +1,5 @@
 <style scoped>
-.root-div {
+#root-div {
   position: fixed;
   height: 100%;
   width: 100%;
@@ -210,6 +210,15 @@
   font-weight: bold;
   font-size: 16px;
 }
+.center-fix{
+	position: fixed;/*固定位置*/
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/	
+  margin:auto;
+left:0;
+right:0;
+top:0;
+bottom:0;
+}
 </style>
 <style>
 .el-tabs__item {
@@ -218,7 +227,9 @@
 }
 </style>
 <template>
-  <div class="root-div">
+  <div id="root-div">
+    <div id="topAnchor"></div>
+      <loadingAnimate v-if="loading" class="center-fix"/>
     <div class="WallImgContainer">
       <div class="BkgImgContainer">
         <img :src="personBkgImg" style="height: 320px;width: 100%" />
@@ -304,7 +315,7 @@
           <div v-if="navStatus.tweetsShow" id="tweets-container">
             <tweets
               :ref="'twe1'"
-              v-on:change_following="change_follow($event)"
+              v-on:change_following="change_follow(arguments)"
               type="userhome"
               v-bind:info="visitor"
             ></tweets>
@@ -313,14 +324,22 @@
           <!--display following-->
           <div v-show="navStatus.followingShow" id="following-container">
             <div v-for="user in followingList" v-bind:key="user.user_id">
-              <userForZoom v-bind:p_user_id="user.user_id"></userForZoom>
+              <userForZoom
+                v-bind:p_user_id="user.user_id"
+                :ref="'following'+user.user_id"
+                @change_my_follow="change_my_follow(arguments,user)"
+              ></userForZoom>
             </div>
           </div>
 
           <!--display followers-->
           <div v-show="navStatus.followersShow" id="followers-container">
             <div v-for="user in followersList" v-bind:key="user.user_id">
-              <userForZoom v-bind:p_user_id="user.user_id"></userForZoom>
+              <userForZoom
+                v-bind:p_user_id="user.user_id"
+                :ref="'follower'+user.user_id"
+                @change_my_follow="change_my_follow(arguments,user)"
+              ></userForZoom>
             </div>
           </div>
 
@@ -328,7 +347,7 @@
           <div v-show="navStatus.collectionsShow" id="collections">
             <tweets
               :ref="'twe2'"
-              v-on:change_following="change_follow($event)"
+              v-on:change_following="change_follow(arguments)"
               type="collection"
               v-bind:info="user"
             ></tweets>
@@ -348,6 +367,7 @@
         </div>
       </div>
     </div>
+    <backToTop></backToTop>
   </div>
 </template>
 
@@ -358,13 +378,15 @@ import loadingAnimate from "./animate/loading";
 import Tweets from "./Subs/Tweets.vue";
 import User from "./Subs/User";
 import UserForZoom from "./Subs/UserForZoom";
-import FollowButton from "./Subs/FollowButoon";
+import FollowButton from "./Subs/FollowButoon"
+import backToTop from "./Subs/BackToTop"
 
 export default {
   name: "Zoom",
 
   data() {
     return {
+      loading:false,
       num: 0,
       visitor: 0,
       user: 0,
@@ -406,10 +428,11 @@ export default {
     Tweets,
     userForZoom: UserForZoom,
     User,
-    FollowButton
+    FollowButton,
+    backToTop
   },
   created() {
-    this.loading = true;
+    // this.loading = true;
     this.visitor = Number(this.$route.query.visitor_id);
     this.user = this.getCookies("userID");
     console.log("user", this.user);
@@ -438,10 +461,6 @@ export default {
         _this.followersList = res[2].data.data;
         console.log("这个人的followersList", _this.followersList);
       });
-
-      this.getUserPublicInfo(this.user).then(response => {
-        this.my_info = response.data.data;
-      });
     } catch (e) {
       return {
         result: false,
@@ -450,7 +469,7 @@ export default {
     }
   },
   mounted: function getUser() {
-    this.loading = true;
+    // this.loading = true;
     this.visitor = Number(this.$route.query.visitor_id);
     this.user = this.getCookies("userID");
     console.log("user", this.user);
@@ -498,14 +517,37 @@ export default {
       console.log(this.navStatus.collectionsShow);
     },
     change_follow(event) {
-      console.log("afasa");
-      if ((this.isFollowing != event)) {
-        this.isFollowing = event;
-        if (event) {
+      console.log("change_follow");
+      if (this.isFollowing != event[0] && this.visitor==event[1]) {
+        this.isFollowing = event[0];
+        if (event[0]) {
           this.followerCount++;
         } else {
           this.followerCount--;
         }
+      }
+    },
+    change_my_follow(event, user) {
+      for (var i = 0; i < this.followingList.length; ++i) {
+        if (this.followingList[i].user_id == user.user_id) {
+          this.$refs["following" + user.user_id][0].change_follow(event[0]);
+          break;
+        }
+      }
+      for (var i = 0; i < this.followersList.length; ++i) {
+        if (this.followersList[i].user_id == user.user_id) {
+          this.$refs["follower" + user.user_id][0].change_follow(event[0]);
+          break;
+        }
+      }
+      if (this.$refs.twe1) {
+        this.$refs.twe1.change_follow2(val, this.visitor);
+        
+      }
+      if(this.$refs.twe2){
+        this.$refs.twe2.change_follow2(val, this.visitor);
+      }
+      if (this.visitor == this.getCookie("userID")) {
       }
     }
   },
@@ -514,6 +556,9 @@ export default {
     isFollowing(val) {
       if (this.$refs.twe1) {
         this.$refs.twe1.change_follow2(val, this.visitor);
+        
+      }
+      if(this.$refs.twe2){
         this.$refs.twe2.change_follow2(val, this.visitor);
       }
       var k = [];

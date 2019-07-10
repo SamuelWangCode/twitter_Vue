@@ -1,5 +1,13 @@
 <template lang="html">
   <div id="RegistPage">
+    <div id="head-div">
+      <div id="logo" >
+        <Icon type="logo-twitter" size="50" style="color:white;margin-top: 45px;">Twitter</Icon>
+      </div>
+      <div id="WebName" style="font-size: 30px;color: white;float: left;margin-top: 48px">
+        Twitter
+      </div>
+    </div>
     <loadingAnimation v-if="loading"/>
     <div class="RegistFormContainer">
       <div class="Wrapper">
@@ -35,6 +43,14 @@
           <router-link to="/login">Log in now! »</router-link>
         </div>
       </div>
+    </div>
+    <div id="buttom-div">
+<div id="buttom-content" style="color: white;">
+  <p>Contact us</p>
+  <p>Address: School of Software, Tongji University, 4800 Caoan Road, Shanghai, China</p>
+  <p>Zip code: 201804</p>
+  <p> Contact number: 86-21-69589585, 69589932 (FAX)</p>
+</div>
     </div>
   </div>
 </template>
@@ -168,6 +184,36 @@ lett.registEventHandler();
 .ErrHint{
   color:red;
   font-size: 16px;
+}
+#head-div
+{
+  height: 15%;
+  width: 100%;
+  background-color: #1da1f2;
+  margin-bottom: 100px;
+}
+#buttom-div
+{
+  position: fixed;
+  bottom: 0;
+  height: 15%;
+  width: 100%;
+  background-color: #1da1f2;
+  /*margin-top: 100px;*/
+}
+#logo
+{
+width: 5%;
+  margin-left: 20px;
+  float: left;
+}
+#buttom-content
+{
+  margin-top: 20px;
+  margin-left: 40px;
+  float: left;
+  font-size: 17px;
+  text-align: left;
 }
 #RegistPage {
   height: calc(100vh - 46px);

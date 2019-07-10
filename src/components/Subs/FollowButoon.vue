@@ -16,7 +16,6 @@
     shape="circle"
     v-on:click="click_func()"
     v-bind:class="my_class"
-    v-if="isShow"
   ><span style="font-size:14px;">{{content}}</span></Button>
 </template>
 
@@ -80,12 +79,6 @@ export default {
     },
     my_class(){
         return this.isFollowing ? "unfollow" : "follow";
-    },
-    isShow(){
-      if(!this.getCookie("userID")){
-        return false;
-      }
-      return this.visitor.toString()!=this.getCookie("userID").toString();
     }
   }
 };
