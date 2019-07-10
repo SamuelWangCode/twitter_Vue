@@ -15,21 +15,23 @@
     class="font"
     type="primary"
     shape="circle"
-    v-if="isShow"
+    v-bind:disabled="typeof(isFollowing) == 'object' ? true : false "
     v-on:click="click_func()"
     v-bind:class="my_class"
+    v-if="isShow"
   ><span style="font-size:12px;">{{content}}</span></Button>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      
+    };
   },
   props: {
     isFollowing: {
-      type: Boolean,
-      default: false
+      default: null
     },
     followerCount: {
       type: Number,
@@ -38,6 +40,11 @@ export default {
     visitor: {
       type: Number,
       default: 0
+    }
+  },
+  watch:{
+    isFollowing(newVal){
+
     }
   },
   methods: {
@@ -50,7 +57,6 @@ export default {
           this.$emit("update:isFollowing", true);
           this.$emit("update:followerCount", this.followerCount + 1);
         }else{
-          console.log("ffasffasfa")
           this.$emit("finish_update",false);
         }
       });

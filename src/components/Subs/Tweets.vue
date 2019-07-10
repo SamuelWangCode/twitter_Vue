@@ -208,7 +208,7 @@ export default {
         itemTemp.userAvt = "";
         itemTemp.collectByUser = false;
         itemTemp.likeByUser = false;
-        itemTemp.followByUser = false;
+        itemTemp.followByUser = null;
         itemTemp.comments = [];
         if (itemTemp.message_ats == null) {
           itemTemp.message_ats = [];
