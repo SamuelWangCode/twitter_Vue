@@ -44,7 +44,7 @@
 <style>
 #left-container {
   position: fixed;
-  width: 20%;
+  width: 16%;
   background-color: white;
   left: 8%;
   top: 70px;
@@ -58,7 +58,7 @@
 }
 .header-left-align {
   font-weight: bold;
-  font-size: 24px;
+  font-size: 20px;
   text-align: left;
   padding-top: 15px;
   padding-left: 15px;
@@ -71,12 +71,12 @@
 #trends-name {
   font-weight: bold;
   color: #1da1f2;
-  font-size: 17px;
+  font-size: 15px;
   padding-left: 15px;
 }
 #tweets-times {
   color: #657786;
-  font-size: 13px;
+  font-size: 12px;
   padding-left: 15px;
 }
 .load-more:hover {

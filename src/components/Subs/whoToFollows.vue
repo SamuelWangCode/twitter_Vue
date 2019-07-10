@@ -12,7 +12,7 @@
 <style>
 .header-left-align {
   font-weight: bold;
-  font-size: 24px;
+  font-size: 20px;
   text-align: left;
   padding-top: 15px;
   padding-left: 15px;
@@ -23,7 +23,7 @@
 }
 #right-container{
     position: fixed;
-    width: 20%;
+    width: 16%;
     background-color: white;
     right: 9%;
     top: 70px;
