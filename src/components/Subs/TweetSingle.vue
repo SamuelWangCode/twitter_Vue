@@ -366,7 +366,7 @@ export default {
       comments: [],
       collectByUser: false,
       likeByUser: false,
-      followByUser: false,
+      followByUser: null,
       commentsNum: 0,
       commented: false,
       messageIsShared: false,
@@ -397,35 +397,6 @@ export default {
         this.getComment();
       }
       this.ifShowComment = !this.ifShowComment;
-    },
-    //关注谁谁
-    doFollow() {
-      if (this.followByUser == false) {
-        this.followByUser = true;
-        this.followSb(this.item.message_sender_user_id).then(Response => {
-          if (Response.data.message == "success") {
-            this.$emit("follow");
-            //console.log("取消关注1/2");
-          } else {
-            this.followByUser = false;
-            alert("关注失败");
-          }
-        });
-      }
-      if (this.followByUser == true) {
-        this.followByUser = false;
-        this.cancelFollowingTo(this.item.message_sender_user_id).then(
-          Response => {
-            if (Response.data.message == "success") {
-              this.$emit("follow");
-              //console.log("取消关注1/2");
-            } else {
-              this.followByUser = true;
-              alert("失败");
-            }
-          }
-        );
-      }
     },
     doLike() {
       //console.log("like_message_id:", this.item.message_id);

@@ -423,7 +423,7 @@ export default {
       followerCount: 0,
       followingCount: 0,
       collectCount: 0,
-      isFollowing: false,
+      isFollowing: null,
       personAccount: null,
       joinTime: null,
       showName: "tweetsShow",
