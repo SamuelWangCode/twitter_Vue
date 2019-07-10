@@ -8,7 +8,7 @@
         Twitter
       </div>
     </div>
-    <loadingAnimation v-if="loading"/>
+    <loadingAnimate v-if="loading" class="center-fix"/>
     <div class="RegistFormContainer">
       <div class="Wrapper">
         <div class="RegistText">
@@ -57,7 +57,7 @@
 
 <script>
 import axios from 'axios'
-import loadingAnimation from './animate/loading'
+import loadingAnimate from './animate/loading'
 axios.defaults.withCredentials = true;
 export default {
   name: "Register",
@@ -74,7 +74,7 @@ export default {
 created() {
 },
   components: {
-    loadingAnimation
+    loadingAnimate
   },
   methods: {
     async registEventHandler() {
@@ -296,5 +296,14 @@ created() {
   border-bottom-left-radius: 4px;
   max-width: 840px;
   margin: 0 auto;
+}
+.center-fix{
+	position: fixed;/*固定位置*/
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/
+  margin:auto;
+left:0;
+right:0;
+top:0;
+bottom:0;
 }
 </style>
