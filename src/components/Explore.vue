@@ -1,15 +1,13 @@
 <template>
 <div id="root-div">
   <div id="topAnchor"></div>
-   <div id="explore">
       <loadingAnimate v-if="loading" class="center-fix"/>
       <Trends></Trends>
         <div id="middle-container" >
             <tweets type="home"></tweets>
         </div>
       <whoToFollows></whoToFollows>
-      <backToTop></backToTop>
-    </div>
+    <backToTop></backToTop>
 </div>
 </template>
 
@@ -43,7 +41,7 @@ export default {
 
 
 <style scope>
-#explore{
+#root-div{
   position: fixed;
   height: 100%;
   width: 100%;
