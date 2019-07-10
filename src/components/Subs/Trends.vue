@@ -46,7 +46,7 @@
   position: fixed;
   width: 16%;
   background-color: white;
-  left: 8%;
+  left: 12%;
   top: 70px;
 }
 #left-container1 {
