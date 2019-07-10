@@ -89,7 +89,7 @@ img{
 
 <div>
     <Modal title="Preview" v-model="visible">
-      <img style="width: 100%" v-if='previewSrc.split(".")[1] == "jpg" ' v-bind:src="previewSrc" />
+      <img style="width: 100%"   v-if='previewSrc.split(".")[1] == "jpg" ' v-bind:src="previewSrc" />
       <video
         style="width: 100%"
         v-else
@@ -123,6 +123,8 @@ img{
             <video
               class="img2-1"
               v-else
+              
+              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
               alt="2-1"
@@ -138,6 +140,8 @@ img{
             <video
               class="img2-2"
               v-else
+              
+              v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img1"
               v-bind:src="imgData[1]"
               @click="doShowBigImg(1)"
               alt="2-2"
@@ -157,6 +161,7 @@ img{
             <video
               class="img3-1"
               v-else
+              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
               alt="3-1"
@@ -175,6 +180,7 @@ img{
               class="img3-2"
               v-else
               v-bind:src="imgData[1]"
+              v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img1"
               @click="doShowBigImg(1)"
               alt="3-2"
             />
@@ -189,6 +195,7 @@ img{
             <video
               class="img3-3"
               v-else
+              v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}" ref="img1"
               v-bind:src="imgData[2]"
               @click="doShowBigImg(2)"
               alt="3-3"
@@ -210,6 +217,7 @@ img{
             <video
               class="img4-1"
               v-else
+              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
               alt="4-1"
@@ -227,6 +235,7 @@ img{
             <video
               class="img4-1"
               v-else
+              v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img1"
               v-bind:src="imgData[1]"
               @click="doShowBigImg(1)"
               alt="4-1"
@@ -243,6 +252,7 @@ img{
               class="img4-234"
               v-else
               v-bind:src="imgData[2]"
+              v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}" ref="img1"
               @click="doShowBigImg(2)"
               alt="4-3"
             />
@@ -258,6 +268,7 @@ img{
               class="img4-234"
               v-else
               v-bind:src="imgData[3]"
+              v-bind:style="{height:sizeH[3]+'px',width:sizeW[3]+'px'}" ref="img1"
               @click="doShowBigImg(3)"
               alt="4-4"
             />
@@ -365,6 +376,9 @@ export default {
       var imgSrc = this.imgData[imgNum];
       this.previewSrc = imgSrc;
     },
+    closeBigImg(){
+      this.visible=false;
+    }
   },
   created() {
     this.imgNewData = [];
