@@ -138,7 +138,7 @@
             <div id="name-time-die" @click="clickUser()" style="float:left;">
               <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
                 <p class="user-name">{{item.userName}}</p>
-                <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                <p class="time">{{item.message_create_time}}<Icon type="ios-flame" size="18" style="color: #ff9900"></Icon>{{item.message_heat}}</p>
               </router-link>
             </div>
             <div id="follow-mes-butt-div" style="float: right;">
@@ -163,7 +163,7 @@
                 <div @click="clickUser()">
                     <router-link :to="{ path: '/Zoom', query: { visitor_id: item.rawItem.message_sender_user_id }}">
                     <p style="text-size:30px;">{{rawItemUserName}}</p>
-                    <p style="text-size:24px;">{{item.rawItem.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                    <p style="text-size:24px;">{{item.rawItem.message_create_time}}<Icon type="ios-flame" size="18" style="color: #ff9900"></Icon>{{item.message_heat}}</p>
                     </router-link>
                 </div>
                 <div class="twi-text-block">
@@ -177,7 +177,7 @@
                 <div class="collection-div" @click="doCollect()">
                   <VueStar animate="animated rubberBand" color="#19be6b">
                     <a slot="icon">
-                    <Icon type="ios-star" size="24" v-if="collectByUser" style="color: #ff9900"></Icon>
+                    <Icon type="ios-star" size="24" v-if="collectByUser" style="color: gold"></Icon>
                     <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
                     </a>
                   </VueStar>
@@ -227,7 +227,7 @@
                 <div id="name-time-die" @click="clickUser()" style="float:left;">
                     <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
                         <p class="user-name">{{item.userName}}</p>
-                        <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+                        <p class="time">{{item.message_create_time}}<Icon type="ios-flame" size="18" style="color: #ff9900"></Icon>{{item.message_heat}}</p>
                     </router-link>
                 </div>
               <div id="follow-mes-butt-div" style="float: right;">
@@ -246,7 +246,7 @@
             <div class="collection-div" @click="doCollect()">
               <VueStar animate="animated rubberBand" color="#F05654">
                 <a slot="icon">
-                  <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px;color: #ff9900"></Icon>
+                  <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px;color: gold"></Icon>
                   <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
                 </a>
               </VueStar>
