@@ -371,6 +371,7 @@ import Tweets from "./Subs/Tweets.vue";
 import User from "./Subs/User";
 import UserForZoom from "./Subs/UserForZoom";
 import FollowButton from "./Subs/FollowButoon"
+import backToTop from "./Subs/BackToTop"
 
 export default {
   name: "Zoom",

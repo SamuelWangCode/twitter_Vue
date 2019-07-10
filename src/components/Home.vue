@@ -228,7 +228,7 @@ ul li{
      </ElContainer>
     </div>
         <whoToFollows></whoToFollows>
-        <backTop></backTop>
+        <backToTop></backToTop>
   </div>
 </template>
 <script>
@@ -238,7 +238,7 @@ ul li{
   import Tweets from "./Subs/Tweets"
   import Trends from "./Subs/Trends"
   import whoToFollows from "./Subs/whoToFollows"
-  import backTop from "./Subs/BackToTop"
+  import backToTop from "./Subs/BackToTop"
   export default {
     name:'Home',
     
@@ -270,7 +270,7 @@ ul li{
       loadingAnimate,
       "tweets":Tweets,
       Trends,whoToFollows,
-      backTop
+      backToTop
     },
     mounted() {
     var _this = this;
