@@ -222,7 +222,7 @@ export default {
           itemTemp.message_image_urls = [];
         }
         //可以先解析已有内容
-        this.isFollowing[itemTemp.message_sender_user_id] = false;
+        this.isFollowing[itemTemp.message_sender_user_id] = null;
         //取用户数据
         //获取以上的数据，这里由于可能是第二次拿数据，因此i+twiCount才是当前要处理的推的索引
         this.getUserPublicInfo(itemTemp.message_sender_user_id).then(
@@ -243,15 +243,16 @@ export default {
       var k = JSON.parse(JSON.stringify(this.isFollowing));
       k[item.message_sender_user_id] = event;
       this.isFollowing = k;
+      console.log(this.isFollowing)
       this.$emit("change_following", event, item.message_sender_user_id);
     },
     change_follow2(val, id) {
-      if (id in this.isFollowing) {
-        if (this.isFollowing[id] != val) {
+      if (typeof(this.isFollowing[id])!="undefined") {
           var k = JSON.parse(JSON.stringify(this.isFollowing));
           k[id] = val;
           this.isFollowing = k;
-        }
+          console.log(k)
+        
       }
     }
   },

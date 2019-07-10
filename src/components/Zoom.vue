@@ -368,6 +368,7 @@ bottom:0;
               class="follow-button-style"
               v-bind:followerCount.sync="followerCount"
               v-bind:isFollowing.sync="isFollowing"
+              @finish_update="follow_visitor($event)"
               v-bind:visitor="Number(visitor)"
             ></FollowButton>
           </div>
@@ -553,6 +554,7 @@ export default {
           break;
         }
       }
+      
       if (this.$refs.twe1) {
         this.$refs.twe1.change_follow2(event[0], event[1]);
       }
@@ -574,6 +576,26 @@ export default {
         this.followingList = k;
         this.followingCount = k.length;
       }
+    },
+    follow_visitor(val){
+      var k = [];
+      for (var i = 0; i < this.followersList.length; ++i) {
+        if (this.followersList[i].user_id != this.user) {
+          k.push(this.followersList[i]);
+        }
+      }
+      if (val) {
+        var temp = new Object();
+        temp.user_id = this.my_info.user_id;
+        temp.avatar_url = this.my_info.avatar_url;
+        temp.nickname = this.my_info.nickname;
+        k.push(temp);
+      }
+      this.followersList = k;
+      var temp=new Array();
+      temp[0]=val;
+      temp[1]=this.visitor;
+      this.change_follow(temp);
     },
     getRightClass(typeName){
       if(this.navStatus[typeName] == true){
@@ -598,24 +620,7 @@ export default {
       if (this.$refs.twe2) {
         this.$refs.twe2.change_follow2(val, this.visitor);
       }*/
-      var k = [];
-      for (var i = 0; i < this.followersList.length; ++i) {
-        if (this.followersList[i].user_id != this.user) {
-          k.push(this.followersList[i]);
-        }
-      }
-      if (val) {
-        var temp = new Object();
-        temp.user_id = this.my_info.user_id;
-        temp.avatar_url = this.my_info.avatar_url;
-        temp.nickname = this.my_info.nickname;
-        k.push(temp);
-      }
-      this.followersList = k;
-      var temp=new Array();
-      temp[0]=val;
-      temp[1]=this.visitor;
-      this.change_follow(temp);
+      
     }
   }
 };

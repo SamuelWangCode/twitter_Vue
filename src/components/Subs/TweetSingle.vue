@@ -543,6 +543,7 @@ export default {
       });
     },
     send_update(val) {
+      console.log("sadasda",val)
       this.$emit("change_follow", val);
     }
   },
@@ -599,9 +600,7 @@ export default {
     isFollowing: {
       deep: true,
       handler(nval) {
-        if (this.followByUser != nval) {
           this.followByUser = nval;
-        }
       }
     }
   },

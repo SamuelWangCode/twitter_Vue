@@ -50,6 +50,7 @@ export default {
           this.$emit("update:isFollowing", true);
           this.$emit("update:followerCount", this.followerCount + 1);
         }else{
+          console.log("ffasffasfa")
           this.$emit("finish_update",false);
         }
       });
