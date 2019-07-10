@@ -110,7 +110,15 @@
 </style>
 
 <template>
+
+
 <div>
+
+<Modal  title="Preview" v-model="visible">
+    <img style="width: 100%" v-if='previewSrc.split(".")[1] == "jpg" ' v-bind:src="previewSrc" >
+    <video style="width: 100%" v-else v-bind:src="previewSrc" />
+</Modal>
+
 <div class="img-handler-div" ref='div'>
     <div v-show="showBigImage" class="cover" v-bind:style='{"height":coverHeight,"width":coverWidth}'>
     </div>
@@ -121,7 +129,8 @@
 
     <div class="twi-img" v-if="imgData.length==1">
         <div class="img1-1-div">
-            <img class="img1-1" v-bind:src="imgData[0]" @click="doShowBigImg(0)" alt="1-1">
+            <img class="img1-1" v-if='imgData[0].split(".")[1] == "jpg" ' v-bind:src="imgData[0]" @click="doShowBigImg(0)" alt="1-1">
+            <video class="img1-1" v-else v-bind:src="imgData[0]" @click="doShowBigImg(0)" alt="1-1"/>
         </div>
     </div>
 
@@ -184,6 +193,8 @@ export default {
     },
     data(){
         return {
+            previewSrc: "",
+            visible: false,
             showBigImage:false,
             bigImgSource:"",
             coverHeight:"",
@@ -199,17 +210,10 @@ export default {
         }
     },
     methods:{
-        doShowBigImg(){
-            let h=document.documentElement.offsetHeight;
-            let w=document.documentElement.offsetWidth;
-            this.coverHeight=h.toString()+"px";
-            this.coverWidth=w.toString()+"px";
-            this.bigImgHeight="100px";
-            this.bigImgWidth="200px";
-            
-            this.showBigImage=!this.showBigImage;
-            this.bigImgSource=obj.src;
-            console.log("展示",this.bigImgSource);
+        doShowBigImg(imgNum){
+            this.visible = true;
+            var imgSrc = this.imgData[imgNum];
+            this.previewSrc = imgSrc;
         },
         //下一张图片
         next(){
