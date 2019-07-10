@@ -68,7 +68,7 @@
     title="Message"
     :loading="loading"
     @on-ok="message()">
-    <Input type="textarea" maxlength="140" :rows="4" style="height: 100px;width: 90%; margin:5%; font-size:20px;" v-model="text"/>
+    <Input type="textarea" :maxlength="140" :rows="4" style="height: 100px;width: 90%; margin:5%; font-size:20px;" v-model="text"/>
   </Modal>
   <!--
     <div v-show="showPage" id="message-dialog">

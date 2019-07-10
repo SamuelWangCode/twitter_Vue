@@ -89,7 +89,7 @@
         title="Share"
         :loading="loading"
         @on-ok="share">
-        <Input type="textarea" maxlength="140" :rows="4" style="height: 100px;width: 90%; margin:5%; font-size:20px;" v-model="shareText"/>
+        <Input type="textarea" :maxlength="140" :rows="4" style="height: 100px;width: 90%; margin:5%; font-size:20px;" v-model="shareText"/>
     </Modal>
 
 
