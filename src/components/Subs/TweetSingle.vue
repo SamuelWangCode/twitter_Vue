@@ -66,6 +66,7 @@
 
 
 .buttom-buttons{
+  height: 100px;
     display: inline-block;
     background-color: white;
     width:100%;
@@ -73,7 +74,7 @@
 .collection-div{
     float: left;
     width:20%;
-    height:40px;
+    height:60px;
   /*margin-bottom: 20px;*/
     text-align: center;
   margin-left: 60px;
@@ -83,7 +84,7 @@
 }
 .comment-div{
     float: left;
-  height: 40px;
+  height: 60px;
     width:20%;
   /*padding-left:50%;*/
     text-align: center;
@@ -98,7 +99,7 @@
 .likes-div{
   float: left;
     width:20%;
-    height:40px;
+    height:60px;
     text-align: center;
 }
 .likes-div{
@@ -107,7 +108,7 @@
 .share-div{
   float: left;
   width:20%;
-  height:40px;
+  height:60px;
   text-align: center;
 }
 
