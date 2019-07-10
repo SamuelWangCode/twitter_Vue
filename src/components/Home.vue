@@ -279,6 +279,7 @@ ul li{
     var userID = _this.getCookie("userID")
     console.log("登录：", userID)
     console.log(userID)
+    this.uploadList = this.$refs.upload.fileList;
     this.getUserPublicInfo(userID).then(Response=>{
     console.log(Response)
     if(Response.data.code==200 && Response.data.message=="success")
