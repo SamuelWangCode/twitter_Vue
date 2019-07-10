@@ -78,5 +78,14 @@ export default {
           this.users = response.data.data.users;
     });
   },
+  beforeRouteEnter(to,from,next){
+      next(vm=>{
+        if(!vm.getCookie("userID"))
+        {
+          console.log("请先登录")
+          vm.$router.push("index")
+        }
+      })
+    }
 };
 </script>

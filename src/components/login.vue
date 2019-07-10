@@ -128,7 +128,16 @@ export default {
         };
       }
     }
-  }
+  },
+  beforeRouteEnter(to,from,next){
+      next(vm=>{
+        if(vm.getCookie("userID"))
+        {
+          console.log("请先登出")
+          vm.$router.push("home")
+        }
+      })
+    }
 }
 
 </script>
