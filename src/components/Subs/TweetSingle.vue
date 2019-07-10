@@ -134,7 +134,7 @@
               {{item.message_heat}}
             </p>
           </div>
-          <div class="follow-button-div" v-if="!ifBeMyTwi()">
+          <div class="follow-button-div">
             <FollowButton
               v-bind:isFollowing.sync="followByUser"
               v-bind:visitor="Number(item.message_sender_user_id)"
@@ -243,7 +243,7 @@
               {{item.message_heat}}
             </p>
           </div>
-          <div class="follow-button-div" v-if="!ifBeMyTwi()">
+          <div class="follow-button-div">
             <FollowButton
               v-bind:isFollowing.sync="followByUser"
               v-bind:visitor="Number(item.message_sender_user_id)"
