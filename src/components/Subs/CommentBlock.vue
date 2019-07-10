@@ -68,7 +68,7 @@
     <div class="show-comment-div" v-show="ifShowComment">
         <div class="send-comm-div">
             <!--<input type="text" style="width: 60%;margin-left:10%;margin-right:8%; margin-top:10px;" v-model="commTextToSend"/>-->
-            <Input :rows="1" style="width: 60%;margin-left:10%;margin-right:8%;"  v-model="commTextToSend" type="textarea" placeholder="Enter something..."/>
+            <Input :rows="1" maxlength="140" style="width: 60%;margin-left:10%;margin-right:8%;"  v-model="commTextToSend" type="textarea" placeholder="Enter something..."/>
             <Button type="primary" @click="sendComment()" style="background-color: white ;color: black; z-index:10;">Send</Button>
         </div>
         <div v-for="comm in comments">
