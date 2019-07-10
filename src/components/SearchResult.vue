@@ -35,11 +35,11 @@ bottom:0;
 <template>
   <div id="root-div">
     <div id="topAnchor"></div>
-    <loadingAnimate v-if="loading" class="center-fix"/>
+    <loadingAnimate  v-if="loading" class="center-fix"/>
       <Trends></Trends>
 
     <div id="middle-container">
-      <tweets type="search" v-bind:info="searchKey"></tweets>
+      <tweets @stop_loading="stop_loading" type="search" v-bind:info="searchKey"></tweets>
     </div>
 
     <ElContainer id="right-container">
@@ -64,7 +64,7 @@ export default {
   },
   data() {
     return {
-      loading:false,
+      loading:true,
       searchKey : this.$route.query.searchKey,
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
       users: [],
@@ -78,5 +78,10 @@ export default {
           this.users = response.data.data.users;
     });
   },
+  methods:{
+    stop_loading(){
+      this.loading = false;
+    }
+  }
 };
 </script>

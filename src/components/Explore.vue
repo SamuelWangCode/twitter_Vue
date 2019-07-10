@@ -4,7 +4,7 @@
       <loadingAnimate v-if="loading" class="center-fix"/>
       <Trends></Trends>
         <div id="middle-container" >
-            <tweets type="home"></tweets>
+            <tweets @stop_loading="stop_loading" type="home"></tweets>
         </div>
       <whoToFollows></whoToFollows>
     <backToTop></backToTop>
@@ -27,10 +27,13 @@ export default {
     },
     data(){
         return {
-          loading:false
+          loading:true
         }
     },
     methods:{
+      stop_loading(){
+        this.loading = false;
+      }
     },
     created(){
     },

@@ -140,9 +140,8 @@ ul li{
 
 <template >
   <div id='root-div'><div id="topAnchor"></div>
-        <center>
-        <loadingAnimate v-if="loading" class="center-fix"/>
-        </center>
+ 
+  <loadingAnimate v-show="loading" class="center-fix"></loadingAnimate>
         
 
     <Trends></Trends>
@@ -224,7 +223,7 @@ ul li{
        </div>
        -->
 
-      <tweets type="home" style="width:100%;">
+      <tweets @stop_loading="stop_loading" type="home" style="width:100%;">
       </tweets>
 
      </ElContainer>
@@ -254,7 +253,7 @@ ul li{
         img_preview_src:"",
         video_preview_src:"",
         uploadList: [],
-        loading:false,
+        loading:true,
         sites: [
           { name: 'Runoob' },
           { name: 'Google' },
@@ -295,6 +294,10 @@ ul li{
     })
     },
     methods:{
+      stop_loading(){
+        console.log("隱藏loading")
+        this.loading = false;
+      },
       flashCom()
       {
         this.$router.go(0);  

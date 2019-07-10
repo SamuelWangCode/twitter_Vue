@@ -4,7 +4,7 @@
   <loadingAnimate v-if="loading" class="center-fix"/>
   <div class="topic-name-container">#{{topicName}}</div>
   <div class="topic-container">
-    <tweets type="topic" v-bind:info="topicId"></tweets>
+    <tweets @stop_loading="stop_loading" type="topic" v-bind:info="topicId"></tweets>
   </div>
   <backToTop></backToTop>
 </div>
@@ -22,7 +22,7 @@
          return{
            topicId:null,
            topicName: "Topic Name",
-           loading:false
+           loading:true,
          }
     },
 
@@ -34,6 +34,12 @@
       components:{
         "tweets":Tweets,
         loadingAnimate,backToTop
+      },
+
+      methods:{
+        stop_loading(){
+          this.loading = false;
+        }
       }
 
     }
