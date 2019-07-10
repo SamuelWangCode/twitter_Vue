@@ -111,8 +111,8 @@
 </style>
 
 <template>
-<div>
-<div class="img-handler-div" ref="div" v-bind:style="{ height: handlerHeight }">
+<div @click="aaa()">
+<div class="img-handler-div" ref="wholediv" v-bind:style="{ height: handlerHeight }">
 
     <div class="twi-img" v-if="imgData.length==1">
         <div class="img1-1-div">
@@ -177,6 +177,7 @@ export default {
         twiId:Number,
         imgData:Array,
     },
+
     data(){
         return {
             showBigImage:false,
@@ -190,30 +191,25 @@ export default {
             smallSize:[],
             //开始时就计算出大图的长和宽
             bigSize:[],
+            // handlerHeight:0
         }
     },
-    computed:{
-        handlerHeight: function () {
-            if (this.$refs.div){
-                return this.$refs.div.style.width;
-            }
-            else{
-                return 0;
-            }
-        }
-    },
+    // computed:{
+    //     handlerHeight:function(){  
+    //         var _this = this;  
+    //         console.log("9",_this.$refs.wholediv);
+    //         if (_this.$refs.wholediv){
+    //             console.log("adawd",_this.$refs.wholediv.style.width);
+                
+    //             return _this.$refs.wholediv.style.width;
+    //         }
+    //     }
+    // },
     methods:{
+        aaa(){
+        },
         doShowBigImg(){
-            let h=document.documentElement.offsetHeight;
-            let w=document.documentElement.offsetWidth;
-            this.coverHeight=h.toString()+"px";
-            this.coverWidth=w.toString()+"px";
-            this.bigImgHeight="100px";
-            this.bigImgWidth="200px";
-            
-            this.showBigImage=!this.showBigImage;
-            this.bigImgSource=obj.src;
-            console.log("展示",this.bigImgSource);
+           
         },
         //下一张图片
         next(){
@@ -240,33 +236,46 @@ export default {
         }
         */
        //console.log(this.imgData);
-         
+        
     },
     mounted(){
+        
+        // this.$nextTick(
+            // function()
+            {
+                if (this.$refs.wholediv){
+                    console.log("ssssssssssssssssss",this.$refs.wholediv.style);
+                    this.handlerHeight=this.$refs.wholediv.style.width+"px";
+                }
+                else{
+                    this.handlerHeight= "0px";
+                }
+            }
+        // )
         
     },
     watch: {   
         imgData: {
             handler(newVal, oldVal) {
-            if(this.imgData){
-                console.log("aaaaaaaaaaaaaaaaaaaaa",this.$refs.div.style.height="600px");
-                if(this.imgData.length==1){
-                }
-                else if(this.imgData.length==2){
-                }
-                else if(this.imgData.length==3){
-                    
-                }
-                else if(this.imgData.length==4){
-                    
+                if(this.imgData){
+                //console.log("aaaaaaaaaaaaaaaaaaaaa",this.$refs.div.style.height="600px");
+                    if(this.imgData.length==1){
+                    }
+                    else if(this.imgData.length==2){
+                    }
+                    else if(this.imgData.length==3){
+                        
+                    }
+                    else if(this.imgData.length==4){
+                        
+                    }
                 }
             }
         },
     // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
         immediate: true,
         deep:true,
-    }
-}
+    },
 }
 </script>
 
