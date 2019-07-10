@@ -390,7 +390,8 @@ export default {
       toFollowList: [],
       followingList: [],
       followersList: [],
-      user_info:null
+      user_info:null,
+      my_infp:null,
     };
   },
   components: {
@@ -431,6 +432,10 @@ export default {
         _this.followersList = res[2].data.data;
         console.log("这个人的followersList", _this.followersList);
       });
+
+      this.getUserPublicInfo(this.user).then(response=>{
+
+      })
     } catch (e) {
       return {
         result: false,
@@ -496,6 +501,10 @@ export default {
     isFollowing(val){
       this.$refs.twe1.change_follow2(val,this.visitor);
       this.$refs.twe2.change_follow2(val,this.visitor);
+      var k=[];
+      for(var i=0;i<this.followersList.length;++i){
+
+      }
     }
   }
 };
