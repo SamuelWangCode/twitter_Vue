@@ -147,7 +147,7 @@
             ></FollowButton>
             <usermessage
               style="float:right;margin-right: 10px"
-              v-bind:userId="item.message_sender_user_id"
+              v-bind:userId="item.message_sender_user_id == this.getCookies('userID')"
             ></usermessage>
           </div>
         </div>
@@ -271,6 +271,7 @@
             <usermessage
               style="float:right;margin-right: 10px"
               v-bind:userId="item.message_sender_user_id"
+              v-if="item.message_sender_user_id == this.getCookies()"
             ></usermessage>
           </div>
         </div>
