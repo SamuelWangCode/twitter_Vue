@@ -33,7 +33,7 @@ bottom:0;
 </style>
 
 <template>
-  <div id="root-div">
+  <div id="root-div"><div id="topAnchor"></div>
     <loadingAnimate v-if="loading" class="center-fix"/>
       <Trends></Trends>
 
@@ -44,6 +44,7 @@ bottom:0;
     <ElContainer id="right-container">
       <whoToFollows></whoToFollows>
     </ElContainer>
+    <backToTop></backToTop>
   </div>
 </template>
 <script>
@@ -52,6 +53,7 @@ import Tweets from "./Subs/Tweets"
 import loadingAnimate from "./animate/loading"
 import Trends from "./Subs/Trends"
 import whoToFollows from "./Subs/whoToFollows"
+import backToTop from "./Subs/BackToTop"
 export default {
   name: "Notifications",
   data() {
@@ -63,7 +65,7 @@ export default {
     };
   },
   components: {"tweets": Tweets, "loading":loadingAnimate, Trends,
-    whoToFollows },
+    whoToFollows,backToTop },
   created(){
     var p1 = this.queryTopicsBaseOnHeat(0, 5).then(response=>{
       console.log("测试topics", response);
