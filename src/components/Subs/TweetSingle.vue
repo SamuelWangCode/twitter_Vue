@@ -1,10 +1,10 @@
 <style scoped>
-.twi-left {
-  float: left;
-  width: 10%;
-  margin-left: 3%;
-  margin-top: 10px;
-  height: 80px;
+.twi-left{
+    float: left;
+    /* width: 10%; */
+    margin-left: 3%;
+    margin-top: 10px;
+    /* height: 80px; */
 }
 .user-avatar-div {
   width: 60px;
@@ -24,51 +24,54 @@
   width: 60px;
 }
 
-.twi-right {
-  float: left;
-  width: 84%;
-  margin-left: 0;
+
+.twi-right{
+    float: left;
+    width: 84%;
+    margin-left: 5px;
 }
-.twi-right-top-div {
-  display: inline-block;
-  width: 100%;
-  background-color: white;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 0px;
-  margin-right: 0px;
+.twi-right-top-div{
+    display: inline-block;
+    width: 100%;
+    background-color: white;
+    margin-top: 10px;
+    /* margin-bottom: 10px; */
+    margin-left: 0px;
+    margin-right: 0px;
 }
-.user-name {
-  font-weight: bold;
-  font-size: 20px;
-  height: 40px;
+.user-name{
+    font-weight:bold;
+    font-size: 16px;
+    /* height:40px; */
 }
 
-.twi-text-block {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  display: inline-block;
+
+.twi-text-block{
+    margin-top:10px;
+    /* margin-bottom: 10px; */
+    display: inline-block;
+
 }
 .twi-text-block:hover {
 }
-.twi-text {
-  margin-bottom: 10px;
-  width: 100%;
+.twi-text{
+    margin-bottom: 5px;
+    width: 100%;
 }
-.img-handler {
-  margin-bottom: 20px;
+.img-handler{
+    /* margin-bottom: 20px; */
 }
 
-.buttom-buttons {
-  height: 100px;
-  display: inline-block;
-  background-color: white;
-  width: 100%;
+
+.buttom-buttons{
+    display: inline-block;
+    background-color: white;
+    width:100%;
 }
-.collection-div {
-  float: left;
-  width: 20%;
-  height: 60px;
+.collection-div{
+    float: left;
+    width:20%;
+    height:50px;
   /*margin-bottom: 20px;*/
   text-align: center;
   margin-left: 60px;
@@ -76,10 +79,10 @@
 .collection-div:hover {
   cursor: pointer;
 }
-.comment-div {
-  float: left;
-  height: 60px;
-  width: 20%;
+.comment-div{
+    float: left;
+  height: 50px;
+    width:20%;
   /*padding-left:50%;*/
   text-align: center;
 }
@@ -92,254 +95,191 @@
 /*}*/
 .likes-div {
   float: left;
-  width: 20%;
-  height: 60px;
-  text-align: center;
+    width:20%;
+    height:50px;
+    text-align: center;
 }
 .likes-div {
   cursor: pointer;
 }
 .share-div {
   float: left;
-  width: 20%;
-  height: 60px;
+  width:20%;
+  height:50px;
   text-align: center;
 }
 
-.shared-twi-div {
-  width: 100%;
-  float: left;
-  padding-top: 20px;
-  margin-bottom: 20px;
-  background-color: rgb(236, 236, 236);
+.shared-twi-div{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    /* padding-top:20px; */
+    /* margin-bottom:20px; */
+    background-color: rgb(236, 236, 236);
 }
 </style>
 
 
 
 <template>
-  <div>
+<div>
     <div v-if="messageIsShared">
-      <div @click="clickUser()" class="twi-left">
-        <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
-          <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="item.userAvt"></Avatar>
-        </router-link>
-      </div>
-
-      <div class="twi-right">
-        <div class="twi-right-top-div">
-          <div id="name-time-die" @click="clickUser()" style="float:left;">
+        <div @click="clickUser()" class="twi-left">
             <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
-              <p class="user-name">{{item.userName}}</p>
-              <p class="time">
-                {{item.message_create_time}}
-                <Icon type="ios-flame-outline" size="18"></Icon>
-                {{item.message_heat}}
-              </p>
+            <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="item.userAvt"></Avatar>
             </router-link>
-          </div>
-          <div id="follow-mes-butt-div" style="float: right;">
-            <FollowButton
-              @finish_update="send_update($event)"
-              v-bind:isFollowing.sync="followByUser"
-              v-bind:visitor="Number(item.message_sender_user_id)"
-              style="float:right;"
-            ></FollowButton>
-            <usermessage
-              style="float:right;margin-right: 10px"
-              v-bind:userId="item.message_sender_user_id"
-            ></usermessage>
-          </div>
-        </div>
-        <div class="twi-text-block">
-          <twitextblock
-            class="twi-text"
-            v-bind:fullText="item.message_content"
-            :ats="item.message_ats"
-            :topics="item.message_topics"
-          ></twitextblock>
-        </div>
-      </div>
-
-      <div class="shared-twi-div">
-        <div @click="clickUser()" style="float:left;width:8%;margin-left:6%">
-          <router-link
-            :to="{ path: '/Zoom', query: { visitor_id: item.rawItem.message_sender_user_id }}"
-          >
-            <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="rawItemUserAvt"></Avatar>
-          </router-link>
         </div>
 
-        <div style="float:left;width:70%;margin-left:2%;margin-right:6%">
-          <div @click="clickUser()">
-            <router-link
-              :to="{ path: '/Zoom', query: { visitor_id: item.rawItem.message_sender_user_id }}"
-            >
-              <p style="text-size:30px;">{{rawItemUserName}}</p>
-              <p style="text-size:24px;">
-                {{item.rawItem.message_create_time}}
-                <Icon type="ios-flame-outline" size="18"></Icon>
-                {{item.message_heat}}
-              </p>
+        <div class="twi-right">
+          <div class="twi-right-top-div">
+            <div id="name-time-die" @click="clickUser()" style="float:left;">
+              <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
+                <p class="user-name">{{item.userName}}</p>
+                <p class="time">{{item.message_create_time}}<Icon type="ios-flame" size="18" style="color: #ff9900"></Icon>{{item.message_heat}}</p>
+              </router-link>
+            </div>
+            <div id="follow-mes-butt-div" style="float: right;">
+              <FollowButton @finish_update="send_update($event)" v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="float:right;"></FollowButton>
+              <usermessage style="float:right;margin-right: 10px" v-bind:userId="item.message_sender_user_id"></usermessage>
+            </div>
+          </div>
+            <div class="twi-text-block">
+                <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
+            </div>
+
+        </div>
+
+        <div class="shared-twi-div">
+            <div @click="clickUser()" style="float:left;width:8%;margin-left:6%">
+                <router-link :to="{ path: '/Zoom', query: { visitor_id: item.rawItem.message_sender_user_id }}">
+                <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="rawItemUserAvt"></Avatar>
+                </router-link>
+            </div>
+
+            <div style="float:left;width:70%;margin-left:2%;margin-right:6%">
+                <div @click="clickUser()">
+                    <router-link :to="{ path: '/Zoom', query: { visitor_id: item.rawItem.message_sender_user_id }}">
+                    <p style="text-size:30px;">{{rawItemUserName}}</p>
+                    <p style="text-size:24px;">{{item.rawItem.message_create_time}}<Icon type="ios-flame" size="18" style="color: #ff9900"></Icon>{{item.message_heat}}</p>
+                    </router-link>
+                </div>
+                <div class="twi-text-block">
+                    <twitextblock class="twi-text" v-bind:fullText="item.rawItem.message_content" :ats="item.rawItem.message_ats" :topics="item.rawItem.message_topics"></twitextblock>
+                </div>
+
+                <imagehandler class="img-handler" v-bind:imgData="item.rawItem.message_image_urls" :twiId="item.rawItem.message_id"></imagehandler>
+
+            </div>
+        </div>
+            <div class="buttom-buttons">
+                <div class="collection-div" @click="doCollect()">
+                  <VueStar animate="animated rubberBand" color="#19be6b">
+                    <a slot="icon">
+                    <Icon type="ios-star" size="24" v-if="collectByUser" style="color: gold"></Icon>
+                    <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
+                    </a>
+                  </VueStar>
+                </div>
+              <div class="comment-div" @click="showComment()">
+                <VueStar animate="animated rubberBand" color="#F05654">
+                  <a slot="icon">
+                    <Icon v-if="commented" type="ios-chatboxes" size="24"></Icon>
+                    <Icon v-else type="ios-chatboxes-outline" size="24"></Icon>
+                    <span>{{commentsNum}}</span>
+                  </a>
+                </VueStar>
+              </div>
+              <div class="share-div">
+                <VueStar animate="animated rubberBand" color="#F05654">
+                  <a slot="icon">
+                    <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
+                  </a>
+                </VueStar>
+              </div>
+              <div class="likes-div" @click="doLike()">
+                <VueStar animate="animated rubberBand" color="#F05654">
+                  <a slot="icon">
+                    <Icon type="ios-heart" size="24" v-if="likeByUser"style="color: #ed4014"></Icon>
+                    <Icon type="ios-heart-outline" size="24" v-else ></Icon>
+                    <span>{{item.message_like_num}}</span>
+                  </a>
+                </VueStar>
+              </div>
+            </div>
+            <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
+    </div>
+
+
+
+
+    <div v-else>
+        <div @click="clickUser()" class="twi-left">
+            <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
+            <Avatar  size=large v-bind:src="item.userAvt"></Avatar>
             </router-link>
-          </div>
-          <div class="twi-text-block">
-            <twitextblock
-              class="twi-text"
-              v-bind:fullText="item.rawItem.message_content"
-              :ats="item.rawItem.message_ats"
-              :topics="item.rawItem.message_topics"
-            ></twitextblock>
-          </div>
+        </div>
 
-          <imagehandler
-            class="img-handler"
-            v-bind:imgData="item.rawItem.message_image_urls"
-            :twiId="item.rawItem.message_id"
-          ></imagehandler>
+        <div class="twi-right">
+            <div class="twi-right-top-div">
+                <div id="name-time-die" @click="clickUser()" style="float:left;">
+                    <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
+                        <p class="user-name">{{item.userName}}</p>
+                        <p class="time">{{item.message_create_time}}<Icon type="ios-flame" size="18" style="color: #ff9900"></Icon>{{item.message_heat}}</p>
+                    </router-link>
+                </div>
+              <div id="follow-mes-butt-div" style="float: right;">
+                <FollowButton @finish_update="send_update($event)" v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="float:right;"></FollowButton>
+                <usermessage style="float:right;margin-right: 10px" v-bind:userId="item.message_sender_user_id"></usermessage>
+              </div>
+            </div>
+            <div class="twi-text-block">
+                <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
+            </div>
+
+            <imagehandler class="img-handler" :imgData="item.message_image_urls" :twiId="item.message_id"></imagehandler>
+
         </div>
         <div class="buttom-buttons">
-          <div class="collection-div" @click="doCollect()">
-            <VueStar animate="animated rubberBand" color="#19be6b">
-              <a slot="icon">
-                <Icon type="ios-star" size="24" v-if="collectByUser" style="color: #ff9900"></Icon>
-                <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
-              </a>
-            </VueStar>
-          </div>
-          <div class="comment-div" @click="showComment()">
-            <VueStar animate="animated rubberBand" color="#F05654">
-              <a slot="icon">
+            <div class="collection-div" @click="doCollect()">
+              <VueStar animate="animated rubberBand" color="#F05654">
+                <a slot="icon">
+                  <Icon type="ios-star" size="24" v-if="collectByUser" style="margin-bottom: 3px;color: gold"></Icon>
+                  <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
+                </a>
+              </VueStar>
+            </div>
+
+            <div class="comment-div" @click="showComment()">
+              <VueStar animate="animated rubberBand" color="#F05654">
+                <a slot="icon">
                 <Icon v-if="commented" type="ios-chatboxes" size="24"></Icon>
                 <Icon v-else type="ios-chatboxes-outline" size="24"></Icon>
                 <span>{{commentsNum}}</span>
-              </a>
-            </VueStar>
-          </div>
+                </a>
+              </VueStar>
+            </div>
+
           <div class="share-div">
-            <VueStar animate="animated rubberBand" color="#F05654">
-              <a slot="icon">
-                <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
-              </a>
-            </VueStar>
+          <VueStar animate="animated rubberBand" color="#F05654">
+            <a slot="icon">
+            <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
+            </a>
+          </VueStar>
           </div>
-          <div class="likes-div" @click="doLike()">
-            <VueStar animate="animated rubberBand" color="#F05654">
-              <a slot="icon">
+
+            <div class="likes-div" @click="doLike()">
+              <VueStar animate="animated rubberBand" color="#F05654">
+                <a slot="icon">
                 <Icon type="ios-heart" size="24" v-if="likeByUser" style="color: #ed4014"></Icon>
-                <Icon type="ios-heart-outline" size="24" v-else></Icon>
+                <Icon type="ios-heart-outline" size="24" v-else ></Icon>
                 <span>{{item.message_like_num}}</span>
-              </a>
-            </VueStar>
-          </div>
+                </a>
+              </VueStar>
+            </div>
         </div>
-        <commentblock
-          class="comment-block"
-          @sendComm="doSendComment"
-          v-bind:ifShowComment="ifShowComment"
-          :comments="comments"
-        ></commentblock>
-      </div>
+        <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
     </div>
-
-    <div v-else>
-      <div @click="clickUser()" class="twi-left">
-        <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
-          <Avatar size="large" v-bind:src="item.userAvt"></Avatar>
-        </router-link>
-      </div>
-
-      <div class="twi-right">
-        <div class="twi-right-top-div">
-          <div id="name-time-die" @click="clickUser()" style="float:left;">
-            <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
-              <p class="user-name">{{item.userName}}</p>
-              <p class="time">
-                {{item.message_create_time}}
-                <Icon type="ios-flame-outline" size="18"></Icon>
-                {{item.message_heat}}
-              </p>
-            </router-link>
-          </div>
-          <div id="follow-mes-butt-div" style="float: right;">
-            <FollowButton
-              @finish_update="send_update($event)"
-              v-bind:isFollowing.sync="followByUser"
-              v-bind:visitor="Number(item.message_sender_user_id)"
-              style="float:right;"
-            ></FollowButton>
-            <usermessage
-              style="float:right;margin-right: 10px"
-              v-bind:userId="item.message_sender_user_id"
-            ></usermessage>
-          </div>
-        </div>
-        <div class="twi-text-block">
-          <twitextblock
-            class="twi-text"
-            v-bind:fullText="item.message_content"
-            :ats="item.message_ats"
-            :topics="item.message_topics"
-          ></twitextblock>
-        </div>
-
-        <imagehandler
-          class="img-handler"
-          :imgData="item.message_image_urls"
-          :twiId="item.message_id"
-        ></imagehandler>
-      </div>
-      <div class="buttom-buttons">
-        <div class="collection-div" @click="doCollect()">
-          <VueStar animate="animated rubberBand" color="#F05654">
-            <a slot="icon">
-              <Icon
-                type="ios-star"
-                size="24"
-                v-if="collectByUser"
-                style="margin-bottom: 3px;color: #ff9900"
-              ></Icon>
-              <Icon type="ios-star-outline" size="24" v-else style="margin-bottom: 3px"></Icon>
-            </a>
-          </VueStar>
-        </div>
-
-        <div class="comment-div" @click="showComment()">
-          <VueStar animate="animated rubberBand" color="#F05654">
-            <a slot="icon">
-              <Icon v-if="commented" type="ios-chatboxes" size="24"></Icon>
-              <Icon v-else type="ios-chatboxes-outline" size="24"></Icon>
-              <span>{{commentsNum}}</span>
-            </a>
-          </VueStar>
-        </div>
-
-        <div class="share-div">
-          <VueStar animate="animated rubberBand" color="#F05654">
-            <a slot="icon">
-              <sharebutton class="share-button" v-bind:item="item" :twiId="item.message_id"></sharebutton>
-            </a>
-          </VueStar>
-        </div>
-
-        <div class="likes-div" @click="doLike()">
-          <VueStar animate="animated rubberBand" color="#F05654">
-            <a slot="icon">
-              <Icon type="ios-heart" size="24" v-if="likeByUser" style="color: #ed4014"></Icon>
-              <Icon type="ios-heart-outline" size="24" v-else></Icon>
-              <span>{{item.message_like_num}}</span>
-            </a>
-          </VueStar>
-        </div>
-      </div>
-      <commentblock
-        class="comment-block"
-        @sendComm="doSendComment"
-        v-bind:ifShowComment="ifShowComment"
-        :comments="comments"
-      ></commentblock>
-    </div>
-  </div>
+</div>
 </template>
 
 <script>

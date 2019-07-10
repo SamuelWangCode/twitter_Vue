@@ -33,7 +33,7 @@
 
 <template>
   <div style="width:100%">
-    <div v-for="item in items" v-bind:key="item.message_id">
+    <div  v-for="item in items" v-bind:key="item.message_id">
       <twiitem
         v-bind:item="item"
         class="tweet-items"
@@ -43,15 +43,10 @@
         v-bind:isFollowing="isFollowing[item.message_sender_user_id]"
         @change_follow="change_follow($event,item)"
       ></twiitem>
-      <divider />
+      <Divider/>
     </div>
-    <div v-if="ableShowMore" class="load-more" @click="loadMore()">
-      Load More...
-      <spin v-if="spinShow">
-        <Icon type="ios-loading" size="18" class="demo-spin-icon-load"></Icon>
-        <div>Loading</div>
-      </spin>
-    </div>
+    <div v-if="ableShowMore" class="load-more" @click="loadMore()">Load More...<spin v-if="spinShow"><Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+                <div>Loading</div></spin></div>
     <div v-else class="no-more">No More</div>
   </div>
 </template>

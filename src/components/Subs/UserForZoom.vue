@@ -1,5 +1,5 @@
 <template>
-  <div class="toFollow-container">
+  <div class="toFollow-container" v-show="user_info.nickname!=''">
     <div class="user-container">
       <div @click="flushCom" class="user-inner-container">
         <router-link :to="{ path: '/Zoom', query: { visitor_id: user_info.user_id }}">

@@ -12,7 +12,7 @@
 .send-comm-div{
   height: 40px;
     width:100%;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
   background-color: #1DA1F2;
   display: flex;
   flex-direction: row;
@@ -20,14 +20,14 @@
   align-items: center;
 }
 .send-comm-input{
-  margin-left: 55px;
+  /* margin-left: 55px; */
     width:80%;
     background-color: white;
 }
 .comm-avt-div{
     float: left;
     margin-left: 40px;
-    margin-top:15px;
+    margin-top: 15px;
     background-color: white;
     overflow: hidden;
 }
@@ -37,15 +37,25 @@
     float: left;
     width:70%;
     margin-top:10px;
-  margin-bottom: 10px;
-  margin-left: 40px;
+    margin-bottom: 10px;
+    margin-left: 20px;
     background-color:white;
 }
 .comm-name-div{
-
+    font-size: 16px;
+    font-weight: bold
 }
 .comm-text-div
+{
+    font-size:14px;
+    margin-bottom: 10px;
+}
 .comm-time-div
+{
+    font-size:10px;
+    color: dimgrey;
+    font-weight: bold
+}
 
 .item-divider{
     text-align: center;
@@ -59,7 +69,7 @@
         <div class="send-comm-div">
             <!--<input type="text" style="width: 60%;margin-left:10%;margin-right:8%; margin-top:10px;" v-model="commTextToSend"/>-->
             <Input :rows="1" style="width: 60%;margin-left:10%;margin-right:8%;"  v-model="commTextToSend" type="textarea" placeholder="Enter something..."/>
-            <Button type="primary" @click="sendComment()" style="background-color: white ;color: black;">发送</Button>
+            <Button type="primary" @click="sendComment()" style="background-color: white ;color: black; z-index:10;">Send</Button>
         </div>
         <div v-for="comm in comments">
             <div class="comm-avt-div">
@@ -75,8 +85,9 @@
                 <div class="comm-time-div" >
                     {{comm.comment.comment_create_time}}
                 </div>
+                
             </div>
-          <divider/>
+          <Divide style="margin:0;"/>
         </div>
     </div>
 </div>
@@ -97,7 +108,10 @@ export default {
     },
     methods:{
         sendComment(){
-            this.$emit("sendComm",this.commTextToSend);
+            this.$emit("sendComm",this.commTextToSend).then(Response=>{
+                console.log(Response)
+                // if()
+            })
             this.commTextToSend="";
         },
     },

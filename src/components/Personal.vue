@@ -282,7 +282,6 @@ export default {
       user_id: 0,
       imgName: "",
       visible: false,
-      uploadList: [],
       theme1: "light",
       theme3: "light",
       model13: "",
@@ -291,58 +290,6 @@ export default {
       model14: [],
       loading2: false,
       options2: [],
-      list: [
-        "Alabama",
-        "Alaska",
-        "Arizona",
-        "Arkansas",
-        "California",
-        "Colorado",
-        "Connecticut",
-        "Delaware",
-        "Florida",
-        "Georgia",
-        "Hawaii",
-        "Idaho",
-        "Illinois",
-        "Indiana",
-        "Iowa",
-        "Kansas",
-        "Kentucky",
-        "Louisiana",
-        "Maine",
-        "Maryland",
-        "Massachusetts",
-        "Michigan",
-        "Minnesota",
-        "Mississippi",
-        "Missouri",
-        "Montana",
-        "Nebraska",
-        "Nevada",
-        "New hampshire",
-        "New jersey",
-        "New mexico",
-        "New york",
-        "North carolina",
-        "North dakota",
-        "Ohio",
-        "Oklahoma",
-        "Oregon",
-        "Pennsylvania",
-        "Rhode island",
-        "South carolina",
-        "South dakota",
-        "Tennessee",
-        "Texas",
-        "Utah",
-        "Vermont",
-        "Virginia",
-        "Washington",
-        "West virginia",
-        "Wisconsin",
-        "Wyoming"
-      ],
       formValidate: {
         avatar:"",
         alias: "",
@@ -410,6 +357,26 @@ export default {
       }
     };
   },
+  created(){
+    // var _this = this
+    // var user_id = _this.getCookies("userID");
+    // console.log(user_id);
+    // this.user_id = user_id;
+    // this.uploadList = this.$refs.upload.fileList;
+    // console.log(this.formValidate);
+    // _this.getUserPublicInfo(this.user_id).then(response => {
+    //   console.log(response);
+    // });
+    // _this.getUserAllInfo().then(response => {
+    //   console.log("获取用户全部信息", response);
+    //   var user_info = response.data.data;
+    //   _this.formValidate.alias = user_info.userPublicInfo.nickname;
+    //   _this.formValidate.name = user_info.user_Private_Info.user_realname;
+    //   _this.formValidate.gender = user_info.user_Private_Info.user_gender;
+    //   _this.formValidate.desc = user_info.userPublicInfo.self_introction;
+    //   _this.uploadList
+    // });
+  },
   mounted() {
     var _this = this
     var user_id = _this.getCookies("userID");
@@ -423,10 +390,14 @@ export default {
     _this.getUserAllInfo().then(response => {
       console.log("获取用户全部信息", response);
       var user_info = response.data.data;
-      this.formValidate.alias = user_info.userPublicInfo.nickname;
-      this.formValidate.name = user_info.user_Private_Info.user_realname;
-      this.formValidate.gender = user_info.user_Private_Info.user_gender;
-      this.formValidate.desc = user_info.userPublicInfo.self_introction;
+      _this.formValidate.alias = user_info.userPublicInfo.nickname;
+      _this.formValidate.name = user_info.user_Private_Info.user_realname;
+      _this.formValidate.gender = user_info.user_Private_Info.user_gender;
+      _this.formValidate.desc = user_info.userPublicInfo.self_introction;
+      _this.uploadList.push({
+        url: user_info.userPublicInfo.avatar_url,
+        dont_upload: true
+      });
     });
   },
   methods: {
@@ -467,6 +438,9 @@ export default {
             //let x = document.getElementById("avatar").files[0];
             let x = this.uploadList[0];
             console.log(x);
+            if(x.dont_upload){
+              return;
+            }
             if (x) {
               console.log("有图片");
 
@@ -535,20 +509,16 @@ export default {
     },
     handleBeforeUpload(file) {
       const check = this.uploadList.length < 1;
-      if (!check) {
-        this.$Notice.warning({
-          title: "Up to 1 pictures can be uploaded."
-        });
-      } else {
-        let _this = this;
-        let reader = new FileReader();
-        reader.readAsDataURL(file); // 这里是最关键的一步，转换就在这里
-        reader.onloadend = function() {
-          file.url = this.result;
-          _this.uploadList.push(file);
-        };
-      }
-      return check;
+      
+      let _this = this;
+      let reader = new FileReader();
+      reader.readAsDataURL(file); // 这里是最关键的一步，转换就在这里
+      reader.onloadend = function() {
+        file.url = this.result;
+        _this.uploadList.splice(0,1);
+        _this.uploadList.push(file);
+      };
+      return false;
     }
   }
 };

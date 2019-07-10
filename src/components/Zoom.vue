@@ -3,7 +3,7 @@
   position: fixed;
   height: 100%;
   width: 100%;
-  overflow: auto;
+  overflow: scroll;
   background-color: rgb(230, 236, 240);
 }
 #background-top-container {
@@ -28,17 +28,6 @@
   margin-left: 122px;
 }
 
-.active {
-  border-bottom: 1px solid #0084b4;
-  border-left: 0px;
-  border-top: 0px;
-  border-right: 0px;
-  margin-top: 0px;
-  height: 100%;
-  position: relative;
-  border: 0px;
-  width: 25%;
-}
 .ProfileImg {
   position: absolute;
   bottom: -70px;
@@ -94,6 +83,9 @@
   margin-top: 20px;
   margin-left: 30px;
   margin-right: 30px;
+  display:block;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 #middle-middle-container {
@@ -138,7 +130,7 @@
   height: 80px;
   background-color: white;
 }
-.TabItem {
+.TabItem-four {
   background-color: white;
   margin-top: 0px;
   display: block;
@@ -146,7 +138,39 @@
   position: relative;
   border: 0px;
   width: 25%;
+  border-radius:0;
 }
+.TabItem-four-Show{
+  background-color: white;
+  margin-top: 0px;
+  display: block;
+  height: 100%;
+  position: relative;
+  width: 25%;
+  border-radius:0;  
+  border-bottom:1px solid blue;
+}
+.TabItem-three {
+  background-color: white;
+  margin-top: 0px;
+  display: block;
+  height: 100%;
+  position: relative;
+  border: 0px;
+  width: 33%;
+  border-radius:0;
+}
+.TabItem-three-Show{
+  background-color: white;
+  margin-top: 0px;
+  display: block;
+  height: 100%;
+  position: relative;
+  width: 33%;
+  border-radius:0;  
+  border-bottom:1px solid blue;
+}
+
 
 .to-follow-list {
   text-align: left;
@@ -250,8 +274,7 @@ bottom:0;
       <div id="middle-middle-container">
         <div class="TabContainer">
           <Button
-            v-bind:style="navStatus.tweetsShow ? 'border-radius:0; border-left:0px solid white; border-bottom:1px solid blue' : 'border-radius:0;'"
-            v-bind:class="!navStatus.tweetsShow ? 'TabItem' : 'active'"
+            v-bind:class="getRightClass('tweetsShow')"
             @click="tweetsClicked"
           >
             <div class="TabTxt">
@@ -260,8 +283,7 @@ bottom:0;
             </div>
           </Button>
           <Button
-            v-bind:style="navStatus.followingShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'"
-            v-bind:class="!navStatus.followingShow ? 'TabItem' : 'active'"
+            v-bind:class="getRightClass('followingShow')"
             exact-active-class="active"
             @click="followingClicked"
           >
@@ -271,8 +293,7 @@ bottom:0;
             </div>
           </Button>
           <Button
-            v-bind:style="navStatus.followersShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'"
-            v-bind:class="!navStatus.followersShow ? 'TabItem' : 'active'"
+            v-bind:class="getRightClass('followersShow')"
             exact-active-class="active"
             @click="followersClicked"
           >
@@ -282,8 +303,7 @@ bottom:0;
             </div>
           </Button>
           <Button
-            v-bind:style="navStatus.collectionsShow ? 'border-radius:0; border-bottom:1px solid blue' : 'border-radius:0;'"
-            v-bind:class="!navStatus.collectionsShow ? 'TabItem' : 'active'"
+            v-bind:class="!navStatus.collectionsShow ? 'TabItem-four' : 'TabItem-four-Show'"
             v-show="visitor==user"
             exact-active-class="active"
             @click="collectionsClicked"
@@ -390,6 +410,7 @@ export default {
       personAccount: null,
       joinTime: null,
       showName: "tweetsShow",
+      bindTabItemStyle: "",
       status: [
         "tweetsShow",
         "followingShow",
@@ -553,17 +574,30 @@ export default {
         this.followingList = k;
         this.followingCount = k.length;
       }
+    },
+    getRightClass(typeName){
+      if(this.navStatus[typeName] == true){
+        if(this.visitor == this.user)
+          return "TabItem-four-Show"
+        else
+          return "TabItem-three-Show"
+      }else{
+        if(this.visitor == this.user)
+          return "TabItem-four"
+        else
+          return "TabItem-three"
+      }
     }
   },
   watch: {
     "$route.params.PersonAccount": "initUserID",
     isFollowing(val) {
-      if (this.$refs.twe1) {
+      /*if (this.$refs.twe1) {
         this.$refs.twe1.change_follow2(val, this.visitor);
       }
       if (this.$refs.twe2) {
         this.$refs.twe2.change_follow2(val, this.visitor);
-      }
+      }*/
       var k = [];
       for (var i = 0; i < this.followersList.length; ++i) {
         if (this.followersList[i].user_id != this.user) {
@@ -576,9 +610,12 @@ export default {
         temp.avatar_url = this.my_info.avatar_url;
         temp.nickname = this.my_info.nickname;
         k.push(temp);
-      } else {
       }
       this.followersList = k;
+      var temp=new Array();
+      temp[0]=val;
+      temp[1]=this.visitor;
+      this.change_follow(temp);
     }
   }
 };

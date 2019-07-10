@@ -2,9 +2,9 @@
   <div id="LoginPage">
     <div id="head-div">
       <div id="logo" >
-        <Icon type="logo-twitter" size="50" style="color:white;margin-top: 45px;">Twitter</Icon>
+        <Icon type="logo-twitter" size="50" style="color:white;margin-top: 30px;">Twitter</Icon>
       </div>
-      <div id="WebName" style="font-size: 30px;color: white;float: left;margin-top: 48px">
+      <div id="WebName" style="font-size: 30px;color: white;float: left;margin-top: 33px">
         Twitter
       </div>
     </div>
@@ -148,7 +148,7 @@ lett.loginEventHandeler();
   height: 15%;
   width: 100%;
   background-color: #1da1f2;
-  margin-bottom: 150px;
+  margin-bottom: 100px;
 }
 #buttom-div
 {
@@ -166,7 +166,7 @@ lett.loginEventHandeler();
 }
 #buttom-content
 {
-  margin-top: 20px;
+  margin-top: 10px;
   margin-left: 40px;
   float: left;
   font-size: 17px;
