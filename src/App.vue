@@ -49,20 +49,12 @@
     }
     ,
     mounted(){
-
-        try{
-          console.log("艾特")
-            axios.get("http://localhost:12293/api/At/queryUnreadAt").then((response)=>{
-              console.log("艾特數量", response)
-              if(response.data.code==200&&response.data.message=="success"){
-                console.log("設置mentionedCount")
-                this.mentionedCount=response.data.data
-              }
-            })
-        }
-        catch (e) {
-          console.log("cannot connect to server!")
-        }},
+      let _this=this;
+      this.getAt();
+        setInterval(function () {
+          _this.getAt();
+        },5000)
+        },
 
     methods:{
       isRead(){
@@ -114,6 +106,21 @@
             result: false,
             errMsg: "Can't connect with server"
           };
+        }
+      },
+      getAt(){
+        try{
+          console.log("艾特")
+            this.queryUnreadAt().then((response)=>{
+              console.log("艾特數量", response)
+              if(response.data.code==200&&response.data.message=="success"){
+                console.log("設置mentionedCount")
+                this.mentionedCount=response.data.data
+              }
+            })
+        }
+        catch (e) {
+          console.log("cannot connect to server!")
         }
       }
     },
