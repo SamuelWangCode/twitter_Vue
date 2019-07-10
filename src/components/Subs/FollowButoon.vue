@@ -5,6 +5,7 @@
 }
 .font{
     font-weight:bold;
+    /* font-size: 20px; */
 }
 
 
@@ -16,7 +17,7 @@
     shape="circle"
     v-on:click="click_func()"
     v-bind:class="my_class"
-  ><span style="font-size:14px;">{{content}}</span></Button>
+  ><span style="font-size:12px;">{{content}}</span></Button>
 </template>
 
 <script>
