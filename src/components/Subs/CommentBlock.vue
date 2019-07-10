@@ -87,7 +87,7 @@
                 </div>
                 
             </div>
-          <Divide style="margin:0;"/>
+          <Divider style="margin:0;"/>
         </div>
     </div>
 </div>
@@ -108,10 +108,7 @@ export default {
     },
     methods:{
         sendComment(){
-            this.$emit("sendComm",this.commTextToSend).then(Response=>{
-                console.log(Response)
-                // if()
-            })
+            this.$emit("sendComm",this.commTextToSend);
             this.commTextToSend="";
         },
     },
