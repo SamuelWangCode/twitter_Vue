@@ -520,7 +520,6 @@ export default {
         isFollowing:{
             deep:true,
             handler(nval){
-                console.log('fafasf')
             this.followByUser=nval;
             }
 

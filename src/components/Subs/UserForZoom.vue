@@ -103,7 +103,7 @@ export default {
       this.load_follow_info(nval);
     },
     isFollowing(nval,oval){
-      this.$emit("change_my_follow",nval,this.user_info);
+      this.$emit("change_my_follow",nval,this.user_info.user_id);
     }
   }
 };

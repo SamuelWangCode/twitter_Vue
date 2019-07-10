@@ -7,7 +7,7 @@
 .load-more {
   /* font-size: 30px;*/
   font-weight: bold;
-  color: #1DA1F2; 
+  color: #1da1f2;
   text-align: center;
   margin-bottom: 20px;
   border-radius: 10px;
@@ -29,7 +29,7 @@
 
 <template>
   <div style="width:100%">
-    <div  v-for="item in items" v-bind:key="item.message_id">
+    <div v-for="item in items" v-bind:key="item.message_id">
       <twiitem
         v-bind:item="item"
         class="tweet-items"
@@ -39,10 +39,15 @@
         v-bind:isFollowing="isFollowing[item.message_sender_user_id]"
         @change_follow="change_follow($event,item)"
       ></twiitem>
-      <divider/>
+      <divider />
     </div>
-    <div v-if="ableShowMore" class="load-more" @click="loadMore()">Load More...<spin v-if="spinShow"><Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
-                <div>Loading</div></spin></div>
+    <div v-if="ableShowMore" class="load-more" @click="loadMore()">
+      Load More...
+      <spin v-if="spinShow">
+        <Icon type="ios-loading" size="18" class="demo-spin-icon-load"></Icon>
+        <div>Loading</div>
+      </spin>
+    </div>
     <div v-else class="no-more">已无更多内容</div>
   </div>
 </template>
@@ -67,7 +72,7 @@ export default {
       BigImageSource: "",
       ableShowMore: true,
       isFollowing: new Object(),
-      spinShow:false,
+      spinShow: false,
       burl: "http://localhost:12293/"
     };
   },
@@ -99,7 +104,7 @@ export default {
     },
     //下载数据
     downloadData() {
-      this.spinShow=true;
+      this.spinShow = true;
       if (this.type == "explore") {
         this.queryMessagesOf(
           this.getCookies("userID"),
@@ -109,7 +114,7 @@ export default {
           this.twiDatas = Response.data.data;
           //console.log(this.twiDatas);
           this.generateData();
-          this.spinShow=false;
+          this.spinShow = false;
         });
       } else if (this.type == "topic") {
         //console.log("id", this.info);
@@ -119,7 +124,7 @@ export default {
               this.twiDatas = Response.data.data;
               //console.log(this.twiDatas);
               this.generateData();
-              this.spinShow=false;
+              this.spinShow = false;
             }
           );
         }
@@ -131,23 +136,23 @@ export default {
         ).then(Response => {
           this.twiDatas = Response.data.data;
           this.generateData();
-          this.spinShow=false;
+          this.spinShow = false;
         });
       } else if (this.type == "collection") {
-        
-          this.queryCollections(this.info, this.items.length + 1, 10).then(Response => {
+        this.queryCollections(this.info, this.items.length + 1, 10).then(
+          Response => {
             this.twiDatas = Response.data.data;
             this.generateData();
-            this.spinShow=false;
-          });
-        
+            this.spinShow = false;
+          }
+        );
       } else if (this.type == "userhome") {
         if (this.info) {
           this.queryMessagesOf(this.info, this.items.length + 1, 10).then(
             Response => {
               this.twiDatas = Response.data.data;
               this.generateData();
-              this.spinShow=false;
+              this.spinShow = false;
             }
           );
         }
@@ -156,100 +161,100 @@ export default {
           this.search(this.info, this.items.length + 1, 10).then(Response => {
             this.twiDatas = Response.data.data.twitters;
             this.generateData();
-            this.spinShow=false;
+            this.spinShow = false;
           });
         }
-      }else if(this.type=="notification"){
-                this.queryAtMe(this.items.length + 1, 10).then(Response=>{
-                    this.twiDatas=Response.data.data;
-                    this.generateData();
-                    this.spinShow=false;
-                });
-            }
-            else if(this.type=="search"){
-                this.search(this.info, this.items.length + 1, 10).then(Response=>{
-                    this.twiDatas=Response.data.data.twitters;
-                    this.generateData();
-                    this.spinShow=false;
-                });
-            }
-        },
-        //返回排序规则函数的函数
-        rule(key) {
-            return function (a, b) { // sort 默认接受a,b两个参数表示数组中的值
-                var value1 = a[key]  
-                var value2 = b[key]
-                if (value1<value2){
-                    return 1;
-                }
-                else{
-                    return -1;
-                }
-            }
-        },
-        //下载数据后解析数据
-        generateData(){
-            
-            //如果没有数据或者没有数据了
-            if (!this.twiDatas||this.twiDatas.length==0){
-                this.ableShowMore=false;
-                return ;
-            }
-            //对twidatas根据时间排序
-            this.twiDatas.sort(this.rule("message_create_time")); 
-            //取得当前保存的推特总数
-            let twiCount=this.items.length;
-            for (let i=0;i<this.twiDatas.length;i++){
-                //还有一些属性需要自己去获取，包括是否被....以及用户的....
-                let itemTemp=this.twiDatas[i];
-                itemTemp.ifShowComment=false;
-                itemTemp.comments=[];
-                itemTemp.userName="用户";
-                itemTemp.userAvt="";
-                itemTemp.collectByUser=false;
-                itemTemp.likeByUser=false;
-                itemTemp.followByUser=false;
-                itemTemp.comments=[];
-                if(itemTemp.message_ats==null){
-                    itemTemp.message_ats=[];
-                }
-                if(itemTemp.message_topics==null){
-                    itemTemp.message_topics=[];
-                }
-                if (itemTemp.message_image_urls==null){
-                    itemTemp.message_image_urls=[];
-                }
-                //可以先解析已有内容
-                this.isFollowing[itemTemp.message_sender_user_id]=false;
-                //取用户数据
-                //获取以上的数据，这里由于可能是第二次拿数据，因此i+twiCount才是当前要处理的推的索引
-                this.getUserPublicInfo(itemTemp.message_sender_user_id).then(Response=>{
-                    itemTemp.userName=Response.data.data.nickname;
-                    itemTemp.userAvt=Response.data.data.avatar_url;
-                    
-                    //有了推文和用户基本信息后加入数组，其他信息tweetsingle自行判断
-                    this.items.push(itemTemp);
-                    
-                });
+      } else if (this.type == "notification") {
+        this.queryAtMe(this.items.length + 1, 10).then(Response => {
+          this.twiDatas = Response.data.data;
+          this.generateData();
+          this.spinShow = false;
+        });
+      } else if (this.type == "search") {
+        this.search(this.info, this.items.length + 1, 10).then(Response => {
+          this.twiDatas = Response.data.data.twitters;
+          this.generateData();
+          this.spinShow = false;
+        });
+      }
+    },
+    //返回排序规则函数的函数
+    rule(key) {
+      return function(a, b) {
+        // sort 默认接受a,b两个参数表示数组中的值
+        var value1 = a[key];
+        var value2 = b[key];
+        if (value1 < value2) {
+          return 1;
+        } else {
+          return -1;
+        }
+      };
+    },
+    //下载数据后解析数据
+    generateData() {
+      //如果没有数据或者没有数据了
+      if (!this.twiDatas || this.twiDatas.length == 0) {
+        this.ableShowMore = false;
+        return;
+      }
+      //对twidatas根据时间排序
+      this.twiDatas.sort(this.rule("message_create_time"));
+      //取得当前保存的推特总数
+      let twiCount = this.items.length;
+      for (let i = 0; i < this.twiDatas.length; i++) {
+        //还有一些属性需要自己去获取，包括是否被....以及用户的....
+        let itemTemp = this.twiDatas[i];
+        itemTemp.ifShowComment = false;
+        itemTemp.comments = [];
+        itemTemp.userName = "用户";
+        itemTemp.userAvt = "";
+        itemTemp.collectByUser = false;
+        itemTemp.likeByUser = false;
+        itemTemp.followByUser = false;
+        itemTemp.comments = [];
+        if (itemTemp.message_ats == null) {
+          itemTemp.message_ats = [];
+        }
+        if (itemTemp.message_topics == null) {
+          itemTemp.message_topics = [];
+        }
+        if (itemTemp.message_image_urls == null) {
+          itemTemp.message_image_urls = [];
+        }
+        //可以先解析已有内容
+        this.isFollowing[itemTemp.message_sender_user_id] = false;
+        //取用户数据
+        //获取以上的数据，这里由于可能是第二次拿数据，因此i+twiCount才是当前要处理的推的索引
+        this.getUserPublicInfo(itemTemp.message_sender_user_id).then(
+          Response => {
+            itemTemp.userName = Response.data.data.nickname;
+            itemTemp.userAvt = Response.data.data.avatar_url;
+
+            //有了推文和用户基本信息后加入数组，其他信息tweetsingle自行判断
+            this.items.push(itemTemp);
+          }
+        );
       }
       //完成加入后清空twiDatas，必须有，否则验证出错
       this.twiDatas = [];
       //console.log("asdads",this.items[0]);
     },
-    change_follow(event,item){
-      var k=JSON.parse(JSON.stringify(this.isFollowing));
-      k[item.message_sender_user_id]=event;
-      this.isFollowing=k;
-      this.$emit('change_following',event,this.message_sender_user_id)
+    change_follow(event, item) {
+      var k = JSON.parse(JSON.stringify(this.isFollowing));
+      k[item.message_sender_user_id] = event;
+      this.isFollowing = k;
+      this.$emit("change_following", event, item.message_sender_user_id);
     },
-    change_follow2(val,id){
-      if(this.isFollowing[id]!=val){
-        var k=JSON.parse(JSON.stringify(this.isFollowing));
-        k[id]=val;
-        this.isFollowing=k;
+    change_follow2(val, id) {
+      if (id in this.isFollowing) {
+        if (this.isFollowing[id] != val) {
+          var k = JSON.parse(JSON.stringify(this.isFollowing));
+          k[id] = val;
+          this.isFollowing = k;
+        }
       }
-    },
-
+    }
   },
   mounted() {
     //测试时把整个函数替换成/**/里的内容
@@ -262,9 +267,8 @@ export default {
         this.generateData();
         */
     this.downloadData();
-    var array = new Array(this.items)
-    if(array.length<10)
-    {
+    var array = new Array(this.items);
+    if (array.length < 10) {
       //this.ableShowMore = false
     }
   },
