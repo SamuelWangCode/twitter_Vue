@@ -57,6 +57,7 @@
 }
 .img-handler {
   margin-bottom: 20px;
+  height:auto;
 }
 
 .buttom-buttons {
@@ -349,6 +350,11 @@ export default {
       rawItemUserAvt: "",
       rawItemUserName: ""
     };
+  },
+  computed:{
+    handlerHeight:function(){
+      return 0;
+    }
   },
   methods: {
     //辅助函数，判断是不是这个浏览器cookies里用户的推特
