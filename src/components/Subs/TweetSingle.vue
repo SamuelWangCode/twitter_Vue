@@ -465,18 +465,24 @@ export default {
                                 },
                                 comment:{
                                     comment_content:content,
-                                    comment_create_time:"刚刚",
+                                    comment_create_time:"just now",
                                 }
                             };
                             this.comments.unshift(commTemp);
                         }
                         else{
-                            alert("评论失败");
+                            this.$Notice.error({
+                            title: "You should say something.",
+                            desc:''
+                        })
                         }
                     });
                 }
                 else{
-                    alert("转发失败");
+                    this.$Notice.error({
+                        title: "You should say something.",
+                    desc:''
+                         })
                 }
             });
         },
