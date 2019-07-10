@@ -1,5 +1,13 @@
 <template lang="html">
   <div id="LoginPage">
+    <div id="head-div">
+      <div id="logo" >
+        <Icon type="logo-twitter" size="50" style="color:white;margin-top: 45px;">Twitter</Icon>
+      </div>
+      <div id="WebName" style="font-size: 30px;color: white;float: left;margin-top: 48px">
+        Twitter
+      </div>
+    </div>
     <div class="LoginFormContainer">
       <loadingAnimation v-if="loading"/>
       <div class="Wrapper">
@@ -28,6 +36,14 @@
           <span>New?</span>
           <router-link to="/regist">Join now! »</router-link>
         </div>
+      </div>
+    </div>
+    <div id="buttom-div">
+      <div id="buttom-content" style="color: white;">
+        <p>Contact us</p>
+        <p>Address: School of Software, Tongji University, 4800 Caoan Road, Shanghai, China</p>
+        <p>Zip code: 201804</p>
+        <p> Contact number: 86-21-69589585, 69589932 (FAX)</p>
       </div>
     </div>
   </div>
@@ -102,10 +118,10 @@ lett.loginEventHandeler();
           else{
             this.loading=false
             this.$Notice.error({
-              title: "Can't connect with server.",
+              title: "You have already loged in.",
               desc:''
             })
-            this.errHint="Can't connect with server."
+            this.errHint="You have already loged in."
           }
         });
       } catch (e) {
@@ -127,7 +143,35 @@ lett.loginEventHandeler();
   padding-top: 10px;
   background-color: #e6ecf0;
 }
-
+#head-div
+{
+  height: 15%;
+  width: 100%;
+  background-color: #1da1f2;
+  margin-bottom: 150px;
+}
+#buttom-div
+{
+  height: 15%;
+  width: 100%;
+  background-color: #1da1f2;
+  position: fixed;
+  bottom: 0;
+}
+#logo
+{
+  width: 5%;
+  margin-left: 20px;
+  float: left;
+}
+#buttom-content
+{
+  margin-top: 20px;
+  margin-left: 40px;
+  float: left;
+  font-size: 17px;
+  text-align: left;
+}
 .LoginFormContainer {
   max-width: 840px;
   padding: 15px;

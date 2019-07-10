@@ -20,7 +20,11 @@
 }
 .no-more {
   width: 100%;
-  color: #cccccc;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #b9b9b9;
 }
 </style>
 
@@ -43,7 +47,7 @@
     </div>
     <div v-if="ableShowMore" class="load-more" @click="loadMore()">Load More...<spin v-if="spinShow"><Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
                 <div>Loading</div></spin></div>
-    <div v-else class="no-more">已无更多内容</div>
+    <div v-else class="no-more">No More</div>
   </div>
 </template>
 
@@ -240,7 +244,7 @@ export default {
       var k=JSON.parse(JSON.stringify(this.isFollowing));
       k[item.message_sender_user_id]=event;
       this.isFollowing=k;
-      this.$emit('change_following',event)
+      this.$emit('change_following',event,this.message_sender_user_id)
     },
     change_follow2(val,id){
       if(this.isFollowing[id]!=val){

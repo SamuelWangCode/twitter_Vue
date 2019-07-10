@@ -139,14 +139,11 @@ ul li{
 </style>
 
 <template >
-  <div id='root-div'>
-
-  
-
+  <div id='root-div'><div id="topAnchor"></div>
         <center>
-        <loadingAnimate v-if="sendingTwitter" class="center-fix"/>
+        <loadingAnimate v-if="loading" class="center-fix"/>
         </center>
-        <loadingAnimate v-if="loading" style="margin-left:auto;margin-right:auto;margin-top:48px;"/>
+        
 
     <Trends></Trends>
 
@@ -233,6 +230,7 @@ ul li{
      </ElContainer>
     </div>
         <whoToFollows></whoToFollows>
+        <backToTop></backToTop>
   </div>
 </template>
 <script>
@@ -242,6 +240,7 @@ ul li{
   import Tweets from "./Subs/Tweets"
   import Trends from "./Subs/Trends"
   import whoToFollows from "./Subs/whoToFollows"
+  import backToTop from "./Subs/BackToTop"
   export default {
     name:'Home',
     
@@ -272,13 +271,15 @@ ul li{
     components:{
       loadingAnimate,
       "tweets":Tweets,
-      Trends,whoToFollows
+      Trends,whoToFollows,
+      backToTop
     },
     mounted() {
     var _this = this;
     var userID = _this.getCookie("userID")
     console.log("登录：", userID)
     console.log(userID)
+    this.uploadList = this.$refs.upload.fileList;
     this.getUserPublicInfo(userID).then(Response=>{
     console.log(Response)
     if(Response.data.code==200 && Response.data.message=="success")
@@ -416,15 +417,16 @@ ul li{
         formData.append("file"+i, this.uploadList[i]);
       }
       this.sendMessage(formData).then(response=>{
-        setTimeout(()=>{this.sendingTwitter = false;}, 2000);
         //this.sendingTwitter = false;
         console.log(response);
         if(response.data.message == "success"){
           this.editor_content = "";
           this.uploadList = [];
         }
+        this.sendingTwitter = false;
+        this.$router.go(0)
       })
-      this.$router.go(0)
+      
     },
 
     captureImage() {

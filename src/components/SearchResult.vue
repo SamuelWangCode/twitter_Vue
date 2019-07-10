@@ -21,10 +21,21 @@ ul li {
   margin-left: 15px;
   margin-bottom: 5px;
 }
+.center-fix{
+	position: fixed;/*固定位置*/
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/	
+  margin:auto;
+left:0;
+right:0;
+top:0;
+bottom:0;
+}
 </style>
 
 <template>
   <div id="root-div">
+    <div id="topAnchor"></div>
+    <loadingAnimate v-if="loading" class="center-fix"/>
       <Trends></Trends>
 
     <div id="middle-container">
@@ -34,21 +45,26 @@ ul li {
     <ElContainer id="right-container">
       <whoToFollows></whoToFollows>
     </ElContainer>
+    <backToTop></backToTop>
   </div>
 </template>
 <script>
 import Tweets from "./Subs/Tweets"
 import Trends from "./Subs/Trends"
 import whoToFollows from "./Subs/whoToFollows"
+import loadingAnimate from "./animate/loading"
+import backToTop from "./Subs/BackToTop"
 export default {
   name: "SearchResult",
   components:{
     "tweets": Tweets,
     Trends,
-    whoToFollows
+    whoToFollows,
+    loadingAnimate,backToTop
   },
   data() {
     return {
+      loading:false,
       searchKey : this.$route.query.searchKey,
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
       users: [],
