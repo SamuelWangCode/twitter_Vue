@@ -43,7 +43,7 @@
         v-bind:isFollowing="isFollowing[item.message_sender_user_id]"
         @change_follow="change_follow($event,item)"
       ></twiitem>
-      <divider/>
+      <Divider/>
     </div>
     <div v-if="ableShowMore" class="load-more" @click="loadMore()">Load More...<spin v-if="spinShow"><Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
                 <div>Loading</div></spin></div>

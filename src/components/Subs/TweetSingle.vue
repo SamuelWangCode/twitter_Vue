@@ -1,10 +1,10 @@
 <style scoped>
 .twi-left{
     float: left;
-    width: 10%;
+    /* width: 10%; */
     margin-left: 3%;
     margin-top: 10px;
-    height: 80px;
+    /* height: 80px; */
 }
 .user-avatar-div{
     width: 60px;
@@ -29,27 +29,27 @@
 .twi-right{
     float: left;
     width: 84%;
-    margin-left: 0;
+    margin-left: 5px;
 }
 .twi-right-top-div{
     display: inline-block;
     width: 100%;
     background-color: white;
     margin-top: 10px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     margin-left: 0px;
     margin-right: 0px;
 }
 .user-name{
     font-weight:bold;
-    font-size: 20px;
-    height:40px;
+    font-size: 16px;
+    /* height:40px; */
 }
 
 
 .twi-text-block{
     margin-top:10px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     display: inline-block;
 
 }
@@ -57,16 +57,15 @@
 
 }
 .twi-text{
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     width: 100%;
 }
 .img-handler{
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 
 .buttom-buttons{
-  height: 100px;
     display: inline-block;
     background-color: white;
     width:100%;
@@ -74,7 +73,7 @@
 .collection-div{
     float: left;
     width:20%;
-    height:60px;
+    height:50px;
   /*margin-bottom: 20px;*/
     text-align: center;
   margin-left: 60px;
@@ -84,7 +83,7 @@
 }
 .comment-div{
     float: left;
-  height: 60px;
+  height: 50px;
     width:20%;
   /*padding-left:50%;*/
     text-align: center;
@@ -99,7 +98,7 @@
 .likes-div{
   float: left;
     width:20%;
-    height:60px;
+    height:50px;
     text-align: center;
 }
 .likes-div{
@@ -108,15 +107,16 @@
 .share-div{
   float: left;
   width:20%;
-  height:60px;
+  height:50px;
   text-align: center;
 }
 
 .shared-twi-div{
-    width: 100%;
-    float: left;
-    padding-top:20px;
-    margin-bottom:20px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    /* padding-top:20px; */
+    /* margin-bottom:20px; */
     background-color: rgb(236, 236, 236);
 }
 
@@ -173,6 +173,7 @@
                 <imagehandler class="img-handler" v-bind:imgData="item.rawItem.message_image_urls" :twiId="item.rawItem.message_id"></imagehandler>
 
             </div>
+        </div>
             <div class="buttom-buttons">
                 <div class="collection-div" @click="doCollect()">
                   <VueStar animate="animated rubberBand" color="#19be6b">
@@ -209,7 +210,6 @@
               </div>
             </div>
             <commentblock class="comment-block" @sendComm="doSendComment" v-bind:ifShowComment="ifShowComment" :comments="comments"></commentblock>
-        </div>
     </div>
 
 
