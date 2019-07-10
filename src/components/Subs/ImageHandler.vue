@@ -2,16 +2,20 @@
 div{
     margin: 0;
     padding: 0;
+    border:none;
+    overflow: hidden;
+    box-sizing:border-box;
 }
 img{
   margin:0;
   padding:0;
+  box-sizing:border-box;
 }
 
 .img-handler-div{
     width:100%;
     box-shadow: #ecedf3 0px 0px 4px;
-    display: inline-block;
+    display: flex;
     border-radius: 10px;
 }
 .img-handler-div:hover {
@@ -20,65 +24,51 @@ img{
 }
 
 .img1-1-div{
-    height:100%;
-    width:100%;
-    overflow: hidden;
+  display: flex;
 }
 .img1-1 {
   width: 100%;
 }
 
 .img-div-for2{
-    max-width: 100%;
-    max-height: 100%;
-    display: inline-block;
+  display:flex;
 }
 .img2-12-div{
     width:50%;
-    overflow: hidden;
-    float: left;
 }
 .img2-1{
-    max-width: 100%;
-    max-height: 100%;
 }
 .img2-2{
-    max-width: 100%;
-    max-height: 100%;
 }
 
 .img-div-for3{
-    overflow: hidden;
+  display: flex;
 }
 .img3-1-div {
-  overflow: hidden;
-  float: left;
 }
 .img3-1 {
 }
 .img3-23-div {
-  overflow: hidden;
-  float: left;
+  display:flex;
+  flex-direction: column;
 }
 .img3-23 {
 }
 
 .img-div-for4{
-    overflow: hidden;
+    display:flex;
 }
 .img4-1-div {
   overflow: hidden;
-  float: left;
 }
 .img4-1 {
 
 }
 .img4-234-div {
-  overflow: hidden;
-  float: left;
+  display: flex;
+    flex-direction: column;
 }
 .img4-234 {
-  float: left;
 }
 .cover {
   position: absolute;
@@ -99,7 +89,7 @@ img{
 
 <div>
     <Modal title="Preview" v-model="visible">
-      <img style="width: 100%" v-if='previewSrc.split(".")[1] == "jpg" ' v-bind:src="previewSrc" />
+      <img style="width: 100%"   v-if='previewSrc.split(".")[1] == "jpg" ' v-bind:src="previewSrc" />
       <video
         style="width: 100%"
         v-else
@@ -122,11 +112,10 @@ img{
         </div>
 
         <div v-else-if="imgNum==2" v-bind:style="{height:handlerHeight+'px'}" class="img-div-for2">
-            <div class="img2-12-div" v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}">
             <img
               class="img2-1"
-              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-if='imgData[0].split(".")[1] ==  "jpg" '
+              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
               alt="2-1"
@@ -134,12 +123,12 @@ img{
             <video
               class="img2-1"
               v-else
+              
+              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
               alt="2-1"
             />
-          </div>
-          <div class="img2-12-div" v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}">
             <img
               class="img2-2"
               v-if='imgData[1].split(".")[1] ==  "jpg" '
@@ -151,11 +140,12 @@ img{
             <video
               class="img2-2"
               v-else
+              
+              v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img1"
               v-bind:src="imgData[1]"
               @click="doShowBigImg(1)"
               alt="2-2"
             />
-          </div>
         </div>
 
         <div class="img-div-for3" v-else-if="imgNum==3" v-bind:style="{height:handlerHeight+'px'}">
@@ -171,12 +161,13 @@ img{
             <video
               class="img3-1"
               v-else
+              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
               alt="3-1"
             />
           </div>
-          <div class="img3-23-div" v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}">
+          <div class="img3-23-div">
             <img
               class="img3-2"
               v-if='imgData[1].split(".")[1] ==  "jpg" '
@@ -189,11 +180,10 @@ img{
               class="img3-2"
               v-else
               v-bind:src="imgData[1]"
+              v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img1"
               @click="doShowBigImg(1)"
               alt="3-2"
             />
-          </div>
-          <div class="img3-23-div" v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}">
             <img
               class="img3-3"
               v-if='imgData[2].split(".")[1] ==  "jpg" '
@@ -205,6 +195,7 @@ img{
             <video
               class="img3-3"
               v-else
+              v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}" ref="img1"
               v-bind:src="imgData[2]"
               @click="doShowBigImg(2)"
               alt="3-3"
@@ -226,12 +217,13 @@ img{
             <video
               class="img4-1"
               v-else
+              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
               alt="4-1"
             />
           </div>
-          <div class="img4-234-div" v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}">
+          <div class="img4-234-div">
             <img
               class="img4-234"
               v-if='imgData[1].split(".")[1] ==  "jpg" '
@@ -243,12 +235,11 @@ img{
             <video
               class="img4-1"
               v-else
+              v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img1"
               v-bind:src="imgData[1]"
               @click="doShowBigImg(1)"
               alt="4-1"
             />
-          </div>
-          <div class="img4-234-div" v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}">
             <img
               class="img4-234"
               v-if='imgData[2].split(".")[1] ==  "jpg" '
@@ -261,11 +252,10 @@ img{
               class="img4-234"
               v-else
               v-bind:src="imgData[2]"
+              v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}" ref="img1"
               @click="doShowBigImg(2)"
               alt="4-3"
             />
-          </div>
-          <div class="img4-234-div" v-bind:style="{height:sizeH[3]+'px',width:sizeW[3]+'px'}">
             <img
               class="img4-234"
               v-if='imgData[3].split(".")[1] ==  "jpg" '
@@ -278,6 +268,7 @@ img{
               class="img4-234"
               v-else
               v-bind:src="imgData[3]"
+              v-bind:style="{height:sizeH[3]+'px',width:sizeW[3]+'px'}" ref="img1"
               @click="doShowBigImg(3)"
               alt="4-4"
             />
@@ -322,26 +313,26 @@ export default {
                 this.sizeH[0]= this.handlerHeight;
             }
             if(this.imgNum==2){
-                this.sizeW[0]= this.handlerWidth*0.5-0.5;
-                this.sizeW[1]= this.handlerWidth*0.5-0.5;
+                this.sizeW[0]= this.handlerWidth*0.5;
+                this.sizeW[1]= this.handlerWidth*0.5;
 
                 this.sizeH[0]= this.handlerHeight;
                 this.sizeH[1]= this.handlerHeight;
             }
             if(this.imgNum==3){
-                this.sizeW[0]= this.handlerWidth*0.67-0.5;
-                this.sizeW[1]= this.handlerWidth*0.33-0.5;
-                this.sizeW[2]= this.handlerWidth*0.33-0.5;
+                this.sizeW[0]= this.handlerWidth*0.67;
+                this.sizeW[1]= this.handlerWidth*0.33;
+                this.sizeW[2]= this.handlerWidth*0.33;
 
                 this.sizeH[0]= this.handlerHeight;
                 this.sizeH[1]= this.handlerHeight*0.5;
                 this.sizeH[2]= this.handlerHeight*0.5;
             }
             if(this.imgNum==4){
-                this.sizeW[0]= this.handlerWidth*0.75-0.5;
-                this.sizeW[1]= this.handlerWidth*0.25-0.5;
-                this.sizeW[2]= this.handlerWidth*0.25-0.5;
-                this.sizeW[3]= this.handlerWidth*0.25-0.5;
+                this.sizeW[0]= this.handlerWidth*0.75;
+                this.sizeW[1]= this.handlerWidth*0.25;
+                this.sizeW[2]= this.handlerWidth*0.25;
+                this.sizeW[3]= this.handlerWidth*0.25;
 
                 this.sizeH[0]= this.handlerHeight*0.99;
                 this.sizeH[1]= this.handlerHeight*0.33;
@@ -385,6 +376,9 @@ export default {
       var imgSrc = this.imgData[imgNum];
       this.previewSrc = imgSrc;
     },
+    closeBigImg(){
+      this.visible=false;
+    }
   },
   created() {
     this.imgNewData = [];
