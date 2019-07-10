@@ -20,7 +20,11 @@
 }
 .no-more {
   width: 100%;
-  color: #cccccc;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #b9b9b9;
 }
 </style>
 
