@@ -1,7 +1,7 @@
 <style scoped>
 
 .message-div{
-    width:105%;
+    /* width:105%; */
     height:auto;
     text-align: left;
 }
@@ -84,7 +84,7 @@
         -->
 
 
-    <Button type="primary" class="message-div" shape="circle" @click="doShowPage()"style="font-weight: bold">Message</Button>
+    <Button type="primary" class="message-div" shape="circle" @click="doShowPage()" style="font-weight: bold">Message</Button>
 </div>
 </template>
 
