@@ -1,6 +1,9 @@
 <style scoped>
 .twi-text{
     font-size: 20px;
+    word-break:break-all;
+    width:100%;
+    overflow:auto;
 }
 .normal-text{
 }
@@ -21,10 +24,8 @@
 
 <template>
 <div>
-    <p>
-        <span v-html="htmlText" class="twi-text">        
-            {{htmlText}}
-        </span>
+    <p v-html="htmlText" class="twi-text">
+        {{htmlText}}
     </p>
 </div>
 </template>
@@ -71,12 +72,12 @@ export default {
             for(let i = 0; i < ats.length; i++){
                 var re = new RegExp(ats[i].atName, "g");
                 var atNameTripped = ats[i].atName;
-                twitter_content = twitter_content.replace(re, ' <a href="http://localhost:8080/Zoom?visitor_id='+ ats[i].atIds + '" > ' + atNameTripped + ' </a> ');
+                twitter_content = twitter_content.replace(re, ' <a href="/Zoom?visitor_id='+ ats[i].atIds + '" > ' + atNameTripped + ' </a> ');
             }
             for(let i = 0; i < topics.length; i++){
                 var re = new RegExp(topics[i].topicName, "g");
                 var topicNameTripped = topics[i].topicName.split("#")[1];
-                twitter_content = twitter_content.replace(re, ' <a href="http://localhost:8080/Topic?topic_id='+ topics[i].topicId + '&topic_name=' + topicNameTripped + '" > #' + topicNameTripped + '# </a> ');
+                twitter_content = twitter_content.replace(re, ' <a href="/Topic?topic_id='+ topics[i].topicId + '&topic_name=' + topicNameTripped + '" > #' + topicNameTripped + '# </a> ');
             }
             return twitter_content;
         },
