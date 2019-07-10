@@ -1,5 +1,10 @@
 <template lang="html">
   <div id="LoginPage">
+    <div id="head-div">
+      <div id="logo" >
+        <Icon type="logo-twitter" size="50" style="color:white;margin-top: 45px;">Twitter</Icon>
+      </div>
+    </div>
     <div class="LoginFormContainer">
       <loadingAnimation v-if="loading"/>
       <div class="Wrapper">
@@ -127,7 +132,34 @@ lett.loginEventHandeler();
   padding-top: 10px;
   background-color: #e6ecf0;
 }
-
+#head-div
+{
+  height: 15%;
+  width: 100%;
+  background-color: #1da1f2;
+  margin-bottom: 50px;
+}
+#buttom-div
+{
+  height: 15%;
+  width: 100%;
+  background-color: #1da1f2;
+  margin-top: 150px;
+}
+#logo
+{
+  width: 5%;
+  margin-left: 20px;
+  float: left;
+}
+#buttom-content
+{
+  margin-top: 20px;
+  margin-left: 40px;
+  float: left;
+  font-size: 10px;
+  text-align: left;
+}
 .LoginFormContainer {
   max-width: 840px;
   padding: 15px;
