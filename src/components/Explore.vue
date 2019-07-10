@@ -1,14 +1,10 @@
 <template>
     <div id="explore">
-        <ElContainer id="left-container">
       <Trends></Trends>
-      </ElContainer>
         <div id="middle-container" >
             <tweets type="home"></tweets>
         </div>
-        <ElContainer id="right-container">
       <whoToFollows></whoToFollows>
-      </ElContainer>
     </div>
 </template>
 
@@ -46,26 +42,12 @@ export default {
   background-color: rgb(230, 236, 240);
   overflow: auto;
 }
-#left-container {
-  float: left;
-  width: 20%;
-  background-color: white;
-  margin-left: 150px;
-  margin-top: 70px;
-}
-#middle-container {
-  float: left;
-  width: 40%;
-  background-color: white;
-  margin-left: 10px;
-  margin-top: 70px;
-}
-#right-container {
-  float: left;
-  width: 20%;
-  background-color: white;
-  margin-left: 10px;
-  margin-top: 70px;
-}
+#middle-container{
+    width: 40%;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 70px
+  }
 </style>
 

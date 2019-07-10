@@ -7,9 +7,10 @@
             <Icon type="ios-home" size="24"></Icon>
             Home
           </MenuItem>
-          <MenuItem name="notifications" router-link="{path: '/Notifications'}" key="Notifications">
-            <Icon type="ios-notifications" size="24"></Icon>
+          <MenuItem  name="notifications" router-link="{path: '/Notifications'}" key="Notifications" @click.native="isRead"  >
+            <Icon type="ios-notifications" size="24" ></Icon>
             Notifications
+            <Badge v-bind:count="mentionedCount"></Badge>
           </MenuItem>
           <MenuItem name="message" router-link="{path: '/Message'}" key="Message">
             <Icon type="ios-mail" size="24"></Icon>
@@ -39,13 +40,36 @@
     name: 'App',
     data(){
       return{
+        mentionedCount:0,
         theme1:"light",
         model13: '',
         loading1: false,
         list: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New hampshire', 'New jersey', 'New mexico', 'New york', 'North carolina', 'North dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode island', 'South carolina', 'South dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West virginia', 'Wisconsin', 'Wyoming']
       }
-    },
+    }
+    ,
+    mounted(){
+
+        try{
+          console.log("艾特")
+            axios.get("http://localhost:12293/api/At/queryUnreadAt").then((response)=>{
+              console.log(response)
+              if(response.code==200&&response.message=="success"){
+                this.mentionedCount=response.data
+              }
+            })
+        }
+        catch (e) {
+          console.log("cannot connect to server!")
+        }},
+
     methods:{
+      isRead(){
+        this.mentionedCount = 0;
+        console.log("读了")
+      }
+      ,
+
       handleSearch()
       {
         this.$router.push({

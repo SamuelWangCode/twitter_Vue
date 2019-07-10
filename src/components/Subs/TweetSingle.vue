@@ -54,7 +54,7 @@
 
 }
 .twi-text-block:hover{
-    
+
 }
 .twi-text{
     margin-bottom: 10px;
@@ -139,20 +139,20 @@
                 </div>
                 <div class="follow-button-div">
                     <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)"></FollowButton>
-                </div>  
+                </div>
                 <usermessage style="float:right;width:12%;margin-right:5%;" v-bind:userId="item.message_sender_user_id"></usermessage>
             </div>
             <div class="twi-text-block">
                 <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
             </div>
-            
+
         </div>
 
         <div class="shared-twi-div">
             <div style="float:left;width:8%;margin-left:6%">
                 <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="rawItemUserAvt"></Avatar>
             </div>
-            
+
             <div style="float:left;width:70%;margin-left:2%;margin-right:6%">
                 <div>
                     <p style="text-size:30px;">{{rawItemUserName}}</p>
@@ -161,7 +161,7 @@
                 <div class="twi-text-block">
                     <twitextblock class="twi-text" v-bind:fullText="item.rawItem.message_content" :ats="item.rawItem.message_ats" :topics="item.rawItem.message_topics"></twitextblock>
                 </div>
-                
+
                 <imagehandler class="img-handler" v-bind:imgData="item.rawItem.message_image_urls" :twiId="item.rawItem.message_id"></imagehandler>
 
             </div>
@@ -211,7 +211,7 @@
         <div class="twi-left">
             <Avatar  size=large v-bind:src="item.userAvt"></Avatar>
         </div>
-        
+
         <div class="twi-right">
             <div class="twi-right-top-div">
                 <div style="float:left;width:50%;">
@@ -227,7 +227,7 @@
             <div class="twi-text-block">
                 <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
             </div>
-            
+
             <imagehandler class="img-handler" :imgData="item.message_image_urls" :twiId="item.message_id"></imagehandler>
 
         </div>
@@ -403,7 +403,7 @@ export default {
                     //失败了就返回来
                     else{
                         this.collectByUser=false;
-                        
+
                         alert("收藏失败");
                     }
                 });
@@ -496,7 +496,7 @@ export default {
                     this.item.rawItem=Response.data.data;
                     this.messageIsShared=true;
                     this.getUserPublicInfo(this.item.rawItem.message_sender_user_id).then(Response=>{
-                        
+
                         this.rawItemUserName=Response.data.data.nickname;
                         this.rawItemUserAvt=Response.data.data.avatar_url;
                         //console.log("转发的推特",this.item.rawItem);
@@ -523,7 +523,7 @@ export default {
                 console.log('fafasf')
             this.followByUser=nval;
             }
-            
+
         }
     },
     beforeMount() {

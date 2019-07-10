@@ -93,7 +93,7 @@
   background-color: rgb(230, 236, 240);
 }
 
-#introduction{
+#introduction {
   height: 200px;
   margin-top: 20px;
   margin-left: 30px;
@@ -128,9 +128,9 @@
   height: 80px;
   width: 30%;
   display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 .TabContainer {
   margin-top: 0px;
@@ -202,16 +202,14 @@
 }
 
 .infor-avatar {
-
 }
 
-.follow-button-style{
+.follow-button-style {
   height: 45px;
-  width:100px;
-  font-weight:bold;
+  width: 100px;
+  font-weight: bold;
   font-size: 16px;
 }
-
 </style>
 <style>
 .el-tabs__item {
@@ -221,36 +219,32 @@
 </style>
 <template>
   <div class="root-div">
-
-      <div class="WallImgContainer">
-        <div class="BkgImgContainer">
-          <img :src="personBkgImg" style="height: 320px;width: 100%"/>
-        </div>
-        <div class="ProfileImgContainer">
-          <div class="ProfileImg">
-            <a href="#" class="ProfileImgLink">
-              <img :src="avatar" alt />
-            </a>
-          </div>
+    <div class="WallImgContainer">
+      <div class="BkgImgContainer">
+        <img :src="personBkgImg" style="height: 320px;width: 100%" />
+      </div>
+      <div class="ProfileImgContainer">
+        <div class="ProfileImg">
+          <a href="#" class="ProfileImgLink">
+            <Avatar style="width:200px;height:200px;border-radius:50%;" :src="avatar"></Avatar>
+          </a>
         </div>
       </div>
+    </div>
 
     <div id="middle-container">
       <div id="middle-left-container">
-
         <div>
           <div id="selfIntroduction-container">
             <div id="introduction-container">
               <div id="decoration" style="height: 70px;background-color: white;padding-top: 0px"></div>
               <div id="nickname-container">
                 {{nickname}}
-                <img :src="confirm_url" style="height: 20px"/>
+                <img :src="confirm_url" style="height: 20px" />
               </div>
               <div style="font-size: 20px;padding-right: 20px">@ {{nickname}}</div>
             </div>
-            <div id="introduction">
-              {{selfIntroduction}}
-            </div>
+            <div id="introduction">{{selfIntroduction}}</div>
           </div>
         </div>
       </div>
@@ -308,35 +302,48 @@
 
           <!--display tweets-->
           <div v-if="navStatus.tweetsShow" id="tweets-container">
-            <tweets :ref="'twe1'"v-on:change_following="change_follow($event)" type="userhome" v-bind:info="visitor"></tweets>
+            <tweets
+              :ref="'twe1'"
+              v-on:change_following="change_follow($event)"
+              type="userhome"
+              v-bind:info="visitor"
+            ></tweets>
           </div>
 
           <!--display following-->
           <div v-show="navStatus.followingShow" id="following-container">
-            <div  v-for="user in followingList" v-bind:key="user.user_id">
-              <userForZoom v-bind:p_user_id="user.user_id">
-              </userForZoom>
+            <div v-for="user in followingList" v-bind:key="user.user_id">
+              <userForZoom v-bind:p_user_id="user.user_id"></userForZoom>
             </div>
           </div>
 
           <!--display followers-->
           <div v-show="navStatus.followersShow" id="followers-container">
             <div v-for="user in followersList" v-bind:key="user.user_id">
-              <userForZoom v-bind:p_user_id="user.user_id">
-              </userForZoom>
+              <userForZoom v-bind:p_user_id="user.user_id"></userForZoom>
             </div>
           </div>
 
           <!--display collections-->
-          <div v-show="navStatus.collectionsShow" id="collections" >
-            <tweets :ref="'twe2'" v-on:change_following="change_follow($event)" type="collection" v-bind:info="user"></tweets>
+          <div v-show="navStatus.collectionsShow" id="collections">
+            <tweets
+              :ref="'twe2'"
+              v-on:change_following="change_follow($event)"
+              type="collection"
+              v-bind:info="user"
+            ></tweets>
           </div>
         </div>
       </div>
       <div id="middle-right-container">
         <div id="middle-right-top-container">
           <div v-if="visitor!=user" id="follow-button-container">
-            <FollowButton class="follow-button-style" v-bind:followerCount.sync="followerCount" v-bind:isFollowing.sync="isFollowing" v-bind:visitor="Number(visitor)"></FollowButton>
+            <FollowButton
+              class="follow-button-style"
+              v-bind:followerCount.sync="followerCount"
+              v-bind:isFollowing.sync="isFollowing"
+              v-bind:visitor="Number(visitor)"
+            ></FollowButton>
           </div>
         </div>
       </div>
@@ -351,7 +358,7 @@ import loadingAnimate from "./animate/loading";
 import Tweets from "./Subs/Tweets.vue";
 import User from "./Subs/User";
 import UserForZoom from "./Subs/UserForZoom";
-import FollowButton from "./Subs/FollowButoon"
+import FollowButton from "./Subs/FollowButoon";
 
 export default {
   name: "Zoom",
@@ -361,7 +368,7 @@ export default {
       num: 0,
       visitor: 0,
       user: 0,
-      confirm_url:"static/confirmed.png",
+      confirm_url: "static/confirmed.png",
       user_info: {},
       avatar: null,
       nickname: "NickName",
@@ -390,13 +397,14 @@ export default {
       toFollowList: [],
       followingList: [],
       followersList: [],
-      user_info:null
+      user_info: null,
+      my_info: null
     };
   },
   components: {
     loadingAnimate,
     Tweets,
-    "userForZoom":UserForZoom,
+    userForZoom: UserForZoom,
     User,
     FollowButton
   },
@@ -407,7 +415,7 @@ export default {
     console.log("user", this.user);
     try {
       var _this = this;
-      this.getUserPublicInfo(this.visitor).then(response=>{
+      this.getUserPublicInfo(this.visitor).then(response => {
         _this.user_info = response.data.data;
         _this.nickname = response.data.data.nickname;
         console.log(this.nickname);
@@ -419,17 +427,20 @@ export default {
         _this.selfIntroduction = response.data.data.self_introction;
         _this.joinTime = response.data.data.register_time;
       });
-      var p1 = this.if_following_by_me(this.visitor)
-      var p2 = this.queryFollowingFor(this.visitor, 1, 10)
-      var p3 = this.queryFollowersFor(this.visitor, 1, 10)
-
+      var p1 = this.if_following_by_me(this.visitor);
+      var p2 = this.queryFollowingFor(this.visitor, 1, 10);
+      var p3 = this.queryFollowersFor(this.visitor, 1, 10);
 
       Promise.all([p1, p2, p3]).then(res => {
-        console.log("完成数据加载", res)
+        console.log("完成数据加载", res);
         _this.isFollowing = res[0].data.data.if_following;
         _this.followingList = res[1].data.data;
         _this.followersList = res[2].data.data;
         console.log("这个人的followersList", _this.followersList);
+      });
+
+      this.getUserPublicInfo(this.user).then(response => {
+        this.my_info = response.data.data;
       });
     } catch (e) {
       return {
@@ -486,16 +497,40 @@ export default {
       this.navStatus[this.showName] = true;
       console.log(this.navStatus.collectionsShow);
     },
-    change_follow(event){
-      console.log('afasa');
-      this.isFollowing=event;
+    change_follow(event) {
+      console.log("afasa");
+      if ((this.isFollowing != event)) {
+        this.isFollowing = event;
+        if (event) {
+          this.followerCount++;
+        } else {
+          this.followerCount--;
+        }
+      }
     }
   },
   watch: {
     "$route.params.PersonAccount": "initUserID",
-    isFollowing(val){
-      this.$refs.twe1.change_follow2(val,this.visitor);
-      this.$refs.twe2.change_follow2(val,this.visitor);
+    isFollowing(val) {
+      if (this.$refs.twe1) {
+        this.$refs.twe1.change_follow2(val, this.visitor);
+        this.$refs.twe2.change_follow2(val, this.visitor);
+      }
+      var k = [];
+      for (var i = 0; i < this.followersList.length; ++i) {
+        if (this.followersList[i].user_id != this.user) {
+          k.push(this.followersList[i]);
+        }
+      }
+      if (val) {
+        var temp = new Object();
+        temp.user_id = this.my_info.user_id;
+        temp.avatar_url = this.my_info.avatar_url;
+        temp.nickname = this.my_info.nickname;
+        k.push(temp);
+      } else {
+      }
+      this.followersList = k;
     }
   }
 };

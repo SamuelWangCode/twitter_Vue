@@ -22,8 +22,8 @@
 <template>
 <div>
     <p>
-        <span v-html="fullText" class="twi-text">        
-            {{fullText}}
+        <span v-html="htmlText" class="twi-text">        
+            {{htmlText}}
         </span>
     </p>
 </div>
@@ -49,8 +49,13 @@ export default {
     },
     data(){
         return {
-            textArr:[],//用于保存普通字符、at的字符、topic的字符组成的数组。
             url:"http://localhost:12293/"
+        }
+    },
+    computed:{
+        htmlText: function () {
+      // `this` 指向 vm 实例
+            return this.parseTwitter(this.fullText);
         }
     },
     methods:{
@@ -59,7 +64,7 @@ export default {
             twitter_content;
             var topics = this.topics;
             var ats = this.ats;
-            console.log("解析前", topics, ats)
+            //console.log("解析前", topics, ats)
             for(let i = 0; i < ats.length; i++){
                 var re = new RegExp(ats[i].atName, "g");
                 var atNameTripped = ats[i].atName;
@@ -79,7 +84,7 @@ export default {
             this.$router.push({path:'/Topic', query: { topic_id:text.id }});
         },
         solveText(){
-            this.fullText=this.parseTwitter(this.fullText);
+            this.htmlText=this.parseTwitter(this.fullText);
             //alert(this.parseTwitter(this.fullText));
    
             //alert(this.fullText);

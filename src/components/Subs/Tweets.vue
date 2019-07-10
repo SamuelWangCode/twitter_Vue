@@ -29,7 +29,7 @@
 
 <template>
   <div style="width:100%">
-    <div v-for="item in items">
+    <div  v-for="item in items" v-bind:key="item.message_id">
       <twiitem
         v-bind:item="item"
         class="tweet-items"
@@ -248,7 +248,7 @@ export default {
         k[id]=val;
         this.isFollowing=k;
       }
-    }
+    },
 
   },
   mounted() {

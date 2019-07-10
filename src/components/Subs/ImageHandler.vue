@@ -4,6 +4,7 @@
 .img-handler-div{
     width:100%;
     box-shadow: #ecedf3 0px 0px 4px;
+    display: inline-block;
 }
 .img-handler-div:hover{
     box-shadow: #cacee6 0px 0px 8px;
@@ -11,7 +12,7 @@
 }
 
 .img1-1-div{
-    height:360px;
+    height:100%;
     width:100%;
     overflow: hidden;
     border-radius: 10px;
@@ -22,7 +23,7 @@
 
 .img-div-for2{
     width: 100%;
-    height: 300px;
+    height: 100%;
     overflow: hidden;
     border-radius: 10px;
 }
@@ -43,7 +44,7 @@
 
 .img-div-for3{
     width: 100%;
-    height: 320px;
+    height: 100%;
     overflow: hidden;
     border-radius: 10px;
 }
@@ -70,7 +71,7 @@
 
 .img-div-for4{
     width: 100%;
-    height: 360px;
+    height: 100%;
     overflow: hidden;
     border-radius: 10px;
 }
@@ -111,13 +112,7 @@
 
 <template>
 <div>
-<div class="img-handler-div" ref='div'>
-    <div v-show="showBigImage" class="cover" v-bind:style='{"height":coverHeight,"width":coverWidth}'>
-    </div>
-    <div v-show="showBigImage">
-        <img @click="doShowBigImg()" class="big-img" v-bind:src="bigImgSource" :style='{"height":bigImgHeight,"width":bigImgWidth}'>
-    </div>
-
+<div class="img-handler-div" ref="div" v-bind:style="{ height: handlerHeight }">
 
     <div class="twi-img" v-if="imgData.length==1">
         <div class="img1-1-div">
@@ -195,7 +190,16 @@ export default {
             smallSize:[],
             //开始时就计算出大图的长和宽
             bigSize:[],
-            handlerHeight:0,
+        }
+    },
+    computed:{
+        handlerHeight: function () {
+            if (this.$refs.div){
+                return this.$refs.div.style.width;
+            }
+            else{
+                return 0;
+            }
         }
     },
     methods:{
@@ -245,8 +249,8 @@ export default {
         imgData: {
             handler(newVal, oldVal) {
             if(this.imgData){
+                console.log("aaaaaaaaaaaaaaaaaaaaa",this.$refs.div.style.height="600px");
                 if(this.imgData.length==1){
-                    //this.$refs.div.style.height="600px";
                 }
                 else if(this.imgData.length==2){
                 }
