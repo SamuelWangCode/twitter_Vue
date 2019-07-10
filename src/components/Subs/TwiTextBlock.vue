@@ -53,9 +53,12 @@ export default {
         }
     },
     computed:{
-        htmlText: function () {
-      // `this` 指向 vm 实例
-            return this.parseTwitter(this.fullText);
+        htmlText: {
+            get:function () {
+                return this.parseTwitter(this.fullText);
+            },
+            set: function (newValue) {
+            }
         }
     },
     methods:{

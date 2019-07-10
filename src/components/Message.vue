@@ -48,7 +48,7 @@ ul li {
   <div id="root-div">
     <div v-if="visible">
     <wxChat 
-      ref="subChat"
+      :ref="'subChat'"
       @closeChat="closeChat"
       :sendPrivateLetter="send"
       :data="wxChatData"
@@ -122,7 +122,7 @@ export default {
       replycontent: "",
       contactList: [],
       my_user_info: {},
-      chatWidth: 300,
+      chatWidth: 400,
       contactAvatarUrl: "",
       ownerAvatarUrl: "",
       contactNickname: "",
@@ -220,7 +220,8 @@ export default {
       this.chating_my_user_id = this.my_user_info.user_id;
       this.chating_contact_user_id = contact.sender_info.user_id,
       this.wxChatData; //TODO 獲取數據
-      this.wxChatData = this.$refs.subChat.data;
+      //console.log(this.$refs.subChat);
+      //this.wxChatData = this.$refs.subChat.data;
     },
     getUpperData(){
 
@@ -233,13 +234,6 @@ export default {
     },
     send(contact_id, send_content){
       console.log("準備發送私信", contact_id, send_content);
-      this.wxChatData.push({
-        direction: 1,
-        id: this.wxChatData[this.wxChatData.length-1].id + 1,
-        type: 1,
-        content: send_content,
-        ctime: new Date().toLocaleString()
-      });
       this.sendPrivateLetter(contact_id, send_content).then(response=>{
         console.log(response);
       })

@@ -171,6 +171,13 @@
         flex-direction: row;
     }
 
+    .main-self{
+        
+    }
+
+    .main-contact{
+        display: flex;
+    }
 </style>
 
 <template>
@@ -201,15 +208,11 @@
                         <li v-for="(message, index) in dataArray" :key="message.id" :class="message.direction==2?'an-move-right':'an-move-left'">
                             <p class="time"> <span v-text="message.ctime"></span> </p>
                             <p class="time system" v-if="message.type==10000"> <span v-html="message.content"></span> </p>
-                            <div :class="'main' + (message.direction==2?' self':'')" v-else>
+                            <div :class="'main' + (message.direction==2?' self':'-contact')" v-else>
                                 <img class="avatar" width="45" height="45" :src="message.direction==2? ownerAvatarUrl: contactAvatarUrl">
                                 <!-- 文本 -->
                                 <div class="text" v-emotion="message.content" v-if="message.type==1"></div>
 
-                                <!-- 图片 -->
-                                <div class="text" v-else-if="message.type==2">
-                                    <img :src="message.content" class="image" alt="聊天图片">
-                                </div>
 
                                 <!-- 其他 -->
                                 <div class="text" v-else-if="message.type!=10000" v-text="'[暂未支持的消息类型:'+ message.type +']\n\r' + message.content">
@@ -394,6 +397,13 @@
             Send(){
                 var send_content = this.editor_content;
                 var contact_user_id = this.contact_user_id;
+                this.dataArray.push({
+                    direction: 1,
+                    id: this.dataArray[this.dataArray.length-1].id + 1,
+                    type: 1,
+                    content: send_content,
+                    ctime: new Date().toLocaleString()
+                });
                 this.sendPrivateLetter(contact_user_id, send_content);
                 this.editor_content = "";
             }
