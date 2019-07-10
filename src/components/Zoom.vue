@@ -376,7 +376,7 @@ bottom:0;
       <div id="middle-right-container">
         <div id="middle-right-top-container">
 
-          <UserMessage class="message-button-container">
+          <UserMessage :userId="visitor" class="message-button-container">
           </UserMessage>
 
           <div v-if="visitor!=user" class="follow-button-container">

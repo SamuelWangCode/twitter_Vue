@@ -120,7 +120,7 @@
 <template>
   <div>
     <div v-if="messageIsShared">
-      <div @click="clickUser()" class="twi-left">
+      <div  class="twi-left">
         <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
           <Avatar style="width:40px;height:40px;border-radius:50%;" v-bind:src="item.userAvt"></Avatar>
         </router-link>
@@ -128,7 +128,7 @@
 
       <div class="twi-right">
         <div class="twi-right-top-div">
-          <div id="name-time-die" @click="clickUser()" style="float:left;">
+          <div id="name-time-die"  style="float:left;">
             <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
               <p class="user-name">{{item.userName}}</p>
               <p class="time">
@@ -162,7 +162,7 @@
       </div>
 
       <div class="shared-twi-div">
-        <div @click="clickUser()" style="float:left;width:8%;margin-left:6%">
+        <div  style="float:left;width:8%;margin-left:6%">
           <router-link
             :to="{ path: '/Zoom', query: { visitor_id: item.rawItem.message_sender_user_id }}"
           >
@@ -171,7 +171,7 @@
         </div>
 
         <div style="float:left;width:70%;margin-left:2%;margin-right:6%">
-          <div @click="clickUser()">
+          <div >
             <router-link
               :to="{ path: '/Zoom', query: { visitor_id: item.rawItem.message_sender_user_id }}"
             >
@@ -243,7 +243,7 @@
     </div>
 
     <div v-else>
-      <div @click="clickUser()" class="twi-left">
+      <div class="twi-left">
         <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
           <Avatar size="large" v-bind:src="item.userAvt"></Avatar>
         </router-link>
@@ -251,7 +251,7 @@
 
       <div class="twi-right">
         <div class="twi-right-top-div">
-          <div id="name-time-die" @click="clickUser()" style="float:left;">
+          <div id="name-time-die"  style="float:left;">
             <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
               <p class="user-name">{{item.userName}}</p>
               <p class="time">
@@ -506,12 +506,6 @@ export default {
     },
     set_follow_status(status) {
       this.followByUser = status;
-    },
-    clickUser(user_id) {
-      this.$router.push({
-        path: "/Zoom",
-        query: { visitor_id: user_id }
-      });
     },
     send_update(val) {
       console.log("sadasda",val)

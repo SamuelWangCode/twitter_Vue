@@ -78,7 +78,7 @@ bottom:0;
     <loadingAnimate v-if="loading" class="center-fix"/>
     <ElContainer id="middle-container">
       <el-header class="header-left-align">Message</el-header>
-      <Divider />
+      <Divider style="margin:0;"/>
       <ul>
         <ElContainer id="chat-container"  v-for="contact in contactList"  :key="contact.contact_person_id">
           <el-container>
@@ -86,21 +86,21 @@ bottom:0;
               <a>
                 <Avatar
                   :src="contact.contact_person_avator_url"
-                  style="margin-top: 10px;margin-left: 15px;margin-bottom: 1px;"
+                  style="margin-top: 15px;margin-left: 15px;margin-bottom: 1px;"
                   size="large"
                 ></Avatar>
               </a>
             </div>
             <div>
               <div id="chat-content">
-              <p style="font-size: 20px;">
+              <p style="font-size: 20px;margin-bottom:15px;">
               <a style="color: black">{{contact.contact_nickname}}</a>
               </p>
               <p> {{contact.contact_time}} </p>
               </div>
             </div>
             <div style="position: fixed;left: 1100px;margin-top: 10px">
-              <Button style="height: 50%; ;" @click="startChat(contact)">Chat</Button>
+              <Button style="height: 50%;margin-top:12px;" @click="startChat(contact)">Chat</Button>
             </div>
             <!--私信文字排版还有问题-->
             <!--<Button type="primary" @click="reply=true">reply</Button>-->
@@ -110,7 +110,7 @@ bottom:0;
             </Modal>
             -->
           </el-container>
-          <Divider style="margin-top: 70px; margin-bottom: 15px;width: 100%; "></Divider>
+          <Divider style="margin:0; margin-bottom: 15px;width: 100%; "></Divider>
         </ElContainer>
       </ul>
     </ElContainer>
