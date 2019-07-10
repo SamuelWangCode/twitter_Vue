@@ -64,7 +64,7 @@ export default {
             twitter_content;
             var topics = this.topics;
             var ats = this.ats;
-            console.log("解析前", topics, ats)
+            //console.log("解析前", topics, ats)
             for(let i = 0; i < ats.length; i++){
                 var re = new RegExp(ats[i].atName, "g");
                 var atNameTripped = ats[i].atName;
