@@ -214,13 +214,13 @@
 
         <div class="twi-right">
             <div class="twi-right-top-div">
-                <div style="float:left;width:50%;">
-                    <p class="user-name">{{item.userName}}</p>
+                  <div class="follow-button-div">
+                    <p class="user-name">{{item.userName}}
+                      <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="float:right;argin-bottom: 5px"></FollowButton>
+                      <usermessage style="float:right;margin-right:5%;width:12%;" v-bind:userId="item.message_sender_user_id"></usermessage>
+                    </p>
+                  </div>
                     <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
-                </div>
-                <div class="follow-button-div">
-                    <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="margin-left: 205px;margin-bottom: 5px"></FollowButton>
-                    <usermessage style="float:right;margin-right:5%;width:12%;" v-bind:userId="item.message_sender_user_id"></usermessage>
                 </div>
 
             </div>
