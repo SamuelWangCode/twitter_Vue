@@ -114,10 +114,17 @@ export default {
             //成功发送了
                 if (Response.data.code==200){
                     //播放动画？
+                    this.$Notice.success({
+              title: 'Send message success!',
+              desc:''
+            })
                     this.closePage();
                 }
                 else{
-                    window.alert("发送失败");
+                    this.$Notice.error({
+              title: 'You should say something.',
+              desc:''
+            })
                 }
             });
         },
