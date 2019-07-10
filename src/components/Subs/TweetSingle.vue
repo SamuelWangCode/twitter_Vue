@@ -134,18 +134,18 @@
         </div>
 
         <div class="twi-right">
-            <div class="twi-right-top-div">
-                <div @click="clickUser()" style="float:left;width:50%;">
-                    <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
-                    <p class="user-name">{{item.userName}}</p>
-                    <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
-                    </router-link>
-                </div>
-                <div class="follow-button-div">
-                    <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="margin-left: 205px;margin-bottom: 5px"></FollowButton>
-                </div>
-                <usermessage style="float:right;width:12%;margin-right:5%;" v-bind:userId="item.message_sender_user_id"></usermessage>
+          <div class="twi-right-top-div">
+            <div id="name-time-die" @click="clickUser()" style="float:left;">
+              <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
+                <p class="user-name">{{item.userName}}</p>
+                <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
+              </router-link>
             </div>
+            <div id="follow-mes-butt-div" style="float: right;">
+              <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="float:right;"></FollowButton>
+              <usermessage style="float:right;margin-right: 10px" v-bind:userId="item.message_sender_user_id"></usermessage>
+            </div>
+          </div>
             <div class="twi-text-block">
                 <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>
             </div>
@@ -224,17 +224,16 @@
 
         <div class="twi-right">
             <div class="twi-right-top-div">
-                <div @click="clickUser()" style="float:left;width:50%;">
+                <div id="name-time-die" @click="clickUser()" style="float:left;">
                     <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
                         <p class="user-name">{{item.userName}}</p>
                         <p class="time">{{item.message_create_time}}<Icon type="ios-flame-outline" size="18"></Icon>{{item.message_heat}}</p>
                     </router-link>
                 </div>
-                <div class="follow-button-div">
-                    <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="margin-left: 205px;margin-bottom: 5px"></FollowButton>
-                    <usermessage style="float:right;margin-right:5%;width:12%;" v-bind:userId="item.message_sender_user_id"></usermessage>
-                </div>
-
+              <div id="follow-mes-butt-div" style="float: right;">
+                <FollowButton v-bind:isFollowing.sync="followByUser" v-bind:visitor="Number(item.message_sender_user_id)" style="float:right;"></FollowButton>
+                <usermessage style="float:right;margin-right: 10px" v-bind:userId="item.message_sender_user_id"></usermessage>
+              </div>
             </div>
             <div class="twi-text-block">
                 <twitextblock class="twi-text" v-bind:fullText="item.message_content" :ats="item.message_ats" :topics="item.message_topics"></twitextblock>

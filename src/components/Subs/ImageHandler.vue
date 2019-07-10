@@ -1,50 +1,52 @@
 <style scoped>
-.img-handler-div {
-  width: 100%;
-  box-shadow: #ecedf3 0px 0px 4px;
-  display: inline-block;
+div{
+    margin: 0;
+    padding: 0;
+}
+
+.img-handler-div{
+    width:100%;
+    box-shadow: #ecedf3 0px 0px 4px;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 10px;
 }
 .img-handler-div:hover {
   box-shadow: #cacee6 0px 0px 8px;
   cursor: zoom-in;
 }
 
-.img1-1-div {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 10px;
+.img1-1-div{
+    height:100%;
+    width:100%;
+    overflow: hidden;
 }
 .img1-1 {
   width: 100%;
 }
 
-.img-div-for2 {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 10px;
+.img-div-for2{
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    display: inline-block;
 }
-.img2-12-div {
-  height: 100%;
-  width: 50%;
-  overflow: hidden;
-  float: left;
+.img2-12-div{
+    width:50%;
+    overflow: hidden;
+    float: left;
 }
-.img2-1 {
-  width: 100%;
-  height: 100%;
+.img2-1{
+    max-width: 100%;
+    max-height: 100%;
 }
-.img2-2 {
-  width: 100%;
-  height: 100%;
+.img2-2{
+    max-width: 100%;
+    max-height: 100%;
 }
 
-.img-div-for3 {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 10px;
+.img-div-for3{
+    overflow: hidden;
 }
 .img3-1-div {
   height: 100%;
@@ -67,11 +69,10 @@
   width: 100%;
 }
 
-.img-div-for4 {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 10px;
+.img-div-for4{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 .img4-1-div {
   height: 100%;
@@ -109,7 +110,8 @@
 </style>
 
 <template>
-  <div>
+
+<div>
     <Modal title="Preview" v-model="visible">
       <img style="width: 100%" v-if='previewSrc.split(".")[1] == "jpg" ' v-bind:src="previewSrc" />
       <video
@@ -119,9 +121,10 @@
         controls="controls"
       />
     </Modal>
+    
+    <div class="img-handler-div" ref="wholediv" v-bind:style="{height:handlerHeight}" >
 
-    <div class="img-handler-div" ref="div" v-bind:style="{ height: handlerHeight }">
-      <div class="twi-img" v-if="imgData.length==1">
+        <div class="twi-img" v-if="imgNum==1">
         <div class="img1-1-div">
           <img
             class="img1-1"
@@ -134,11 +137,13 @@
         </div>
       </div>
 
-      <div class="twi-img" v-else-if="imgData.length==2">
+
+    <div class="twi-img" v-else-if="imgNum==2">
         <div class="img-div-for2">
-          <div class="img2-12-div">
+            <div class="img2-12-div">
             <img
               class="img2-1"
+              v-bind:style="{height:sizeH[0],width:sizeW[0]}" ref="img1"
               v-if='imgData[0].split(".")[1] ==  "jpg" '
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
@@ -146,6 +151,7 @@
             />
             <video
               class="img2-1"
+              v-bind:style="{height:sizeH[1],width:sizeW[1]}" ref="img2"
               v-else
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
@@ -224,7 +230,8 @@
         </div>
       </div>
 
-      <div class="twi-img" v-else-if="imgData.length==4">
+
+      <div class="twi-img" v-else-if="imgNum==4">
         <div class="img-div-for4">
           <div class="img4-1-div">
             <img
@@ -315,79 +322,87 @@ export default {
       bigImgHeight: "",
       bigImgWidth: "",
       //开始时就计算出小图的长和宽，第一张图片的长和宽分别保存在
-      smallSize: [],
-      //开始时就计算出大图的长和宽
-      bigSize: []
+      sizeW: [],
+      sizeH: [],
+      handlerWidth:"0px",
+      handlerHeight:"0px",
+      imgNum:0,
     };
   },
-  computed: {
+   watch:{
+        handlerHeight(val){
+            console.log("handlerheight变了");
+            if(this.imgNum==1){
+                this.sizeW[0]= this.handlerWidth;
+
+                this.sizeH[0]= this.handlerHeight;
+            }
+            if(this.imgNum==2){
+                this.sizeW[0]= this.handlerWidth*0.5;
+                this.sizeW[1]= this.handlerWidth*0.5;
+
+                this.sizeH[0]= this.handlerHeight;
+                this.sizeH[1]= this.handlerHeight;
+            }
+            if(this.imgNum==3){
+                this.sizeW[0]= this.handlerWidth*0.67;
+                this.sizeW[1]= this.handlerWidth*0.33;
+                this.sizeW[2]= this.handlerWidth*0.33;
+
+                this.sizeH[0]= this.handlerHeight;
+                this.sizeH[1]= this.handlerHeight*0.5;
+                this.sizeH[2]= this.handlerHeight*0.5;
+            }
+            if(this.imgNum==4){
+                this.sizeW[0]= this.handlerWidth*0.75;
+                this.sizeW[1]= this.handlerWidth*0.25;
+                this.sizeW[2]= this.handlerWidth*0.25;
+                this.sizeW[3]= this.handlerWidth*0.25;
+
+                this.sizeH[0]= this.handlerHeight*0.99;
+                this.sizeH[1]= this.handlerHeight*0.33;
+                this.sizeH[2]= this.handlerHeight*0.33;
+                this.sizeH[3]= this.handlerHeight*0.33;
+            }
+        }
+    },
+    mounted(){
+        if (this.imgData&&this.imgData.length){
+                this.imgNum=this.imgData.length;
+                this.handlerWidth=this.$refs.wholediv.offsetWidth;
+                if (this.imgData.length==1){
+                    this.handlerHeight=this.handlerWidth+"px";
+                }
+                if (this.imgData.length==2) {
+                    this.handlerHeight=0.5*this.handlerWidth+"px";
+                }
+                if (this.imgData.length==3) {
+                    this.handlerHeight=0.67*this.handlerWidth+"px";
+                }
+                if (this.imgData.length==4) {
+                    this.handlerHeight=0.75*this.handlerWidth+"px";
+            }
+            console.log("mount里",this.handlerHeight);
+        }
+    },
+    computed: {
     imgNewData: {
       get: function() {},
 
       set: function(newValue) {}
-    },
-    handlerHeight: function() {
-      if (this.$refs.div) {
-        return this.$refs.div.style.width;
-      } else {
-        return 0;
-      }
     }
-  },
+    },
+  
   methods: {
     doShowBigImg(imgNum) {
       this.visible = true;
       var imgSrc = this.imgData[imgNum];
       this.previewSrc = imgSrc;
     },
-    //下一张图片
-    next() {},
-    //上一张图片
-    pre() {}
   },
   created() {
     this.imgNewData = [];
-    /*
-        if (this.imgData.length==1){
-
-        }
-        else if(this.imgData.length==2){
-
-        }
-        else if(this.imgData.length==3){
-
-        }
-        else if(this.imgData.length==4){
-
-        }
-        */
-    //console.log(this.imgData);
-  },
-  mounted() {
-    console.log(this.imgNewData);
-  },
-  watch: {
-    imgData: {
-      handler(newVal, oldVal) {
-        if (this.imgData) {
-          console.log(
-            "aaaaaaaaaaaaaaaaaaaaa",
-            (this.$refs.div.style.height = "600px")
-          );
-          if (this.imgData.length == 1) {
-          } else if (this.imgData.length == 2) {
-          } else if (this.imgData.length == 3) {
-          } else if (this.imgData.length == 4) {
-          }
-        }
-      },
-      // 代表在wacth里声明了firstName这个方法之后立即先去执行handler方法
-      immediate: true,
-      deep: true
-    }
-  }
-};
-
     
+  },
+}
 </script>
-

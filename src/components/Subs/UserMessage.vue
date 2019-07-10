@@ -63,18 +63,25 @@
 <div>
     <div v-show="showPage" id="message-page" v-bind:style='{"height":pageHeight,"width":pageWidth}'>
     </div>
-
+  <Modal
+    v-model="showPage"
+    title="Message"
+    :loading="loading"
+    @on-ok="message()">
+    <Input type="textarea" maxlength="140" :rows="4" style="height: 100px;width: 90%; margin:5%; font-size:20px;" v-model="text"/>
+  </Modal>
+  <!--
     <div v-show="showPage" id="message-dialog">
         <div class="message-block-title">发送私信
             <Icon class="close-icon" type="ios-close" size="30" @click="closePage()"></Icon>
         </div>
         <div >
-            <input class="message-text-inputer" type="text" v-model="text">
+            <input class="message-text-inputer" type="textarea" maxlength="140" :rows="4" style="height: 100px;width: 90%; margin:5%; font-size:20px;" v-model="text">
             <Button class="send-message-button" type="primary" @click="message()">发送</Button>
             <Button class="cancel-message-button" type="primary" @click="closePage()">取消</Button>
         </div>
-        
-    </div>
+        </div>
+        -->
 
 
     <Button type="primary" class="message-div" @click="doShowPage()"style="font-weight: bold">Message</Button>
@@ -120,7 +127,6 @@ export default {
             let w=document.documentElement.offsetWidth;
             this.pageHeight=h.toString()+"px";
             this.pageWidth=w.toString()+"px";
-
             this.showPage=true;
         },
         //关掉转发的覆盖页

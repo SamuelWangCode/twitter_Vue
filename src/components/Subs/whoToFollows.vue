@@ -25,7 +25,7 @@
     position: fixed;
     width: 16%;
     background-color: white;
-    right: 9%;
+    right: 13%;
     top: 70px;
   }
 </style>
