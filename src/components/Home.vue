@@ -213,9 +213,14 @@ ul li{
             <div v-show="editor_content.length > 0" style="float:left;" >
               <div class="demo-upload-list" v-for="item in uploadList">
                 <template>
-                  <img :src="item.url">
+                  <img v-show="item.is_img" :src="item.url">
                     <div class="demo-upload-list-cover">
-                      <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
+                      <Icon type="ios-eye-outline" @click.native="handleView(item)"></Icon>
+                      <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                    </div>
+                  <video v-show="item.is_video"  :src="item.url"/>
+                    <div class="demo-upload-list-cover">
+                      <Icon type="ios-eye-outline" @click.native="handleView(item)"></Icon>
                       <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
                     </div>
                 </template>
@@ -224,8 +229,8 @@ ul li{
                 ref="upload"
                 :show-upload-list="false"
                 :on-success="handleSuccess"
-                :format="['jpg','jpeg','png']"
-                :max-size="2048"
+                :format="['jpg','jpeg','png','mp4']"
+                :max-size="40960"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
                 :before-upload="handleBeforeUpload"
@@ -238,8 +243,10 @@ ul li{
                   </div>
               </Upload>
               </div>
-              <Modal title="View Image" v-model="visible">
-                <img :src="img_preview" v-if="visible" style="width: 100%">
+              <Modal title="Preview" v-model="visible">
+                <img :src="img_preview_src" v-if="visible && is_previewing_img" style="width: 100%">
+                <video controls="controls" v-else-if="visible && is_previewing_video" id="video" style="width: 100%" :src="video_preview_src">
+                </video>
               </Modal>
             </div>
     
@@ -287,10 +294,13 @@ ul li{
     
     data(){
       return{
+        is_previewing_img: false,
+        is_previewing_video: false,
         sendingTwitter: false,
         editor_content:"",
         visible:false,
-        img_preview:"",
+        img_preview_src:"",
+        video_preview_src:"",
         uploadList: [],
         loading:true,
         userName: "username",
@@ -366,9 +376,18 @@ ul li{
         console.log("调用uploadTapped");
         this.isEditerFocused = true;
       },
-      handleView (url) {
-                this.img_preview = url;
-                this.visible = true;
+      handleView (item) {
+        console.log(item);
+          if(item.is_img){
+            this.img_preview_src = item.url;
+            this.is_previewing_img = true;
+            this.is_previewing_video = false;
+          }else if(item.is_video){
+            this.video_preview_src = item.url;
+            this.is_previewing_video = true;
+            this.is_previewing_img = false;
+          }   
+          this.visible = true;
       },
       handleRemove (file) {
                 const fileList = this.$refs.upload.fileList;
@@ -391,24 +410,46 @@ ul li{
                 });
       },
       handleBeforeUpload (file) {
-              
+                console.log("上傳了文件", file);
+                if(file.type.substr(0,5) == "image"){
+                  file.is_img = true;
+                  file.is_video = false;
+                }else if(file.type.substr(0,5) == "video"){
+                  file.is_video = true;
+                  file.is_img = false;
+                }
                 const check =  this.$refs.upload.fileList.length < 4;
                 if (!check) {
                     this.$Notice.warning({
-                        title: 'Up to four pictures can be uploaded.'
+                        title: 'Up to four items can be uploaded.'
                     });
                 }else{
                   let _this = this
-                  let reader = new FileReader()
-                  reader.readAsDataURL(file) // 这里是最关键的一步，转换就在这里
-                  reader.onloadend = function () {
-                    file.url = this.result
-                    _this.$refs.upload.fileList.push(file);
+                  if(file.is_img){
+                      let reader = new FileReader()
+                      reader.readAsDataURL(file) // 这里是最关键的一步，转换就在这里
+                      reader.onloadend = function () {
+                        console.log("圖片解析完畢")
+                      file.url = this.result
+                      this.img_preview_src = file.src;
+                      _this.$refs.upload.fileList.push(file);
+                    }
+                  }else if(file.is_video){
+                      var url = null ;
+                      if (window.createObjectURL!=undefined) { // basic
+                        url = window.createObjectURL(file) ;
+                      } else if (window.URL!=undefined) { // mozilla(firefox)
+                        url = window.URL.createObjectURL(file) ;
+                      } else if (window.webkitURL!=undefined) { // webkit or chrome
+                        url = window.webkitURL.createObjectURL(file) ;
+                      }
+                      file.url = url;
+                      _this.$refs.upload.fileList.push(file);
                   }
                   
                 }
                 console.log("handleBeforeUpload");
-                return check;
+                return false;
       },
       editerFocusEventHandler (e) {
         this.isEditerFocused = true
@@ -458,6 +499,15 @@ ul li{
         }
       })
       this.$router.go(0)
+    },
+
+    captureImage() {
+      var video = document.getElementById("video");
+      var canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth * scale;
+      canvas.height = video.videoHeight * scale;
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
+      return canvas.toDataURL("image/png");
     }
       
     }
