@@ -84,7 +84,7 @@
         -->
 
 
-    <Button type="primary" class="message-div" @click="doShowPage()"style="font-weight: bold">Message</Button>
+    <Button type="primary" class="message-div" shape="circle" @click="doShowPage()"style="font-weight: bold">Message</Button>
 </div>
 </template>
 
