@@ -1,22 +1,28 @@
 <template>
-<div class="root-div">
+<div id="root-div">
+  <div id=topAnchor></div>
+  <loadingAnimate v-if="loading" class="center-fix"/>
   <div class="topic-name-container">#{{topicName}}</div>
   <div class="topic-container">
     <tweets type="topic" v-bind:info="topicId"></tweets>
   </div>
+  <backToTop></backToTop>
 </div>
 </template>
 
 <script>
   import axios from "axios"
   import Tweets from "./Subs/Tweets"
+  import loadingAnimate from "./animate/loading"
+  import backToTop from "./Subs/BackToTop"
   axios.defaults.withCredentials = true
     export default {
         name: "Topic",
     data(){
          return{
            topicId:null,
-           topicName: "Topic Name"
+           topicName: "Topic Name",
+           loading:false
          }
     },
 
@@ -26,7 +32,8 @@
       },
 
       components:{
-        "tweets":Tweets
+        "tweets":Tweets,
+        loadingAnimate,backToTop
       }
 
     }
@@ -34,7 +41,7 @@
 </script>
 
 <style scoped>
-  .root-div{
+  #root-div{
   position: fixed;
   height: 100%;
   width: 100%;
@@ -59,5 +66,13 @@
     font-weight: bold;
     color: white;
   }
-
+  .center-fix{
+	position: fixed;/*固定位置*/
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/	
+  margin:auto;
+left:0;
+right:0;
+top:0;
+bottom:0;
+}
 </style>

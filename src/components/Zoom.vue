@@ -1,5 +1,5 @@
 <style scoped>
-.root-div {
+#root-div {
   position: fixed;
   height: 100%;
   width: 100%;
@@ -210,6 +210,15 @@
   font-weight: bold;
   font-size: 16px;
 }
+.center-fix{
+	position: fixed;/*固定位置*/
+	z-index:99;/*设置优先级显示，保证不会被覆盖*/	
+  margin:auto;
+left:0;
+right:0;
+top:0;
+bottom:0;
+}
 </style>
 <style>
 .el-tabs__item {
@@ -218,7 +227,9 @@
 }
 </style>
 <template>
-  <div class="root-div">
+  <div id="root-div">
+    <div id="topAnchor"></div>
+      <loadingAnimate v-if="loading" class="center-fix"/>
     <div class="WallImgContainer">
       <div class="BkgImgContainer">
         <img :src="personBkgImg" style="height: 320px;width: 100%" />
@@ -348,6 +359,7 @@
         </div>
       </div>
     </div>
+    <backToTop></backToTop>
   </div>
 </template>
 
@@ -358,13 +370,14 @@ import loadingAnimate from "./animate/loading";
 import Tweets from "./Subs/Tweets.vue";
 import User from "./Subs/User";
 import UserForZoom from "./Subs/UserForZoom";
-import FollowButton from "./Subs/FollowButoon";
+import FollowButton from "./Subs/FollowButoon"
 
 export default {
   name: "Zoom",
 
   data() {
     return {
+      loading:false,
       num: 0,
       visitor: 0,
       user: 0,
@@ -406,10 +419,11 @@ export default {
     Tweets,
     userForZoom: UserForZoom,
     User,
-    FollowButton
+    FollowButton,
+    backToTop
   },
   created() {
-    this.loading = true;
+    // this.loading = true;
     this.visitor = Number(this.$route.query.visitor_id);
     this.user = this.getCookies("userID");
     console.log("user", this.user);
@@ -450,7 +464,7 @@ export default {
     }
   },
   mounted: function getUser() {
-    this.loading = true;
+    // this.loading = true;
     this.visitor = Number(this.$route.query.visitor_id);
     this.user = this.getCookies("userID");
     console.log("user", this.user);
