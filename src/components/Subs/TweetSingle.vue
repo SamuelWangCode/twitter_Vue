@@ -246,7 +246,7 @@
     <div v-else>
       <div class="twi-left">
         <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
-          <Avatar size="large" v-bind:src="item.userAvt"></Avatar>
+          <Avatar size="large" v-bind:src="userAvt"></Avatar>
         </router-link>
       </div>
 
@@ -254,7 +254,7 @@
         <div class="twi-right-top-div">
           <div id="name-time-die"  style="float:left;">
             <router-link :to="{ path: '/Zoom', query: { visitor_id: item.message_sender_user_id }}">
-              <p class="user-name">{{item.userName}}</p>
+              <p class="user-name">{{userName}}</p>
               <p class="time">
                 {{item.message_create_time}}
                 <Icon type="ios-flame" size="18" style="color: #ff9900"></Icon>
@@ -372,7 +372,8 @@ export default {
       commentsNum: 0,
       commented: false,
       messageIsShared: false,
-
+      userAvt:"",
+      userName:"user",
       rawItemUserAvt: "",
       rawItemUserName: ""
     };
@@ -535,6 +536,15 @@ export default {
     this.if_following_by_me(this.item.message_sender_user_id).then(Response => {
       this.followByUser = Response.data.data.if_following;
     });
+    //取用户数据
+        //获取以上的数据，这里由于可能是第二次拿数据，因此i+twiCount才是当前要处理的推的索引
+    this.getUserPublicInfo(this.item.message_sender_user_id).then(
+      Response => {
+        this.userName = Response.data.data.nickname;
+        this.userAvt = Response.data.data.avatar_url;
+
+      }
+    );
 
     //如果是转发的就取原推特条
     if (this.item.message_transpond_message_id > 0) {

@@ -298,7 +298,7 @@ export default {
             }
             console.log("mount里",this.handlerHeight);
             console.log("推特的圖片列表", this.twiId, this.imgData);
-            if(this.imgData[0].split(".") == "jpg"){
+            if(this.imgData[0].split(".")[1] == "jpg"){
               this.is_video = false;
             }else{
               this.is_video = true;
