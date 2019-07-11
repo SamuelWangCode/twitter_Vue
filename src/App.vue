@@ -2,29 +2,29 @@
   <div id="app" >
     <section v-if="$route.meta.keepAlive">
       <nav class="navBar" style="z-index: 1">
-        <Menu mode="horizontal" :theme="theme1" active-name="home" style="padding-left:15%;" @on-select="onSelect">
-          <MenuItem name="home" router-link="{path: '/'}" key="Home">
-            <Icon type="ios-home" size="24"></Icon>
-            Home
+        <Menu mode="horizontal" :theme="theme1" active-name="home" style="padding-left:10%;" @on-select="onSelect">
+          <MenuItem name="home" router-link="{path: '/'}" style="width:9%" key="Home">
+            <div class="over"><Icon type="ios-home" class="menuIcon"></Icon>
+            <span class="menuWords">Home</span></div>
           </MenuItem>
-          <MenuItem  name="notifications" router-link="{path: '/Notifications'}" key="Notifications" @click.native="isRead"  >
-            <Icon type="ios-notifications" size="24" ></Icon>
-            Notifications
+          <MenuItem  name="notifications" router-link="{path: '/Notifications'}" style="width:13%" key="Notifications" @click.native="isRead"  >
+            <div class="over"><Icon type="ios-notifications" class="menuIcon" ></Icon>
+            <span class="menuWords">Notifications</span></div>
             <Badge v-bind:count="mentionedCount"></Badge>
           </MenuItem>
-          <MenuItem name="message" router-link="{path: '/Message'}" key="Message">
-            <Icon type="ios-mail" size="24"></Icon>
-            Message
+          <MenuItem name="message" router-link="{path: '/Message'}" style="width:11%" key="Message">
+            <div class="over"><Icon type="ios-mail" class="menuIcon"></Icon>
+            <span class="menuWords">Message</span></div>
           </MenuItem>
-          <MenuItem name="personal" router-link="{path: '/Personal'}" key="Personal">
-            <Icon type="ios-person" size="24"></Icon>
-            Personal
+          <MenuItem name="personal" router-link="{path: '/Personal'}" style="width:11%" key="Personal">
+            <div class="over"><Icon type="ios-person" class="menuIcon"></Icon>
+            <span class="menuWords">Personal</span></div>
           </MenuItem>
-          <MenuItem name="explore" router-link="{path: '/Explore'}" key="Explore">
-            <Icon type="ios-eye" size="24"></Icon>
-            Explore
+          <MenuItem name="explore" router-link="{path: '/Explore'}" style="width:10%" key="Explore">
+            <div class="over"><Icon type="ios-eye" class="menuIcon"></Icon>
+            <span class="menuWords">Explore</span></div>
           </MenuItem>
-          <Input v-model = "model13" @keyup.enter.native="handleSearch" placeholder="search in twitter" style="width: 300px;"></Input><Button shape="circle" @click="handleSearch" icon="ios-search" size="small" style="border:0"></Button>
+          <Input v-model = "model13" @keyup.enter.native="handleSearch" placeholder="search in twitter" style="width: 25%;"></Input><Button shape="circle" @click="handleSearch" icon="ios-search" size="small" style="border:0;"></Button>
           <Button shape="circle" type="error" style="margin-left:20px;" @click = "signOut">Log out</Button>
         </Menu>
       </nav>
@@ -147,5 +147,23 @@
     top:0;
     left:0;
     width: 100%;
+  }
+  .menuIcon{
+    font-size: 20px;
+    margin-top: 18px;
+    margin-right: 0;
+    float:left;
+  }
+  .menuWords{
+    float: left;
+    font-size: 14px;
+    margin-left: 5%;
+    display: inline;
+  }
+  .over{
+    width:120%;
+    display: inline-block;
+    height: 100%;
+    overflow: hidden;
   }
 </style>
