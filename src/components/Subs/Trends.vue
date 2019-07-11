@@ -99,7 +99,7 @@ export default {
   },
   data() {
     return {
-      topics: [],
+      topics: undefined,
       address: "http://localhost:12293/avatars/0.jpg",
       userName:"userName",
       userID:"0"
@@ -141,6 +141,11 @@ export default {
         query: { topic_id: topic.topic_id, topic_name: topic.topic_content }
       });
     }
-  }
+  },
+  watch:{
+    inject_topics: function(n, o){
+      this.topics = n;
+    }
+  },
 };
 </script>

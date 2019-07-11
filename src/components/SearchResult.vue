@@ -36,14 +36,14 @@ bottom:0;
   <div id="root-div">
     <div id="topAnchor"></div>
     <loadingAnimate  v-if="loading" class="center-fix"/>
-      <Trends v-bind:inject_topics="topics"></Trends>
+      <Trends v-bind:inject_topics="inject_topics" v-if="flag"></Trends>
 
     <div id="middle-container">
       <tweets @stop_loading="stop_loading" type="search" v-bind:info="searchKey"></tweets>
     </div>
 
     <ElContainer id="right-container">
-      <whoToFollows v-bind:inject_toFollowList="users"></whoToFollows>
+      <whoToFollows v-bind:inject_toFollowList="inject_users" v-if="flag" ></whoToFollows>
     </ElContainer>
     <backToTop></backToTop>
   </div>
@@ -64,25 +64,43 @@ export default {
   },
   data() {
     return {
+      flag: false,
       loading:true,
       searchKey : this.$route.query.searchKey,
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
-      topics: [],
-      users: [],
+      inject_topics: [],
+      inject_users: [],
     };
   },
   mounted(){
     console.log("搜索码为,", this.searchKey)
     this.search(this.searchKey, 0, 10).then(response=>{
-          console.log("测试topics", response);
-          this.topics = response.data.data.topics;
-          this.users = response.data.data.users;
+          console.log("测试搜索結果", response);
+          this.inject_topics = response.data.data.topics;
+          this.inject_users = response.data.data.users;
+          var users = []
+          this.inject_users.forEach(each=>{
+            users.push({
+              avatar_url: each.avatar_url,
+              user_id: each.user_id,
+              followers_num: each.followers_num,
+              user_nickname: each.nickname
+            });
+          });
+          console.log("更改後", users);
+          this.inject_users = users;
+          console.log("搜索用戶信息", this.inject_users);
+          this.flag = true;
     });
   },
+  
   methods:{
     stop_loading(){
       this.loading = false;
     }
+  },
+  watch:{
+
   },
   beforeRouteEnter(to,from,next){
       next(vm=>{

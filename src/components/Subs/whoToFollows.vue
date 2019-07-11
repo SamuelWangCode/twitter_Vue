@@ -48,12 +48,16 @@ export default {
     User
   },
   methods: {},
-  created() {
+  watch:{
+    inject_toFollowList: function(n, o){
+      this.toFollowList = n;
+    }
+  },
+  mounted() {
     var _this = this;
     if(!_this.inject_toFollowList){
         this.getRecommendUsers().then(Response => {
-        console.log("getRecommendUsers");
-        console.log(Response);
+        console.log("getRecommendUsers", Response.data.data);
         _this.toFollowList = Response.data.data;
       });
     }else{

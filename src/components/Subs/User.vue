@@ -57,7 +57,7 @@ export default {
       this.user_info = info;
     },
     load_follow_info(info){
-      console.log(info)
+      console.log("followInfo", info)
       this.user_info.user_id=info.user_id;
       this.user_info.nickname=info.user_nickname;
       this.user_info.avatar_url=info.avatar_url;

@@ -98,11 +98,11 @@ img{
       />
     </Modal>
     
-    <div class="img-handler-div" ref="wholediv" v-bind:style=" imgData[0].split('.')[1] !=  'jpg' ?  {} : {height:handlerHeight+'px'}" >
-        <div class="img1-1-div" v-if="imgNum==1" v-bind:style=" imgData[0].split('.')[1] !=  'jpg' ?  {} : {height:handlerHeight+'px'}" >
+    <div class="img-handler-div" ref="wholediv" v-bind:style=" is_video ?  {} : {height:handlerHeight+'px'}" >
+        <div class="img1-1-div" v-if="imgNum==1" v-bind:style=" is_video ?  {} : {height:handlerHeight+'px'}" >
           <img
             class="img1-1"
-            v-if='imgData[0].split(".")[1] ==  "jpg" '
+            v-if='!is_video'
             v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}"
             v-bind:src="imgData[0]"
             @click="doShowBigImg(0)"
@@ -114,38 +114,21 @@ img{
         <div v-else-if="imgNum==2" v-bind:style="{height:handlerHeight+'px'}" class="img-div-for2">
             <img
               class="img2-1"
-              v-if='imgData[0].split(".")[1] ==  "jpg" '
               v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
               alt="2-1"
             />
-            <video
-              class="img2-1"
-              v-else
-              
-              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
-              v-bind:src="imgData[0]"
-              
-              alt="2-1"
-            />
+          
             <img
               class="img2-2"
-              v-if='imgData[1].split(".")[1] ==  "jpg" '
+              
               v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img2"
               v-bind:src="imgData[1]"
               @click="doShowBigImg(1)"
               alt="2-2"
             />
-            <video
-              class="img2-2"
-              v-else
-              
-              v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img1"
-              v-bind:src="imgData[1]"
-              @click="doShowBigImg(1)"
-              alt="2-2"
-            />
+            
         </div>
 
         <div class="img-div-for3" v-else-if="imgNum==3" v-bind:style="{height:handlerHeight+'px'}">
@@ -153,53 +136,31 @@ img{
             <img
               class="img3-1"
               v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
-              v-if='imgData[0].split(".")[1] ==  "jpg" '
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
               alt="3-1"
             />
-            <video
-              class="img3-1"
-              v-else
-              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
-              v-bind:src="imgData[0]"
-              @click="doShowBigImg(0)"
-              alt="3-1"
-            />
+            
           </div>
           <div class="img3-23-div">
             <img
               class="img3-2"
-              v-if='imgData[1].split(".")[1] ==  "jpg" '
+              
               v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img2"
               v-bind:src="imgData[1]"
               @click="doShowBigImg(1)"
               alt="3-2"
             />
-            <video
-              class="img3-2"
-              v-else
-              v-bind:src="imgData[1]"
-              v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img1"
-              @click="doShowBigImg(1)"
-              alt="3-2"
-            />
+            
             <img
               class="img3-3"
-              v-if='imgData[2].split(".")[1] ==  "jpg" '
+              
               v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}" ref="img3"
               v-bind:src="imgData[2]"
               @click="doShowBigImg(2)"
               alt="3-3"
             />
-            <video
-              class="img3-3"
-              v-else
-              v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}" ref="img1"
-              v-bind:src="imgData[2]"
-              @click="doShowBigImg(2)"
-              alt="3-3"
-            />
+            
           </div>
         </div>
 
@@ -208,70 +169,42 @@ img{
           <div class="img4-1-div" v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}">
             <img
               class="img4-1"
-              v-if='imgData[0].split(".")[1] ==  "jpg" '
+              
               v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-bind:src="imgData[0]"
               @click="doShowBigImg(0)"
               alt="4-1"
             />
-            <video
-              class="img4-1"
-              v-else
-              v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
-              v-bind:src="imgData[0]"
-              @click="doShowBigImg(0)"
-              alt="4-1"
-            />
+            
           </div>
           <div class="img4-234-div">
             <img
               class="img4-234"
-              v-if='imgData[1].split(".")[1] ==  "jpg" '
+              
               v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img2"
               v-bind:src="imgData[1]"
               @click="doShowBigImg(1)"
               alt="4-2"
             />
-            <video
-              class="img4-1"
-              v-else
-              v-bind:style="{height:sizeH[1]+'px',width:sizeW[1]+'px'}" ref="img1"
-              v-bind:src="imgData[1]"
-              @click="doShowBigImg(1)"
-              alt="4-1"
-            />
+            
             <img
               class="img4-234"
-              v-if='imgData[2].split(".")[1] ==  "jpg" '
+              
               v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}" ref="img3"
               v-bind:src="imgData[2]"
               @click="doShowBigImg(2)"
               alt="4-3"
             />
-            <video
-              class="img4-234"
-              v-else
-              v-bind:src="imgData[2]"
-              v-bind:style="{height:sizeH[2]+'px',width:sizeW[2]+'px'}" ref="img1"
-              @click="doShowBigImg(2)"
-              alt="4-3"
-            />
+            
             <img
               class="img4-234"
-              v-if='imgData[3].split(".")[1] ==  "jpg" '
+              
               v-bind:style="{height:sizeH[3]+'px',width:sizeW[3]+'px'}" ref="img4"
               v-bind:src="imgData[3]"
               @click="doShowBigImg(3)"
               alt="4-4"
             />
-            <video
-              class="img4-234"
-              v-else
-              v-bind:src="imgData[3]"
-              v-bind:style="{height:sizeH[3]+'px',width:sizeW[3]+'px'}" ref="img1"
-              @click="doShowBigImg(3)"
-              alt="4-4"
-            />
+            
           </div>
       </div>
     </div>
@@ -283,7 +216,10 @@ img{
 export default {
   props: {
     twiId: Number,
-    imgData: Array
+    imgData: {
+      type: Array,
+      default: ["."]
+    }
   },
   data() {
     return {
@@ -302,6 +238,7 @@ export default {
       handlerWidth:0,
       handlerHeight:0,
       imgNum:0,
+      is_video: false,
     };
   },
    watch:{
@@ -360,6 +297,12 @@ export default {
                     this.handlerHeight=0.75*this.handlerWidth;
             }
             console.log("mount里",this.handlerHeight);
+            console.log("推特的圖片列表", this.twiId, this.imgData);
+            if(this.imgData[0].split(".") == "jpg"){
+              this.is_video = false;
+            }else{
+              this.is_video = true;
+            }
         }
     },
   
@@ -373,8 +316,6 @@ export default {
       this.visible=false;
     }
   },
-  created() {
-    console.log("推特的圖片列表", this.twiId, this.imgData);
-  },
+  
 }
 </script>
