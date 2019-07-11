@@ -177,14 +177,7 @@ export default {
           this.generateData();
           this.spinShow = false;
         });
-      } else if (this.type == "search") {
-        this.search(this.info, this.items.length + 1, 10).then(Response => {
-          this.$emit("stop_loading");
-          this.twiDatas = Response.data.data.twitters;
-          this.generateData();
-          this.spinShow = false;
-        });
-      }
+      } 
     },
     //返回排序规则函数的函数
     rule(key) {

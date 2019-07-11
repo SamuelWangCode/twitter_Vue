@@ -4,7 +4,7 @@
       <loadingAnimate v-if="loading" class="center-fix"/>
       <Trends></Trends>
         <div id="middle-container" >
-            <tweets @stop_loading="stop_loading" type="home"></tweets>
+            <tweets @stop_loading="stop_loading" type="explore"></tweets>
         </div>
       <whoToFollows></whoToFollows>
     <backToTop></backToTop>
