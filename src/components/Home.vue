@@ -151,7 +151,7 @@ ul li{
         
 
         <div class="PostSenderContainer">
-         <Avatar :src=address shape="circle" on-error="" size="large" style="width:50px;height:50px;border-radius:50%;margin-left:10px;margin-top:10px;"/>
+         <Avatar :src=address shape="circle" on-error="" size="large" style="width:50px;height:50px;border-radius:50%;"/>
           
           <div class="EditerContainer" style="margin-left:-5px;">
             <!--
