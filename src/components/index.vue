@@ -11,6 +11,12 @@
         </g>
       </svg>
       <div class="InfoContainer">
+        <div>
+          <img src="static/icons8_planet_on_the_dark_side_128px.png" width="80" height="80" >
+        </div>
+        <div style="font-size: 30px;color: white">
+          MicroAround
+        </div>
         <div class="InfoContent">
           <div class="">
             <span><i class="fas fa-search"></i></span>
@@ -84,7 +90,7 @@ export default {
   position: relative;
   display: inline-block;
   left: 40%;
-  top: 50%;
+  top: 43%;
   font-family: "Times New Roman";
   transform: translate(-50%, -50%);
 }

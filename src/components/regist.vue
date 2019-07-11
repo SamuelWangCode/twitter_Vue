@@ -2,10 +2,10 @@
   <div id="RegistPage">
     <div id="head-div">
       <div id="logo" >
-        <Icon type="logo-twitter" size="50" style="color:white;margin-top: 30px;">Twitter</Icon>
+        <img src="static/icons8_planet_on_the_dark_side_128px.png" width="80" height="80">
       </div>
-      <div id="WebName" style="font-size: 30px;color: white;float: left;margin-top: 33px">
-        Twitter
+      <div id="WebName" style="font-size: 30px;color: white;float: left;margin-top: 43px;margin-left: 10px">
+          MicroAround
       </div>
     </div>
     <loadingAnimate v-if="loading" class="center-fix"/>
@@ -198,7 +198,8 @@ created() {
 }
 #logo
 {
-  width: 5%;
+  size: 20px;
+  margin-top: 20px;
   margin-left: 20px;
   float: left;
 }
