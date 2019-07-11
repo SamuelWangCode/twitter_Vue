@@ -109,6 +109,7 @@ export default {
           this.items.length + 1,
           10
         ).then(Response => {
+          this.$emit("stop_loading");
           this.twiDatas = Response.data.data;
           //console.log(this.twiDatas);
           this.generateData();
@@ -119,6 +120,7 @@ export default {
         if (this.info) {
           this.queryMessagesContains(this.info, this.items.length + 1, 10).then(
             Response => {
+              this.$emit("stop_loading");
               this.twiDatas = Response.data.data;
               //console.log(this.twiDatas);
               this.generateData();
@@ -131,6 +133,9 @@ export default {
           this.items.length + 1,
           10
         ).then(Response => {
+          
+          this.$emit("stop_loading");
+          console.log("結束獲取")
           this.twiDatas = Response.data.data;
           this.generateData();
           this.spinShow = false;
@@ -138,6 +143,7 @@ export default {
       } else if (this.type == "collection") {
         this.queryCollections(this.info, this.items.length + 1, 10).then(
           Response => {
+            this.$emit("stop_loading");
             this.twiDatas = Response.data.data;
             this.generateData();
             this.spinShow = false;
@@ -147,6 +153,7 @@ export default {
         if (this.info) {
           this.queryMessagesOf(this.info, this.items.length + 1, 10).then(
             Response => {
+              this.$emit("stop_loading");
               this.twiDatas = Response.data.data;
               this.generateData();
               this.spinShow = false;
@@ -156,6 +163,7 @@ export default {
       } else if (this.type == "search") {
         if (this.info) {
           this.search(this.info, this.items.length + 1, 10).then(Response => {
+            this.$emit("stop_loading");
             this.twiDatas = Response.data.data.twitters;
             this.generateData();
             this.spinShow = false;
@@ -163,12 +171,14 @@ export default {
         }
       } else if (this.type == "notification") {
         this.queryAtMe(this.items.length + 1, 10).then(Response => {
+          this.$emit("stop_loading");
           this.twiDatas = Response.data.data;
           this.generateData();
           this.spinShow = false;
         });
       } else if (this.type == "search") {
         this.search(this.info, this.items.length + 1, 10).then(Response => {
+          this.$emit("stop_loading");
           this.twiDatas = Response.data.data.twitters;
           this.generateData();
           this.spinShow = false;

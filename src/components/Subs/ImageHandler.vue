@@ -89,7 +89,7 @@ img{
 
 <div>
     <Modal title="Preview" v-model="visible">
-      <img style="width: 100%"   v-if='previewSrc.split(".")[1] == "jpg" ' v-bind:src="previewSrc" />
+      <img style="width: 100%"   v-if="previewSrc.split('.')[1] == 'jpg' " v-bind:src="previewSrc" />
       <video
         style="width: 100%"
         v-else
@@ -98,8 +98,8 @@ img{
       />
     </Modal>
     
-    <div class="img-handler-div" ref="wholediv" v-bind:style="{height:handlerHeight + 'px'}" >
-        <div class="img1-1-div" v-if="imgNum==1" v-bind:style="{height:handlerHeight + 'px'}">
+    <div class="img-handler-div" ref="wholediv" v-bind:style=" imgData[0].split('.')[1] !=  'jpg' ?  {} : {height:handlerHeight+'px'}" >
+        <div class="img1-1-div" v-if="imgNum==1" v-bind:style=" imgData[0].split('.')[1] !=  'jpg' ?  {} : {height:handlerHeight+'px'}" >
           <img
             class="img1-1"
             v-if='imgData[0].split(".")[1] ==  "jpg" '
@@ -108,7 +108,7 @@ img{
             @click="doShowBigImg(0)"
             alt="1-1"
           />
-          <video class="img1-1" v-else v-bind:src="imgData[0]" @click="doShowBigImg(0)" alt="1-1" />
+          <video controls="controls" class="img1-1" v-else v-bind:src="imgData[0]"  alt="1-1" />
         </div>
 
         <div v-else-if="imgNum==2" v-bind:style="{height:handlerHeight+'px'}" class="img-div-for2">
@@ -126,7 +126,7 @@ img{
               
               v-bind:style="{height:sizeH[0]+'px',width:sizeW[0]+'px'}" ref="img1"
               v-bind:src="imgData[0]"
-              @click="doShowBigImg(0)"
+              
               alt="2-1"
             />
             <img
@@ -362,13 +362,6 @@ export default {
             console.log("mount里",this.handlerHeight);
         }
     },
-    computed: {
-        imgNewData: {
-        get: function() {},
-
-        set: function(newValue) {}
-        }
-    },
   
   methods: {
     doShowBigImg(imgNum) {
@@ -381,8 +374,7 @@ export default {
     }
   },
   created() {
-    this.imgNewData = [];
-    
+    console.log("推特的圖片列表", this.twiId, this.imgData);
   },
 }
 </script>

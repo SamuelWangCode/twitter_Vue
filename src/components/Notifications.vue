@@ -34,11 +34,11 @@ bottom:0;
 
 <template>
   <div id="root-div"><div id="topAnchor"></div>
-    <loadingAnimate v-if="loading" class="center-fix"/>
+    <loadingAnimate  v-if="loading" class="center-fix"/>
       <Trends></Trends>
 
     <ElContainer id="middle-container">
-      <tweets type="notification"></tweets>
+      <tweets @stop_loading="stop_loading" type="notification"></tweets>
     </ElContainer>
 
     <ElContainer id="right-container">
@@ -61,11 +61,11 @@ export default {
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
       topics: [],
       followingList: [],
-      loading: false
+      loading: true
     };
   },
   components: {"tweets": Tweets, "loading":loadingAnimate, Trends,
-    whoToFollows,backToTop },
+    whoToFollows,backToTop},
   created(){
     var p1 = this.queryTopicsBaseOnHeat(0, 5).then(response=>{
       console.log("测试topics", response);
@@ -80,6 +80,9 @@ export default {
     
   },
   methods: {
+    stop_loading(){
+      this.loading = false;
+    },
     tapTopic(topic) {
       console.log("测试点击 topic_id:", topic.topic_id);
       //TODO 点击热点之后跳转
@@ -89,6 +92,15 @@ export default {
       //TODO 跳转
       this.$router.push({ path: "/Zoom", query: { visitor_id: visitor_id } });
     }
-  }
+  },
+  beforeRouteEnter(to,from,next){
+      next(vm=>{
+        if(!vm.getCookie("userID"))
+        {
+          console.log("请先登录")
+          vm.$router.push("index")
+        }
+      })
+    }
 };
 </script>

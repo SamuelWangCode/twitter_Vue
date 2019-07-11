@@ -35,15 +35,15 @@ bottom:0;
 <template>
   <div id="root-div">
     <div id="topAnchor"></div>
-    <loadingAnimate v-if="loading" class="center-fix"/>
-      <Trends></Trends>
+    <loadingAnimate  v-if="loading" class="center-fix"/>
+      <Trends v-bind:inject_topics="topics"></Trends>
 
     <div id="middle-container">
-      <tweets type="search" v-bind:info="searchKey"></tweets>
+      <tweets @stop_loading="stop_loading" type="search" v-bind:info="searchKey"></tweets>
     </div>
 
     <ElContainer id="right-container">
-      <whoToFollows></whoToFollows>
+      <whoToFollows v-bind:inject_toFollowList="users"></whoToFollows>
     </ElContainer>
     <backToTop></backToTop>
   </div>
@@ -64,9 +64,10 @@ export default {
   },
   data() {
     return {
-      loading:false,
+      loading:true,
       searchKey : this.$route.query.searchKey,
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
+      topics: [],
       users: [],
     };
   },
@@ -78,5 +79,19 @@ export default {
           this.users = response.data.data.users;
     });
   },
+  methods:{
+    stop_loading(){
+      this.loading = false;
+    }
+  },
+  beforeRouteEnter(to,from,next){
+      next(vm=>{
+        if(!vm.getCookie("userID"))
+        {
+          console.log("请先登录")
+          vm.$router.push("index")
+        }
+      })
+    }
 };
 </script>

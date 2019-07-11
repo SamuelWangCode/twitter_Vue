@@ -109,7 +109,7 @@
 #middle-right-top-container {
   height: 81px;
   background-color: white;
-  border-bottom:1px solid #000;
+  
 }
 
 /* #follow-button-container {
@@ -270,7 +270,7 @@ bottom:0;
 
     <div id="middle-container">
       <div id="middle-left-container">
-        <div id="decoration" style="height: 80px;background-color: white;border-bottom:1px solid #000"></div>
+        <div id="decoration" style="height: 80px;background-color: white;"></div>
           <div id="selfIntroduction-container">
             <div id="introduction-container">
               <div id="nickname-container">
@@ -333,6 +333,7 @@ bottom:0;
           <!--display tweets-->
           <div v-if="navStatus.tweetsShow" id="tweets-container">
             <tweets
+              @stop_loading="stop_loading"
               :ref="'twe1'"
               v-on:change_following="change_follow(arguments)"
               type="userhome"
@@ -365,10 +366,11 @@ bottom:0;
           <!--display collections-->
           <div v-show="navStatus.collectionsShow" id="collections">
             <tweets
+              @stop_loading="stop_loading"
               :ref="'twe2'"
               v-on:change_following="change_follow(arguments)"
               type="collection"
-              v-bind:info="user"
+              v-bind:info="user.user_id"
             ></tweets>
           </div>
         </div>
@@ -376,7 +378,7 @@ bottom:0;
       <div id="middle-right-container">
         <div id="middle-right-top-container">
 
-          <UserMessage :userId="visitor" class="message-button-container">
+          <UserMessage v-if="visitor!=getCookies('userID')" :userId="visitor" class="message-button-container">
           </UserMessage>
 
           <div v-if="visitor!=user" class="follow-button-container">
@@ -410,7 +412,7 @@ export default {
 
   data() {
     return {
-      loading: false,
+      loading: true,
       num: 0,
       visitor: 0,
       user: 0,
@@ -458,7 +460,7 @@ export default {
     UserMessage
   },
   created() {
-    // this.loading = true;
+    
     this.visitor = Number(this.$route.query.visitor_id);
     this.user = this.getCookies("userID");
     console.log("user", this.user);
@@ -513,7 +515,9 @@ export default {
     getCookies(a) {
       return this.getCookie(a);
     },
-
+    stop_loading(){
+      this.loading = false;
+    },
     tweetsClicked() {
       console.log("tweetsClicked");
       this.setFalseStatus();
@@ -639,7 +643,16 @@ export default {
       }*/
       
     }
-  }
+  },
+  beforeRouteEnter(to,from,next){
+      next(vm=>{
+        if(!vm.getCookie("userID"))
+        {
+          console.log("请先登录")
+          vm.$router.push("index")
+        }
+      })
+    }
 };
 </script>
 
