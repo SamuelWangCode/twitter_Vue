@@ -64,6 +64,7 @@
 }
 
 .no-more {
+  margin-top:20px;
   width: 100%;
   text-align: center;
   margin-bottom: 20px;
