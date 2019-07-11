@@ -264,7 +264,7 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     //测试时把整个函数替换成/**/里的内容
     /*
         this.twiDatas=['{"message_transpond_message_id":4,"message_is_transpond":1,"message_sender_user_id":2,"message_id":1,"message_create_time":"2019-10-3","message_content":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","message_image_urls":["http://106.14.3.200:8090/bgimg.jpeg"],"message_comment_num":4,"message_transpond_num":34,"message_agree_num":60}',
@@ -287,6 +287,6 @@ export default {
   },
   components: {
     twiitem: TwiItem
-  }
+  },
 };
 </script>

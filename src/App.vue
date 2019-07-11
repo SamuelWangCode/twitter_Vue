@@ -9,8 +9,8 @@
           </MenuItem>
           <MenuItem  name="notifications" router-link="{path: '/Notifications'}" style="width:13%" key="Notifications" @click.native="isRead"  >
             <div class="over"><Icon type="ios-notifications" class="menuIcon" ></Icon>
-            <span class="menuWords">Notifications</span></div>
-            <Badge v-bind:count="mentionedCount"></Badge>
+            <span class="menuWords">Notifications</span>
+            <Badge v-bind:count="mentionedCount"></Badge></div>
           </MenuItem>
           <MenuItem name="message" router-link="{path: '/Message'}" style="width:11%" key="Message">
             <div class="over"><Icon type="ios-mail" class="menuIcon"></Icon>
