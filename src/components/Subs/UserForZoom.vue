@@ -8,7 +8,7 @@
           </div>
           <div class="name-container">
             <div style="font-size: 20px;font-weight: bold; ">{{user_info.nickname}}</div>
-            <div style="font-size: 10px;color: grey;margin-top: 0px">@{{user_info.nickname}}</div>
+            <div style="font-size: 10px;color: grey;margin-top: 0px;float:left;">@{{user_info.nickname}}</div>
           </div>
           <img class="confirm-container" style="width: 20px;height: 20px" v-bind:src="confirm_url" />
         </router-link>
@@ -122,7 +122,8 @@ export default {
   justify-content: flex-start;
   align-items: center;
   height: 40px;
-  margin-top: 10px;
+  /* margin-top: 5%; */
+  margin-bottom: 5%;
 }
 
 .user-container:hover:after {
@@ -136,10 +137,10 @@ export default {
 .user-inner-container {
   width: 80%;
   height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* justify-content: flex-start; */
+  /* align-items: center; */
 }
 .user-follow-button {
   text-align: center;
@@ -149,17 +150,18 @@ export default {
   margin-right: 10px;
 }
 .av-container {
-  width: 18%;
+  /* width: 18%; */
   float: left;
   margin-left: 30px;
 }
 .name-container {
-  margin-left: 25px;
+  margin-left: 2%;
   margin-top: 0px;
   float: left;
 }
 .confirm-container {
+  float:left;
   margin-top: 5px;
-  margin-left: 10px;
+  margin-left: 5%;
 }
 </style>

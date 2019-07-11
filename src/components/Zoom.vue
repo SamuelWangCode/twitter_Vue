@@ -96,6 +96,7 @@
 }
 
 #display-container {
+  padding-top:2%;
   margin-top: 0px;
   z-index: 100;
 }
@@ -250,6 +251,12 @@ bottom:0;
   white-space: pre-line !important;
   font-weight: bold !important;
 }
+.following-container{
+  height: 20%
+}
+.followers-container{
+
+}
 </style>
 <template>
   <div id="root-div">
@@ -326,9 +333,9 @@ bottom:0;
             </div>
           </Button>
         </div>
-
+<hr />
         <div id="display-container">
-          <hr />
+          
 
           <!--display tweets-->
           <div v-if="navStatus.tweetsShow" id="tweets-container">

@@ -254,6 +254,7 @@ ul li{
         video_preview_src:"",
         uploadList: [],
         loading:true,
+        format:['jpg','jpeg','png','mp4'],
         sites: [
           { name: 'Runoob' },
           { name: 'Google' },
@@ -330,7 +331,7 @@ ul li{
       handleFormatError (file) {
                 this.$Notice.warning({
                     title: 'The file format is incorrect',
-                    desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+                    desc: 'File format of ' + file.name + ' is incorrect, please select jpg/png/jpeg/mp4.'
                 });
       },
       handleMaxSize (file) {
@@ -348,6 +349,16 @@ ul li{
                   file.is_video = true;
                   file.is_img = false;
                 }
+
+                if(this.format.indexOf(file.type.split("/")[1]) == -1){
+                  console.log("格式不对")
+                  this.$Notice.warning({
+                    title: 'The file format is incorrect',
+                    desc: 'File format of ' + file.name + ' is incorrect, please select jpg/png/jpeg/mp4.'
+                  });
+                  return false;
+                }
+
                 var _this = this;
                 if(file.is_video){
                   if(_this.$refs.upload.fileList.length > 1){

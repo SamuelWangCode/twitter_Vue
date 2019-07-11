@@ -141,6 +141,7 @@ bottom:0;
                     v-model="formValidate.alias"
                     placeholder="Enter your alias"
                     style="width: 400px;object-position: 100px"
+                    maxlength="10"
                   ></Input>
                 </FormItem>
 
