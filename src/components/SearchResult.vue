@@ -36,14 +36,14 @@ bottom:0;
   <div id="root-div">
     <div id="topAnchor"></div>
     <loadingAnimate  v-if="loading" class="center-fix"/>
-      <Trends></Trends>
+      <Trends v-bind:inject_topics="topics"></Trends>
 
     <div id="middle-container">
       <tweets @stop_loading="stop_loading" type="search" v-bind:info="searchKey"></tweets>
     </div>
 
     <ElContainer id="right-container">
-      <whoToFollows></whoToFollows>
+      <whoToFollows v-bind:inject_toFollowList="users"></whoToFollows>
     </ElContainer>
     <backToTop></backToTop>
   </div>
@@ -67,6 +67,7 @@ export default {
       loading:true,
       searchKey : this.$route.query.searchKey,
       sites: [{ name: "Runoob" }, { name: "Google" }, { name: "Taobao" }],
+      topics: [],
       users: [],
     };
   },

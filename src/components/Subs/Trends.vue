@@ -91,6 +91,12 @@
 <script>
 export default {
   name: "trends",
+  props:{
+    inject_topics: {
+      required: false,
+      default: null,
+    }
+  },
   data() {
     return {
       topics: [],
@@ -117,10 +123,15 @@ export default {
         this.userName="userName"
       }  
     })
-    this.queryTopicsBaseOnHeat(1, 5).then(Response => {
-      console.log(Response);
-      _this.topics = Response.data.data;
-    })
+    if(!_this.inject_topics){
+      _this.queryTopicsBaseOnHeat(1, 5).then(Response => {
+        console.log(Response);
+        _this.topics = Response.data.data;
+      })
+    }else{
+      _this.topics = _this.inject_topics 
+    }
+    
   },
   methods: {
     tapTopic(topic) {

@@ -38,17 +38,28 @@ export default {
       toFollowList: []
     };
   },
+  props:{
+    inject_toFollowList:{
+      default: null,
+      required: false
+    }
+  },
   components: {
     User
   },
   methods: {},
   created() {
     var _this = this;
-    this.getRecommendUsers().then(Response => {
-      console.log("getRecommendUsers");
-      console.log(Response);
-      _this.toFollowList = Response.data.data;
-    });
+    if(!_this.inject_toFollowList){
+        this.getRecommendUsers().then(Response => {
+        console.log("getRecommendUsers");
+        console.log(Response);
+        _this.toFollowList = Response.data.data;
+      });
+    }else{
+      console.log("inject_toFollowList", _this.inject_toFollowList)
+      _this.toFollowList = _this.inject_toFollowList;
+    }
   }
 };
 </script>
