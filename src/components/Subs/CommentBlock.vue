@@ -47,6 +47,7 @@
 }
 .comm-text-div
 {
+    word-break:break-all;
     font-size:14px;
     margin-bottom: 10px;
 }
@@ -61,6 +62,16 @@
     text-align: center;
     color: beige;
 }
+
+.no-more {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #b9b9b9;
+}
+
 </style>
 
 <template>
@@ -89,6 +100,11 @@
             </div>
           <Divider style="margin:0;"/>
         </div>
+
+        <div v-if="comments.length==0" class="no-more" >
+            No Comment Yet
+        </div>
+
     </div>
 </div>
 </template>
@@ -99,7 +115,10 @@ export default {
   components: {Divider},
   props:{
         ifShowComment:false,
-        comments:Array,
+        comments:{
+            type:Array,
+            default:[],
+        }
     },
     data(){
         return {
