@@ -289,6 +289,6 @@ export default {
   },
   components: {
     twiitem: TwiItem
-  }
+  },
 };
 </script>
