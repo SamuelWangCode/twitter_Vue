@@ -32,6 +32,13 @@ module.exports = {
         changeOrigin: true,
         pathRewrite:{
           '^/avatars' : '/avatars'
+        },
+      },
+      '/Messages':{
+        target : 'http://localhost:12293',
+        changeOrigin: true,
+        pathRewrite:{
+          '^/Messages' : '/Messages'
         }
       }
     },
