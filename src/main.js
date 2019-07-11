@@ -385,6 +385,7 @@ Vue.prototype.queryCollections = function(user_id, startFrom, limitation){
     startFrom : startFrom,
     limitation : limitation
   }
+  console.log("查看收藏：：：：" + COLLECTION + "query/" + user_id)
   return post(COLLECTION + "query/" + user_id, data);
 }
 //checkUserCollectMessage(user_id, message_id)

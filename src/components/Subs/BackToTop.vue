@@ -1,7 +1,7 @@
 <template>
 <div>
   <Anchor class="backTop" container="#root-div">
-        <AnchorLink style="color:#AEEEEE" href="#topAnchor" title="<(￣︶￣)↗[GO!]"></AnchorLink>
+        <AnchorLink href="#topAnchor" title="ㅿ"></AnchorLink>
     </Anchor>
 </div>
 </template>
@@ -16,7 +16,11 @@ export default {
   position: fixed;
   right: 70px;
   bottom: 80px;
-  font-size: 16px;
+  font-size: 64px;
+  opacity: 0.6;
   /* font-weight: bold; */
+}
+.backTop:hover{
+  opacity: 1;
 }
 </style>

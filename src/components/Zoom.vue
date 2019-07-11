@@ -370,7 +370,7 @@ bottom:0;
               :ref="'twe2'"
               v-on:change_following="change_follow(arguments)"
               type="collection"
-              v-bind:info="user.user_id"
+              v-bind:info="user"
             ></tweets>
           </div>
         </div>
