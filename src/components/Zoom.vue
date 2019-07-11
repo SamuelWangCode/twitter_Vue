@@ -378,7 +378,7 @@ bottom:0;
       <div id="middle-right-container">
         <div id="middle-right-top-container">
 
-          <UserMessage :userId="visitor" class="message-button-container">
+          <UserMessage v-if="visitor!=getCookies('userID')" :userId="visitor" class="message-button-container">
           </UserMessage>
 
           <div v-if="visitor!=user" class="follow-button-container">
