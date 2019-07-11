@@ -119,6 +119,7 @@ export default {
         //console.log("id", this.info);
         if (this.info) {
           this.queryMessagesContains(this.info, this.items.length + 1, 10).then(
+            //this.queryFollowMessage(this.items.length + 1, 10).then(
             Response => {
               this.$emit("stop_loading");
               this.twiDatas = Response.data.data;

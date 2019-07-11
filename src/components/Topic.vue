@@ -4,7 +4,7 @@
   <loadingAnimate v-if="loading" class="center-fix"/>
   <div class="topic-name-container">#{{topicName}}</div>
   <div class="topic-container">
-    <tweets @stop_loading="stop_loading" type="topic" v-bind:info="topicId"></tweets>
+    <tweets @stop_loading= "stop_loading" type="topic" v-bind:info="topicId"></tweets>
   </div>
   <backToTop></backToTop>
 </div>
@@ -60,14 +60,14 @@
   position: fixed;
   height: 100%;
   width: 100%;
-  overflow: auto;
+  overflow: scroll;
   background-color: rgb(230, 236, 240);
 }
   .topic-container{
     margin: 0 auto;
     width: 40%;
-    height: 100%;
-    overflow: auto;
+    /* height: 100%; */
+    /* overflow: auto; */
     background-color: white
   }
   .topic-name-container{
